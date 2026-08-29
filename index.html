@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>클래스 허브</title>
+  <meta name="description" content="개인 수업용 링크 모음 - ICT 수업, 생성형 AI 서비스, 정보사이트를 한곳에서." />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" content="#000000" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%9A%3C/text%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Noto+Sans+KR:wght@300;400;600;700&display=swap" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+
+  <!-- ===== 상단 고정 바: 상위 메뉴 3개 ===== -->
+  <header class="topbar">
+    <div class="topbar__inner">
+      <a class="brand" href="#ict" aria-label="클래스 허브 홈">
+        <span class="brand__mark" aria-hidden="true">📚</span>
+        <span class="brand__name">클래스 허브</span>
+      </a>
+
+      <nav class="topnav" aria-label="상위 메뉴">
+        <ul class="topnav__list" id="topnav"></ul>
+      </nav>
+
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="화면 모드 전환">☀️</button>
+    </div>
+  </header>
+
+  <!-- ===== 본문: 선택한 카테고리 내용 (edge-to-edge 타일) ===== -->
+  <main id="content" class="content">
+    <section class="tile tile--light hero" aria-live="polite">
+      <div class="wrap">
+        <p class="hero__eyebrow" id="heroEyebrow"></p>
+        <h1 class="hero__title" id="heroTitle"></h1>
+        <p class="hero__desc" id="heroDesc"></p>
+      </div>
+    </section>
+
+    <div id="sections"></div>
+  </main>
+
+  <!-- ===== 하단 고정 바: 선택한 상위 메뉴의 2단계 하위 메뉴 ===== -->
+  <nav class="subbar" aria-label="하위 메뉴">
+    <div class="subbar__inner">
+      <span class="subbar__cat" id="subCat"></span>
+      <ul class="subbar__list" id="subnav"></ul>
+    </div>
+  </nav>
+
+  <script src="script.js"></script>
+</body>
+</html>
