@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>나의 북마크 모음집</title>
+    <meta name="description" content="자주 쓰는 AI 도구와 참고 자료를 모아둔 개인 북마크 페이지" />
+    <link rel="stylesheet" href="./assets/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="북마크 메뉴">
+        <a class="brand" href="#home" aria-label="나의 북마크 모음집 홈">
+          <span class="brand-mark">B</span>
+          <span>나의 북마크 모음집</span>
+        </a>
+
+        <nav class="side-nav" id="sideNav" aria-label="카테고리"></nav>
+
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="테마 변경">
+          <span id="themeIcon">☾</span>
+          <span>테마</span>
+        </button>
+      </aside>
+
+      <main class="main-panel" id="home">
+        <section class="hero">
+          <div class="hero-copy">
+            <p class="eyebrow">Personal Bookmark Library</p>
+            <h1>나의 북마크 모음집</h1>
+            <p class="hero-text">
+              자주 쓰는 AI 도구, 개발 환경, 자동화 서비스, 참고 자료를 한곳에서 빠르게 찾을 수 있도록 정리했습니다.
+            </p>
+          </div>
+          <img class="hero-image" src="./assets/bookmark-hero.png" alt="디지털 북마크와 작업 도구가 정리된 책상 이미지" />
+        </section>
+
+        <section class="toolbar" aria-label="검색">
+          <label class="search-box" for="searchInput">
+            <span>⌕</span>
+            <input id="searchInput" type="search" placeholder="북마크 검색" autocomplete="off" />
+          </label>
+        </section>
+
+        <section class="content-board" aria-live="polite">
+          <div class="board-heading">
+            <div>
+              <p class="eyebrow" id="activeMeta">Bookmark</p>
+              <h2 id="activeTitle">전체 북마크</h2>
+            </div>
+            <span class="count-badge" id="countBadge"></span>
+          </div>
+          <div class="card-grid" id="bookmarkGrid"></div>
+          <p class="empty-state hidden" id="emptyState">검색 결과가 없습니다.</p>
+        </section>
+      </main>
+    </div>
+
+    <script src="./assets/app.js"></script>
+  </body>
+</html>
