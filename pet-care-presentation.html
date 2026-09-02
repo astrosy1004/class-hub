@@ -1,0 +1,903 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>행복한 집사 생활 - 반려동물 케어 시스템 기획서</title>
+  <style>
+    :root {
+      --ink: #202124;
+      --muted: #667085;
+      --line: #d8dee8;
+      --paper: #fffaf3;
+      --mint: #dff5ec;
+      --coral: #ff8c7a;
+      --teal: #108a93;
+      --mustard: #f4c542;
+      --blue: #4866c9;
+      --green: #2c9a68;
+      --shadow: 0 24px 60px rgba(41, 45, 58, .16);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: "Pretendard", "Noto Sans KR", "Segoe UI", system-ui, sans-serif;
+      background:
+        radial-gradient(circle at 16% 12%, rgba(255, 140, 122, .18), transparent 28%),
+        radial-gradient(circle at 86% 24%, rgba(16, 138, 147, .14), transparent 30%),
+        linear-gradient(135deg, #f7faf8 0%, #fffaf3 52%, #f6f0ff 100%);
+      overflow: hidden;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      padding: 28px;
+      gap: 18px;
+    }
+
+    .stage {
+      width: min(100%, 1180px);
+      aspect-ratio: 16 / 9;
+      margin: auto;
+      position: relative;
+      border: 1px solid rgba(32, 33, 36, .08);
+      border-radius: 8px;
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .slides {
+      height: 100%;
+      display: flex;
+      transition: transform .42s cubic-bezier(.22, .72, .2, 1);
+    }
+
+    .slide {
+      min-width: 100%;
+      height: 100%;
+      padding: 58px 66px;
+      position: relative;
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 44px;
+      align-items: center;
+      isolation: isolate;
+    }
+
+    .slide::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, .72), transparent 58%),
+        linear-gradient(180deg, transparent 0%, rgba(16, 138, 147, .06) 100%);
+      z-index: -2;
+    }
+
+    .slide::after {
+      content: "";
+      position: absolute;
+      right: -80px;
+      bottom: -110px;
+      width: 370px;
+      height: 370px;
+      background: conic-gradient(from 110deg, rgba(244, 197, 66, .5), rgba(255, 140, 122, .42), rgba(16, 138, 147, .38), rgba(244, 197, 66, .5));
+      border-radius: 48% 52% 45% 55%;
+      filter: saturate(92%);
+      z-index: -3;
+    }
+
+    .full {
+      grid-template-columns: 1fr;
+      align-content: center;
+    }
+
+    .split-heavy {
+      grid-template-columns: .85fr 1.15fr;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      gap: 8px;
+      color: var(--teal);
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0;
+      padding: 7px 12px;
+      border: 1px solid rgba(16, 138, 147, .2);
+      border-radius: 999px;
+      background: rgba(223, 245, 236, .78);
+    }
+
+    h1, h2, h3, p {
+      margin: 0;
+    }
+
+    h1 {
+      margin-top: 18px;
+      font-size: clamp(48px, 5.1vw, 74px);
+      line-height: 1.02;
+      letter-spacing: 0;
+      word-break: keep-all;
+    }
+
+    h2 {
+      font-size: clamp(34px, 3.5vw, 52px);
+      line-height: 1.08;
+      letter-spacing: 0;
+      word-break: keep-all;
+    }
+
+    h3 {
+      font-size: 22px;
+      line-height: 1.25;
+    }
+
+    .lead {
+      margin-top: 24px;
+      max-width: 660px;
+      color: #48505d;
+      font-size: 23px;
+      line-height: 1.55;
+      word-break: keep-all;
+    }
+
+    .body-text {
+      margin-top: 18px;
+      color: #48505d;
+      font-size: 19px;
+      line-height: 1.65;
+      word-break: keep-all;
+    }
+
+    .panel {
+      border: 1px solid rgba(32, 33, 36, .1);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .8);
+      padding: 24px;
+      box-shadow: 0 14px 34px rgba(32, 33, 36, .08);
+      backdrop-filter: blur(8px);
+    }
+
+    .pet-visual {
+      position: relative;
+      min-height: 440px;
+      display: grid;
+      place-items: center;
+    }
+
+    .device {
+      width: 330px;
+      height: 520px;
+      padding: 18px;
+      border-radius: 34px;
+      background: #222832;
+      box-shadow: 0 30px 54px rgba(24, 34, 45, .24);
+      transform: rotate(3deg);
+    }
+
+    .screen {
+      height: 100%;
+      border-radius: 24px;
+      background: linear-gradient(180deg, #fcfff9, #f0f7ff);
+      padding: 22px;
+      overflow: hidden;
+    }
+
+    .screen-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .avatar-row {
+      display: flex;
+      gap: 12px;
+      margin: 24px 0;
+    }
+
+    .pet-chip {
+      flex: 1;
+      min-height: 94px;
+      border-radius: 8px;
+      padding: 14px;
+      color: #fff;
+      display: grid;
+      align-content: end;
+      font-weight: 800;
+    }
+
+    .cat {
+      background: linear-gradient(145deg, var(--coral), #c84f6f);
+    }
+
+    .dog {
+      background: linear-gradient(145deg, var(--teal), var(--blue));
+    }
+
+    .metric {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 12px;
+      padding: 14px;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 8px 22px rgba(50, 64, 80, .08);
+      font-size: 14px;
+    }
+
+    .metric strong {
+      font-size: 20px;
+    }
+
+    .floating-tag {
+      position: absolute;
+      width: 184px;
+      min-height: 82px;
+      border-radius: 8px;
+      padding: 16px;
+      background: #fff;
+      box-shadow: 0 18px 36px rgba(32, 33, 36, .16);
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .tag-a {
+      left: 16px;
+      top: 48px;
+      border-left: 5px solid var(--mustard);
+    }
+
+    .tag-b {
+      right: 8px;
+      bottom: 70px;
+      border-left: 5px solid var(--green);
+    }
+
+    .grid-2, .grid-3 {
+      display: grid;
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .card {
+      min-height: 154px;
+      border-radius: 8px;
+      border: 1px solid rgba(32, 33, 36, .1);
+      background: rgba(255, 255, 255, .76);
+      padding: 20px;
+      box-shadow: 0 12px 24px rgba(32, 33, 36, .07);
+    }
+
+    .card small {
+      display: block;
+      color: var(--teal);
+      font-weight: 900;
+      margin-bottom: 12px;
+    }
+
+    .card p, .card li {
+      color: #505866;
+      font-size: 16px;
+      line-height: 1.48;
+      word-break: keep-all;
+    }
+
+    ul {
+      margin: 18px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 12px;
+    }
+
+    li {
+      position: relative;
+      padding-left: 24px;
+      font-size: 19px;
+      line-height: 1.48;
+      color: #414956;
+      word-break: keep-all;
+    }
+
+    li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: .66em;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--coral);
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .pill {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid var(--line);
+      color: #3c4656;
+      font-weight: 750;
+      font-size: 16px;
+    }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 36px;
+    }
+
+    .phase {
+      min-height: 300px;
+      border-radius: 8px;
+      padding: 24px;
+      color: #17202a;
+      background: #fff;
+      border: 1px solid rgba(32, 33, 36, .1);
+      box-shadow: 0 12px 26px rgba(32, 33, 36, .08);
+    }
+
+    .phase-number {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--ink);
+      color: #fff;
+      font-weight: 900;
+      margin-bottom: 18px;
+    }
+
+    .quote {
+      max-width: 860px;
+      font-size: clamp(36px, 4.2vw, 60px);
+      line-height: 1.14;
+      font-weight: 900;
+      word-break: keep-all;
+    }
+
+    .sub-quote {
+      margin-top: 28px;
+      color: #4c5665;
+      font-size: 24px;
+      line-height: 1.5;
+      word-break: keep-all;
+    }
+
+    .nav {
+      width: min(100%, 1180px);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 52px 1fr 52px;
+      align-items: center;
+      gap: 14px;
+    }
+
+    button {
+      appearance: none;
+      border: 1px solid rgba(32, 33, 36, .16);
+      border-radius: 50%;
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      background: rgba(255, 255, 255, .82);
+      color: var(--ink);
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(32, 33, 36, .1);
+      transition: transform .18s ease, opacity .18s ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+    }
+
+    button:disabled {
+      cursor: default;
+      opacity: .42;
+      transform: none;
+    }
+
+    .arrow {
+      width: 13px;
+      height: 13px;
+      border-top: 3px solid currentColor;
+      border-right: 3px solid currentColor;
+    }
+
+    .left .arrow {
+      transform: rotate(-135deg);
+      margin-left: 5px;
+    }
+
+    .right .arrow {
+      transform: rotate(45deg);
+      margin-right: 5px;
+    }
+
+    .progress-wrap {
+      display: grid;
+      gap: 9px;
+    }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #525b68;
+      font-size: 14px;
+      font-weight: 750;
+    }
+
+    .progress {
+      height: 9px;
+      border-radius: 999px;
+      background: rgba(32, 33, 36, .1);
+      overflow: hidden;
+    }
+
+    .bar {
+      width: 0;
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--coral), var(--mustard), var(--teal));
+      transition: width .32s ease;
+    }
+
+    .slide-no {
+      position: absolute;
+      right: 34px;
+      top: 26px;
+      color: rgba(32, 33, 36, .45);
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .accent {
+      color: var(--teal);
+    }
+
+    .warning {
+      border-left: 5px solid var(--coral);
+      background: #fff;
+      padding: 20px 22px;
+      border-radius: 8px;
+      color: #3f4650;
+      font-size: 18px;
+      line-height: 1.55;
+      margin-top: 26px;
+      box-shadow: 0 12px 24px rgba(32, 33, 36, .08);
+    }
+
+    @media (max-width: 860px) {
+      body {
+        overflow: auto;
+      }
+
+      .app {
+        min-height: 100dvh;
+        padding: 12px;
+      }
+
+      .stage {
+        aspect-ratio: auto;
+        min-height: 72dvh;
+      }
+
+      .slide,
+      .split-heavy {
+        grid-template-columns: 1fr;
+        gap: 22px;
+        padding: 34px 24px 42px;
+        overflow-y: auto;
+      }
+
+      .pet-visual {
+        min-height: 300px;
+      }
+
+      .device {
+        width: 230px;
+        height: 365px;
+      }
+
+      .floating-tag {
+        display: none;
+      }
+
+      .grid-2,
+      .grid-3,
+      .timeline {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 42px;
+      }
+
+      h2 {
+        font-size: 34px;
+      }
+
+      .lead {
+        font-size: 19px;
+      }
+
+      .nav {
+        grid-template-columns: 46px 1fr 46px;
+      }
+
+      button {
+        width: 46px;
+        height: 46px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app" aria-label="행복한 집사 생활 발표 자료">
+    <section class="stage" aria-live="polite">
+      <div class="slides" id="slides">
+        <article class="slide">
+          <div>
+            <span class="eyebrow">반려동물 통합 케어 웹앱 기획서</span>
+            <h1>행복한<br>집사 생활</h1>
+            <p class="lead">고양이와 강아지의 식사, 배변, 건강, 행동을 기록하고 AI가 맞춤 케어를 도와주는 웹앱 서비스입니다.</p>
+          </div>
+          <div class="pet-visual" aria-hidden="true">
+            <div class="floating-tag tag-a">오늘 밥 72g<br>급여 완료</div>
+            <div class="device">
+              <div class="screen">
+                <div class="screen-top"><strong>My Pet</strong><span>Today</span></div>
+                <div class="avatar-row">
+                  <div class="pet-chip cat">나비<br><span>Cat</span></div>
+                  <div class="pet-chip dog">두부<br><span>Dog</span></div>
+                </div>
+                <div class="metric"><span>식사</span><strong>정상</strong></div>
+                <div class="metric"><span>배변</span><strong>2회</strong></div>
+                <div class="metric"><span>체중</span><strong>4.8kg</strong></div>
+                <div class="metric"><span>케어 알림</span><strong>1건</strong></div>
+              </div>
+            </div>
+            <div class="floating-tag tag-b">배변 상태<br>체크 필요</div>
+          </div>
+          <span class="slide-no">01</span>
+        </article>
+
+        <article class="slide split-heavy">
+          <div>
+            <span class="eyebrow">Why Now</span>
+            <h2>집사는 매일 돌보지만, 기록은 자주 흩어집니다.</h2>
+            <p class="body-text">밥을 얼마나 먹었는지, 변 상태가 어땠는지, 이상 행동이 반복되는지 기억에만 의존하면 작은 신호를 놓치기 쉽습니다.</p>
+          </div>
+          <div class="grid-2">
+            <div class="card"><small>초보 보호자</small><h3>정보 과부하</h3><p>사료량, 배변 상태, 품종 특징, 행동 의미를 따로 찾아야 합니다.</p></div>
+            <div class="card"><small>다묘·다견 가정</small><h3>기록 혼선</h3><p>어느 아이의 기록인지 섞이기 쉽고 가족 간 공유도 어렵습니다.</p></div>
+            <div class="card"><small>건강 관리</small><h3>패턴 파악 어려움</h3><p>식욕 저하, 음수량 증가, 체중 변화 같은 흐름을 보기 어렵습니다.</p></div>
+            <div class="card"><small>문제 행동</small><h3>원인 추적 부족</h3><p>행동이 언제, 어디서, 왜 반복되는지 정리하기 어렵습니다.</p></div>
+          </div>
+          <span class="slide-no">02</span>
+        </article>
+
+        <article class="slide">
+          <div>
+            <span class="eyebrow">Product Vision</span>
+            <h2>일상 기록과 케어 지식을 한 흐름으로 연결합니다.</h2>
+            <p class="lead">“잘 먹고, 잘 싸고, 잘 지내는지”를 매일 쉽게 확인하고, 필요할 때 바로 행동할 수 있게 돕습니다.</p>
+          </div>
+          <div class="panel">
+            <h3>핵심 가치</h3>
+            <ul>
+              <li>반려동물별 건강 대시보드 제공</li>
+              <li>식사, 배변, 체중, 병원 기록 통합 관리</li>
+              <li>행동 언어와 품종 정보를 쉬운 말로 안내</li>
+              <li>AI로 이상 패턴과 문제 행동 개선 방향 제안</li>
+              <li>가족이 함께 쓰는 공동 케어 기록</li>
+            </ul>
+          </div>
+          <span class="slide-no">03</span>
+        </article>
+
+        <article class="slide full">
+          <div>
+            <span class="eyebrow">Menu Architecture</span>
+            <h2>메인 메뉴 구성</h2>
+            <div class="grid-3">
+              <div class="card"><small>01</small><h3>마이펫</h3><p>나이, 체중, 품종, 질병 이력, 접종 일정, 오늘의 케어 요약을 관리합니다.</p></div>
+              <div class="card"><small>02</small><h3>잘 먹고 잘 싸기</h3><p>급식량, 음수량, 배변 횟수, 변 상태, 사진 기록을 남깁니다.</p></div>
+              <div class="card"><small>03</small><h3>언어 해석</h3><p>울음, 꼬리, 귀, 자세, 표정으로 감정과 요구를 이해합니다.</p></div>
+              <div class="card"><small>04</small><h3>품종 특징</h3><p>성격, 활동량, 털 관리, 유전 질환, 케어 포인트를 안내합니다.</p></div>
+              <div class="card"><small>05</small><h3>냥쪽이·멍쪽이</h3><p>문제 행동을 기록하고 원인과 단계별 교정 루틴을 제안합니다.</p></div>
+              <div class="card"><small>06</small><h3>케어 캘린더</h3><p>접종, 구충, 목욕, 미용, 병원, 사료 구매 일정을 관리합니다.</p></div>
+            </div>
+          </div>
+          <span class="slide-no">04</span>
+        </article>
+
+        <article class="slide">
+          <div>
+            <span class="eyebrow">My Pet Dashboard</span>
+            <h2>마이펫은 모든 기록의 중심입니다.</h2>
+            <p class="body-text">반려동물별 프로필을 만들고 오늘의 케어 상태를 한눈에 확인합니다. 여러 마리를 키우는 가정도 개별 기록이 섞이지 않게 관리합니다.</p>
+            <div class="pill-list">
+              <span class="pill">나이</span>
+              <span class="pill">체중</span>
+              <span class="pill">품종</span>
+              <span class="pill">중성화</span>
+              <span class="pill">질병 이력</span>
+              <span class="pill">예방접종</span>
+            </div>
+          </div>
+          <div class="panel">
+            <h3>대시보드 위젯</h3>
+            <ul>
+              <li>오늘의 급식량과 식욕 상태</li>
+              <li>배변 횟수와 최근 변 상태</li>
+              <li>체중 변화 그래프와 목표 체중</li>
+              <li>마지막 병원 방문일과 다음 접종일</li>
+              <li>이상 패턴 알림과 추천 케어 팁</li>
+            </ul>
+          </div>
+          <span class="slide-no">05</span>
+        </article>
+
+        <article class="slide split-heavy">
+          <div>
+            <span class="eyebrow">Eating & Potty</span>
+            <h2>잘 먹고 잘 싸기는 건강 신호의 출발점입니다.</h2>
+            <p class="body-text">연령과 체중에 맞춘 급식량을 참고하고, 배변 상태를 꾸준히 기록해 병원 방문 전에도 흐름을 정리할 수 있습니다.</p>
+          </div>
+          <div class="grid-2">
+            <div class="card"><small>급식</small><h3>권장량 계산</h3><p>연령, 체중, 활동량, 사료 종류에 따라 하루 급식량을 안내합니다.</p></div>
+            <div class="card"><small>음수</small><h3>음수량 체크</h3><p>평소보다 물을 많이 마시거나 적게 마시는 변화를 기록합니다.</p></div>
+            <div class="card"><small>배변</small><h3>상태 점수화</h3><p>딱딱함, 정상, 묽음, 설사, 혈변 의심 등을 선택합니다.</p></div>
+            <div class="card"><small>사진</small><h3>시각 기록</h3><p>대변 사진, 상처 사진, 구토 사진을 날짜별로 보관합니다.</p></div>
+          </div>
+          <span class="slide-no">06</span>
+        </article>
+
+        <article class="slide">
+          <div>
+            <span class="eyebrow">Pet Language</span>
+            <h2>고양이와 강아지의 작은 신호를 번역합니다.</h2>
+            <p class="body-text">행동 언어 해석은 보호자가 반려동물의 감정과 요구를 더 정확하게 이해하도록 돕는 지식 메뉴입니다.</p>
+          </div>
+          <div class="panel">
+            <h3>해석 카테고리</h3>
+            <ul>
+              <li>꼬리 움직임, 귀 방향, 눈 모양, 몸 자세</li>
+              <li>울음소리, 짖음, 낑낑거림, 골골송</li>
+              <li>보호자를 따라다니기, 배 보이기, 몸 비비기</li>
+              <li>하품, 핥기, 숨기, 공격 자세 같은 스트레스 신호</li>
+              <li>상황별 가능한 의미와 관찰해야 할 포인트</li>
+            </ul>
+          </div>
+          <span class="slide-no">07</span>
+        </article>
+
+        <article class="slide full">
+          <div>
+            <span class="eyebrow">Breed & Behavior</span>
+            <h2>품종 특징과 문제 행동 교정을 함께 제공합니다.</h2>
+            <div class="grid-2">
+              <div class="panel">
+                <h3>품종 특징 안내</h3>
+                <ul>
+                  <li>성격, 활동량, 털 빠짐, 사회성, 평균 수명</li>
+                  <li>품종별 취약 질환과 건강 체크 포인트</li>
+                  <li>초보 보호자, 아이 있는 가정, 다묘·다견 적합도</li>
+                  <li>추천 놀이와 관리 난이도</li>
+                </ul>
+              </div>
+              <div class="panel">
+                <h3>냥쪽이·멍쪽이</h3>
+                <ul>
+                  <li>가구 긁기, 화장실 실수, 과도한 울음, 합사 갈등</li>
+                  <li>짖음, 분리불안, 입질, 산책 줄 당김, 물건 파괴</li>
+                  <li>발생 시간, 장소, 상황, 빈도, 심각도 기록</li>
+                  <li>7일·14일 단위 교정 루틴과 진행 체크</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <span class="slide-no">08</span>
+        </article>
+
+        <article class="slide">
+          <div>
+            <span class="eyebrow">AI Features</span>
+            <h2>AI는 기록을 읽고, 변화를 먼저 알려줍니다.</h2>
+            <p class="body-text">진단이 아니라 보호자의 관찰을 돕는 방식으로 설계합니다. 위험 신호는 병원 방문을 우선 안내합니다.</p>
+          </div>
+          <div class="grid-2">
+            <div class="card"><small>AI 케어 코치</small><h3>맞춤 상담</h3><p>“요즘 물을 많이 마셔요” 같은 질문에 기록 기반 관찰 포인트를 제공합니다.</p></div>
+            <div class="card"><small>사진 분석</small><h3>배변 상태 참고</h3><p>대변 사진을 정상, 딱딱함, 묽음, 설사 의심 등으로 분류합니다.</p></div>
+            <div class="card"><small>패턴 감지</small><h3>이상 변화 알림</h3><p>식사량 감소, 음수량 증가, 배변 횟수 감소, 급격한 체중 변화를 알려줍니다.</p></div>
+            <div class="card"><small>행동 플랜</small><h3>교정 루틴</h3><p>문제 행동의 상황과 빈도에 따라 단계별 훈련 계획을 추천합니다.</p></div>
+          </div>
+          <span class="slide-no">09</span>
+        </article>
+
+        <article class="slide full">
+          <div>
+            <span class="eyebrow">MVP Roadmap</span>
+            <h2>출시는 핵심 기록부터, AI는 단계적으로 고도화합니다.</h2>
+            <div class="timeline">
+              <div class="phase">
+                <div class="phase-number">1</div>
+                <h3>1차 MVP</h3>
+                <ul>
+                  <li>회원가입·로그인</li>
+                  <li>반려동물 등록</li>
+                  <li>마이펫 대시보드</li>
+                  <li>식사·배변·체중 기록</li>
+                  <li>기본 케어 콘텐츠</li>
+                </ul>
+              </div>
+              <div class="phase">
+                <div class="phase-number">2</div>
+                <h3>2차 확장</h3>
+                <ul>
+                  <li>사진 업로드</li>
+                  <li>문제 행동 기록</li>
+                  <li>AI 케어 상담</li>
+                  <li>가족 공유</li>
+                  <li>병원 기록</li>
+                </ul>
+              </div>
+              <div class="phase">
+                <div class="phase-number">3</div>
+                <h3>3차 고도화</h3>
+                <ul>
+                  <li>배변 사진 AI 분석</li>
+                  <li>행동 사진·영상 분석</li>
+                  <li>품종별 맞춤 케어</li>
+                  <li>비용 관리</li>
+                  <li>전문가 상담 연계</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <span class="slide-no">10</span>
+        </article>
+
+        <article class="slide">
+          <div>
+            <span class="eyebrow">Trust & Safety</span>
+            <h2>건강 데이터는 따뜻하게, 위험 신호는 단호하게 다룹니다.</h2>
+            <p class="body-text">AI와 콘텐츠는 수의사 진단을 대체하지 않는 참고 정보로 제공하고, 응급 증상은 병원 방문을 우선 권장합니다.</p>
+          </div>
+          <div class="panel">
+            <h3>운영 원칙</h3>
+            <ul>
+              <li>의료 판단 표현을 피하고 관찰·기록 중심으로 안내</li>
+              <li>혈변, 반복 구토, 호흡 이상 등은 즉시 병원 안내</li>
+              <li>사진, 건강 기록, 병원 기록 등 민감 정보 보호</li>
+              <li>품종 정보는 일반 경향과 개체 차이를 함께 설명</li>
+              <li>가족 공유 시 권한과 기록 변경 이력을 관리</li>
+            </ul>
+            <p class="warning">서비스 톤은 다정하지만, 응급 상황 안내는 짧고 명확해야 합니다.</p>
+          </div>
+          <span class="slide-no">11</span>
+        </article>
+
+        <article class="slide full">
+          <div>
+            <span class="eyebrow">Closing Message</span>
+            <p class="quote">오늘도 잘 먹고, 잘 싸고, 잘 지내는지 확인하는 가장 쉬운 방법.</p>
+            <p class="sub-quote">행복한 집사 생활은 반려묘와 반려견의 작은 신호까지 놓치지 않도록 돕는 일상 케어 파트너입니다.</p>
+          </div>
+          <span class="slide-no">12</span>
+        </article>
+      </div>
+    </section>
+
+    <nav class="nav" aria-label="슬라이드 이동">
+      <button class="left" id="prev" type="button" aria-label="이전 슬라이드"><span class="arrow"></span></button>
+      <div class="progress-wrap">
+        <div class="progress-meta"><span id="title">행복한 집사 생활</span><span id="count">1 / 12</span></div>
+        <div class="progress" aria-hidden="true"><div class="bar" id="bar"></div></div>
+      </div>
+      <button class="right" id="next" type="button" aria-label="다음 슬라이드"><span class="arrow"></span></button>
+    </nav>
+  </main>
+
+  <script>
+    const slides = document.querySelectorAll(".slide");
+    const deck = document.getElementById("slides");
+    const prev = document.getElementById("prev");
+    const next = document.getElementById("next");
+    const count = document.getElementById("count");
+    const bar = document.getElementById("bar");
+    const title = document.getElementById("title");
+    const titles = [
+      "서비스 소개",
+      "문제 정의",
+      "제품 비전",
+      "메뉴 구성",
+      "마이펫",
+      "잘 먹고 잘 싸기",
+      "언어 해석",
+      "품종과 행동",
+      "AI 기능",
+      "MVP 로드맵",
+      "신뢰와 안전",
+      "마무리"
+    ];
+    let index = 0;
+    let startX = null;
+
+    function render() {
+      deck.style.transform = `translateX(-${index * 100}%)`;
+      prev.disabled = index === 0;
+      next.disabled = index === slides.length - 1;
+      count.textContent = `${index + 1} / ${slides.length}`;
+      title.textContent = titles[index];
+      bar.style.width = `${((index + 1) / slides.length) * 100}%`;
+      history.replaceState(null, "", `#${index + 1}`);
+    }
+
+    function move(delta) {
+      index = Math.min(slides.length - 1, Math.max(0, index + delta));
+      render();
+    }
+
+    prev.addEventListener("click", () => move(-1));
+    next.addEventListener("click", () => move(1));
+
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft") move(-1);
+      if (event.key === "ArrowRight" || event.key === " ") move(1);
+    });
+
+    document.querySelector(".stage").addEventListener("pointerdown", (event) => {
+      startX = event.clientX;
+    });
+
+    document.querySelector(".stage").addEventListener("pointerup", (event) => {
+      if (startX === null) return;
+      const diff = event.clientX - startX;
+      if (Math.abs(diff) > 54) move(diff < 0 ? 1 : -1);
+      startX = null;
+    });
+
+    const hashIndex = Number(location.hash.replace("#", "")) - 1;
+    if (!Number.isNaN(hashIndex) && hashIndex >= 0 && hashIndex < slides.length) {
+      index = hashIndex;
+    }
+    render();
+  </script>
+</body>
+</html>
