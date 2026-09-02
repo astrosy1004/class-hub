@@ -1,61 +1,127 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>클래스 허브</title>
-  <meta name="description" content="개인 수업용 링크 모음 - ICT 수업, 생성형 AI 서비스, 정보사이트를 한곳에서." />
-  <meta name="color-scheme" content="light dark" />
-  <meta name="theme-color" content="#000000" />
-
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%9A%3C/text%3E%3C/svg%3E" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Noto+Sans+KR:wght@300;400;600;700&display=swap" />
-
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <a class="skip-link" href="#content">본문 바로가기</a>
-
-  <!-- ===== 상단 고정 바: 상위 메뉴 3개 ===== -->
-  <header class="topbar">
-    <div class="topbar__inner">
-      <a class="brand" href="#ict" aria-label="클래스 허브 홈">
-        <span class="brand__mark" aria-hidden="true">📚</span>
-        <span class="brand__name">클래스 허브</span>
-      </a>
-
-      <nav class="topnav" aria-label="상위 메뉴">
-        <ul class="topnav__list" id="topnav"></ul>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Product Master Hub</title>
+    <meta
+      name="description"
+      content="생성형 AI 프로덕트 마스터 2기 수강생을 위한 수업 링크, AI 도구, 학습 자료 허브"
+    />
+    <link rel="stylesheet" href="./assets/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="topbar" aria-label="주요 메뉴">
+        <a class="brand" href="#home" aria-label="AI Product Master Hub 홈">
+          <span class="brand-mark">AI</span>
+          <span>Product Master Hub</span>
+        </a>
+        <div class="nav-links" id="navLinks"></div>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="테마 변경">
+          <span id="themeIcon">☾</span>
+        </button>
       </nav>
 
-      <button class="theme-toggle" id="themeToggle" type="button" aria-label="화면 모드 전환">☀️</button>
-    </div>
-  </header>
+      <section class="hero" id="home">
+        <div class="hero-copy">
+          <p class="eyebrow">생성형 AI 프로덕트 마스터 2기</p>
+          <h1>수업 링크와 AI 도구를 한곳에서 빠르게 찾는 클래스 허브</h1>
+          <p class="hero-text">
+            Zoom, LMS, Discord, 실습 도구, 학습 자료를 수강생이 바로 확인할 수 있도록 정리했습니다.
+          </p>
+        </div>
+        <div class="hero-panel" aria-label="수업 요약">
+          <div>
+            <span class="panel-label">일정</span>
+            <strong>8/26(수) ~ 11/11(수)</strong>
+          </div>
+          <div>
+            <span class="panel-label">시간</span>
+            <strong>월·수 19:00~23:00 / 토 09:00~18:00</strong>
+          </div>
+          <div>
+            <span class="panel-label">방식</span>
+            <strong>Zoom 실시간 온라인 수업</strong>
+          </div>
+        </div>
+      </section>
+    </header>
 
-  <!-- ===== 본문: 선택한 카테고리 내용 (edge-to-edge 타일) ===== -->
-  <main id="content" class="content">
-    <section class="tile tile--light hero" aria-live="polite">
-      <div class="wrap">
-        <p class="hero__eyebrow" id="heroEyebrow"></p>
-        <h1 class="hero__title" id="heroTitle"></h1>
-        <p class="hero__desc" id="heroDesc"></p>
-      </div>
-    </section>
+    <main>
+      <section class="toolbar" aria-label="검색">
+        <label class="search-box" for="searchInput">
+          <span>⌕</span>
+          <input id="searchInput" type="search" placeholder="링크, 도구, 자료 검색" autocomplete="off" />
+        </label>
+      </section>
 
-    <div id="sections"></div>
-  </main>
+      <section class="quick-grid" id="quickLinks" aria-label="중요 링크"></section>
 
-  <!-- ===== 하단 고정 바: 선택한 상위 메뉴의 2단계 하위 메뉴 ===== -->
-  <nav class="subbar" aria-label="하위 메뉴">
-    <div class="subbar__inner">
-      <span class="subbar__cat" id="subCat"></span>
-      <ul class="subbar__list" id="subnav"></ul>
-    </div>
-  </nav>
+      <section class="content-section" id="classroom">
+        <div class="section-heading">
+          <p class="eyebrow">Menu 1</p>
+          <h2>수업 안내</h2>
+        </div>
+        <div class="class-grid">
+          <article class="info-card">
+            <span class="card-icon">📅</span>
+            <h3>수업 일정</h3>
+            <p>8/26(수) ~ 11/11(수)</p>
+            <p>월·수 19:00~23:00 / 토 09:00~18:00</p>
+          </article>
+          <article class="info-card">
+            <span class="card-icon">💻</span>
+            <h3>수업 방식</h3>
+            <p>Zoom 실시간 온라인 수업</p>
+            <p>수업 시작 전 접속 테스트를 권장합니다.</p>
+          </article>
+          <article class="info-card warning-card">
+            <span class="card-icon">🔒</span>
+            <h3>공개 배포 주의</h3>
+            <p>Zoom PW, LMS 코드, Discord 링크는 공개 페이지에서 노출될 수 있습니다.</p>
+            <p>필요하면 수강생 전용 공지방으로 대체하세요.</p>
+          </article>
+        </div>
+      </section>
 
-  <script src="script.js"></script>
-</body>
+      <section class="content-section" id="ai-tools">
+        <div class="section-heading">
+          <p class="eyebrow">Menu 2</p>
+          <h2>AI 도구 모음</h2>
+        </div>
+        <div id="toolSections"></div>
+      </section>
+
+      <section class="content-section" id="learning">
+        <div class="section-heading">
+          <p class="eyebrow">Menu 3</p>
+          <h2>학습 자료</h2>
+        </div>
+        <div class="resource-grid" id="learningCards"></div>
+      </section>
+
+      <section class="content-section" id="projects">
+        <div class="section-heading">
+          <p class="eyebrow">Menu 4</p>
+          <h2>과제/프로젝트</h2>
+        </div>
+        <div class="resource-grid" id="projectCards"></div>
+      </section>
+
+      <section class="content-section" id="checklist">
+        <div class="section-heading">
+          <p class="eyebrow">Menu 5</p>
+          <h2>공지/체크리스트</h2>
+        </div>
+        <div class="checklist-card" id="checklistItems"></div>
+      </section>
+    </main>
+
+    <footer>
+      <p>AI Product Master Hub · 수업용 링크 저장소</p>
+    </footer>
+
+    <script src="./assets/app.js"></script>
+  </body>
 </html>
