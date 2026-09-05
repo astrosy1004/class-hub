@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-09-05T08:07:36.483Z",
+  "updatedAt": "2026-09-05T08:08:08.752Z",
   "categories": [
     {
       "id": "ai",
@@ -233,11 +233,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 지원사업"
         },
         {
-          "title": "스트레스학회, ‘2026년도 연구비 지원사업’ 공모 접수 - nursenews.co.kr",
+          "title": "스트레스학회, ‘2026년도 연구비 지원사업’ 공모 접수 - 간호사신문",
           "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE5jZThKR1F6YkxGVlFMa1d4YklLZ3BBTXZMS3hKeXM1bnNIQ1FhYmQ5YUpNQ05icnBfaDRRTTFCS29zNFdfNEZfSWFXM2JRUVdackE0VmFDcWZKWkNrX2VocW9qcTVFOEFyNmhpald3?oc=5",
           "date": "2026-09-04T08:04:54.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMibkFVX3lxTE5jZThKR1F6YkxGVlFMa1d4YklLZ3BBTXZMS3hKeXM1bnNIQ1FhYmQ5YUpNQ05icnBfaDRRTTFCS29zNFdfNEZfSWFXM2JRUVdackE0VmFDcWZKWkNrX2VocW",
-          "source": "nursenews.co.kr",
+          "source": "간호사신문",
           "via": "Google 뉴스 지원사업"
         },
         {
