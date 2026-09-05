@@ -3,8 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>mynews-2609</title>
+  <title>나의 뉴스 모음 · 2시간마다 자동 수집</title>
+  <link rel="stylesheet" href="./assets/styles.css" />
 </head>
 <body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <span class="brand-mark">📰</span>
+        <div>
+          <h1>나의 뉴스 모음</h1>
+          <p class="sub" id="updated">불러오는 중…</p>
+        </div>
+      </div>
+      <div class="tools">
+        <input id="search" type="search" placeholder="제목 검색…" autocomplete="off" />
+        <button id="theme-toggle" type="button" title="다크 모드 전환">🌙</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="board" class="board"></main>
+
+  <footer class="foot">
+    <p>2시간마다 GitHub Actions가 RSS를 수집하고, 매일 오전 9시(KST)에 디스코드로 요약을 보냅니다.</p>
+  </footer>
+
+  <script src="./data/news.js"></script>
+  <script src="./assets/app.js"></script>
 </body>
 </html>
