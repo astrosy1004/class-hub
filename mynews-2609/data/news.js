@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-09-05T14:13:34.606Z",
+  "updatedAt": "2026-09-05T17:47:52.471Z",
   "categories": [
     {
       "id": "ai",
@@ -171,8 +171,7 @@ window.MYNEWS_DATA = {
           "source": "중소벤처기업부 사업공고",
           "url": "https://mss.go.kr/rss/smba/board/310.do",
           "count": 8,
-          "error": "fetch failed",
-          "stale": true
+          "error": null
         },
         {
           "source": "지원금가이드 신규 정부지원금",
@@ -218,14 +217,6 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 지원사업"
         },
         {
-          "title": "2026년 인천국제공항공사 상생형 창업·벤처기업 지원사업 모집공고 - 벤처스퀘어",
-          "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE0tT3RrYXFkUjh0X1VWSm1VRzVFUVZDQ1JpZzFLOFp0bDN0TmJVRlBxd1VJSXl4bTNFakNPOGFmeWpYbXN4aUhyM3NFUnJ5R3ZiMEJxZVZ3ZjhreW1EVXF3?oc=5",
-          "date": "2026-09-04T10:45:10.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiX0FVX3lxTE0tT3RrYXFkUjh0X1VWSm1VRzVFUVZDQ1JpZzFLOFp0bDN0TmJVRlBxd1VJSXl4bTNFakNPOGFmeWpYbXN4aUhyM3NFUnJ5R3ZiMEJxZVZ3ZjhreW1EVXF3?o",
-          "source": "벤처스퀘어",
-          "via": "Google 뉴스 지원사업"
-        },
-        {
           "title": "하나은행, ‘소상공인 경쟁력 강화 지원 사업’ 3차 모집…이달 29일까지 - 백세시대",
           "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1oMzlvNlRhUk96VnJ6Ym5pbkNqTkI3YUktSTlnRTVYb280VmFXWXFVNVJNNXhTRi13ZmNFM2MyMFJhR3Jfa3U3ODMzeDUyMFgtejc1S2JPaU5HbFVrUS1QbFYxZFNXLXRwdmtR?oc=5",
           "date": "2026-09-04T08:43:04.000Z",
@@ -234,11 +225,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 지원사업"
         },
         {
-          "title": "스트레스학회, ‘2026년도 연구비 지원사업’ 공모 접수 - nursenews.co.kr",
+          "title": "스트레스학회, ‘2026년도 연구비 지원사업’ 공모 접수 - 간호사신문",
           "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE5jZThKR1F6YkxGVlFMa1d4YklLZ3BBTXZMS3hKeXM1bnNIQ1FhYmQ5YUpNQ05icnBfaDRRTTFCS29zNFdfNEZfSWFXM2JRUVdackE0VmFDcWZKWkNrX2VocW9qcTVFOEFyNmhpald3?oc=5",
           "date": "2026-09-04T08:04:54.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMibkFVX3lxTE5jZThKR1F6YkxGVlFMa1d4YklLZ3BBTXZMS3hKeXM1bnNIQ1FhYmQ5YUpNQ05icnBfaDRRTTFCS29zNFdfNEZfSWFXM2JRUVdackE0VmFDcWZKWkNrX2VocW",
-          "source": "nursenews.co.kr",
+          "source": "간호사신문",
           "via": "Google 뉴스 지원사업"
         },
         {
@@ -247,6 +238,14 @@ window.MYNEWS_DATA = {
           "date": "2026-09-04T07:55:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMia0FVX3lxTE12S2M1R0g3dk9fRlZmaGktalk0Q1N5QWRNdHlRcDVENGtsandmamtvXzV3VTRPZmU0T043b0syS0R0QVlWNnlNSUF6VDF2TzFvY3h5ckV1R29uS2ZtLWFHaW",
           "source": "라이센스뉴스",
+          "via": "Google 뉴스 지원사업"
+        },
+        {
+          "title": "[서울 ~9/10(목)] 청년 마음건강 지원사업 4차 모집 - 느린인뉴스",
+          "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE9BOVZvalVwVDdhTHNlZG01RjdMME9kYnE4QjVqb1RhMXU2V0hXWTZmbGctSVV3aEJqUHRTUVVvZDdBdDZHY21UTTU1M3NsR1BublNHTkNvVEFDWTZmcTJvdjJra3VfR3BNR0pIWVh6azFnUQ?oc=5",
+          "date": "2026-09-04T06:38:48.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMickFVX3lxTE9BOVZvalVwVDdhTHNlZG01RjdMME9kYnE4QjVqb1RhMXU2V0hXWTZmbGctSVV3aEJqUHRTUVVvZDdBdDZHY21UTTU1M3NsR1BublNHTkNvVEFDWTZmcTJvdj",
+          "source": "느린인뉴스",
           "via": "Google 뉴스 지원사업"
         },
         {
@@ -411,96 +410,95 @@ window.MYNEWS_DATA = {
           "source": "행정안전부 보도자료",
           "url": "https://www.mois.go.kr/gpms/view/jsp/rss/rss.jsp?ctxCd=1012",
           "count": 10,
-          "error": "fetch failed",
-          "stale": true
+          "error": null
         }
       ],
       "error": null,
       "items": [
         {
-          "title": "밤하늘 수놓은 불꽃에 53만 인파 환호…귀갓길도 '질서정연'(종합)",
-          "link": "https://www.newsis.com/view/NISX20260905_0003777774",
-          "date": "2026-09-05T13:38:18.000Z",
-          "summary": "[서울=뉴시스] 조성하 염지윤 수습 기자, 박준성 인턴기자 = 5일 오후 8시께 서울 여의도 한강공원 일대. '서울세계불꽃축제 2026'의 시작을 알리는 첫 불꽃이 밤하늘로 솟구치자 한강변을 빼곡히 메운 53만 인파 사이에서 일제히 환호성이 터져 나왔다. 주황빛 불꽃에 이어 분홍색과 붉은색 불꽃이 꽃잎과 팝콘처럼 연달아 ",
+          "title": "\"왜 쓸데없이 다쳤니\"…15년 이어진 시어머니 간섭·차별 참아온 며느리 결국",
+          "link": "https://www.newsis.com/view/NISX20260903_0003774176",
+          "date": "2026-09-05T17:05:00.000Z",
+          "summary": "[서울=뉴시스]허준희 인턴 기자 = 15년간 시어머니의 잔소리와 차별에 시달렸다는 40대 여성이 결국 이혼을 결심했다는 사연이 공개됐다. 지난 2일 JTBC '사건반장'에 따르면, 동갑내기 남편과 결혼 15년 차라고 밝힌 제보자 A씨는 결혼 전 남편과 함께 대기업에 다녔다. 그러나 결혼 후 시어머니가 사사건건 간섭하기 시",
           "source": "뉴시스 사회",
           "via": "뉴시스 사회"
         },
         {
-          "title": "'불꽃축제' 5호선 여의나루역 무정차 통과 종료…정상 운행(종합)",
-          "link": "https://www.newsis.com/view/NISX20260905_0003777742",
-          "date": "2026-09-05T13:13:14.000Z",
-          "summary": "[서울=뉴시스] 조성하 기자 = '서울세계불꽃축제 2026' 인파로 무정차 통과했던 지하철 5호선 여의나루역이 정상 운행에 들어갔다. 서울교통공사에 따르면 이날 오후 10시10분께부터 5호선 여의나루역 상·하행선 다시 열차가 정상적으로 정차하고 있다. 공사는 안내문자를 통해 \"현재 5호선 여의나루역 무정차 통과가 해제돼 ",
+          "title": "\"무료 나눔 받아온 뒤 바퀴벌레가\"…아빠 취미에 딸 '노이로제'",
+          "link": "https://www.newsis.com/view/NISX20260903_0003774139",
+          "date": "2026-09-05T16:05:00.000Z",
+          "summary": "[서울=뉴시스]이지우 인턴 기자 = 아버지가 무료 나눔 물건을 받아오면서 생긴 위생 문제 때문에 스트레스를 받는다는 여성의 사연이 전해졌다. 지난 2일 JTBC '사건반장'은 부모님과 함께 살고 있는 20대 여성 A씨의 제보를 보도했다. A씨는 \"아버지는 아나바다를 신조로 삼을 정도로 절약 정신이 투철한 분\"이라며 \"최근",
           "source": "뉴시스 사회",
           "via": "뉴시스 사회"
         },
         {
-          "title": "[속보]5호선 여의나루역 무정차 통과 종료…정상 운행",
-          "link": "https://www.newsis.com/view/NISX20260905_0003777740",
-          "date": "2026-09-05T13:10:34.000Z",
-          "summary": "후속기사가 이어집니다",
+          "title": "비만대사수술, 살만 뺀다?…\"80%, 당뇨약도 중단\"",
+          "link": "https://www.newsis.com/view/NISX20260904_0003776603",
+          "date": "2026-09-05T16:01:00.000Z",
+          "summary": "[서울=뉴시스] 류난영 기자 = 최근 살을 빼기 위해 위고비, 마운자로와 같은 GLP-1 계열 비만치료제 사용자가 늘면서 적극적인 비만치료에 대한 관심도 높아지고 있다. 국내 연구진이 비만대사수술을 받은 환자를 대상으로 2년간 추적한 결과 수술 1년 후 체중이 평균 26.8% 감소하고 당뇨병 환자의 80% 이상이 약물 치",
           "source": "뉴시스 사회",
           "via": "뉴시스 사회"
         },
         {
-          "title": "1240회 로또 1등 각 17억씩…자동14명·수동2명(종합)",
-          "link": "https://www.newsis.com/view/NISX20260905_0003777758",
-          "date": "2026-09-05T12:23:46.000Z",
-          "summary": "[서울=뉴시스] 조성하 기자 = 5일 제1240회 동행복권 로또 추첨 결과 11, 13, 19, 20, 31, 44이 1등 당첨 번호로 결정됐다. 2등 보너스 번호는 27이다. 6개 번호를 모두 맞춘 1등 당첨자는 16명이다. 각각 17억9181만7758원을 받는다. 5개 번호와 보너스 번호를 맞춘 2등은 78명으로 당첨",
+          "title": "여대생 덮친 1톤 트럭…가해자는 적반하장, 결말은 고작 '약식처분'",
+          "link": "https://www.newsis.com/view/NISX20260904_0003775906",
+          "date": "2026-09-05T16:00:00.000Z",
+          "summary": "[서울=뉴시스]이준형 인턴 기자 = 인도 위를 걷던 20대 대학생이 뒤따라온 1톤 트럭에 치여 전치 6주의 중상을 입었으나, 가해 운전자는 피해자와 합의조차 이뤄지지 않은 상황에서 벌금 400만원의 약식명령 처분을 받아 반발이 일고 있다. 3일 방송된 JTBC '사건반장'에서는 1월14일 경북 경산시의 한 인도에서 발생한",
           "source": "뉴시스 사회",
           "via": "뉴시스 사회"
         },
         {
-          "title": "1240회 로또 1등 11, 13, 19, 20, 31, 44…보너스 27",
-          "link": "https://www.newsis.com/view/NISX20260905_0003777757",
-          "date": "2026-09-05T12:15:28.000Z",
-          "summary": "[서울=뉴시스] 조성하 기자 = 5일 제1240회 동행복권 로또 추첨 결과 11, 13, 19, 20, 31, 44이 1등 당첨 번호로 결정됐다. 2등 보너스 번호는 27이다. 6개 번호를 모두 맞춘 1등 당첨자는 16명이다. 각각 17억9181만7758원을 받는다. 5개 번호와 보너스 번호를 맞춘 2등은 78명으로 당첨",
+          "title": "\"똥차 가면 벤츠 온다?\"…결혼정보업체가 말하는 2030 연애의 함정",
+          "link": "https://www.newsis.com/view/NISX20260905_0003777788",
+          "date": "2026-09-05T16:00:00.000Z",
+          "summary": "[서울=뉴시스] 김종민 기자 = 막연히 때가 되면 결혼할 것이라는 기대와 달리, 의사결정을 미루는 습관이 누적되면서 40대 미혼으로 이어지는 사례가 늘고 있다. 결혼정보업체 대표 한방언니는 5일 유튜브 영상에서 \"막연하게 언젠가 결혼하겠지 생각하다가 40대가 되어 '왜 아직 나는 그대로지'라며 미혼 상황과 마주하게 된다\"",
           "source": "뉴시스 사회",
           "via": "뉴시스 사회"
         },
         {
-          "title": "첫 불꽃 터지자 \"와, 대박\"…한강변 가득 메운 인파 환호[현장]",
-          "link": "https://www.newsis.com/view/NISX20260905_0003777750",
-          "date": "2026-09-05T11:58:12.000Z",
-          "summary": "[서울=뉴시스] 조성하 염지윤 수습 기자, 박준성 인턴기자 = \"와, 진짜 대박이다\" 5일 오후 8시께 서울 여의도 한강공원 일대. 서울세계불꽃축제 2026의 시작을 알리는 첫 불꽃이 밤하늘로 솟구치자 한강변을 빼곡히 메운 관람객들 사이에서 일제히 환호성이 터져 나왔다. 주황빛 불꽃에 이어 분홍색과 붉은색 불꽃이 꽃잎과 ",
+          "title": "\"외모 보고 결혼한 게 최대 실수\"…이혼 전문 변호사가 짚은 신혼 이혼 이유",
+          "link": "https://www.newsis.com/view/NISX20260903_0003774647",
+          "date": "2026-09-05T15:50:00.000Z",
+          "summary": "[서울=뉴시스] 김종민 기자 = 외모만 보고 결혼을 결정했다가 3년 만에 이혼에 이른 30대 대기업 직원의 고백이 화제를 모으고 있다. 유튜브 채널 '인생컨닝, 박종경 변호사'는 한 30대 남성이 온라인 커뮤니티에 남긴 이혼 수기를 소개했다. 대기업에 다니며 자가를 보유했던 글쓴이는 소개팅으로 만난 여성 중 가장 예쁜 상",
           "source": "뉴시스 사회",
           "via": "뉴시스 사회"
         },
         {
-          "title": "부산 예인선 전복 실종 선원 6명 어디에…나흘차 야간수색",
-          "link": "https://www.newsis.com/view/NISX20260905_0003777719",
-          "date": "2026-09-05T10:00:42.000Z",
-          "summary": "[부산=뉴시스] 이아름 기자 = 지난 2일 부산 해상에서 발생한 예인선 전복·침몰 사고 실종자들을 찾기 위한 수색이 5일 야간에도 계속된다. 부산해양경찰서는 티엔에스캐처호(286t) 전복·침몰 사고 실종자 6명을 찾기 위한 야간 수색을 이날 오후 7시부터 다음날 오전 6시까지 진행한다고 밝혔다. 해경은 유관기관 등과 함께",
+          "title": "\"아파트 베란다 삽겹살, 내 집인데 어때\" vs \"공동주택인데 이웃에 피해\"",
+          "link": "https://www.newsis.com/view/NISX20260903_0003775208",
+          "date": "2026-09-05T15:30:00.000Z",
+          "summary": "[서울=뉴시스]김드보라 인턴 기자 = 아파트 베란다에서 고기를 구워 먹는 것을 두고 논란이 반복되고 있지만, 명확한 기준이나 해법이 없어 공동주택 내 생활 갈등으로 남아 있다. \"내 집에서 음식을 해 먹는 것까지 눈치를 봐야 하느냐\"는 주장과 \"연기와 냄새가 이웃집으로 퍼질 수 있는 만큼 자제해야 한다\"는 의견이 맞서고 ",
           "source": "뉴시스 사회",
           "via": "뉴시스 사회"
         },
         {
-          "title": "청주 옥산면 하천서 중학생 물에 빠져…심정지 상태",
-          "link": "https://www.newsis.com/view/NISX20260905_0003777717",
-          "date": "2026-09-05T10:00:30.000Z",
-          "summary": "[청주=뉴시스]연종영 기자 = 5일 오후 3시 46분께 충북 청주시 옥산면 하천에서 중학생 A(15)군이 물에 빠져 심정지 상태로 병원에 옮겨졌다. 함께 물놀이하던 B군은 친구가 갑자기 시야에서 사라졌다고 소방당국에 신고했다. 경찰과 소방당국은 정확한 사고 경위를 조사 중이다. ◎공감언론 뉴시스 jyy@newsis.com",
+          "title": "\"30년 지기 친구라도…이런 행동하면 연락처 바로 지우세요\"",
+          "link": "https://www.newsis.com/view/NISX20260903_0003774735",
+          "date": "2026-09-05T15:20:00.000Z",
+          "summary": "[서울=뉴시스] 김종민 기자 = 우리가 무심코 건네는 인사나 위로가 상대방에게는 심각한 불쾌감이나 평생 지워지지 않는 상처로 남을 수 있다는 제언이 나왔다. 상대방의 상황을 임의로 짐작해 던지는 가족 질문이나 호칭 지정이 대표적인 사례다. 40대 여성에게 처음 만난 자리에서 \"아이들은 어쩌고 나왔냐\"라고 묻거나, 핸드폰 ",
           "source": "뉴시스 사회",
           "via": "뉴시스 사회"
         },
         {
-          "title": "춘천서 차량 2대·3중 추돌…원주선 6세 여아 의식 처짐",
-          "link": "https://www.newsis.com/view/NISX20260905_0003777714",
-          "date": "2026-09-05T10:00:21.000Z",
-          "summary": "[원주=뉴시스]이덕화 기자 = 강원 춘천과 원주에서 차량 충돌과 어린이 교통사고가 잇따라 발생해 6세 어린이를 포함해 5명이 다쳤다. 5일 소방본부에 따르면 이날 오전 6시37분께 춘천시 동내면 거두리 부일종합건설 인근 도로에서 트레일블레이저와 그랜저 승용차가 충돌했다. 이 사고로 그랜저 운전자 A(43)씨가 이마 열상을",
+          "title": "대학생 시누이 '2년' 데리고 살았더니…돌아온 건 '시어머니 타박'",
+          "link": "https://www.newsis.com/view/NISX20260902_0003773199",
+          "date": "2026-09-05T15:05:00.000Z",
+          "summary": "[서울=뉴시스]이준형 인턴 기자 = 대학생 시누이를 2년 동안 집에서 먹이고 재워줬지만, 도리어 '눈치 주는 나쁜 사람'이 되었다며 고통을 호소하는 한 여성의 사연이 알려졌다. 최근 한 온라인 커뮤니티에는 '대학생 시누이를 2년째 데리고 살아요'라는 제목의 글이 올라왔다. 작성자 A씨는 광주에 있는 대학교로 진학한 시누이",
           "source": "뉴시스 사회",
           "via": "뉴시스 사회"
         },
         {
-          "title": "불꽃축제 인파 밀집…5호선 여의나루역 무정차 통과 시작",
-          "link": "https://www.newsis.com/view/NISX20260905_0003777708",
-          "date": "2026-09-05T09:28:44.000Z",
-          "summary": "[서울=뉴시스] 조성하 기자 = '서울세계불꽃축제 2026'이 열리는 5일 서울 영등포구 여의도 일대에 인파가 몰리면서 지하철 5호선 여의나루역이 무정차 통과를 시작했다. 서울교통공사에 따르면 이날 오후 6시11분부터 5호선 여의나루역은 상·하행선 모두 열차가 정차하지 않고 통과하고 있다. 공사는 \"해당역 이용고객은 인근",
+          "title": "\"남친 동호회 보낸다고?\"…결혼전문가가 꼽은 불륜 위험 모임 '3동'",
+          "link": "https://www.newsis.com/view/NISX20260902_0003773559",
+          "date": "2026-09-05T15:00:00.000Z",
+          "summary": "[서울=뉴시스] 김종민 기자 = 남녀 관계에서 이성 간 교류가 잦아 불륜이나 외도로 이어질 가능성이 높은 의외의 모임으로 '동호회', '동창회', '부부동반 모임'이 지목됐다. 유튜브 채널 '한방언니'를 운영하는 16년차 커플매니저 경력의 결혼정보업체 대표는 최근 영상을 통해 외도 위험이 특히 높은 세 가지 모임을 일명 ",
           "source": "뉴시스 사회",
           "via": "뉴시스 사회"
         },
         {
           "title": "중수청장후보추천위원회, 초대 청장 후보자 4명 추천",
           "link": "https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&nttId=129297",
-          "date": null,
+          "date": "2026-09-04T09:00:00.000Z",
           "summary": "- 국민 천거와 엄정한 심사 거쳐 수사 전문성·공정성·리더십 갖춘 후보군 압축 - 행안부 장관, 후보추천위원회 결과를 존중하여 최종 1인 제청 예정 중대범죄수사청장후보추천위원회 ( 위원장 이주원 , 이하 후보추천위원회 ) 는 9 월 4 일 정부서울청사에서 회의를 개최하고 오는 10 월 2 일 출범하는 중대범죄수사청 ( 이",
           "source": "행정안전부 보도자료",
           "via": "행정안전부 보도자료"
@@ -508,7 +506,7 @@ window.MYNEWS_DATA = {
         {
           "title": "8.15.~18. 호우 피해 특별재난지역 추가 선포",
           "link": "https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&nttId=129296",
-          "date": null,
+          "date": "2026-09-04T09:00:00.000Z",
           "summary": "- 경상남도 통영시 전역 추가 선포, 국비 추가 지원 및 공공요금 감면 정부는 오늘(4일), 지난 8월 15일부터 18일까지 이어진 집중호우로 피해가 발생한 경상남도 통영시 전역에 대하여 대통령 재가를 받아 특별재난지역으로 추가 선포했다. 정부는 8월 21일 사전조사를 토대로 거제시 전역과 통영시 산양읍·봉평동을 특별재난",
           "source": "행정안전부 보도자료",
           "via": "행정안전부 보도자료"
@@ -516,7 +514,7 @@ window.MYNEWS_DATA = {
         {
           "title": "“안심하고 즐기세요” 서울세계불꽃축제 안전대책 현장점검",
           "link": "https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&nttId=129281",
-          "date": null,
+          "date": "2026-09-04T06:20:00.000Z",
           "summary": "- 윤호중 행정안전부 장관, 관계기관 안전대책 점검회의 주재 및 최종 현장점검(9.4.) - 여의나루역 무정차 등 주요 혼잡 지점 인파관리 및 안전대책 꼼꼼히 확인 윤호중 행정안전부 장관은 9 월 4 일 여의도 한강공원에서 열리는 ‘ 서울세계불꽃축제 ’ 현장을 방문해 축제장 안전관리 상황을 점검하고 현장 근무자를 격려했다",
           "source": "행정안전부 보도자료",
           "via": "행정안전부 보도자료"
@@ -524,7 +522,7 @@ window.MYNEWS_DATA = {
         {
           "title": "기부가 만든 고향의 변화, 고향사랑의 날 기념 고향사랑기부대상 시상식 개최",
           "link": "https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&nttId=129280",
-          "date": null,
+          "date": "2026-09-04T03:00:00.000Z",
           "summary": "- ‘고향사랑의 날(9.4)’ 맞아 유공자 9명 포상, 우수 지방정부 15곳 시상 - 우수 지방정부에 총 5억 원 특별교부세 지원, 우수사례 전국 확산 행정안전부 ( 장관 윤호중 ) 는 9 월 4 일 ( 금 ) 서울 상암동에서 ‘ 고향사랑의 날 ’ 을 기념해 고향사랑기부대상 시상식을 개최했다고 밝혔다 . * ‘ 고향사랑의",
           "source": "행정안전부 보도자료",
           "via": "행정안전부 보도자료"
@@ -532,7 +530,7 @@ window.MYNEWS_DATA = {
         {
           "title": "지역 농산물과 대기업 유통망의 만남… 행안부, '지방정부-기업 상생협력' 물꼬 터",
           "link": "https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&nttId=129224",
-          "date": null,
+          "date": "2026-09-03T08:00:00.000Z",
           "summary": "- 코레일유통-김제시, 롯데웰푸드㈜-군위군, 지방정부 상생발전 업무협약 체결(9.3.) - 김제시의 특산물인 ‘논콩’을 활용한 단백질바, 셰이크, 두유, 8종 개발 출시 - 군위군 사과로 만든 과자류 총 15종 가을철 한정, 서울역 반짝 매장 운영 행정안전부 ( 장관 윤호중 ) 는 9 월 3 일 ( 목 ), 정부서울청사에",
           "source": "행정안전부 보도자료",
           "via": "행정안전부 보도자료"
@@ -540,7 +538,7 @@ window.MYNEWS_DATA = {
         {
           "title": "가을 행락철 다중운집인파 안전관리 총력 대응",
           "link": "https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&nttId=129230",
-          "date": null,
+          "date": "2026-09-03T07:00:00.000Z",
           "summary": "- 가을철 축제‧행사 등 다중운집인파 안전관리 관계기관 대책회의 개최(9.3.) - 부처·지방정부 상황관리 강화 및 안전한 축제를 위한 국민행동요령 준수 당부 행정안전부 ( 장관 윤호중 ) 는 9 월 3 일 ( 목 ), 김광용 재난안전관리본부장 주재로 ‘ 가을철 축제 ‧ 행사 등 다중운집인파 안전관리 관계기관 대책회의 *",
           "source": "행정안전부 보도자료",
           "via": "행정안전부 보도자료"
@@ -548,7 +546,7 @@ window.MYNEWS_DATA = {
         {
           "title": "인공지능(AI)과 CCTV로 더 안전해지는 우리 동네",
           "link": "https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&nttId=129231",
-          "date": null,
+          "date": "2026-09-03T03:00:00.000Z",
           "summary": "- ｢2026년 지방정부 CCTV 통합관제 우수사례 경진대회｣ 개최, 7개 우수사례 공유 - 지하차도 차단정보 차량 내비게이션 안내서비스, 드론영상-재난안전상황실 연계 서비스, 도로·비탈면 비전 AI 서비스 등 소개 < 2026 년 CCTV 통합관제 우수사례 > # 경기도 동두천시 는 치매환자 , 정신질환자 , 아동 등 ",
           "source": "행정안전부 보도자료",
           "via": "행정안전부 보도자료"
@@ -556,7 +554,7 @@ window.MYNEWS_DATA = {
         {
           "title": "‘12대 강풍 취약시설’ 점검으로 일상 속 위험 요인 선제 제거",
           "link": "https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&nttId=129228",
-          "date": null,
+          "date": "2026-09-03T03:00:00.000Z",
           "summary": "- 옥외광고물부터 교회 첨탑·초고층빌딩까지, 강풍 점검 대상 확대 - 9월 4일까지 점검 완료, 강풍 취약 요인 보수·보강 추진 등 철저 행정안전부 ( 장관 윤호중 ) 는 강풍으로 인한 인명 · 시설 피해를 예방하기 위해 지난 7 월 29 일부터 8 월 14 일까지 관계기관 및 지방정부와 합동으로 ‘12 대 강풍 취약시설",
           "source": "행정안전부 보도자료",
           "via": "행정안전부 보도자료"
@@ -564,7 +562,7 @@ window.MYNEWS_DATA = {
         {
           "title": "재난안전 분야 논문 공모전 개최",
           "link": "https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&nttId=129227",
-          "date": null,
+          "date": "2026-09-03T03:00:00.000Z",
           "summary": "- 9월 1일부터 접수, 만 18세 이상 대한민국 국민 누구나 참여 가능 - 우수작 4점 선정하여 행안부 장관상 등 수여 및 학술대회 발표 기회 행정안전부 ( 장관 윤호중 ) 는 9 월 1 일부터 11 월 10 일까지 한국행정연구원 등 관계기관 * 과 함께 재난 · 안전 분야 논문 공모전을 개최한다고 밝혔다 . * 행정안",
           "source": "행정안전부 보도자료",
           "via": "행정안전부 보도자료"
@@ -572,7 +570,7 @@ window.MYNEWS_DATA = {
         {
           "title": "흩어져 있던 가족관계교육, 이제 「정부24」에서 한눈에 찾고 신청한다",
           "link": "https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&nttId=129226",
-          "date": null,
+          "date": "2026-09-03T03:00:00.000Z",
           "summary": "- 행안부·성평등가족부 협업… 생애주기·가족 상황을 고려한 7개 맞춤형 교육 제공 - 국민이 생애주기와 가족 상황에 맞는 교육 정보를 쉽게 찾아 참여 가능 - 올해 말, 인공지능(AI) 맞춤 검색 연동으로 나에게 딱 맞는 프로그램 추천까지 행정안전부 ( 장관 윤호중 ) 와 성평등가족부 ( 장관 원민경 ) 는 여러 부처와 ",
           "source": "행정안전부 보도자료",
           "via": "행정안전부 보도자료"
@@ -624,6 +622,46 @@ window.MYNEWS_DATA = {
       ],
       "error": null,
       "items": [
+        {
+          "title": "\"美 석사 연봉 1억일 때 배관공은 2억\"…AI 인프라 열풍이 바꾼 직업 지형도",
+          "link": "https://www.newsis.com/view/NISX20260903_0003775284",
+          "date": "2026-09-05T17:00:00.000Z",
+          "summary": "[서울=뉴시스] 김종민 기자 = 인공지능(AI) 인프라 투자 열풍으로 미국 고숙련 배관공의 중간 연봉이 석사학위 직장인의 두 배 수준인 2억원을 돌파한 것으로 나타났다. 김용섭 날카로운상상력연구소 소장은 최근 유튜브 채널 '하와이 대저택'에 출연해 AI 시대의 산업 지형 변화와 부유층의 소비 트렌드를 분석했다. 김 소장은",
+          "source": "뉴시스 산업",
+          "via": "뉴시스 산업"
+        },
+        {
+          "title": "존리 \"5m 앞만 보면 멀미…수익률 대신 자산 비중부터 파악하라\"",
+          "link": "https://www.newsis.com/view/NISX20260903_0003774140",
+          "date": "2026-09-05T15:55:00.000Z",
+          "summary": "[서울=뉴시스] 김종민 기자 = 국내 증시 변동성이 확대되면서 평가 손실을 기록한 투자자들의 불안이 커지는 가운데 단기 수익률에 일희일비하기보다 전체 자산 내 투자 비중을 먼저 점검해야 한다는 조언이 나왔다. 존리 '존리의 부자학교' 대표는 3일 유튜브 채널 '새멋TV'에 출연해 최근 주가 하락으로 고민하는 투자자들에게 ",
+          "source": "뉴시스 금융",
+          "via": "뉴시스 금융"
+        },
+        {
+          "title": "영화 '비광' 하지원, 서래마을 빌라 9년 장기 거주 이어가는 배경",
+          "link": "https://www.newsis.com/view/NISX20260905_0003777768",
+          "date": "2026-09-05T15:00:00.000Z",
+          "summary": "[서울=뉴시스] 김종민 기자 = 배우 하지원이 서울 서초구 반포동 서래마을에 위치한 고급 빌라 '어퍼하우스 3차'에 9년째 거주하며 조용한 일상을 이어가고 있다. 6일 유튜브 채널 '원더플래닛'에 따르면, 서래마을은 한남동이나 성수동이 신흥 부촌으로 떠오르기 전부터 유명 연예인과 정재계 인사들이 오랜 기간 자리를 잡아온 ",
+          "source": "뉴시스 경제",
+          "via": "뉴시스 경제"
+        },
+        {
+          "title": "\"입주때 7억인데 지금도 7억대\"…김구라, 15년 거주 일산 식사동 집값 정체에 탄식",
+          "link": "https://www.newsis.com/view/NISX20260905_0003777772",
+          "date": "2026-09-05T15:00:00.000Z",
+          "summary": "[서울=뉴시스] 김종민 기자 = 방송인 김구라가 자신이 15년째 거주 중인 경기 고양시 일산동구 식사동 아파트의 집값 정체 현상을 두고 솔직한 심경을 밝혔다. 김구라는 지난 4일 유튜브 채널 '그리구라'에 공개된 '우리 동네 민심 보고서 2편 - 일산 식사동' 영상에서 지역 부동산의 현실을 지적했다. 그는 \"사실 내가 식",
+          "source": "뉴시스 경제",
+          "via": "뉴시스 경제"
+        },
+        {
+          "title": "저가 공세 끝났다…'기술' 장착하고 K-가전 추격하는 중국[IFA 2026]",
+          "link": "https://www.newsis.com/view/NISX20260905_0003777784",
+          "date": "2026-09-05T14:50:06.000Z",
+          "summary": "[베를린=뉴시스] 홍세희 기자 = 중국 가전업체들이 글로벌 시장에서 저가 공세를 넘어 기술 개발에 속도를 내며 'K-가전'의 뒤를 바짝 쫓고 있다. 하이센스, TCL, 샤오미 등 중국 업체들은 유럽 최대 가전 전시회인 'IFA 2026'에 대규모 부스를 차리고, 다양한 제품을 선보이며 'C-브랜드(중국 브랜드)'의 달라진",
+          "source": "뉴시스 산업",
+          "via": "뉴시스 산업"
+        },
         {
           "title": "9월 증시 짓누른 '3대 악재'…10월엔 '반등의 열쇠' 되나",
           "link": "https://www.newsis.com/view/NISX20260905_0003777417",
@@ -753,30 +791,6 @@ window.MYNEWS_DATA = {
           "via": "뉴시스 경제"
         },
         {
-          "title": "\"거리두기 탓에 생긴 부채\" vs \"갚은 사람만 바보\"[코로나 빚 탕감③]",
-          "link": "https://www.newsis.com/view/NISX20260903_0003775353",
-          "date": "2026-09-05T06:01:00.000Z",
-          "summary": "[서울=뉴시스]강은정 기자 = 정부가 코로나19로 타격을 입은 자영업자·소상공인의 채무조정에 적극 나서겠다고 밝힌 가운데, 현장에서는 '시의적절한 조치'라는 긍정적인 평가와 '세금 낭비'라는 냉소적인 반응이 뒤섞여 나오고 있다. 5일 관련 업계에 따르면 재정경제부는 지난달 28일 코로나 시기부터 누적된 자영업자·소상공인의",
-          "source": "뉴시스 산업",
-          "via": "뉴시스 산업"
-        },
-        {
-          "title": "마사회 사회공헌재단, 전태일 의료센터 건립에 3000만원 지원",
-          "link": "https://www.newsis.com/view/NISX20260905_0003777597",
-          "date": "2026-09-05T05:45:28.000Z",
-          "summary": "[세종=뉴시스]이수정 기자 = 한국마사회 사회공헌재단이 취약계층 근로자의 산재·직업병 치료 등을 지원하는 전태일 의료센터 건립에 힘을 보탰다. 마사회 사회공헌재단은 지난 3일 서울 중랑구 녹색병원에서 전태일 의료센터 건립위원회에 건립기금 3000만원을 전달했다고 5일 밝혔다. 전달식에는 박장열 재단 사무총장과 임상혁 녹색",
-          "source": "뉴시스 경제",
-          "via": "뉴시스 경제"
-        },
-        {
-          "title": "홍지선 국토장관 후보자 \"구로 아파트, 시세차익 목적 매입 아냐\"",
-          "link": "https://www.newsis.com/view/NISX20260905_0003777593",
-          "date": "2026-09-05T05:36:56.000Z",
-          "summary": "[서울=뉴시스]정유선 기자 = 홍지선 국토교통부 장관 후보자가 과거 서울 아파트를 사기 위해 '영끌'을 했다는 지적을 받자 \"시세차익이 아닌 실거주 목적으로 매입한 것\"이라고 해명했다. 홍 후보자 측은 5일 보도 설명자료를 내고 \"해당 아파트는 현 정부 출범 전인 작년 3월 남양주 부시장 재직시 실거주 목적으로 매입한 것",
-          "source": "뉴시스 경제",
-          "via": "뉴시스 경제"
-        },
-        {
           "title": "주유소 기름값 16주 연속 하락…휘발유 1860원·경유 1845원",
           "link": "https://www.khan.co.kr/article/202609051356001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
           "date": "2026-09-05T04:56:00.000Z",
@@ -791,14 +805,6 @@ window.MYNEWS_DATA = {
           "summary": "세라 두테르테 필리핀 부통령 [사진=연합뉴스=로이터] 유력 차기 필리핀 대선 주자인 세라 두테르테 부통령에 대한 법원의 체포영장이 발부됐다. 5일(현지시간) 로이터&middot;AFP 통신 등에 따르면 전날 필리핀 법원은 3건의 '중대한 협박' 혐의로 기소된 두테르테 부통령에 대해 체포영장을 발부하고, 총 36만 필리핀페",
           "source": "아주경제 경제",
           "via": "아주경제 경제"
-        },
-        {
-          "title": "\"기미·주근깨 완화\"…동아 아일로, 의약외품 출시",
-          "link": "https://www.newsis.com/view/NISX20260903_0003775290",
-          "date": "2026-09-05T03:01:00.000Z",
-          "summary": "[서울=뉴시스]이소헌 기자 = 동아제약의 프리미엄 이너뷰티 브랜드 '아일로'(ILO)가 기미·주근깨 완화에 도움을 주는 의약외품을 새롭게 선보였다. 5일 동아제약에 따르면 아일로는 기미·주근깨 완화에 도움을 주는 의약외품 '화이타민정'을 출시했다. 아일로는 최근 PDRN, NMN 등 차세대 뷰티 성분을 담은 '스킨 솔루션",
-          "source": "뉴시스 금융",
-          "via": "뉴시스 금융"
         },
         {
           "title": "\"이름 빼고 다 바꾼다\"…아파트 '얼굴' 갈아엎는 속사정",
@@ -853,14 +859,6 @@ window.MYNEWS_DATA = {
           "link": "https://www.khan.co.kr/article/202609050600051/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
           "date": "2026-09-04T21:00:05.000Z",
           "summary": "정치와 주식의 고차방정식9월 코스피, 계절성 약세+미국 중간선거 불확실성10월 코스피 분위기는 달라질 수도증시 향방, 선거보다 금리·유가·환율이 좌우지난달 28일 미국 워싱턴 D.C. 링컨기념관 창문에 성조기와 미 국회의사당 돔이 비치고 있다. AFP연합뉴스경향신문 경제부 기자들이 쓰는 [경제뭔데] 코너입니다. 한 주간 ",
-          "source": "경향신문 경제",
-          "via": "경향신문 경제"
-        },
-        {
-          "title": "“Washington Can’t Have it Both Ways: Tariffs on Allies and the China Trade War”",
-          "link": "https://www.khan.co.kr/article/202609042216001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-          "date": "2026-09-04T13:16:00.000Z",
-          "summary": "Chad Bown, the Reginald Jones Senior Fellow at the Peterson Institute for International Economics (PIIE), emphasized in an interview with Kyunghyang Daily News, that the only real ",
           "source": "경향신문 경제",
           "via": "경향신문 경제"
         }
@@ -995,55 +993,7 @@ window.MYNEWS_DATA = {
       "error": null,
       "items": [
         {
-          "title": "오늘 22시 · 22.0℃ · 맑음 · 강수확률 0% · 북동풍 2.4m/s · 습도 70%",
-          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
-          "date": "2026-09-05T13:00:00.000Z",
-          "summary": "서울특별시",
-          "source": "기상청",
-          "via": "기상청"
-        },
-        {
-          "title": "오늘 23시 · 22.0℃ · 맑음 · 강수확률 0% · 북동풍 2.3m/s · 습도 75%",
-          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
-          "date": "2026-09-05T14:00:00.000Z",
-          "summary": "서울특별시",
-          "source": "기상청",
-          "via": "기상청"
-        },
-        {
-          "title": "오늘 24시 · 21.0℃ · 맑음 · 강수확률 0% · 북동풍 2.1m/s · 습도 75%",
-          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
-          "date": "2026-09-05T15:00:00.000Z",
-          "summary": "서울특별시",
-          "source": "기상청",
-          "via": "기상청"
-        },
-        {
-          "title": "내일 01시 · 21.0℃ · 맑음 · 강수확률 0% · 북동풍 2.0m/s · 습도 75%",
-          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
-          "date": "2026-09-05T16:00:00.000Z",
-          "summary": "서울특별시",
-          "source": "기상청",
-          "via": "기상청"
-        },
-        {
-          "title": "내일 02시 · 21.0℃ · 맑음 · 강수확률 0% · 북동풍 1.8m/s · 습도 80%",
-          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
-          "date": "2026-09-05T17:00:00.000Z",
-          "summary": "서울특별시",
-          "source": "기상청",
-          "via": "기상청"
-        },
-        {
-          "title": "내일 03시 · 20.0℃ · 맑음 · 강수확률 0% · 북동풍 1.7m/s · 습도 80%",
-          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
-          "date": "2026-09-05T18:00:00.000Z",
-          "summary": "서울특별시",
-          "source": "기상청",
-          "via": "기상청"
-        },
-        {
-          "title": "내일 04시 · 20.0℃ · 맑음 · 강수확률 0% · 북동풍 1.6m/s · 습도 80%",
+          "title": "오늘 04시 · 20.0℃ · 맑음 · 강수확률 0% · 북동풍 1.3m/s · 습도 80%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-05T19:00:00.000Z",
           "summary": "서울특별시",
@@ -1051,7 +1001,7 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 05시 · 20.0℃ · 맑음 · 강수확률 0% · 북동풍 1.7m/s · 습도 80%",
+          "title": "오늘 05시 · 20.0℃ · 맑음 · 강수확률 0% · 북풍 1.4m/s · 습도 80%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-05T20:00:00.000Z",
           "summary": "서울특별시",
@@ -1059,7 +1009,7 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 06시 · 20.0℃ · 맑음 · 강수확률 0% · 북풍 1.6m/s · 습도 80%",
+          "title": "오늘 06시 · 20.0℃ · 맑음 · 강수확률 0% · 북풍 1.4m/s · 습도 80%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-05T21:00:00.000Z",
           "summary": "서울특별시",
@@ -1067,7 +1017,7 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 07시 · 20.0℃ · 맑음 · 강수확률 0% · 북풍 1.9m/s · 습도 80%",
+          "title": "오늘 07시 · 20.0℃ · 맑음 · 강수확률 0% · 북풍 1.8m/s · 습도 80%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-05T22:00:00.000Z",
           "summary": "서울특별시",
@@ -1075,7 +1025,7 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 08시 · 21.0℃ · 맑음 · 강수확률 0% · 북동풍 2.2m/s · 습도 75%",
+          "title": "오늘 08시 · 21.0℃ · 맑음 · 강수확률 0% · 북동풍 1.9m/s · 습도 75%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-05T23:00:00.000Z",
           "summary": "서울특별시",
@@ -1083,9 +1033,57 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 09시 · 23.0℃ · 맑음 · 강수확률 0% · 북동풍 3.0m/s · 습도 65%",
+          "title": "오늘 09시 · 23.0℃ · 맑음 · 강수확률 0% · 북동풍 2.7m/s · 습도 65%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-06T00:00:00.000Z",
+          "summary": "서울특별시",
+          "source": "기상청",
+          "via": "기상청"
+        },
+        {
+          "title": "오늘 10시 · 24.0℃ · 맑음 · 강수확률 0% · 북동풍 3.0m/s · 습도 60%",
+          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
+          "date": "2026-09-06T01:00:00.000Z",
+          "summary": "서울특별시",
+          "source": "기상청",
+          "via": "기상청"
+        },
+        {
+          "title": "오늘 11시 · 25.0℃ · 맑음 · 강수확률 0% · 북동풍 3.7m/s · 습도 55%",
+          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
+          "date": "2026-09-06T02:00:00.000Z",
+          "summary": "서울특별시",
+          "source": "기상청",
+          "via": "기상청"
+        },
+        {
+          "title": "오늘 12시 · 27.0℃ · 구름 많음 · 강수확률 20% · 북동풍 3.8m/s · 습도 55%",
+          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
+          "date": "2026-09-06T03:00:00.000Z",
+          "summary": "서울특별시",
+          "source": "기상청",
+          "via": "기상청"
+        },
+        {
+          "title": "오늘 13시 · 28.0℃ · 구름 많음 · 강수확률 20% · 북동풍 4.0m/s · 습도 50%",
+          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
+          "date": "2026-09-06T04:00:00.000Z",
+          "summary": "서울특별시",
+          "source": "기상청",
+          "via": "기상청"
+        },
+        {
+          "title": "오늘 14시 · 28.0℃ · 구름 많음 · 강수확률 20% · 북동풍 4.2m/s · 습도 50%",
+          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
+          "date": "2026-09-06T05:00:00.000Z",
+          "summary": "서울특별시",
+          "source": "기상청",
+          "via": "기상청"
+        },
+        {
+          "title": "오늘 15시 · 29.0℃ · 맑음 · 강수확률 0% · 북동풍 4.3m/s · 습도 50%",
+          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
+          "date": "2026-09-06T06:00:00.000Z",
           "summary": "서울특별시",
           "source": "기상청",
           "via": "기상청"
