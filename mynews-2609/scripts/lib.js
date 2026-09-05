@@ -3,6 +3,7 @@ const { CATEGORIES } = require('./feeds');
 
 const UA = 'Mozilla/5.0 (compatible; mynews-2609/1.0; +https://github.com/astrosy1004/class-hub)';
 const TIMEOUT_MS = 20000;
+const RETRIES = 3;
 
 function decodeEntities(s) {
   return String(s)
@@ -39,14 +40,21 @@ function blocks(xml, name) {
   return xml.match(new RegExp(`<${name}[^>]*>[^]*?</${name}>`, 'gi')) || [];
 }
 
-async function fetchText(url) {
-  const res = await fetch(url, {
-    headers: { 'user-agent': UA, accept: 'application/rss+xml, application/xml, text/xml, */*' },
-    signal: AbortSignal.timeout(TIMEOUT_MS),
-    redirect: 'follow',
-  });
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  return res.text();
+// 공공기관·언론사 서버는 간헐적으로 연결이 끊긴다. 세 번까지 재시도한다.
+async function fetchText(url, attempt = 1) {
+  try {
+    const res = await fetch(url, {
+      headers: { 'user-agent': UA, accept: 'application/rss+xml, application/xml, text/xml, */*' },
+      signal: AbortSignal.timeout(TIMEOUT_MS),
+      redirect: 'follow',
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return await res.text();
+  } catch (e) {
+    if (attempt >= RETRIES) throw e;
+    await new Promise((r) => setTimeout(r, attempt * 1500));
+    return fetchText(url, attempt + 1);
+  }
 }
 
 // 언론사/기관마다 날짜 형식이 제각각이라 표준 형식으로 맞춘다.
@@ -138,6 +146,7 @@ async function collectFeed(feed, category) {
   try {
     const xml = await fetchText(feed.url);
     items = feed.type === 'kma-forecast' ? parseKmaForecast(xml, spec) : parseRss(xml, spec);
+    items.forEach((i) => { i.via = feed.source; });
     if (items.length === 0) info.error = '항목 없음';
     info.count = items.length;
   } catch (e) {
@@ -150,8 +159,20 @@ function dedupeKey(item) {
   return item.title.toLowerCase().replace(/[^0-9a-z가-힣]/g, '').slice(0, 60) || item.link;
 }
 
-async function collectCategory(category) {
+async function collectCategory(category, previous) {
   const results = await Promise.all(category.feeds.map((f) => collectFeed(f, category)));
+
+  // 이번에 실패한 출처는 직전 데이터를 그대로 유지해 카드가 비지 않게 한다.
+  const prevItems = (previous && previous.items) || [];
+  for (let i = 0; i < results.length; i++) {
+    const r = results[i];
+    if (!r.info.error) continue;
+    const kept = prevItems.filter((it) => it.via === category.feeds[i].source);
+    if (!kept.length) continue;
+    r.items = kept;
+    r.info.count = kept.length;
+    r.info.stale = true;
+  }
 
   const seen = new Set();
   const merged = [];
@@ -176,18 +197,27 @@ async function collectCategory(category) {
     name: category.name,
     color: category.color,
     feeds: feedsInfo,
-    error: failed.length === feedsInfo.length ? failed.map((f) => `${f.source}: ${f.error}`).join(' / ') : null,
+    // 직전 데이터로 채워 보여줄 항목이 남아 있으면 실패로 표시하지 않는다.
+    error: failed.length === feedsInfo.length && merged.length === 0
+      ? failed.map((f) => `${f.source}: ${f.error}`).join(' / ')
+      : null,
     items: merged.slice(0, category.limit),
   };
 }
 
-async function collectAll() {
+async function collectAll(previous) {
+  const prevById = {};
+  for (const c of (previous && previous.categories) || []) prevById[c.id] = c;
+
   const categories = [];
   for (const category of CATEGORIES) {
-    const result = await collectCategory(category);
+    const result = await collectCategory(category, prevById[category.id]);
     categories.push(result);
     const bad = result.feeds.filter((f) => f.error);
-    console.log(`${result.error ? '✗' : '✓'} ${result.emoji} ${result.name} — ${result.items.length}건 (출처 ${result.feeds.length}곳${bad.length ? ', 실패 ' + bad.map((f) => f.source).join('/') : ''})`);
+    const note = bad.length
+      ? ', 실패 ' + bad.map((f) => f.source + (f.stale ? '(직전 데이터 유지)' : '')).join('/')
+      : '';
+    console.log(`${result.error ? '✗' : '✓'} ${result.emoji} ${result.name} — ${result.items.length}건 (출처 ${result.feeds.length}곳${note})`);
   }
   return { updatedAt: new Date().toISOString(), categories };
 }

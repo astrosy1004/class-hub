@@ -103,10 +103,12 @@ function render(keyword) {
 function describeFeeds(feeds) {
   if (!feeds || !feeds.length) return '';
   var names = feeds.map(function (f) { return f.source; }).join(' · ');
-  var failed = feeds.filter(function (f) { return f.error; });
-  return failed.length
-    ? names + '  (수집 실패: ' + failed.map(function (f) { return f.source; }).join(', ') + ')'
-    : names;
+  var failed = feeds.filter(function (f) { return f.error && !f.stale; });
+  var stale = feeds.filter(function (f) { return f.stale; });
+  var notes = [];
+  if (failed.length) notes.push('수집 실패: ' + failed.map(function (f) { return f.source; }).join(', '));
+  if (stale.length) notes.push('직전 데이터 유지: ' + stale.map(function (f) { return f.source; }).join(', '));
+  return notes.length ? names + '  (' + notes.join(' / ') + ')' : names;
 }
 
 function renderItem(it, source) {
