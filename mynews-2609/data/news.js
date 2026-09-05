@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-09-05T11:28:25.850Z",
+  "updatedAt": "2026-09-05T14:13:34.606Z",
   "categories": [
     {
       "id": "ai",
@@ -171,7 +171,8 @@ window.MYNEWS_DATA = {
           "source": "중소벤처기업부 사업공고",
           "url": "https://mss.go.kr/rss/smba/board/310.do",
           "count": 8,
-          "error": null
+          "error": "fetch failed",
+          "stale": true
         },
         {
           "source": "지원금가이드 신규 정부지원금",
@@ -209,11 +210,19 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 지원사업"
         },
         {
-          "title": "하나은행, '소상공인 경쟁력 강화 지원 사업' 3차 모집 … 500곳에 최대 200만원 지원 - worktoday.co.kr",
+          "title": "하나은행, '소상공인 경쟁력 강화 지원 사업' 3차 모집 … 500곳에 최대 200만원 지원 - 워크투데이",
           "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1CYnJPd0VjZHI0dmduNC1xWFF0U3daTXpOb3N3LW1mY1FIdjVsWDN1cFBXQ2pSZ2Z4cEp0MG5aejl2T044OWRDXzluWlN5c0JxR056a2Y3VlBpckg5aGtGeUJMMnpkS3V0Q1hzUQ?oc=5",
           "date": "2026-09-04T13:07:33.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTE1CYnJPd0VjZHI0dmduNC1xWFF0U3daTXpOb3N3LW1mY1FIdjVsWDN1cFBXQ2pSZ2Z4cEp0MG5aejl2T044OWRDXzluWlN5c0JxR056a2Y3VlBpckg5aGtGeU",
-          "source": "worktoday.co.kr",
+          "source": "워크투데이",
+          "via": "Google 뉴스 지원사업"
+        },
+        {
+          "title": "2026년 인천국제공항공사 상생형 창업·벤처기업 지원사업 모집공고 - 벤처스퀘어",
+          "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE0tT3RrYXFkUjh0X1VWSm1VRzVFUVZDQ1JpZzFLOFp0bDN0TmJVRlBxd1VJSXl4bTNFakNPOGFmeWpYbXN4aUhyM3NFUnJ5R3ZiMEJxZVZ3ZjhreW1EVXF3?oc=5",
+          "date": "2026-09-04T10:45:10.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiX0FVX3lxTE0tT3RrYXFkUjh0X1VWSm1VRzVFUVZDQ1JpZzFLOFp0bDN0TmJVRlBxd1VJSXl4bTNFakNPOGFmeWpYbXN4aUhyM3NFUnJ5R3ZiMEJxZVZ3ZjhreW1EVXF3?o",
+          "source": "벤처스퀘어",
           "via": "Google 뉴스 지원사업"
         },
         {
@@ -225,11 +234,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 지원사업"
         },
         {
-          "title": "스트레스학회, ‘2026년도 연구비 지원사업’ 공모 접수 - 간호사신문",
+          "title": "스트레스학회, ‘2026년도 연구비 지원사업’ 공모 접수 - nursenews.co.kr",
           "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE5jZThKR1F6YkxGVlFMa1d4YklLZ3BBTXZMS3hKeXM1bnNIQ1FhYmQ5YUpNQ05icnBfaDRRTTFCS29zNFdfNEZfSWFXM2JRUVdackE0VmFDcWZKWkNrX2VocW9qcTVFOEFyNmhpald3?oc=5",
           "date": "2026-09-04T08:04:54.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMibkFVX3lxTE5jZThKR1F6YkxGVlFMa1d4YklLZ3BBTXZMS3hKeXM1bnNIQ1FhYmQ5YUpNQ05icnBfaDRRTTFCS29zNFdfNEZfSWFXM2JRUVdackE0VmFDcWZKWkNrX2VocW",
-          "source": "간호사신문",
+          "source": "nursenews.co.kr",
           "via": "Google 뉴스 지원사업"
         },
         {
@@ -238,14 +247,6 @@ window.MYNEWS_DATA = {
           "date": "2026-09-04T07:55:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMia0FVX3lxTE12S2M1R0g3dk9fRlZmaGktalk0Q1N5QWRNdHlRcDVENGtsandmamtvXzV3VTRPZmU0T043b0syS0R0QVlWNnlNSUF6VDF2TzFvY3h5ckV1R29uS2ZtLWFHaW",
           "source": "라이센스뉴스",
-          "via": "Google 뉴스 지원사업"
-        },
-        {
-          "title": "[서울 ~9/10(목)] 청년 마음건강 지원사업 4차 모집 - 느린인뉴스",
-          "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE9BOVZvalVwVDdhTHNlZG01RjdMME9kYnE4QjVqb1RhMXU2V0hXWTZmbGctSVV3aEJqUHRTUVVvZDdBdDZHY21UTTU1M3NsR1BublNHTkNvVEFDWTZmcTJvdjJra3VfR3BNR0pIWVh6azFnUQ?oc=5",
-          "date": "2026-09-04T06:38:48.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMickFVX3lxTE9BOVZvalVwVDdhTHNlZG01RjdMME9kYnE4QjVqb1RhMXU2V0hXWTZmbGctSVV3aEJqUHRTUVVvZDdBdDZHY21UTTU1M3NsR1BublNHTkNvVEFDWTZmcTJvdj",
-          "source": "느린인뉴스",
           "via": "Google 뉴스 지원사업"
         },
         {
@@ -410,11 +411,60 @@ window.MYNEWS_DATA = {
           "source": "행정안전부 보도자료",
           "url": "https://www.mois.go.kr/gpms/view/jsp/rss/rss.jsp?ctxCd=1012",
           "count": 10,
-          "error": null
+          "error": "fetch failed",
+          "stale": true
         }
       ],
       "error": null,
       "items": [
+        {
+          "title": "밤하늘 수놓은 불꽃에 53만 인파 환호…귀갓길도 '질서정연'(종합)",
+          "link": "https://www.newsis.com/view/NISX20260905_0003777774",
+          "date": "2026-09-05T13:38:18.000Z",
+          "summary": "[서울=뉴시스] 조성하 염지윤 수습 기자, 박준성 인턴기자 = 5일 오후 8시께 서울 여의도 한강공원 일대. '서울세계불꽃축제 2026'의 시작을 알리는 첫 불꽃이 밤하늘로 솟구치자 한강변을 빼곡히 메운 53만 인파 사이에서 일제히 환호성이 터져 나왔다. 주황빛 불꽃에 이어 분홍색과 붉은색 불꽃이 꽃잎과 팝콘처럼 연달아 ",
+          "source": "뉴시스 사회",
+          "via": "뉴시스 사회"
+        },
+        {
+          "title": "'불꽃축제' 5호선 여의나루역 무정차 통과 종료…정상 운행(종합)",
+          "link": "https://www.newsis.com/view/NISX20260905_0003777742",
+          "date": "2026-09-05T13:13:14.000Z",
+          "summary": "[서울=뉴시스] 조성하 기자 = '서울세계불꽃축제 2026' 인파로 무정차 통과했던 지하철 5호선 여의나루역이 정상 운행에 들어갔다. 서울교통공사에 따르면 이날 오후 10시10분께부터 5호선 여의나루역 상·하행선 다시 열차가 정상적으로 정차하고 있다. 공사는 안내문자를 통해 \"현재 5호선 여의나루역 무정차 통과가 해제돼 ",
+          "source": "뉴시스 사회",
+          "via": "뉴시스 사회"
+        },
+        {
+          "title": "[속보]5호선 여의나루역 무정차 통과 종료…정상 운행",
+          "link": "https://www.newsis.com/view/NISX20260905_0003777740",
+          "date": "2026-09-05T13:10:34.000Z",
+          "summary": "후속기사가 이어집니다",
+          "source": "뉴시스 사회",
+          "via": "뉴시스 사회"
+        },
+        {
+          "title": "1240회 로또 1등 각 17억씩…자동14명·수동2명(종합)",
+          "link": "https://www.newsis.com/view/NISX20260905_0003777758",
+          "date": "2026-09-05T12:23:46.000Z",
+          "summary": "[서울=뉴시스] 조성하 기자 = 5일 제1240회 동행복권 로또 추첨 결과 11, 13, 19, 20, 31, 44이 1등 당첨 번호로 결정됐다. 2등 보너스 번호는 27이다. 6개 번호를 모두 맞춘 1등 당첨자는 16명이다. 각각 17억9181만7758원을 받는다. 5개 번호와 보너스 번호를 맞춘 2등은 78명으로 당첨",
+          "source": "뉴시스 사회",
+          "via": "뉴시스 사회"
+        },
+        {
+          "title": "1240회 로또 1등 11, 13, 19, 20, 31, 44…보너스 27",
+          "link": "https://www.newsis.com/view/NISX20260905_0003777757",
+          "date": "2026-09-05T12:15:28.000Z",
+          "summary": "[서울=뉴시스] 조성하 기자 = 5일 제1240회 동행복권 로또 추첨 결과 11, 13, 19, 20, 31, 44이 1등 당첨 번호로 결정됐다. 2등 보너스 번호는 27이다. 6개 번호를 모두 맞춘 1등 당첨자는 16명이다. 각각 17억9181만7758원을 받는다. 5개 번호와 보너스 번호를 맞춘 2등은 78명으로 당첨",
+          "source": "뉴시스 사회",
+          "via": "뉴시스 사회"
+        },
+        {
+          "title": "첫 불꽃 터지자 \"와, 대박\"…한강변 가득 메운 인파 환호[현장]",
+          "link": "https://www.newsis.com/view/NISX20260905_0003777750",
+          "date": "2026-09-05T11:58:12.000Z",
+          "summary": "[서울=뉴시스] 조성하 염지윤 수습 기자, 박준성 인턴기자 = \"와, 진짜 대박이다\" 5일 오후 8시께 서울 여의도 한강공원 일대. 서울세계불꽃축제 2026의 시작을 알리는 첫 불꽃이 밤하늘로 솟구치자 한강변을 빼곡히 메운 관람객들 사이에서 일제히 환호성이 터져 나왔다. 주황빛 불꽃에 이어 분홍색과 붉은색 불꽃이 꽃잎과 ",
+          "source": "뉴시스 사회",
+          "via": "뉴시스 사회"
+        },
         {
           "title": "부산 예인선 전복 실종 선원 6명 어디에…나흘차 야간수색",
           "link": "https://www.newsis.com/view/NISX20260905_0003777719",
@@ -444,54 +494,6 @@ window.MYNEWS_DATA = {
           "link": "https://www.newsis.com/view/NISX20260905_0003777708",
           "date": "2026-09-05T09:28:44.000Z",
           "summary": "[서울=뉴시스] 조성하 기자 = '서울세계불꽃축제 2026'이 열리는 5일 서울 영등포구 여의도 일대에 인파가 몰리면서 지하철 5호선 여의나루역이 무정차 통과를 시작했다. 서울교통공사에 따르면 이날 오후 6시11분부터 5호선 여의나루역은 상·하행선 모두 열차가 정차하지 않고 통과하고 있다. 공사는 \"해당역 이용고객은 인근",
-          "source": "뉴시스 사회",
-          "via": "뉴시스 사회"
-        },
-        {
-          "title": "[속보]불꽃축제 인파 밀집…5호선 여의나루역 무정차 통과",
-          "link": "https://www.newsis.com/view/NISX20260905_0003777525",
-          "date": "2026-09-05T09:22:09.000Z",
-          "summary": "후속기사가 이어집니다",
-          "source": "뉴시스 사회",
-          "via": "뉴시스 사회"
-        },
-        {
-          "title": "\"미세먼지, 혈관도 노린다\"…'이 수치' 최대 22%↑",
-          "link": "https://www.newsis.com/view/NISX20260904_0003776258",
-          "date": "2026-09-05T09:01:00.000Z",
-          "summary": "[서울=뉴시스] 류난영 기자 = 미세먼지는 천식이나 폐질환 등 호흡기 질환을 유발하는 주요 위험인자다. 하지만 미세먼지가 혈액 속 지질 대사에 미치는 구체적인 영향과 노출 기간별로 다른 위험도에 대한 근거는 부족했다. 이런 가운데 미세먼지가 호흡기 질환을 넘어 '나쁜 콜레스테롤'이라 불리는 LDL콜레스테롤(저밀도 지단백 ",
-          "source": "뉴시스 사회",
-          "via": "뉴시스 사회"
-        },
-        {
-          "title": "\"강풍특보\" 이틀간 부산서 '2명 부상'…안전 조치는 28건",
-          "link": "https://www.newsis.com/view/NISX20260905_0003777680",
-          "date": "2026-09-05T08:47:27.000Z",
-          "summary": "[부산=뉴시스] 이아름 기자 = 이틀간 강풍특보가 발효된 부산에서 부러진 나뭇가지와 쓰러진 파라솔에 시민 2명이 다치고 건물 외벽이 떨어지는 등 28건의 안전조치가 이뤄졌다. 5일 부산소방재난본부에 따르면 이날 낮 12시3분께에는 부산진구의 한 건물 외벽이 떨어져 소방당국이 안전조치에 나섰다. 앞서 오전 11시22분께에는",
-          "source": "뉴시스 사회",
-          "via": "뉴시스 사회"
-        },
-        {
-          "title": "태풍 크로반 여파, 제주 강풍피해 43건…사망·부상·구조(종합)",
-          "link": "https://www.newsis.com/view/NISX20260905_0003777686",
-          "date": "2026-09-05T08:43:51.000Z",
-          "summary": "[제주=뉴시스] 김수환 기자 = 지난 4일부터 제주지역이 제24호 태풍 '크로반'의 간접 영향을 받기 시작한 가운데 강풍으로 인해 크레인이 쓰러져 인명피해가 발생하는가 하면 시설물 피해가 잇따르는 등 피해가 속출했다. 제주소방안전본부에 따르면 4일 오전 1시부터 5일 오후 5시까지 구급 3건, 시설물 안전조치 40건 등 ",
-          "source": "뉴시스 사회",
-          "via": "뉴시스 사회"
-        },
-        {
-          "title": "김승원 '청탁 의혹' 제넨셀, 평균보다 2배 빨리 식약처 승인…金 \"사실 왜곡\"(종합)",
-          "link": "https://www.newsis.com/view/NISX20260905_0003777684",
-          "date": "2026-09-05T08:29:00.000Z",
-          "summary": "[서울=뉴시스]이윤석 하지현 기자 = 김승원 법무부 장관 후보자의 신약 청탁 의혹이 제기된 제약사 제넨셀의 임상시험 승인 속도가 당시 신물질 기반 코로나 치료제의 평균 승인 기간보다 2배 이상 빨랐던 것으로 나타났다. 김 후보자 측은 \"신물질 임상시험의 평균보다 빠른 것이 아니고 오히려 오래 걸렸다\"며 반박에 나섰다. 5",
-          "source": "뉴시스 사회",
-          "via": "뉴시스 사회"
-        },
-        {
-          "title": "민주노총 도심 집회…\"기업 특혜주는 메가특구법 폐기해야\"",
-          "link": "https://www.newsis.com/view/NISX20260905_0003777683",
-          "date": "2026-09-05T08:19:20.000Z",
-          "summary": "[서울=뉴시스] 조성하 기자 = 전국민주노동조합총연맹(민주노총)이 5일 서울 도심에서 집회를 열고 정부가 추진 중인 '메가특구법' 폐기를 촉구했다. 민주노총은 이날 오후 서울 중구 고용노동청 앞에서 '하반기 투쟁 선포 결의대회'를 열고 주최 측 추산 3000여명이 참여한 가운데 이같이 밝혔다. 양경수 민주노총 위원장은 대",
           "source": "뉴시스 사회",
           "via": "뉴시스 사회"
         },
@@ -623,6 +625,38 @@ window.MYNEWS_DATA = {
       "error": null,
       "items": [
         {
+          "title": "9월 증시 짓누른 '3대 악재'…10월엔 '반등의 열쇠' 되나",
+          "link": "https://www.newsis.com/view/NISX20260905_0003777417",
+          "date": "2026-09-05T13:00:00.000Z",
+          "summary": "[서울=뉴시스]이준형 인턴 기자 = 9월 초 국내 증시가 흔들리는 가운데, 10월을 시점으로 증시 흐름이 전환될 수 있다는 분석이 나왔다. 4일 경제 전문 유튜브 채널 '삼프로TV'에 출연한 이선엽 AFW파트너스 대표는 최근 증시 부진의 원인과 향후 시장 방향성에 대한 견해를 밝혔다. 이선엽 대표는 9월 증시를 위축시키는",
+          "source": "뉴시스 금융",
+          "via": "뉴시스 금융"
+        },
+        {
+          "title": "푸틴, 트럼프 특사 윗코프·쿠슈너 만난다…\"키이우 공격 사흘간 보류\"",
+          "link": "https://www.ajunews.com/view/20260905214205569",
+          "date": "2026-09-05T12:45:23.000Z",
+          "summary": "푸틴 러시아 대통령(왼쪽)과 도널드 트럼프 미국 대통령[사진=로이터연합뉴스] 블라디미르 푸틴 러시아 대통령이 러시아를 방문한 도널드 트럼프 미국 대통령의 특사 스티브 윗코프와 트럼프 대통령의 맏사위 재러드 쿠슈너를 만난다. 5일 연합뉴스에 따르면 타스통신에 따르면 윗코프 특사와 쿠슈너는 이날 낮 12시52분께 러시아 모스",
+          "source": "아주경제 경제",
+          "via": "아주경제 경제"
+        },
+        {
+          "title": "러시아, 미 대표단 우크라 방문 앞두고 키이우 공항 공습",
+          "link": "https://www.ajunews.com/view/20260905172043453",
+          "date": "2026-09-05T12:28:10.000Z",
+          "summary": "지난해 8월 미국 알래스카에서 만난 블라디미르 푸틴 러시아 대통령(왼쪽)과 도널드 트럼프 미국 대통령[사진=로이터연합뉴스] 미국 대표단이 러시아와 우크라이나를 잇따라 방문하는 가운데 러시아가 우크라이나 수도 키이우 인근 공항을 공습했다. 우크라이나는 미국 대표단의 방문을 염두에 둔 공격일 가능성을 제기했다. 5일 연합뉴스",
+          "source": "아주경제 경제",
+          "via": "아주경제 경제"
+        },
+        {
+          "title": "\"1주택자 세부담 얼마나 커지나\"…확정된 세제개편안에 다시 불붙은 논란",
+          "link": "https://www.newsis.com/view/NISX20260904_0003775917",
+          "date": "2026-09-05T12:01:00.000Z",
+          "summary": "[서울=뉴시스]전민영 인턴 기자 = 정부가 2026년 세제개편안 정부안을 확정한 가운데, 1주택자의 세금 부담이 예상보다 커질 수 있다는 우려가 제기됐다. 지난 2일 구독자 27만 명의 유튜브 채널 '재테크는 두꺼비 세무사'에 출연한 이장원 세무사는 세부담 상한보다 세액공제 한도 변화에 주목해야 한다고 강조했다. 영상에 ",
+          "source": "뉴시스 금융",
+          "via": "뉴시스 금융"
+        },
+        {
           "title": "\"100만명 위해 130억원 투입\"…한화가 26년째 불꽃 쏘아 올리는 이유",
           "link": "https://www.newsis.com/view/NISX20260905_0003777732",
           "date": "2026-09-05T10:59:44.000Z",
@@ -637,14 +671,6 @@ window.MYNEWS_DATA = {
           "summary": "[서울=뉴시스]이준형 인턴 기자 = 미국 뉴욕 증시가 예상보다 강한 고용 지표의 영향으로 일제히 하락 마감한 가운데, 반도체 업종만이 홀로 급등세를 보였다. 5일 곽상준 매트릭스 투자자문 대표는 자신의 유튜브 채널 '증시각도기TV'에 '9월 5일 토요일 미국시황 반도체 야호~'라는 제목의 영상을 게시했다. 곽 대표는 \"오",
           "source": "뉴시스 금융",
           "via": "뉴시스 금융"
-        },
-        {
-          "title": "트럼프 특사 방문 앞둔 러시아 \"우크라이나에 불리한 전황 고려해야\"",
-          "link": "https://www.ajunews.com/view/20260905172043453",
-          "date": "2026-09-05T08:22:30.000Z",
-          "summary": "지난해 8월 미국 알래스카에서 만난 블라디미르 푸틴 러시아 대통령(왼쪽)과 도널드 트럼프 미국 대통령[사진=로이터연합뉴스] 미국 대표단이 러시아와 우크라이나를 잇따라 방문하는 가운데 러시아가 현재 전황이 우크라이나에 불리하게 전개되고 있다는 점을 평화협상에 반영해야 한다고 주장했다. 5일 연합뉴스에 따르면 세르게이 랴브코",
-          "source": "아주경제 경제",
-          "via": "아주경제 경제"
         },
         {
           "title": "민주노총 도심 집회…\"기업 특혜주는 메가특구법 폐기해야\"",
@@ -775,22 +801,6 @@ window.MYNEWS_DATA = {
           "via": "뉴시스 금융"
         },
         {
-          "title": "신한라이프, 보이스피싱 신고 전 차단 나선다…FDS 고도화",
-          "link": "https://www.newsis.com/view/NISX20260904_0003776995",
-          "date": "2026-09-05T03:00:00.000Z",
-          "summary": "[서울=뉴시스]권안나 기자 = 신한라이프가 보이스피싱 의심거래를 실시간으로 탐지하고 거래 위험도에 따라 대응할 수 있도록 이상금융거래탐지시스템(FDS)을 고도화했다. 신한라이프는 유관기관과 신한금융그룹 계열사 간 공유되는 보이스피싱 의심정보를 활용할 수 있도록 신규 FDS를 구축했다고 5일 밝혔다. 이번 시스템은 고객의 ",
-          "source": "뉴시스 금융",
-          "via": "뉴시스 금융"
-        },
-        {
-          "title": "비트코인 '겨울' 벌써 끝?…\"기관 매수세에 하락장 두 달 빨리 종료\"",
-          "link": "https://www.newsis.com/view/NISX20260904_0003776628",
-          "date": "2026-09-05T02:40:37.000Z",
-          "summary": "[서울=뉴시스]이지영 기자 = 비트코인 하락장이 예상보다 빨리 종료되고 새로운 상승장에 진입했다는 분석이 나왔다. 현물 상장지수펀드(ETF)와 디지털 에셋 트레저리(DAT) 기업 등을 통한 기관 매수세가 하방을 막으면서 사이클이 앞당겨졌다는 진단이다. 백훈종 스매시파이 대표는 지난 4일 유튜브 채널 '백훈종의 전지적 비트",
-          "source": "뉴시스 금융",
-          "via": "뉴시스 금융"
-        },
-        {
           "title": "\"이름 빼고 다 바꾼다\"…아파트 '얼굴' 갈아엎는 속사정",
           "link": "https://www.inews24.com/view/2002256",
           "date": "2026-09-05T00:01:12.000Z",
@@ -853,14 +863,6 @@ window.MYNEWS_DATA = {
           "summary": "Chad Bown, the Reginald Jones Senior Fellow at the Peterson Institute for International Economics (PIIE), emphasized in an interview with Kyunghyang Daily News, that the only real ",
           "source": "경향신문 경제",
           "via": "경향신문 경제"
-        },
-        {
-          "title": "美 8월 고용 16.2만명 '깜짝 증가'…시장 예상 3배 웃돌아",
-          "link": "https://www.ajunews.com/view/20260904214153034",
-          "date": "2026-09-04T12:46:01.000Z",
-          "summary": "미 일리노이주 식당의 구인광고. [사진=AP연합뉴스] 미국 노동시장이 예상보다 강한 흐름을 이어갔다. 8월 신규 고용이 시장 전망치를 크게 웃돈 데다, 앞선 두 달의 고용 실적도 상향 조정됐다. 4일(현지시간) 미 노동부 노동통계국(BLS)에 따르면 8월 미국 비농업 부문 고용은 전월 대비 16만2000명 증가했다. 이는",
-          "source": "아주경제 경제",
-          "via": "아주경제 경제"
         }
       ]
     },
