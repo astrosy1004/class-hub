@@ -6,9 +6,9 @@ const { collectAll } = require('./lib');
 
 async function main() {
   const data = await collectAll();
-  const ok = data.sources.filter((s) => !s.error).length;
+  const ok = data.categories.filter((c) => !c.error).length;
   if (ok === 0) {
-    console.error('모든 피드 수집 실패 — 기존 데이터를 유지합니다.');
+    console.error('모든 카테고리 수집 실패 — 기존 데이터를 유지합니다.');
     process.exit(1);
   }
   const out = path.join(__dirname, '..', 'data', 'news.js');
@@ -16,7 +16,7 @@ async function main() {
     '// 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.\n' +
     'window.MYNEWS_DATA = ' + JSON.stringify(data, null, 2) + ';\n';
   fs.writeFileSync(out, body, 'utf8');
-  console.log(`저장 완료: ${path.relative(process.cwd(), out)} (${data.sources.reduce((n, s) => n + s.items.length, 0)}건)`);
+  console.log(`저장 완료: ${path.relative(process.cwd(), out)} (${data.categories.reduce((n, c) => n + c.items.length, 0)}건)`);
 }
 
 main();

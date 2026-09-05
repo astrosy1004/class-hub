@@ -6,7 +6,7 @@ var CONFIG = {
   clickableSources: true,    // 항목 클릭 시 원문 열기
 };
 
-var DATA = window.MYNEWS_DATA || { updatedAt: null, sources: [] };
+var DATA = window.MYNEWS_DATA || { updatedAt: null, categories: [] };
 
 /* ---------- 다크 모드 ---------- */
 function initTheme() {
@@ -55,7 +55,7 @@ function render(keyword) {
   var q = (keyword || '').trim().toLowerCase();
   board.innerHTML = '';
 
-  DATA.sources.forEach(function (source) {
+  DATA.categories.forEach(function (source) {
     var items = source.items || [];
     if (q) {
       items = items.filter(function (it) {
@@ -69,9 +69,10 @@ function render(keyword) {
     var head = document.createElement('div');
     head.className = 'card-head';
     head.innerHTML =
-      '<span class="emoji"></span><h2></h2><span class="count"></span>';
+      '<span class="emoji"></span><div class="head-text"><h2></h2><p class="from"></p></div><span class="count"></span>';
     head.querySelector('.emoji').textContent = source.emoji || '📄';
     head.querySelector('h2').textContent = source.name;
+    head.querySelector('.from').textContent = describeFeeds(source.feeds);
     head.querySelector('.count').textContent = items.length + '건';
     card.appendChild(head);
 
@@ -98,6 +99,16 @@ function render(keyword) {
   });
 }
 
+// 카드 머리말에 출처 구성과 실패한 곳을 요약해 보여준다.
+function describeFeeds(feeds) {
+  if (!feeds || !feeds.length) return '';
+  var names = feeds.map(function (f) { return f.source; }).join(' · ');
+  var failed = feeds.filter(function (f) { return f.error; });
+  return failed.length
+    ? names + '  (수집 실패: ' + failed.map(function (f) { return f.source; }).join(', ') + ')'
+    : names;
+}
+
 function renderItem(it, source) {
   var li = document.createElement('li');
   var linkable = CONFIG.clickableSources && it.link;
@@ -116,7 +127,7 @@ function renderItem(it, source) {
 
   var meta = document.createElement('div');
   meta.className = 'm';
-  var bits = [it.source || source.source, fmt(it.date, { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }), relative(it.date)];
+  var bits = [it.source, fmt(it.date, { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }), relative(it.date)];
   bits.filter(Boolean).forEach(function (text) {
     var span = document.createElement('span');
     span.textContent = text;
@@ -134,7 +145,7 @@ function renderUpdated() {
     el.textContent = '아직 수집된 데이터가 없습니다. (GitHub Actions 첫 실행 대기 중)';
     return;
   }
-  var total = DATA.sources.reduce(function (n, s) { return n + (s.items ? s.items.length : 0); }, 0);
+  var total = DATA.categories.reduce(function (n, c) { return n + (c.items ? c.items.length : 0); }, 0);
   el.textContent = '마지막 수집 ' + fmt(DATA.updatedAt, { month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }) +
     ' (' + relative(DATA.updatedAt) + ') · 총 ' + total + '건 · 2시간마다 자동 갱신';
 }
