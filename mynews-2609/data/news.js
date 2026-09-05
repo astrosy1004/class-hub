@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-09-05T08:02:33.945Z",
+  "updatedAt": "2026-09-05T08:05:13.134Z",
   "categories": [
     {
       "id": "ai",
@@ -160,8 +160,8 @@ window.MYNEWS_DATA = {
         {
           "source": "중소벤처기업부 사업공고",
           "url": "https://mss.go.kr/rss/smba/board/310.do",
-          "count": 8,
-          "error": null
+          "count": 0,
+          "error": "fetch failed"
         },
         {
           "source": "지원금가이드 신규 정부지원금",
@@ -205,25 +205,18 @@ window.MYNEWS_DATA = {
           "source": "워크투데이"
         },
         {
-          "title": "2026년 인천국제공항공사 상생형 창업·벤처기업 지원사업 모집공고 - 벤처스퀘어",
-          "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE0tT3RrYXFkUjh0X1VWSm1VRzVFUVZDQ1JpZzFLOFp0bDN0TmJVRlBxd1VJSXl4bTNFakNPOGFmeWpYbXN4aUhyM3NFUnJ5R3ZiMEJxZVZ3ZjhreW1EVXF3?oc=5",
-          "date": "2026-09-04T10:45:10.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiX0FVX3lxTE0tT3RrYXFkUjh0X1VWSm1VRzVFUVZDQ1JpZzFLOFp0bDN0TmJVRlBxd1VJSXl4bTNFakNPOGFmeWpYbXN4aUhyM3NFUnJ5R3ZiMEJxZVZ3ZjhreW1EVXF3?o",
-          "source": "벤처스퀘어"
-        },
-        {
-          "title": "하나은행, ‘소상공인 경쟁력 강화 지원 사업’ 3차 모집…이달 29일까지 - 백세시대",
+          "title": "하나은행, ‘소상공인 경쟁력 강화 지원 사업’ 3차 모집…이달 29일까지 - 100ssd.co.kr",
           "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1oMzlvNlRhUk96VnJ6Ym5pbkNqTkI3YUktSTlnRTVYb280VmFXWXFVNVJNNXhTRi13ZmNFM2MyMFJhR3Jfa3U3ODMzeDUyMFgtejc1S2JPaU5HbFVrUS1QbFYxZFNXLXRwdmtR?oc=5",
           "date": "2026-09-04T08:43:04.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMia0FVX3lxTE1oMzlvNlRhUk96VnJ6Ym5pbkNqTkI3YUktSTlnRTVYb280VmFXWXFVNVJNNXhTRi13ZmNFM2MyMFJhR3Jfa3U3ODMzeDUyMFgtejc1S2JPaU5HbFVrUS1QbF",
-          "source": "백세시대"
+          "source": "100ssd.co.kr"
         },
         {
-          "title": "스트레스학회, ‘2026년도 연구비 지원사업’ 공모 접수 - nursenews.co.kr",
+          "title": "스트레스학회, ‘2026년도 연구비 지원사업’ 공모 접수 - 간호사신문",
           "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE5jZThKR1F6YkxGVlFMa1d4YklLZ3BBTXZMS3hKeXM1bnNIQ1FhYmQ5YUpNQ05icnBfaDRRTTFCS29zNFdfNEZfSWFXM2JRUVdackE0VmFDcWZKWkNrX2VocW9qcTVFOEFyNmhpald3?oc=5",
           "date": "2026-09-04T08:04:54.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMibkFVX3lxTE5jZThKR1F6YkxGVlFMa1d4YklLZ3BBTXZMS3hKeXM1bnNIQ1FhYmQ5YUpNQ05icnBfaDRRTTFCS29zNFdfNEZfSWFXM2JRUVdackE0VmFDcWZKWkNrX2VocW",
-          "source": "nursenews.co.kr"
+          "source": "간호사신문"
         },
         {
           "title": "하나은행, 소상공인 500곳 디지털 전환 지원…사업장당 최대 200만원 - 라이센스뉴스",
@@ -233,11 +226,11 @@ window.MYNEWS_DATA = {
           "source": "라이센스뉴스"
         },
         {
-          "title": "「2026년 스마트제조혁신 유공」 포상 후보자 모집 공고",
-          "link": "https://www.mss.go.kr/site/smba/ex/bbs/View.do?cbIdx=310&bcIdx=1070968",
-          "date": "2026-09-04T04:06:56.000Z",
-          "summary": "",
-          "source": "중소벤처기업부 사업공고"
+          "title": "파주시, ‘2027년 기업환경 개선사업’ 참여기업 모집 - 파주타임스",
+          "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTFBobW91V2xpa1Y4eHNiV3Zfc2tETDE1cHdyMGtDMFlOaGc0dHZvR3Q5SGNfUXI5VTJmSi0zRkhZOFRyQklYLTc4Qm9iRXliNVhxZGY4cUU5eUl5OXlyeEVTd3ZvQlByMnpoOGc?oc=5",
+          "date": "2026-09-04T07:53:49.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTFBobW91V2xpa1Y4eHNiV3Zfc2tETDE1cHdyMGtDMFlOaGc0dHZvR3Q5SGNfUXI5VTJmSi0zRkhZOFRyQklYLTc4Qm9iRXliNVhxZGY4cUU5eUl5OXlyeEVTd3",
+          "source": "파주타임스"
         },
         {
           "title": "2027년 보험료 2.0% 인상과 구직급여 주6일 개편",
@@ -247,32 +240,11 @@ window.MYNEWS_DATA = {
           "source": "지원금가이드 취업"
         },
         {
-          "title": "『중소기업 AX 우수사례 공모전』참가기업 모집 공고",
-          "link": "https://www.mss.go.kr/site/smba/ex/bbs/View.do?cbIdx=310&bcIdx=1070845",
-          "date": "2026-09-01T00:02:26.000Z",
-          "summary": "",
-          "source": "중소벤처기업부 사업공고"
-        },
-        {
-          "title": "「지역 중소기업 AI 활용·확산 유공 포상」 후보자 모집 공고",
-          "link": "https://www.mss.go.kr/site/smba/ex/bbs/View.do?cbIdx=310&bcIdx=1070844",
-          "date": "2026-09-01T00:00:31.000Z",
-          "summary": "",
-          "source": "중소벤처기업부 사업공고"
-        },
-        {
           "title": "서울커리업 인턴십 4차 모집 9월 4일 18시 마감",
           "link": "https://awoo.or.kr/issues/seoul-careerup-internship-4th/",
           "date": "2026-08-31T00:39:22.000Z",
           "summary": "[트렌딩 서울커리업 · 1일 연속] 서울커리업 인턴십 4차는 2026년 9월 4일 18시 접수 마감입니다. 서울 거주 미취·창업 여성 중 고용보험 이력 1년 이상이면 생활임금 시급 12,121원 기준 급여를 받는 조건입니다.",
           "source": "지원금가이드 취업"
-        },
-        {
-          "title": "중소제조 특화 Multi AI Agent 개발(R&D) 점프업 Track 시행계획 공고",
-          "link": "https://www.mss.go.kr/site/smba/ex/bbs/View.do?cbIdx=310&bcIdx=1070813",
-          "date": "2026-08-31T00:35:56.000Z",
-          "summary": "",
-          "source": "중소벤처기업부 사업공고"
         },
         {
           "title": "노란우산공제 연납입한도 1800만원의 소득공제 한도 600만원",
@@ -282,39 +254,11 @@ window.MYNEWS_DATA = {
           "source": "지원금가이드 창업"
         },
         {
-          "title": "2026년도 스마트공장 공급기업 역량진단 참여기업 2차 모집 공고",
-          "link": "https://www.mss.go.kr/site/smba/ex/bbs/View.do?cbIdx=310&bcIdx=1070811",
-          "date": "2026-08-28T06:17:37.000Z",
-          "summary": "",
-          "source": "중소벤처기업부 사업공고"
-        },
-        {
-          "title": "2026년 중소기업 CBAM대응 인프라구축 사업 참여기업 3차 모집공고",
-          "link": "https://www.mss.go.kr/site/smba/ex/bbs/View.do?cbIdx=310&bcIdx=1070709",
-          "date": "2026-08-25T06:34:34.000Z",
-          "summary": "",
-          "source": "중소벤처기업부 사업공고"
-        },
-        {
-          "title": "2026년 납품대금 연동 우수기업 포상 모집 공고",
-          "link": "https://www.mss.go.kr/site/smba/ex/bbs/View.do?cbIdx=310&bcIdx=1070675",
-          "date": "2026-08-24T02:07:01.000Z",
-          "summary": "",
-          "source": "중소벤처기업부 사업공고"
-        },
-        {
           "title": "국비훈련 훈련장려금 월 11.6만, 실업급여 끝나야 지급",
           "link": "https://awoo.or.kr/issues/unemployment-training-allowance-timing/",
           "date": "2026-08-23T01:00:00.000Z",
           "summary": "[트렌딩 실업급여 국비훈련 훈련장려금 · 1일 연속] 실업급여 수급 중에도 국민내일배움카드 훈련비와 직업능력개발수당은 받지만, 월 최대 11만6천원 훈련장려금은 중복지원 방지로 수급 중에는 미지급되고 실업급여 종료 후 훈련분부터 지급됩니다.",
           "source": "지원금가이드 취업"
-        },
-        {
-          "title": "2026년도 딥테크 특화 창업중심대학 추천형 창업기업 모집공고",
-          "link": "https://www.mss.go.kr/site/smba/ex/bbs/View.do?cbIdx=310&bcIdx=1070649",
-          "date": "2026-08-21T04:01:49.000Z",
-          "summary": "",
-          "source": "중소벤처기업부 사업공고"
         },
         {
           "title": "실업급여 구직 마일리지 9월, 반복수급자 점수 채워야 지급",
@@ -357,6 +301,62 @@ window.MYNEWS_DATA = {
           "date": "2026-07-25T02:00:00.000Z",
           "summary": "[트렌딩 전기이륜차 구매보조금 · 1일 연속] 서울 전기이륜차 구매보조금은 2026년 3월 11일부터 ev.or.kr에서 신청합니다. 경형 140만·대형 300만원 상한에 배달·소상공인 추가 보조와 예산 소진 마감을 정리했습니다.",
           "source": "지원금가이드 창업"
+        },
+        {
+          "title": "2026 청년후계농 영농정착지원 2차 모집 D-3 — 월 110만·자격",
+          "link": "https://awoo.or.kr/issues/2026-06-20/young-farmer-settlement-support-deadline-2026-06-20/",
+          "date": "2026-06-20T01:00:00.000Z",
+          "summary": "[트렌딩 청년후계농 · 1일 연속] 2026년 청년후계농(청년농업인) 영농정착지원사업 2차 모집이 7월 10일 18시 마감입니다(D-3). 만 18~39세·영농경력 3년 이하면 1년차 월 110만, 2년차 100만, 3년차 90만원을 최장 3년 받고, 후계농 육성자금은 세대당 최대 5억원입니다. 농업e지로 온라인 신청합니",
+          "source": "지원금가이드 창업"
+        },
+        {
+          "title": "소상공인 정책자금 2026 — 일반경영안정자금 금리·한도·신청 총정리",
+          "link": "https://awoo.or.kr/issues/2026-06-18/small-business-policy-fund-loan-2026-06-18/",
+          "date": "2026-06-18T03:00:00.000Z",
+          "summary": "[트렌딩 소상공인정책자금 · 1일 연속] 2026 소상공인 정책자금 일반경영안정자금은 정책자금 기준금리에 연동된 저금리로 업체당 최대 7천만원까지 융자합니다. 분기별 변동 금리 구조, 자금 종류별 한도, 직접대출·대리대출 차이, 소상공인정책자금 누리집 신청 절차를 한 페이지에 정리했습니다.",
+          "source": "지원금가이드 창업"
+        },
+        {
+          "title": "유가연동보조금 환수 사유와 신청 시 주의사항 — 부정수령 시 가산금까지",
+          "link": "https://awoo.or.kr/issues/2026-05-27/oil-linked-subsidy-clawback-2026-05-27/",
+          "date": "2026-05-27T14:00:00.000Z",
+          "summary": "[트렌딩 유가연동보조금 · 1일 연속] 유가연동보조금은 사후 점검에서 부정수령이 확인되면 환급액 환수와 가산금 부과가 함께 적용됩니다. 자주 발생하는 환수 사유, 면허·등록 정보 갱신 의무, 안전한 신청 체크리스트를 정리했습니다.",
+          "source": "지원금가이드 창업"
+        },
+        {
+          "title": "개인택시·법인택시 유가연동보조금 차이와 신청 절차 비교",
+          "link": "https://awoo.or.kr/issues/2026-05-27/oil-linked-subsidy-taxi-compare-2026-05-27/",
+          "date": "2026-05-27T12:00:00.000Z",
+          "summary": "[트렌딩 유가연동보조금 · 1일 연속] 택시 유가연동보조금은 개인택시는 본인 명의 환급, 법인택시는 회사 명의 일괄 환급 후 내부 분배 구조입니다. 차이점·신청 절차·기사 본인 확인 방법을 한 페이지로 정리했습니다.",
+          "source": "지원금가이드 창업"
+        },
+        {
+          "title": "개인 화물차주 유가연동보조금 신청 방법 — 등록부터 환급까지 단계별 가이드",
+          "link": "https://awoo.or.kr/issues/2026-05-27/oil-linked-subsidy-truck-guide-2026-05-27/",
+          "date": "2026-05-27T11:00:00.000Z",
+          "summary": "[트렌딩 유가연동보조금 · 1일 연속] 영업용 화물차주가 유가연동보조금(유가보조금)을 받기 위한 영업용 등록·KOTSA 카드 발급·운행 기록 정산까지 6단계 절차와 자주 빠뜨리는 항목을 정리했습니다.",
+          "source": "지원금가이드 창업"
+        },
+        {
+          "title": "자영업·소상공인·예비창업자 필수 정부 지원금 5선 — 운영자금부터 재취업 인센티브까지",
+          "link": "https://awoo.or.kr/issues/2026-05-27/self-employed-essentials-weekly-2026-05-27/",
+          "date": "2026-05-27T00:00:00.000Z",
+          "summary": "소상공인 정책자금 최대 7천만원 융자, 예비창업패키지 최대 1억원, 청년후계농 3년 매월 정착자금, 국민취업지원제도 월 90만원, 조기재취업수당까지 자영업·창업 5단계 핵심 지원금의 자격·금액·마감일을 한 페이지로 정리했습니다.",
+          "source": "지원금가이드 창업"
+        },
+        {
+          "title": "체육시설 이용요금 감면(옹암체육센터)",
+          "link": "https://awoo.or.kr/subsidies/sports-reduction-200005/",
+          "date": "2026-04-24T00:00:00.000Z",
+          "summary": "사회적 취약계층 등에게 옹암체육센터 이용요금 감면(대상별 상이)",
+          "source": "지원금가이드 신규 정부지원금"
+        },
+        {
+          "title": "해남아이 키움수당 지원",
+          "link": "https://awoo.or.kr/subsidies/allowance-support-000320/",
+          "date": "2026-04-15T00:00:00.000Z",
+          "summary": "○ 1세부터 7세까지 매달 20만원(해남사랑상품권) 지원",
+          "source": "지원금가이드 신규 정부지원금"
         }
       ]
     },
@@ -375,8 +375,8 @@ window.MYNEWS_DATA = {
         {
           "source": "행정안전부 보도자료",
           "url": "https://www.mois.go.kr/gpms/view/jsp/rss/rss.jsp?ctxCd=1012",
-          "count": 10,
-          "error": null
+          "count": 0,
+          "error": "fetch failed"
         }
       ],
       "error": null,
@@ -450,76 +450,6 @@ window.MYNEWS_DATA = {
           "date": "2026-09-05T06:30:19.000Z",
           "summary": "[의왕=뉴시스] 박종대 기자 = 5일 경기 의왕시 오전동의 한 창고 건물에서 불이 나 소방당국이 진화 작업을 벌이고 있다. 경기도소방재난본부에 따르면 이날 오후 2시10분께 의왕시 오전동의 고로 추정되는 건물에서 불이 났다는 관계자 신고가 접수됐다. 이 불로 A(50대)씨가 연기를 흡입해 경상을 입고 인근 병원으로 옮겨졌",
           "source": "뉴시스 사회"
-        },
-        {
-          "title": "중수청장후보추천위원회, 초대 청장 후보자 4명 추천",
-          "link": "https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&nttId=129297",
-          "date": "2026-09-04T09:00:00.000Z",
-          "summary": "- 국민 천거와 엄정한 심사 거쳐 수사 전문성·공정성·리더십 갖춘 후보군 압축 - 행안부 장관, 후보추천위원회 결과를 존중하여 최종 1인 제청 예정 중대범죄수사청장후보추천위원회 ( 위원장 이주원 , 이하 후보추천위원회 ) 는 9 월 4 일 정부서울청사에서 회의를 개최하고 오는 10 월 2 일 출범하는 중대범죄수사청 ( 이",
-          "source": "행정안전부 보도자료"
-        },
-        {
-          "title": "8.15.~18. 호우 피해 특별재난지역 추가 선포",
-          "link": "https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&nttId=129296",
-          "date": "2026-09-04T09:00:00.000Z",
-          "summary": "- 경상남도 통영시 전역 추가 선포, 국비 추가 지원 및 공공요금 감면 정부는 오늘(4일), 지난 8월 15일부터 18일까지 이어진 집중호우로 피해가 발생한 경상남도 통영시 전역에 대하여 대통령 재가를 받아 특별재난지역으로 추가 선포했다. 정부는 8월 21일 사전조사를 토대로 거제시 전역과 통영시 산양읍·봉평동을 특별재난",
-          "source": "행정안전부 보도자료"
-        },
-        {
-          "title": "“안심하고 즐기세요” 서울세계불꽃축제 안전대책 현장점검",
-          "link": "https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&nttId=129281",
-          "date": "2026-09-04T06:20:00.000Z",
-          "summary": "- 윤호중 행정안전부 장관, 관계기관 안전대책 점검회의 주재 및 최종 현장점검(9.4.) - 여의나루역 무정차 등 주요 혼잡 지점 인파관리 및 안전대책 꼼꼼히 확인 윤호중 행정안전부 장관은 9 월 4 일 여의도 한강공원에서 열리는 ‘ 서울세계불꽃축제 ’ 현장을 방문해 축제장 안전관리 상황을 점검하고 현장 근무자를 격려했다",
-          "source": "행정안전부 보도자료"
-        },
-        {
-          "title": "기부가 만든 고향의 변화, 고향사랑의 날 기념 고향사랑기부대상 시상식 개최",
-          "link": "https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&nttId=129280",
-          "date": "2026-09-04T03:00:00.000Z",
-          "summary": "- ‘고향사랑의 날(9.4)’ 맞아 유공자 9명 포상, 우수 지방정부 15곳 시상 - 우수 지방정부에 총 5억 원 특별교부세 지원, 우수사례 전국 확산 행정안전부 ( 장관 윤호중 ) 는 9 월 4 일 ( 금 ) 서울 상암동에서 ‘ 고향사랑의 날 ’ 을 기념해 고향사랑기부대상 시상식을 개최했다고 밝혔다 . * ‘ 고향사랑의",
-          "source": "행정안전부 보도자료"
-        },
-        {
-          "title": "지역 농산물과 대기업 유통망의 만남… 행안부, '지방정부-기업 상생협력' 물꼬 터",
-          "link": "https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&nttId=129224",
-          "date": "2026-09-03T08:00:00.000Z",
-          "summary": "- 코레일유통-김제시, 롯데웰푸드㈜-군위군, 지방정부 상생발전 업무협약 체결(9.3.) - 김제시의 특산물인 ‘논콩’을 활용한 단백질바, 셰이크, 두유, 8종 개발 출시 - 군위군 사과로 만든 과자류 총 15종 가을철 한정, 서울역 반짝 매장 운영 행정안전부 ( 장관 윤호중 ) 는 9 월 3 일 ( 목 ), 정부서울청사에",
-          "source": "행정안전부 보도자료"
-        },
-        {
-          "title": "가을 행락철 다중운집인파 안전관리 총력 대응",
-          "link": "https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&nttId=129230",
-          "date": "2026-09-03T07:00:00.000Z",
-          "summary": "- 가을철 축제‧행사 등 다중운집인파 안전관리 관계기관 대책회의 개최(9.3.) - 부처·지방정부 상황관리 강화 및 안전한 축제를 위한 국민행동요령 준수 당부 행정안전부 ( 장관 윤호중 ) 는 9 월 3 일 ( 목 ), 김광용 재난안전관리본부장 주재로 ‘ 가을철 축제 ‧ 행사 등 다중운집인파 안전관리 관계기관 대책회의 *",
-          "source": "행정안전부 보도자료"
-        },
-        {
-          "title": "인공지능(AI)과 CCTV로 더 안전해지는 우리 동네",
-          "link": "https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&nttId=129231",
-          "date": "2026-09-03T03:00:00.000Z",
-          "summary": "- ｢2026년 지방정부 CCTV 통합관제 우수사례 경진대회｣ 개최, 7개 우수사례 공유 - 지하차도 차단정보 차량 내비게이션 안내서비스, 드론영상-재난안전상황실 연계 서비스, 도로·비탈면 비전 AI 서비스 등 소개 < 2026 년 CCTV 통합관제 우수사례 > # 경기도 동두천시 는 치매환자 , 정신질환자 , 아동 등 ",
-          "source": "행정안전부 보도자료"
-        },
-        {
-          "title": "‘12대 강풍 취약시설’ 점검으로 일상 속 위험 요인 선제 제거",
-          "link": "https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&nttId=129228",
-          "date": "2026-09-03T03:00:00.000Z",
-          "summary": "- 옥외광고물부터 교회 첨탑·초고층빌딩까지, 강풍 점검 대상 확대 - 9월 4일까지 점검 완료, 강풍 취약 요인 보수·보강 추진 등 철저 행정안전부 ( 장관 윤호중 ) 는 강풍으로 인한 인명 · 시설 피해를 예방하기 위해 지난 7 월 29 일부터 8 월 14 일까지 관계기관 및 지방정부와 합동으로 ‘12 대 강풍 취약시설",
-          "source": "행정안전부 보도자료"
-        },
-        {
-          "title": "재난안전 분야 논문 공모전 개최",
-          "link": "https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&nttId=129227",
-          "date": "2026-09-03T03:00:00.000Z",
-          "summary": "- 9월 1일부터 접수, 만 18세 이상 대한민국 국민 누구나 참여 가능 - 우수작 4점 선정하여 행안부 장관상 등 수여 및 학술대회 발표 기회 행정안전부 ( 장관 윤호중 ) 는 9 월 1 일부터 11 월 10 일까지 한국행정연구원 등 관계기관 * 과 함께 재난 · 안전 분야 논문 공모전을 개최한다고 밝혔다 . * 행정안",
-          "source": "행정안전부 보도자료"
-        },
-        {
-          "title": "흩어져 있던 가족관계교육, 이제 「정부24」에서 한눈에 찾고 신청한다",
-          "link": "https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&nttId=129226",
-          "date": "2026-09-03T03:00:00.000Z",
-          "summary": "- 행안부·성평등가족부 협업… 생애주기·가족 상황을 고려한 7개 맞춤형 교육 제공 - 국민이 생애주기와 가족 상황에 맞는 교육 정보를 쉽게 찾아 참여 가능 - 올해 말, 인공지능(AI) 맞춤 검색 연동으로 나에게 딱 맞는 프로그램 추천까지 행정안전부 ( 장관 윤호중 ) 와 성평등가족부 ( 장관 원민경 ) 는 여러 부처와 ",
-          "source": "행정안전부 보도자료"
         }
       ]
     },
@@ -789,97 +719,12 @@ window.MYNEWS_DATA = {
         {
           "source": "Tubefilter",
           "url": "https://www.tubefilter.com/feed/",
-          "count": 12,
-          "error": null
+          "count": 0,
+          "error": "fetch failed"
         }
       ],
-      "error": null,
-      "items": [
-        {
-          "title": "Have you heard? Another YouTuber on Netflix, Dude Perfect’s CEO shuffle, and a cow gamer.",
-          "link": "https://www.tubefilter.com/2026/09/04/have-you-heard-drew-binsky-netflix-dude-perfect-andrew-yaffe-eve-online-cow/",
-          "date": "2026-09-04T23:01:17.000Z",
-          "summary": "Each week, we handpick a selection of stories to give you a snapshot of trends, updates, business moves, and more from around the creator industry. This week, Netflix's spending sp",
-          "source": "Tubefilter"
-        },
-        {
-          "title": "Bottoms up! Google is bringing personalization to alcohol ads on YouTube.",
-          "link": "https://www.tubefilter.com/2026/09/04/google-ads-youtube-alcohol-content-personalization/",
-          "date": "2026-09-04T21:57:11.000Z",
-          "summary": "On YouTube, ads for alcoholic beverages are few and far between -- but that's about to change. Starting on October 30, Google will implement a new policy that will enable some amou",
-          "source": "Tubefilter"
-        },
-        {
-          "title": "TikTok has new ways to comment (that make it feel more like Instagram)",
-          "link": "https://www.tubefilter.com/2026/09/04/tiktok-polls-photo-carousel-live-comments/",
-          "date": "2026-09-04T20:27:49.000Z",
-          "summary": "TikTok is trying to turn its comments into an interactive format. The app has unveiled several new ways to talk back to creators, including audio responses, photo carousels, and po",
-          "source": "Tubefilter"
-        },
-        {
-          "title": "GTA RP Week returns to Twitch, with Rockstar promoting “the next evolution of the GTA 5 roleplay community”",
-          "link": "https://www.tubefilter.com/2026/09/03/grand-theft-auto-rp-week-twitch/",
-          "date": "2026-09-03T22:32:32.000Z",
-          "summary": "Rockstar doesn’t put out games very often. Grand Theft Auto VI is about to debut a full thirteen years after GTA V arrived on scene. Red Dead Redemption 2, meanwhile, followed its ",
-          "source": "Tubefilter"
-        },
-        {
-          "title": "After spending decades in Hollywood, UTA’s Co-Founder has a new gig: A call-in show on Twitch.",
-          "link": "https://www.tubefilter.com/2026/09/03/jeremy-zimmer-uta-twitch-call-in-talk-show/",
-          "date": "2026-09-03T22:09:40.000Z",
-          "summary": "What do you do if you’re a Hollywood lifer who is without a full-time job for the first time in decades? That’s the situation UTA Co-Founder Jeremy Zimmer is currently facing, and ",
-          "source": "Tubefilter"
-        },
-        {
-          "title": "A fresh creative team will lead Skibidi Toilet into the future",
-          "link": "https://www.tubefilter.com/2026/09/03/skibidi-toilet-new-creative-team-invisible-narratives-announcement/",
-          "date": "2026-09-03T20:58:38.000Z",
-          "summary": "It's been a while since we last checked in on the internet's favorite human-headed toilet creatures, but the company that owns the Skibidi Toilet IP just delivered an important upd",
-          "source": "Tubefilter"
-        },
-        {
-          "title": "“All good dates must come to an end”: Amelia Dimoldenberg says goodbye to ‘Chicken Shop Date’",
-          "link": "https://www.tubefilter.com/2026/09/03/amelia-dimoldenberg-chicken-shop-date-interview-series-end/",
-          "date": "2026-09-03T19:45:53.000Z",
-          "summary": "After 12 years and more than 100 episodes, Amelia Dimoldenberg is bringing her signature series to an end. On Instagram, the 32-year-old Brit announced that an upcoming run of inte",
-          "source": "Tubefilter"
-        },
-        {
-          "title": "Roblox paid creators $1.5 billion in 2025",
-          "link": "https://www.tubefilter.com/2026/09/03/roblox-creator-earnings-2025-usa-gdp-game-item-sales/",
-          "date": "2026-09-03T18:04:40.000Z",
-          "summary": "Roblox says U.S.-based creators making games and purchasable items on its platform had a GDP impact of $752 million in 2025–a 69% jump from what they generated in 2024. That means ",
-          "source": "Tubefilter"
-        },
-        {
-          "title": "Google signs MrBeast for a multiyear deal promoting Gemini, Google Health, Fitbit",
-          "link": "https://www.tubefilter.com/2026/09/02/google-mrbeast-sponsorship-deal-gemini-google-health-fitbit/",
-          "date": "2026-09-03T02:11:07.000Z",
-          "summary": "MrBeast is having quite the week. Just a day after the debut of his and James Patterson‘s collab book The Most Dangerous Games, Google dropped the news: It has signed a multiyear d",
-          "source": "Tubefilter"
-        },
-        {
-          "title": "TikTok is bringing the battle for sports fan attention back to the NFL gridiron",
-          "link": "https://www.tubefilter.com/2026/09/02/tiktok-2026-nfl-season-game-plan-partnership/",
-          "date": "2026-09-02T22:01:55.000Z",
-          "summary": "Days before the start of the 2026 NFL season, TikTok has renewed its partnership with the most-watched sports league in the U.S. Football will be all over the U.S. version of TikTo",
-          "source": "Tubefilter"
-        },
-        {
-          "title": "Want people to pay attention to your movie trailer? Turn it into a playable game.",
-          "link": "https://www.tubefilter.com/2026/09/02/want-people-to-pay-attention-to-your-movie-trailer-turn-it-into-a-playable-game/",
-          "date": "2026-09-02T21:26:20.000Z",
-          "summary": "Next month, a film titled Street Fighter will revive a franchise that began with a series of iconic arcade games in the late 80s and early 90s. Production companies Paramount and L",
-          "source": "Tubefilter"
-        },
-        {
-          "title": "The internet is waxing nostalgic, so TikTok’s song of the summer is a blast from the past",
-          "link": "https://www.tubefilter.com/2026/09/02/tiktok-song-of-the-summer-2026-katy-perry/",
-          "date": "2026-09-02T20:27:44.000Z",
-          "summary": "Much has been said about the long-term decline of the \"song of the summer.\" Once upon a time, universal bops like the \"Macarena\" brought the entire country together for dance parti",
-          "source": "Tubefilter"
-        }
-      ]
+      "error": "Tubefilter: fetch failed",
+      "items": []
     },
     {
       "id": "weather",
