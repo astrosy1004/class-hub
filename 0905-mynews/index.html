@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>나의 뉴스 모음</title>
+    <meta name="description" content="자주 보는 뉴스와 정보 사이트를 분야별로 모아둔 개인 뉴스 페이지" />
+    <link rel="stylesheet" href="./assets/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="뉴스 메뉴">
+        <a class="brand" href="#home" aria-label="나의 뉴스 모음 홈">
+          <span class="brand-mark">N</span>
+          <span>나의 뉴스 모음</span>
+        </a>
+
+        <nav class="side-nav" id="sideNav" aria-label="분야"></nav>
+
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="테마 변경">
+          <span id="themeIcon">☾</span>
+          <span>테마</span>
+        </button>
+      </aside>
+
+      <main class="main-panel" id="home">
+        <section class="hero">
+          <div class="hero-copy">
+            <p class="eyebrow">My Daily News Desk</p>
+            <h1>나의 뉴스 모음</h1>
+            <p class="hero-text">
+              매일 확인하는 뉴스와 정보 사이트를 분야별로 정리했습니다. 분야를 고르거나 검색해서 필요한 곳으로 바로 이동하세요.
+            </p>
+          </div>
+          <div class="hero-panel" aria-hidden="true">
+            <span class="hero-glyph">📰</span>
+            <p class="hero-date" id="todayLabel"></p>
+          </div>
+        </section>
+
+        <section class="toolbar" aria-label="검색">
+          <label class="search-box" for="searchInput">
+            <span>⌕</span>
+            <input id="searchInput" type="search" placeholder="언론사 · 키워드 검색" autocomplete="off" />
+          </label>
+        </section>
+
+        <section class="content-board" aria-live="polite">
+          <div class="board-heading">
+            <div>
+              <p class="eyebrow" id="activeMeta">News</p>
+              <h2 id="activeTitle">전체 뉴스</h2>
+            </div>
+            <span class="count-badge" id="countBadge"></span>
+          </div>
+          <div class="card-grid" id="newsGrid"></div>
+          <p class="empty-state hidden" id="emptyState">검색 결과가 없습니다.</p>
+        </section>
+      </main>
+    </div>
+
+    <script src="./assets/app.js"></script>
+  </body>
+</html>
