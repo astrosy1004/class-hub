@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-09-05T17:47:52.471Z",
+  "updatedAt": "2026-09-05T19:43:12.470Z",
   "categories": [
     {
       "id": "ai",
@@ -171,7 +171,8 @@ window.MYNEWS_DATA = {
           "source": "중소벤처기업부 사업공고",
           "url": "https://mss.go.kr/rss/smba/board/310.do",
           "count": 8,
-          "error": null
+          "error": "fetch failed",
+          "stale": true
         },
         {
           "source": "지원금가이드 신규 정부지원금",
@@ -209,11 +210,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 지원사업"
         },
         {
-          "title": "하나은행, '소상공인 경쟁력 강화 지원 사업' 3차 모집 … 500곳에 최대 200만원 지원 - 워크투데이",
+          "title": "하나은행, '소상공인 경쟁력 강화 지원 사업' 3차 모집 … 500곳에 최대 200만원 지원 - worktoday.co.kr",
           "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1CYnJPd0VjZHI0dmduNC1xWFF0U3daTXpOb3N3LW1mY1FIdjVsWDN1cFBXQ2pSZ2Z4cEp0MG5aejl2T044OWRDXzluWlN5c0JxR056a2Y3VlBpckg5aGtGeUJMMnpkS3V0Q1hzUQ?oc=5",
           "date": "2026-09-04T13:07:33.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTE1CYnJPd0VjZHI0dmduNC1xWFF0U3daTXpOb3N3LW1mY1FIdjVsWDN1cFBXQ2pSZ2Z4cEp0MG5aejl2T044OWRDXzluWlN5c0JxR056a2Y3VlBpckg5aGtGeU",
-          "source": "워크투데이",
+          "source": "worktoday.co.kr",
           "via": "Google 뉴스 지원사업"
         },
         {
@@ -410,7 +411,8 @@ window.MYNEWS_DATA = {
           "source": "행정안전부 보도자료",
           "url": "https://www.mois.go.kr/gpms/view/jsp/rss/rss.jsp?ctxCd=1012",
           "count": 10,
-          "error": null
+          "error": "fetch failed",
+          "stale": true
         }
       ],
       "error": null,
@@ -623,6 +625,14 @@ window.MYNEWS_DATA = {
       "error": null,
       "items": [
         {
+          "title": "\"원화 강할 때가 기회…달러 계속 분할 매수해야\" 전업투자자 '손주부'의 필승 전략",
+          "link": "https://www.newsis.com/view/NISX20260904_0003776143",
+          "date": "2026-09-05T19:02:00.000Z",
+          "summary": "[서울=뉴시스]김드보라 인턴 기자 = 원·달러 환율이 1350원대로 내려온 가운데 전업 투자자 손주부는 원화 가치가 강할 때 달러를 분할 매수해 달러 자산을 보유하는 전략을 제시했다. 3일 구독자 약 183만명을 보유한 유튜브 채널 '부읽남TV_내집마련부터건물주까지'에는 전업 투자자 겸 유튜버 '손주부'가 출연해 최근 환",
+          "source": "뉴시스 금융",
+          "via": "뉴시스 금융"
+        },
+        {
           "title": "\"美 석사 연봉 1억일 때 배관공은 2억\"…AI 인프라 열풍이 바꾼 직업 지형도",
           "link": "https://www.newsis.com/view/NISX20260903_0003775284",
           "date": "2026-09-05T17:00:00.000Z",
@@ -773,14 +783,6 @@ window.MYNEWS_DATA = {
           "summary": "[서울=뉴시스]박나리 기자 = 미국이 현지 생산 투자와 연계한 '선별적 반도체 관세' 카드를 꺼내 들면서, 대미 투자를 이어가고 있는 삼성전자와 SK하이닉스의 추가 생산거점 확대 여부에 관심이 집중된다. 5일 업계에 따르면 대통령실 관계자는 전날 반도체 투자가 미국과 진행하는 투자 협의에 포함돼 있다고 밝혔다. 여러 현안",
           "source": "뉴시스 산업",
           "via": "뉴시스 산업"
-        },
-        {
-          "title": "\"100만원이 1억8000만원 됐다\"…두 달 만에 180배 뛴 '이 코인'",
-          "link": "https://www.newsis.com/view/NISX20260904_0003776964",
-          "date": "2026-09-05T06:44:00.000Z",
-          "summary": "[서울=뉴시스]이지영 기자 = 로빈후드 체인 위에서 운영되는 밈코인 발행 플랫폼 폰스(Pons)의 자체 토큰 PONS가 두 달도 안 돼 180배 넘게 급등했다. 로빈후드 체인에 대한 관심이 커진 가운데 거래 수수료 수익으로 토큰을 사들여 소각하는 구조가 가격 상승을 뒷받침했다는 분석이다. 로빈후드 체인은 미국 주식·가상자",
-          "source": "뉴시스 금융",
-          "via": "뉴시스 금융"
         },
         {
           "title": "9월 초까지 누적 수출 7094억弗…작년 연간 실적 넘겼다",
