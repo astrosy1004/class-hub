@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-09-06T17:52:40.081Z",
+  "updatedAt": "2026-09-06T19:45:09.768Z",
   "categories": [
     {
       "id": "ai",
@@ -147,7 +147,8 @@ window.MYNEWS_DATA = {
           "source": "중소벤처기업부 사업공고",
           "url": "https://mss.go.kr/rss/smba/board/310.do",
           "count": 8,
-          "error": null
+          "error": "fetch failed",
+          "stale": true
         },
         {
           "source": "지원금가이드 신규 정부지원금",
@@ -185,11 +186,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 지원사업"
         },
         {
-          "title": "양구군, 접경지역 소상공인 시설현대화 지원사업 2차 모집 - 웹이코노미",
+          "title": "양구군, 접경지역 소상공인 시설현대화 지원사업 2차 모집 - webeconomy.co.kr",
           "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE5wZ1hidlBzV2JTaTYtQVJyYTB0V3lnSGxWLXprcEQxVmtRbzMxQnFLR09Nc2UyVVFLRHFndm53UFBVUkQ3b3RVelcwNWJnRGlWMmxISGViMDRzUTdpX043UHRPT2Vtd05LSTAwRDJLNmFsdw?oc=5",
           "date": "2026-09-06T10:22:21.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMickFVX3lxTE5wZ1hidlBzV2JTaTYtQVJyYTB0V3lnSGxWLXprcEQxVmtRbzMxQnFLR09Nc2UyVVFLRHFndm53UFBVUkQ3b3RVelcwNWJnRGlWMmxISGViMDRzUTdpX043UH",
-          "source": "웹이코노미",
+          "source": "webeconomy.co.kr",
           "via": "Google 뉴스 지원사업"
         },
         {
@@ -209,11 +210,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 지원사업"
         },
         {
-          "title": "구로구, 1인가구 안심홈세트 지원 대상 54가구 모집 - newsis.com",
+          "title": "구로구, 1인가구 안심홈세트 지원 대상 54가구 모집 - 뉴시스",
           "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFAwaWhyWElibDRiaW84ZDd1VDNRcGlXNk52RUk5MEVXTHVIdmNqWHRXNm9TSkNSSU92N0h3cTlsOWhYU19YdmdKVnNRUXBOVm5lS0ZJcFU0bFlNR1hlZGhxc9IBeEFVX3lxTFB1cHAxSzIwdW5DY0FEdmc5d2tyOUFySElIZ1c2SjlvanRISUNZNE43WWpibTk5aXllZy1hVFlVMVpKakZtVXZ5ZTM0STB4MWlsVi1VUjVOZy1iUzQ5SzF0d2hQZ2lmeWV5YnlvYUtTcWtKRVp1bG5tSQ?oc=5",
           "date": "2026-09-06T06:09:29.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiYEFVX3lxTFAwaWhyWElibDRiaW84ZDd1VDNRcGlXNk52RUk5MEVXTHVIdmNqWHRXNm9TSkNSSU92N0h3cTlsOWhYU19YdmdKVnNRUXBOVm5lS0ZJcFU0bFlNR1hlZGhxc9",
-          "source": "newsis.com",
+          "source": "뉴시스",
           "via": "Google 뉴스 지원사업"
         },
         {
@@ -392,6 +393,14 @@ window.MYNEWS_DATA = {
       "error": null,
       "items": [
         {
+          "title": "대구·경북 가끔 구름 많고 곳곳 비…낮 최고 24~29도",
+          "link": "https://www.newsis.com/view/NISX20260906_0003778269",
+          "date": "2026-09-06T19:01:00.000Z",
+          "summary": "[대구=뉴시스] 이상제 기자 = 7일 대구·경북은 가끔 구름이 많은 가운데 비가 내리는 곳이 있을 것으로 예상된다. 대구지방기상청은 이날 \"경북동해안과 경북북동산지에 오전까지 5~10㎜의 비가 오는 곳이 있겠다\"고 예보했다. 아침 최저기온은 15~23도(평년 15~20도), 낮 최고기온은 24~29도(평년 25~29도)로",
+          "source": "뉴시스 사회",
+          "via": "뉴시스 사회"
+        },
+        {
           "title": "어린시절 뚱뚱한 아이…80%는 \"성인돼서도 비만\"",
           "link": "https://www.newsis.com/view/NISX20260904_0003776636",
           "date": "2026-09-06T16:01:00.000Z",
@@ -460,14 +469,6 @@ window.MYNEWS_DATA = {
           "link": "https://www.newsis.com/view/NISX20260907_0003778278",
           "date": "2026-09-06T15:00:00.000Z",
           "summary": "뉴시스가 제공하는 기사, 사진, 그래픽 이미지, 영상물 등 각종 콘텐츠는 저작권법 등 관련 법의 보호를 받습니다. 뉴시스 콘텐츠를 사전 허락 없이 무단 복사, 개작, 전재, 배포, 판매할 경우 민·형사상의 책임이 따를 수 있다는 것을 알려드립니다. 뉴시스 콘텐츠 사용에 대해서는 전화(02-721-7415) 또는 이메일(c",
-          "source": "뉴시스 사회",
-          "via": "뉴시스 사회"
-        },
-        {
-          "title": "대둔산 전망대서 사진 찍으려다 60대 등산객 추락",
-          "link": "https://www.newsis.com/view/NISX20260906_0003778257",
-          "date": "2026-09-06T12:36:39.000Z",
-          "summary": "[완주=뉴시스]강경호 기자 = 6일 오전 11시19분께 전북 완주군 운주면 대둔산의 전망대에서 등산객 A(60대)씨가 약 3m 아래로 떨어졌다. 이 사고로 A씨는 부상을 입고 민간산악구조대에 의해 구조된 뒤 헬기를 통해 인근 병원으로 이송됐다. 경찰과 소방당국 등은 A씨가 전망대에서 사진을 찍으려다 추락한 것으로 보고 정",
           "source": "뉴시스 사회",
           "via": "뉴시스 사회"
         },
@@ -598,6 +599,22 @@ window.MYNEWS_DATA = {
       ],
       "error": null,
       "items": [
+        {
+          "title": "[주간 뉴욕증시] 고용 이어 CPI 시험대…오라클 실적도 변수",
+          "link": "https://www.newsis.com/view/NISX20260907_0003778289",
+          "date": "2026-09-06T19:36:19.000Z",
+          "summary": "[서울=뉴시스]고재은 기자 = 지난주 뉴욕증시가 예상보다 강한 고용 지표에 하락 마감한 가운데, 이번 주 시장은 미국의 8월 물가 지표와 오라클 실적 발표에 주목할 전망이다. S&P500지수는 지난 4일 0.38%, 다우존스산업평균지수는 0.51% 하락했다. 기술주 중심의 나스닥지수도 0.29% 떨어졌다. 8월 비농업 일",
+          "source": "뉴시스 경제",
+          "via": "뉴시스 경제"
+        },
+        {
+          "title": "\"금리 올라도 주가 뛴다\"…전문가가 짚은 '10년 투자 생존법'",
+          "link": "https://www.newsis.com/view/NISX20260906_0003778118",
+          "date": "2026-09-06T18:59:00.000Z",
+          "summary": "[서울=뉴시스]서이현 인턴 기자 = 개별 뉴스에 매몰되지 말고 사건들이 어떻게 결합되는지 맥락을 봐야 시장의 흐름을 제대로 읽을 수 있다는 전문가의 투자 조언이 나왔다. 4일 유튜브 채널 '강지영의 동그라미'에 따르면 오건영 신한은행 프리미어 패스파인더 단장은 최근 출연한 인터뷰에서 이같이 밝혔다. 그는 하나의 사건을 단",
+          "source": "뉴시스 금융",
+          "via": "뉴시스 금융"
+        },
         {
           "title": "[올댓차이나] 인민은행, 7일 3개월물 역레포로 자금 100조원 공급",
           "link": "https://www.newsis.com/view/NISX20260906_0003778274",
@@ -743,14 +760,6 @@ window.MYNEWS_DATA = {
           "via": "뉴시스 경제"
         },
         {
-          "title": "교육부 \"교부금, 매년 안정적 증가…내년엔 올해보다 10.1%↑\"",
-          "link": "https://www.newsis.com/view/NISX20260906_0003778202",
-          "date": "2026-09-06T09:38:24.000Z",
-          "summary": "[서울=뉴시스]정예빈 기자 = 지방교육재정교부금 개편으로 교육재정이 축소될 것이라는 교육계의 우려가 큰 가운데, 정부는 \"교부금은 매년 안정적으로 증가한다\"는 기존 입장을 재확인했다. 교육부는 6일 \"2027년 교부금은 2026년 본예산 대비 10.1% 증가한다\"고 밝혔다. 앞서 교육부는 기존 내국세의 20.79%를 교육",
-          "source": "뉴시스 경제",
-          "via": "뉴시스 경제"
-        },
-        {
           "title": "여름 가니 머리카락 '우수수'…대비하는 방법은?",
           "link": "https://www.newsis.com/view/NISX20260904_0003776998",
           "date": "2026-09-06T09:01:00.000Z",
@@ -819,14 +828,6 @@ window.MYNEWS_DATA = {
           "link": "https://www.newsis.com/view/NISX20260906_0003778104",
           "date": "2026-09-06T06:33:08.000Z",
           "summary": "[서울=뉴시스]서이현 인턴 기자 = 20억원짜리 집을 팔고 전세로 옮긴 뒤, 그 돈을 미국 주식에 전부 투자하겠다는 직장인의 글이 화제다. 6일 직장인 커뮤니티 블라인드에는 이 같은 계획을 밝힌 글이 올라왔다. 작성자는 \"우리나라 전세가 사기라 5억원짜리 전세대출을 받고 나머지 돈으로 전세 거주를 할 예정\"이라며 \"아무리",
-          "source": "뉴시스 금융",
-          "via": "뉴시스 금융"
-        },
-        {
-          "title": "50·60대 '급전' 늘었다…카드론·보험계약대출 동반 증가",
-          "link": "https://www.newsis.com/view/NISX20260906_0003778054",
-          "date": "2026-09-06T05:26:31.000Z",
-          "summary": "[서울=뉴시스]송혜리 기자 = 올해 상반기 증시 활황으로 이른바 '빚투’(빚내서 투자)'가 늘어난 가운데, 2금융권에서는 50·60대를 중심으로 카드론과 보험계약대출 잔액이 증가한 것으로 나타났다. 6일 국회 재정경제기획위원회 소속 이종욱 국민의힘 의원이 금융감독원에서 제출받은 자료에 따르면 8개 전업 카드사(현대·롯데·",
           "source": "뉴시스 금융",
           "via": "뉴시스 금융"
         },
