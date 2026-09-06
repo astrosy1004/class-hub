@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-09-06T14:37:04.878Z",
+  "updatedAt": "2026-09-06T17:52:40.081Z",
   "categories": [
     {
       "id": "ai",
@@ -147,8 +147,7 @@ window.MYNEWS_DATA = {
           "source": "중소벤처기업부 사업공고",
           "url": "https://mss.go.kr/rss/smba/board/310.do",
           "count": 8,
-          "error": "fetch failed",
-          "stale": true
+          "error": null
         },
         {
           "source": "지원금가이드 신규 정부지원금",
@@ -186,6 +185,14 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 지원사업"
         },
         {
+          "title": "양구군, 접경지역 소상공인 시설현대화 지원사업 2차 모집 - 웹이코노미",
+          "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE5wZ1hidlBzV2JTaTYtQVJyYTB0V3lnSGxWLXprcEQxVmtRbzMxQnFLR09Nc2UyVVFLRHFndm53UFBVUkQ3b3RVelcwNWJnRGlWMmxISGViMDRzUTdpX043UHRPT2Vtd05LSTAwRDJLNmFsdw?oc=5",
+          "date": "2026-09-06T10:22:21.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMickFVX3lxTE5wZ1hidlBzV2JTaTYtQVJyYTB0V3lnSGxWLXprcEQxVmtRbzMxQnFLR09Nc2UyVVFLRHFndm53UFBVUkQ3b3RVelcwNWJnRGlWMmxISGViMDRzUTdpX043UH",
+          "source": "웹이코노미",
+          "via": "Google 뉴스 지원사업"
+        },
+        {
           "title": "제주도 청년 취업 지원 희망 프로젝트 참여 기업 모집 - 삼다일보",
           "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBpVXctUmYySVZGaEZ1eHh5Z21YWnVHbGgzTmg2eVhOZGYxLTVNMXlBNXczYTZ2M01KYUxrNHJ0dTVLLWQweEs1MENvdVZ2elpWX2lJc3QxRTZKcnI5TnV1S3NFcG1rZHdIay1mRQ?oc=5",
           "date": "2026-09-06T07:10:00.000Z",
@@ -202,11 +209,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 지원사업"
         },
         {
-          "title": "구로구, 1인가구 안심홈세트 지원 대상 54가구 모집 - 뉴시스",
+          "title": "구로구, 1인가구 안심홈세트 지원 대상 54가구 모집 - newsis.com",
           "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFAwaWhyWElibDRiaW84ZDd1VDNRcGlXNk52RUk5MEVXTHVIdmNqWHRXNm9TSkNSSU92N0h3cTlsOWhYU19YdmdKVnNRUXBOVm5lS0ZJcFU0bFlNR1hlZGhxc9IBeEFVX3lxTFB1cHAxSzIwdW5DY0FEdmc5d2tyOUFySElIZ1c2SjlvanRISUNZNE43WWpibTk5aXllZy1hVFlVMVpKakZtVXZ5ZTM0STB4MWlsVi1VUjVOZy1iUzQ5SzF0d2hQZ2lmeWV5YnlvYUtTcWtKRVp1bG5tSQ?oc=5",
           "date": "2026-09-06T06:09:29.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiYEFVX3lxTFAwaWhyWElibDRiaW84ZDd1VDNRcGlXNk52RUk5MEVXTHVIdmNqWHRXNm9TSkNSSU92N0h3cTlsOWhYU19YdmdKVnNRUXBOVm5lS0ZJcFU0bFlNR1hlZGhxc9",
-          "source": "뉴시스",
+          "source": "newsis.com",
           "via": "Google 뉴스 지원사업"
         },
         {
@@ -215,14 +222,6 @@ window.MYNEWS_DATA = {
           "date": "2026-09-06T05:00:36.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMicEFVX3lxTFB6U0pyZXczME5aeGFmbHlEclJXTWJRMFhwUUs4ZVZIUmlobzkyTnlVd1dCWmxKQ20xZ2FMcEZSYVpvb1pUdlZtN1UySU5vQXQzOF9PcG9NUmZpSG5KZ241VD",
           "source": "fnewstv.com",
-          "via": "Google 뉴스 지원사업"
-        },
-        {
-          "title": "하나은행, ‘소상공인 경쟁력 강화 지원 사업’ 3차 모집…사업장 환경 개선 지원 - 더퍼블릭",
-          "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBtaW83blQtVHgxOEItZWhIcGZZSDJLU3BMVTRBZFB6Q0hVZDdUcVA2OG5JVTY5YWc0Q3RSZXR4Q1hOZUNiQWpxMXJfVk00aUxNNXFJWWFYZEl0eUZ0ZTM3QXZNc3U5ajVncmNV0gFvQVVfeXFMTkRIU0FmZ0ZyWkVra2VyYVNMT2l2R2h6Wjl2UkdISDVoMGtHQ1FDdC1KWDRSaFZpZjZDTi1IbjNwb0ZEbUNVWEUxTVEtYU9ERV9ndVpRSGQ0RnBldjRhR1NCNXpnZVNlbS1jeDZnOElN?oc=5",
-          "date": "2026-09-05T23:17:52.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMia0FVX3lxTFBtaW83blQtVHgxOEItZWhIcGZZSDJLU3BMVTRBZFB6Q0hVZDdUcVA2OG5JVTY5YWc0Q3RSZXR4Q1hOZUNiQWpxMXJfVk00aUxNNXFJWWFYZEl0eUZ0ZTM3QX",
-          "source": "더퍼블릭",
           "via": "Google 뉴스 지원사업"
         },
         {
@@ -387,89 +386,88 @@ window.MYNEWS_DATA = {
           "source": "행정안전부 보도자료",
           "url": "https://www.mois.go.kr/gpms/view/jsp/rss/rss.jsp?ctxCd=1012",
           "count": 10,
-          "error": "fetch failed",
-          "stale": true
+          "error": null
         }
       ],
       "error": null,
       "items": [
         {
+          "title": "어린시절 뚱뚱한 아이…80%는 \"성인돼서도 비만\"",
+          "link": "https://www.newsis.com/view/NISX20260904_0003776636",
+          "date": "2026-09-06T16:01:00.000Z",
+          "summary": "[서울=뉴시스] 류난영 기자 = 소아·청소년 비만은 단순히 많이 먹고 덜 움직여서 생기는 문제가 아니다. 식욕과 포만감을 조절하는 호르몬 체계, 에너지를 저장하고 소비하는 대사 방식 자체가 개인마다 다르게 작동하는 만성질환이다. 7일 대한비만학회의 '2025년 비만 팩트시트'에 따르면, 부모가 모두 비만일 경우 자녀의 비",
+          "source": "뉴시스 사회",
+          "via": "뉴시스 사회"
+        },
+        {
+          "title": "'8년 방치 끝 500억 공매'…제주에 흉물로 방치된 中자본의 씁쓸한 단면",
+          "link": "https://www.newsis.com/view/NISX20260902_0003773497",
+          "date": "2026-09-06T16:00:00.000Z",
+          "summary": "[서울=뉴시스] 김종민 기자 = 제주 지역의 치안 불안과 잇따른 악재로 관광객 발길이 끊기는 가운데, 표선면 일대에서 2700억원 규모로 추진되던 대형 중국계 리조트 부지가 결국 500억원대 공매 물건으로 나왔다. 1일 유튜브 채널 '강호의발바닥TV'에 따르면, 제주 서귀포시 표선면 일대의 '해반산 리조트' 부지는 201",
+          "source": "뉴시스 사회",
+          "via": "뉴시스 사회"
+        },
+        {
+          "title": "\"관리 좀 해라, 남편 밖에서 눈 돌아간다\"…시어머니 외모 잔소리에 며느리 '눈물'",
+          "link": "https://www.newsis.com/view/NISX20260906_0003778170",
+          "date": "2026-09-06T16:00:00.000Z",
+          "summary": "[서울=뉴시스]허준희 인턴 기자 = 시어머니가 자신의 외모를 지적한다는 한 여성의 사연이 온라인에서 화제가 되고 있다. 지난 2일 온라인 커뮤니티에는 '며느리는 꾸며야 한다는 시어머니'라는 제목의 글이 올라왔다. 결혼 18년 차라고 밝힌 작성자 A씨는 \"시어머니는 저를 보면 늘 외모 얘기부터 하신다\"고 토로했다. A씨에 ",
+          "source": "뉴시스 사회",
+          "via": "뉴시스 사회"
+        },
+        {
+          "title": "\"경쟁 횟집 문 닫게하려고\"…미성년자에게 돈주고 술 마시게 한 파렴치 업주",
+          "link": "https://www.newsis.com/view/NISX20260904_0003775925",
+          "date": "2026-09-06T15:05:00.000Z",
+          "summary": "[서울=뉴시스]김드보라 인턴 기자 = 인근 식당 측이 경쟁 횟집의 영업을 방해하기 위해 미성년자들에게 50만원씩 주고 술을 마시게 한 뒤 신고하도록 했다는 사연이 전해졌다. 경찰은 해당 식당 업주 2명을 청소년보호법 위반 등의 혐의로 검찰에 송치한 것으로 알려졌다. 3일 방송된 JTBC '사건반장'에 따르면 제보자 A씨는",
+          "source": "뉴시스 사회",
+          "via": "뉴시스 사회"
+        },
+        {
+          "title": "\"밤마다 한강 뛴다더니\"…러닝 모임서 여성 3명 만나온 남편의 이중생활",
+          "link": "https://www.newsis.com/view/NISX20260902_0003773415",
+          "date": "2026-09-06T15:02:00.000Z",
+          "summary": "[서울=뉴시스] 김종민 기자 = 건강증진과 친목 도모를 목적으로 설립된 운동 동호회가 일부 회원들의 부적절한 관계를 매개하는 창구로 변질되고 있다. 최근 유튜브 채널 '잼뱅TV'에 출연한 한 민간 탐정은 최근 러닝 붐을 타고 운동 모임 내 불륜 사례가 늘고 있다고 밝혔다. 이 탐정은 \"의뢰를 받고 조사에 나섰더니 남편이 ",
+          "source": "뉴시스 사회",
+          "via": "뉴시스 사회"
+        },
+        {
+          "title": "[녹유의 오늘의 운세] 02년생 어깨 으쓱해지는 평가를 들어요",
+          "link": "https://www.newsis.com/view/NISX20260905_0003777398",
+          "date": "2026-09-06T15:00:00.000Z",
+          "summary": "[서울=뉴시스] 녹유(錄喩·김효성) 오늘의 운세 ◆쥐띠 48년생 임기응변으로 순간을 넘어가자.60년생 주인공인 자리 화려함을 뽐내보자.72년생 긁어 부스럼 조용하고 차분해지자.84년생 겸손하지 못했던 숙제가 남겨진다.96년생 대단하다 평가 감사하게 받아내자. ◆소띠 49년생 착하고 믿음직한 도움을 받아보자.61년생 눈부신",
+          "source": "뉴시스 사회",
+          "via": "뉴시스 사회"
+        },
+        {
+          "title": "\"시청자 기만하나\"…'전현무 카자흐스탄 선택 예측' 황당 해명에 네티즌 격분",
+          "link": "https://www.newsis.com/view/NISX20260906_0003777916",
+          "date": "2026-09-06T15:00:00.000Z",
+          "summary": "[서울=뉴시스] 김종민 기자 = MBC 예능 프로그램 '나 혼자 산다' 제작진이 방송인 전현무의 카자흐스탄 '즉흥 여행' 조작 논란을 해명하는 과정에서 황당한 궤변을 내놓아 온라인상에서 비판이 쏟아지고 있다. 시청률 조사회사 닐슨코리아에 따르면 지난 4일 방송된 '나 혼자 산다' 시청률은 전국 가구 기준 5.2%에 그쳤다",
+          "source": "뉴시스 사회",
+          "via": "뉴시스 사회"
+        },
+        {
+          "title": "가을 시작 '백로' 전국 맑은 하늘…동해안·제주 곳곳 비[오늘날씨]",
+          "link": "https://www.newsis.com/view/NISX20260906_0003778252",
+          "date": "2026-09-06T15:00:00.000Z",
+          "summary": "[서울=뉴시스]조수원 기자 = 본격적인 가을의 시작을 알리는 절기 '백로'이자 7일 월요일은 전국이 대체로 맑겠다. 다만 강원권과 경상권, 제주도는 흐린 가운데 비가 내리겠다. 기상청은 이날 \"중국 북부지방에 있는 고기압의 가장자리에 들어 전국이 대체로 맑겠다\"면서도 \"오전까지 강원 동해안·산지와 부산·울산·경남 동부 내",
+          "source": "뉴시스 사회",
+          "via": "뉴시스 사회"
+        },
+        {
+          "title": "[알림]뉴시스 콘텐츠 저작권 고지",
+          "link": "https://www.newsis.com/view/NISX20260907_0003778278",
+          "date": "2026-09-06T15:00:00.000Z",
+          "summary": "뉴시스가 제공하는 기사, 사진, 그래픽 이미지, 영상물 등 각종 콘텐츠는 저작권법 등 관련 법의 보호를 받습니다. 뉴시스 콘텐츠를 사전 허락 없이 무단 복사, 개작, 전재, 배포, 판매할 경우 민·형사상의 책임이 따를 수 있다는 것을 알려드립니다. 뉴시스 콘텐츠 사용에 대해서는 전화(02-721-7415) 또는 이메일(c",
+          "source": "뉴시스 사회",
+          "via": "뉴시스 사회"
+        },
+        {
           "title": "대둔산 전망대서 사진 찍으려다 60대 등산객 추락",
           "link": "https://www.newsis.com/view/NISX20260906_0003778257",
           "date": "2026-09-06T12:36:39.000Z",
           "summary": "[완주=뉴시스]강경호 기자 = 6일 오전 11시19분께 전북 완주군 운주면 대둔산의 전망대에서 등산객 A(60대)씨가 약 3m 아래로 떨어졌다. 이 사고로 A씨는 부상을 입고 민간산악구조대에 의해 구조된 뒤 헬기를 통해 인근 병원으로 이송됐다. 경찰과 소방당국 등은 A씨가 전망대에서 사진을 찍으려다 추락한 것으로 보고 정",
-          "source": "뉴시스 사회",
-          "via": "뉴시스 사회"
-        },
-        {
-          "title": "법무부 \"검사 줄일 때 아냐…최소 281명 증원 필요\"",
-          "link": "https://www.newsis.com/view/NISX20260906_0003778254",
-          "date": "2026-09-06T12:24:48.000Z",
-          "summary": "[서울=뉴시스] 오정우 기자 = 법무부가 공소청 직제안 관련 형사재판을 담당할 인력이 부족해질 수 있다며 검사 정원을 최소 281명 늘려야 한다고 주장했다. 법무부는 6일 보도자료를 통해 전체 정원 1만706명 중 21.4%인 2294명의 인력을 줄이는 공소청 직제안에 대해 이 같은 입장을 밝혔다. 법무부는 \"검사정원법에",
-          "source": "뉴시스 사회",
-          "via": "뉴시스 사회"
-        },
-        {
-          "title": "직무·권한 관련 혐의 기소된 경찰관 30% 내부 '경징계'",
-          "link": "https://www.newsis.com/view/NISX20260906_0003778243",
-          "date": "2026-09-06T12:19:58.000Z",
-          "summary": "[서울=뉴시스]조수원 기자 = 최근 5년간 경찰관이 직무·권한과 관련된 범죄로 기소된 사건이 200건을 넘어선 것으로 나타났다. 6일 박상웅 국민의힘 의원실이 경찰청으로부터 제출받은 자료에 따르면 2021년부터 올해 7월까지 ▲공무상비밀누설 ▲개인정보보호법 위반 ▲형사절차전자화법 위반 ▲허위공문서 작성·행사 ▲공전자기록 ",
-          "source": "뉴시스 사회",
-          "via": "뉴시스 사회"
-        },
-        {
-          "title": "\"시댁 때문에 힘들다\" 이혼 요구한 아내…카페 사장과 껴안다 '들통'",
-          "link": "https://www.newsis.com/view/NISX20260904_0003775933",
-          "date": "2026-09-06T12:02:00.000Z",
-          "summary": "[서울=뉴시스]허준희 인턴 기자 = 시댁과의 갈등을 이유로 이혼을 요구했던 아내가 자신이 일하던 카페 사장과 불륜 관계였다는 사연이 전해졌다. 지난 3일 JTBC '사건반장'에는 30대 후반 남성 A씨의 사연이 소개됐다. A씨는 사촌형의 소개로 만난 동갑내기 아내와 결혼해 부모가 살던 집에서 생활했다. 둘째 아이를 낳은 ",
-          "source": "뉴시스 사회",
-          "via": "뉴시스 사회"
-        },
-        {
-          "title": "양양 수산항서 50대 익수…심정지 병원 이송",
-          "link": "https://www.newsis.com/view/NISX20260906_0003778231",
-          "date": "2026-09-06T11:11:58.000Z",
-          "summary": "[양양=뉴시스]이덕화 기자 = 강원 양양군 수산항에서 50대 남성이 물에 빠져 심정지 상태로 병원에 이송됐다. 소방본부에 따르면 6일 오후 4시23분께 양양군 손양면 수산리 수산항에서 A(52)씨가 물에 빠졌다는 신고가 접수됐다. A씨는 심정지 상태로 응급처치를 받으며 인근 대형병원으로 이송됐다. 소방당국은 목격자 등을 ",
-          "source": "뉴시스 사회",
-          "via": "뉴시스 사회"
-        },
-        {
-          "title": "김승원 '가족 협동조합' 논란 점화…金측 \"혐오 사용한 네거티브\"",
-          "link": "https://www.newsis.com/view/NISX20260906_0003778224",
-          "date": "2026-09-06T10:31:49.000Z",
-          "summary": "[서울=뉴시스] 오정우 기자 = 주진우 국민의힘 의원이 김승원 법무부 장관 후보자 가족의 특혜 의혹을 주장한 가운데, 김 후보자 측이 \"혐오 표현을 사용해 후보자 가족들의 삶을 폄훼하는 네거티브\"라고 지적했다. 김 후보자 인사청문 준비단은 6일 이같이 밝히며 후보자 가족이 연루된 특혜 의혹을 부인했다. 앞서 주 의원은 김",
-          "source": "뉴시스 사회",
-          "via": "뉴시스 사회"
-        },
-        {
-          "title": "교육부 \"교부금, 매년 안정적 증가…내년엔 올해보다 10.1%↑\"",
-          "link": "https://www.newsis.com/view/NISX20260906_0003778202",
-          "date": "2026-09-06T09:38:24.000Z",
-          "summary": "[서울=뉴시스]정예빈 기자 = 지방교육재정교부금 개편으로 교육재정이 축소될 것이라는 교육계의 우려가 큰 가운데, 정부는 \"교부금은 매년 안정적으로 증가한다\"는 기존 입장을 재확인했다. 교육부는 6일 \"2027년 교부금은 2026년 본예산 대비 10.1% 증가한다\"고 밝혔다. 앞서 교육부는 기존 내국세의 20.79%를 교육",
-          "source": "뉴시스 사회",
-          "via": "뉴시스 사회"
-        },
-        {
-          "title": "김승원, 사업가 양씨와 '고양이 필터 셀카'…친분 언제부터",
-          "link": "https://www.newsis.com/view/NISX20260906_0003778197",
-          "date": "2026-09-06T09:26:12.000Z",
-          "summary": "[서울=뉴시스] 김종민 기자 = 김승원 법무부 장관 후보자와 식품의약품안전처 청탁 의혹에 얽힌 사업가 양모씨가 2019년 함께 다정하게 사진을 촬영한 사실이 알려져 두 사람의 인연이 과거부터 지속해서 이어진 정황이 드러났다. 6일 매일경제 보도에 따르면, 양씨는 2019년 11월22일 김 후보자와 함께 찍은 사진을 본인의",
-          "source": "뉴시스 사회",
-          "via": "뉴시스 사회"
-        },
-        {
-          "title": "27년 돌본 중증자폐 아들 두고 떠난 날…끝내 빈소도 차리지 못했다",
-          "link": "https://www.newsis.com/view/NISX20260906_0003778185",
-          "date": "2026-09-06T09:07:14.000Z",
-          "summary": "[서울=뉴시스] 김종민 기자 = 중증 발달장애인 부모의 사망이나 건강 악화 시 남겨진 자녀가 맞닥뜨리는 돌봄 공백과 사회적 지원 체계의 부재가 심각한 문제로 떠오르고 있다. 방송을 통해 중증자폐 아들을 향한 진한 부성애를 전했던 전경철 작가가 지난 5일 세상을 떠나면서, 성인 중증 발달장애인 가족이 겪는 극한의 돌봄 부담",
-          "source": "뉴시스 사회",
-          "via": "뉴시스 사회"
-        },
-        {
-          "title": "고속도로서 1t 화물차량 가드레일 받고 전도…3명 부상",
-          "link": "https://www.newsis.com/view/NISX20260906_0003778173",
-          "date": "2026-09-06T08:30:24.000Z",
-          "summary": "[임실=뉴시스]강경호 기자 = 6일 오전 10시43분께 전북 임실군 오수면을 지나는 순천완주고속도로 완주 방면 오수휴게소 인근에서 주행 중이던 1t 화물차량이 가드레일을 들이받고 전도됐다. 이 사고로 운전자 A(60대)씨 등 차량에 타있던 3명이 다쳐 인근 병원으로 옮겨졌다. 경찰은 정확한 사고 경위를 조사 중이다. ◎공",
           "source": "뉴시스 사회",
           "via": "뉴시스 사회"
         },
@@ -600,6 +598,14 @@ window.MYNEWS_DATA = {
       ],
       "error": null,
       "items": [
+        {
+          "title": "[올댓차이나] 인민은행, 7일 3개월물 역레포로 자금 100조원 공급",
+          "link": "https://www.newsis.com/view/NISX20260906_0003778274",
+          "date": "2026-09-06T14:48:56.000Z",
+          "summary": "[서울=뉴시스]이재준 기자 = 중국인민은행(人民銀行)은 7일 5000억 위안(약 100조5900억원) 규모 3개월물 매입형 역환매조건부채권(매입형 역레포) 거래를 실시한다. 경제통은 6일 인민은행 발표를 인용, 은행권에서 유통하는 유동성을 충분한 수준으로 유지하기 위해 고정 물량·금리 입찰과 복수 가격 낙찰 방식으로 50",
+          "source": "뉴시스 경제",
+          "via": "뉴시스 경제"
+        },
         {
           "title": "국내 10대 브랜드 가치 2000억달러 육박⋯삼성 1위·하닉 3위",
           "link": "https://www.inews24.com/view/2002450",
@@ -751,14 +757,6 @@ window.MYNEWS_DATA = {
           "summary": "[서울=뉴시스]이소헌 기자 = 계절이 바뀌는 시기에는 누구나 일시적으로 머리카락이 빠질 수 있는데, 이를 '계절성(휴지기) 탈모'라고 한다. 일반적인 탈모와는 원인도 다르고 관리 방법도 다르지만 방치하면 만성 탈모로 이어질 위험이 있어 주의가 필요하다. 6일 JW중외제약 홈페이지에 따르면 평소 흔히 언급되는 '탈모'는 주",
           "source": "뉴시스 금융",
           "via": "뉴시스 금융"
-        },
-        {
-          "title": "\"강남은 떨어지고 강북은 오른다\"…서울 부동산 판도 바뀌나",
-          "link": "https://www.newsis.com/view/NISX20260906_0003778064",
-          "date": "2026-09-06T08:49:00.000Z",
-          "summary": "[서울=뉴시스]김성은 인턴 기자 = 서울 아파트 시장에서 강남권 집값은 하락하는 반면 강북권은 상승하는 이른바 '북고남저(北高南低)' 현상이 뚜렷해지고 있다는 분석이 나왔다. 고가 주택 중심의 강남권이 대출과 세금 부담에 위축된 사이, 직장 접근성과 가격 경쟁력을 갖춘 강북권으로 30대 실수요자가 몰리고 있다는 것이다. ",
-          "source": "뉴시스 경제",
-          "via": "뉴시스 경제"
         },
         {
           "title": "시중 5만원권 195조원 돌파…5년 새 51조원 늘었다",
@@ -971,31 +969,7 @@ window.MYNEWS_DATA = {
       "error": null,
       "items": [
         {
-          "title": "내일 01시 · 21.0℃ · 맑음 · 강수확률 0% · 북풍 1.4m/s · 습도 80%",
-          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
-          "date": "2026-09-06T16:00:00.000Z",
-          "summary": "서울특별시",
-          "source": "기상청",
-          "via": "기상청"
-        },
-        {
-          "title": "내일 02시 · 21.0℃ · 맑음 · 강수확률 0% · 북풍 1.4m/s · 습도 85%",
-          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
-          "date": "2026-09-06T17:00:00.000Z",
-          "summary": "서울특별시",
-          "source": "기상청",
-          "via": "기상청"
-        },
-        {
-          "title": "내일 03시 · 20.0℃ · 맑음 · 강수확률 0% · 북동풍 1.4m/s · 습도 85%",
-          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
-          "date": "2026-09-06T18:00:00.000Z",
-          "summary": "서울특별시",
-          "source": "기상청",
-          "via": "기상청"
-        },
-        {
-          "title": "내일 04시 · 20.0℃ · 맑음 · 강수확률 0% · 북동풍 1.4m/s · 습도 85%",
+          "title": "오늘 04시 · 20.0℃ · 맑음 · 강수확률 0% · 북동풍 1.3m/s · 습도 85%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-06T19:00:00.000Z",
           "summary": "서울특별시",
@@ -1003,7 +977,7 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 05시 · 19.0℃ · 맑음 · 강수확률 0% · 북동풍 1.1m/s · 습도 85%",
+          "title": "오늘 05시 · 19.0℃ · 맑음 · 강수확률 0% · 북동풍 1.0m/s · 습도 85%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-06T20:00:00.000Z",
           "summary": "서울특별시",
@@ -1011,7 +985,7 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 06시 · 19.0℃ · 맑음 · 강수확률 0% · 북동풍 1.1m/s · 습도 85%",
+          "title": "오늘 06시 · 19.0℃ · 맑음 · 강수확률 0% · 북동풍 1.0m/s · 습도 85%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-06T21:00:00.000Z",
           "summary": "서울특별시",
@@ -1019,7 +993,7 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 07시 · 19.0℃ · 맑음 · 강수확률 0% · 북동풍 1.4m/s · 습도 85%",
+          "title": "오늘 07시 · 19.0℃ · 맑음 · 강수확률 0% · 북동풍 1.3m/s · 습도 85%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-06T22:00:00.000Z",
           "summary": "서울특별시",
@@ -1027,7 +1001,7 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 08시 · 21.0℃ · 맑음 · 강수확률 0% · 북동풍 2.4m/s · 습도 75%",
+          "title": "오늘 08시 · 21.0℃ · 맑음 · 강수확률 0% · 북동풍 2.3m/s · 습도 75%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-06T23:00:00.000Z",
           "summary": "서울특별시",
@@ -1035,7 +1009,7 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 09시 · 22.0℃ · 맑음 · 강수확률 0% · 북동풍 2.6m/s · 습도 70%",
+          "title": "오늘 09시 · 22.0℃ · 맑음 · 강수확률 0% · 북동풍 2.5m/s · 습도 70%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-07T00:00:00.000Z",
           "summary": "서울특별시",
@@ -1043,7 +1017,7 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 10시 · 24.0℃ · 맑음 · 강수확률 0% · 북동풍 2.7m/s · 습도 60%",
+          "title": "오늘 10시 · 24.0℃ · 맑음 · 강수확률 0% · 북동풍 2.6m/s · 습도 60%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-07T01:00:00.000Z",
           "summary": "서울특별시",
@@ -1051,7 +1025,7 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 11시 · 25.0℃ · 맑음 · 강수확률 0% · 북동풍 2.7m/s · 습도 55%",
+          "title": "오늘 11시 · 25.0℃ · 맑음 · 강수확률 0% · 북동풍 2.6m/s · 습도 55%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-07T02:00:00.000Z",
           "summary": "서울특별시",
@@ -1059,9 +1033,33 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 12시 · 26.0℃ · 맑음 · 강수확률 0% · 북동풍 3.1m/s · 습도 50%",
+          "title": "오늘 12시 · 26.0℃ · 맑음 · 강수확률 0% · 북동풍 3.0m/s · 습도 50%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-07T03:00:00.000Z",
+          "summary": "서울특별시",
+          "source": "기상청",
+          "via": "기상청"
+        },
+        {
+          "title": "오늘 13시 · 28.0℃ · 맑음 · 강수확률 0% · 북동풍 3.0m/s · 습도 45%",
+          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
+          "date": "2026-09-07T04:00:00.000Z",
+          "summary": "서울특별시",
+          "source": "기상청",
+          "via": "기상청"
+        },
+        {
+          "title": "오늘 14시 · 29.0℃ · 맑음 · 강수확률 0% · 북동풍 3.0m/s · 습도 45%",
+          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
+          "date": "2026-09-07T05:00:00.000Z",
+          "summary": "서울특별시",
+          "source": "기상청",
+          "via": "기상청"
+        },
+        {
+          "title": "오늘 15시 · 29.0℃ · 맑음 · 강수확률 0% · 북동풍 2.8m/s · 습도 45%",
+          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
+          "date": "2026-09-07T06:00:00.000Z",
           "summary": "서울특별시",
           "source": "기상청",
           "via": "기상청"
