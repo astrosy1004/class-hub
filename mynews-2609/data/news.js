@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-09-06T06:38:32.584Z",
+  "updatedAt": "2026-09-06T11:49:33.735Z",
   "categories": [
     {
       "id": "ai",
@@ -11,7 +11,7 @@ window.MYNEWS_DATA = {
         {
           "source": "아주경제 AI",
           "url": "https://www.ajunews.com/rss/ai.xml",
-          "count": 3,
+          "count": 2,
           "error": null
         },
         {
@@ -23,6 +23,14 @@ window.MYNEWS_DATA = {
       ],
       "error": null,
       "items": [
+        {
+          "title": "새울 3호기 시운전 중에 증기누설, 원자로 수동정지⋯안전 이상 없나",
+          "link": "https://www.inews24.com/view/2002440",
+          "date": "2026-09-06T10:57:47.000Z",
+          "summary": "원자력안전위원회(원안위)는 한국수력원자력(한수원)으로부터 6일 오후 3시 1분쯤 새울 3호기를 수동정지했다는 보고를 받았다.한수원은 새울 3호기 시운전 시험을 위해 원자로 출력 상승 중 터빈건물 내 습분분리재열기 연결",
+          "source": "아이뉴스24 IT",
+          "via": "아이뉴스24 IT"
+        },
         {
           "title": "우주청·UN, AI로 우주전파재난 대응 모색…25개국 전문가 집결",
           "link": "https://www.ajunews.com/view/20260906135834010",
@@ -126,22 +134,6 @@ window.MYNEWS_DATA = {
           "summary": "컴투스가 퍼블리싱하고 에이버튼이 개발한 신작 '제우스: 오만의 신'은 그리스 신화를 재해석한 세계관을 배경으로 캐릭터를 성장시키고 다양한 협동·경쟁 콘텐츠를 즐기는 PC·모바일 MMORPG다.지난달 26일 정식 서비스를 시작",
           "source": "아이뉴스24 IT",
           "via": "아이뉴스24 IT"
-        },
-        {
-          "title": "인텔리빅스, 코스닥 상장예비심사 승인…주관사 미래에셋증권",
-          "link": "https://www.ajunews.com/view/20260904181117915",
-          "date": "2026-09-04T09:14:30.000Z",
-          "summary": "[사진=인텔리빅스] 안전 인공지능(AI) 기업 인텔리빅스가 지난 3일 코스닥 시장 상장예비심사 승인을 받았다고 4일 밝혔다. 상장 주관사는 미래에셋증권이며 상장 목표 시점은 오는 11월이다. 인텔리빅스는 지난 2000년 설립된 안전 AI 기업이다. 비전 AI를 기반으로 산업&middot;사회 현장에서 발생하는 위험을 사전",
-          "source": "아주경제 AI",
-          "via": "아주경제 AI"
-        },
-        {
-          "title": "SOOP, 판교 신사옥 마련…분산된 업무 거점 단계적 '통합'",
-          "link": "https://www.inews24.com/view/2002254",
-          "date": "2026-09-04T08:16:47.000Z",
-          "summary": "SOOP이 판교에 신사옥을 마련하고 분산돼 있던 주요 업무 거점을 단계적으로 통합한다.SOOP(각자대표 최영우, 이민원)은 경기도 성남시 분당구 판교로256번길 25에 위치한 GB2-C동의 토지와 건물을 매입하기로 결정했다고 4일 밝혔",
-          "source": "아이뉴스24 IT",
-          "via": "아이뉴스24 IT"
         }
       ]
     },
@@ -185,19 +177,43 @@ window.MYNEWS_DATA = {
       "error": null,
       "items": [
         {
-          "title": "하나은행, ‘소상공인 경쟁력 강화 지원 사업’ 3차 모집…사업장 환경 개선 지원 - 더퍼블릭",
-          "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBtaW83blQtVHgxOEItZWhIcGZZSDJLU3BMVTRBZFB6Q0hVZDdUcVA2OG5JVTY5YWc0Q3RSZXR4Q1hOZUNiQWpxMXJfVk00aUxNNXFJWWFYZEl0eUZ0ZTM3QXZNc3U5ajVncmNV0gFvQVVfeXFMTkRIU0FmZ0ZyWkVra2VyYVNMT2l2R2h6Wjl2UkdISDVoMGtHQ1FDdC1KWDRSaFZpZjZDTi1IbjNwb0ZEbUNVWEUxTVEtYU9ERV9ndVpRSGQ0RnBldjRhR1NCNXpnZVNlbS1jeDZnOElN?oc=5",
-          "date": "2026-09-05T23:17:52.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMia0FVX3lxTFBtaW83blQtVHgxOEItZWhIcGZZSDJLU3BMVTRBZFB6Q0hVZDdUcVA2OG5JVTY5YWc0Q3RSZXR4Q1hOZUNiQWpxMXJfVk00aUxNNXFJWWFYZEl0eUZ0ZTM3QX",
-          "source": "더퍼블릭",
+          "title": "양구군, 접경지역 소상공인 시설현대화 지원사업 2차 모집 - fnewstv.com",
+          "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1WM0huOXlkSnVwTkZ3Z2FzTnZNVFpLU1JYbkx1ejhTTU1Pb2pPQk5SUGVCZml3SUNzOHo4cGc5dzJXeUdrWkdYbWwzdzhRQWFlYUs2NmQ5T2xTRndoS29Pei1ZeXpvRk41NjI3Skx0Q3k?oc=5",
+          "date": "2026-09-06T10:15:06.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMicEFVX3lxTE1WM0huOXlkSnVwTkZ3Z2FzTnZNVFpLU1JYbkx1ejhTTU1Pb2pPQk5SUGVCZml3SUNzOHo4cGc5dzJXeUdrWkdYbWwzdzhRQWFlYUs2NmQ5T2xTRndoS29Pei",
+          "source": "fnewstv.com",
           "via": "Google 뉴스 지원사업"
         },
         {
-          "title": "구로구, 1인가구 안심장비 지원…30일까지 54가구 모집 - 매일일보",
-          "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE5FbEJybVg2NUZfOUJLZTdGTzFTOE9zQ1JWMzVwQWFtOUlrUVRNZnpwanhNQTRyb25EdFRYUlVTQUZmcVdJX1VXYnhLRExPbXZHWXRmb2wwOEctS2J6ZFJlaXFoVWLSAWhBVV95cUxNSzNpWE9aS2Rmek1UQ3o2dllZVnRSUHpuQWd5OHpsZWdFWjROdzFXMkpGeEJ4UjlhYTJvNFo2N2lqbUZCUlpiVVlXLXZJN0hOYWJnRlRFR2xpRkxpZy1KTlh5UEpqcmFsdA?oc=5",
-          "date": "2026-09-05T21:29:55.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiZEFVX3lxTE5FbEJybVg2NUZfOUJLZTdGTzFTOE9zQ1JWMzVwQWFtOUlrUVRNZnpwanhNQTRyb25EdFRYUlVTQUZmcVdJX1VXYnhLRExPbXZHWXRmb2wwOEctS2J6ZFJlaX",
-          "source": "매일일보",
+          "title": "구로구, 1인가구 안심장비 지원… 30일까지 54가구 모집 > 뉴스 - 더코리아",
+          "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE5wSmUtd05XbWVmVHl4VjFEMUxVMVhoOUFUTDFTeVlZN1ljWFRlcUJ3NzhQVDhQUXJHejFaTXo5TS1JbVRtc0NnQ3hRX0s2Z2h5WDhobHpzX3JOeFFaN1A1MGR0YUFWT2t3eXZPRTVUNW4?oc=5",
+          "date": "2026-09-06T06:36:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMicEFVX3lxTE5wSmUtd05XbWVmVHl4VjFEMUxVMVhoOUFUTDFTeVlZN1ljWFRlcUJ3NzhQVDhQUXJHejFaTXo5TS1JbVRtc0NnQ3hRX0s2Z2h5WDhobHpzX3JOeFFaN1A1MG",
+          "source": "더코리아",
+          "via": "Google 뉴스 지원사업"
+        },
+        {
+          "title": "구로구, 1인가구 안심홈세트 지원 대상 54가구 모집 - 뉴시스",
+          "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFAwaWhyWElibDRiaW84ZDd1VDNRcGlXNk52RUk5MEVXTHVIdmNqWHRXNm9TSkNSSU92N0h3cTlsOWhYU19YdmdKVnNRUXBOVm5lS0ZJcFU0bFlNR1hlZGhxc9IBeEFVX3lxTFB1cHAxSzIwdW5DY0FEdmc5d2tyOUFySElIZ1c2SjlvanRISUNZNE43WWpibTk5aXllZy1hVFlVMVpKakZtVXZ5ZTM0STB4MWlsVi1VUjVOZy1iUzQ5SzF0d2hQZ2lmeWV5YnlvYUtTcWtKRVp1bG5tSQ?oc=5",
+          "date": "2026-09-06T06:09:29.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiYEFVX3lxTFAwaWhyWElibDRiaW84ZDd1VDNRcGlXNk52RUk5MEVXTHVIdmNqWHRXNm9TSkNSSU92N0h3cTlsOWhYU19YdmdKVnNRUXBOVm5lS0ZJcFU0bFlNR1hlZGhxc9",
+          "source": "뉴시스",
+          "via": "Google 뉴스 지원사업"
+        },
+        {
+          "title": "구로구, 1인가구 안심장비 지원…30일까지 54가구 모집 - fnewstv.com",
+          "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTFB6U0pyZXczME5aeGFmbHlEclJXTWJRMFhwUUs4ZVZIUmlobzkyTnlVd1dCWmxKQ20xZ2FMcEZSYVpvb1pUdlZtN1UySU5vQXQzOF9PcG9NUmZpSG5KZ241VDFTQWN3R2xZS29XVjBxMEk?oc=5",
+          "date": "2026-09-06T05:00:36.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMicEFVX3lxTFB6U0pyZXczME5aeGFmbHlEclJXTWJRMFhwUUs4ZVZIUmlobzkyTnlVd1dCWmxKQ20xZ2FMcEZSYVpvb1pUdlZtN1UySU5vQXQzOF9PcG9NUmZpSG5KZ241VD",
+          "source": "fnewstv.com",
+          "via": "Google 뉴스 지원사업"
+        },
+        {
+          "title": "하나은행, ‘소상공인 경쟁력 강화 지원 사업’ 3차 모집…사업장 환경 개선 지원 - thepublic.kr",
+          "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBtaW83blQtVHgxOEItZWhIcGZZSDJLU3BMVTRBZFB6Q0hVZDdUcVA2OG5JVTY5YWc0Q3RSZXR4Q1hOZUNiQWpxMXJfVk00aUxNNXFJWWFYZEl0eUZ0ZTM3QXZNc3U5ajVncmNV0gFvQVVfeXFMTkRIU0FmZ0ZyWkVra2VyYVNMT2l2R2h6Wjl2UkdISDVoMGtHQ1FDdC1KWDRSaFZpZjZDTi1IbjNwb0ZEbUNVWEUxTVEtYU9ERV9ndVpRSGQ0RnBldjRhR1NCNXpnZVNlbS1jeDZnOElN?oc=5",
+          "date": "2026-09-05T23:17:52.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMia0FVX3lxTFBtaW83blQtVHgxOEItZWhIcGZZSDJLU3BMVTRBZFB6Q0hVZDdUcVA2OG5JVTY5YWc0Q3RSZXR4Q1hOZUNiQWpxMXJfVk00aUxNNXFJWWFYZEl0eUZ0ZTM3QX",
+          "source": "thepublic.kr",
           "via": "Google 뉴스 지원사업"
         },
         {
@@ -206,30 +222,6 @@ window.MYNEWS_DATA = {
           "date": "2026-09-05T06:27:37.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiaEFVX3lxTFAtVW5tc1ZnamwzeWpDbDRhNjV0SEdpZ0hjWUY5RXBuaGxKQzVOWEtOdTJ6NnI3d1pZMjNFVTd0OF9oYzU4TjVXdGdGNFRCUXN2MS1IbURUNVNCdGRmM3FVWm",
           "source": "리얼캐스트",
-          "via": "Google 뉴스 지원사업"
-        },
-        {
-          "title": "공정, 혁신, 포용의 경기 - 경기도청",
-          "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxOdUpSWVpSNTY5ZXJjVGZJNjB1RGZMRnFYMG1RUG5XTjdsa3g3Wk15UmI5UFVPTUw1WUJacEpiNXFWU05EVXV2ZWhWSjRWbTUyMjI1S3RtVmNPWkx6MEpoaUozOG9aV2txVEV5VXgtTlpFR0VHVUU4TURqbm9lMUtxNU1EZ1dlV1ZKcHhrc0dlZkVjaDlTSWc?oc=5",
-          "date": "2026-09-05T01:27:38.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMilgFBVV95cUxOdUpSWVpSNTY5ZXJjVGZJNjB1RGZMRnFYMG1RUG5XTjdsa3g3Wk15UmI5UFVPTUw1WUJacEpiNXFWU05EVXV2ZWhWSjRWbTUyMjI1S3RtVmNPWkx6MEpoaU",
-          "source": "경기도청",
-          "via": "Google 뉴스 지원사업"
-        },
-        {
-          "title": "하나은행, '소상공인 경쟁력 강화 지원 사업' 3차 모집 … 500곳에 최대 200만원 지원 - 워크투데이",
-          "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1CYnJPd0VjZHI0dmduNC1xWFF0U3daTXpOb3N3LW1mY1FIdjVsWDN1cFBXQ2pSZ2Z4cEp0MG5aejl2T044OWRDXzluWlN5c0JxR056a2Y3VlBpckg5aGtGeUJMMnpkS3V0Q1hzUQ?oc=5",
-          "date": "2026-09-04T13:07:33.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTE1CYnJPd0VjZHI0dmduNC1xWFF0U3daTXpOb3N3LW1mY1FIdjVsWDN1cFBXQ2pSZ2Z4cEp0MG5aejl2T044OWRDXzluWlN5c0JxR056a2Y3VlBpckg5aGtGeU",
-          "source": "워크투데이",
-          "via": "Google 뉴스 지원사업"
-        },
-        {
-          "title": "2026년 인천국제공항공사 상생형 창업·벤처기업 지원사업 모집공고 - 벤처스퀘어",
-          "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE0tT3RrYXFkUjh0X1VWSm1VRzVFUVZDQ1JpZzFLOFp0bDN0TmJVRlBxd1VJSXl4bTNFakNPOGFmeWpYbXN4aUhyM3NFUnJ5R3ZiMEJxZVZ3ZjhreW1EVXF3?oc=5",
-          "date": "2026-09-04T10:45:10.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiX0FVX3lxTE0tT3RrYXFkUjh0X1VWSm1VRzVFUVZDQ1JpZzFLOFp0bDN0TmJVRlBxd1VJSXl4bTNFakNPOGFmeWpYbXN4aUhyM3NFUnJ5R3ZiMEJxZVZ3ZjhreW1EVXF3?o",
-          "source": "벤처스퀘어",
           "via": "Google 뉴스 지원사업"
         },
         {
@@ -400,89 +392,89 @@ window.MYNEWS_DATA = {
       "error": null,
       "items": [
         {
-          "title": "\"아내 부당해고\" 건물 10층 매달려 농성…민주노총 공공운수노조 간부",
-          "link": "https://www.newsis.com/view/NISX20260906_0003778102",
-          "date": "2026-09-06T06:32:43.000Z",
-          "summary": "[서울=뉴시스]조수원 기자 = 양규서 민주노총 전국공공운수사회서비스노조 조직국장이 건물 10층 높이에 홀로 매달려 약 9시간30분이 넘도록 시위를 진행 중이다. 6일 뉴시스 취재를 종합하면 양 국장은 이날 오전 5시30분께부터 서울 중구 경향신문사 빌딩 외벽에서 밧줄에 매달려 시위를 벌이고 있다. 해당 건물은 민주노총 사",
+          "title": "양양 수산항서 50대 익수…심정지 병원 이송",
+          "link": "https://www.newsis.com/view/NISX20260906_0003778231",
+          "date": "2026-09-06T11:11:58.000Z",
+          "summary": "[양양=뉴시스]이덕화 기자 = 강원 양양군 수산항에서 50대 남성이 물에 빠져 심정지 상태로 병원에 이송됐다. 소방본부에 따르면 6일 오후 4시23분께 양양군 손양면 수산리 수산항에서 A(52)씨가 물에 빠졌다는 신고가 접수됐다. A씨는 심정지 상태로 응급처치를 받으며 인근 대형병원으로 이송됐다. 소방당국은 목격자 등을 ",
           "source": "뉴시스 사회",
           "via": "뉴시스 사회"
         },
         {
-          "title": "이진숙 국민의힘 의원, '여자 히틀러' 김민석 대표 고소인 자격 출석 [뉴시스Pic]",
-          "link": "https://www.newsis.com/view/NISX20260906_0003778087",
-          "date": "2026-09-06T06:20:01.000Z",
-          "summary": "[서울=뉴시스]고범준 최동준 조수원 기자 = 자신을 '여자 히틀러'라고 지칭한 김민석 더불어민주당 대표를 모욕 혐의로 고소한 이진숙 국민의힘 의원이 고소인 조사를 받기 위해 경찰에 출석했다. 이 의원은 김 대표가 '여자 전두환'이라고 표현한 부분에 대해서도 추가 고소를 예고했다. 6일 뉴시스 취재를 종합하면 서울 영등포경",
+          "title": "김승원 '가족 협동조합' 논란 점화…金측 \"혐오 사용한 네거티브\"",
+          "link": "https://www.newsis.com/view/NISX20260906_0003778224",
+          "date": "2026-09-06T10:31:49.000Z",
+          "summary": "[서울=뉴시스] 오정우 기자 = 주진우 국민의힘 의원이 김승원 법무부 장관 후보자 가족의 특혜 의혹을 주장한 가운데, 김 후보자 측이 \"혐오 표현을 사용해 후보자 가족들의 삶을 폄훼하는 네거티브\"라고 지적했다. 김 후보자 인사청문 준비단은 6일 이같이 밝히며 후보자 가족이 연루된 특혜 의혹을 부인했다. 앞서 주 의원은 김",
           "source": "뉴시스 사회",
           "via": "뉴시스 사회"
         },
         {
-          "title": "한동훈 녹취록 공개에 김승원 측 \"맥락 삭제\"…공방 격화",
-          "link": "https://www.newsis.com/view/NISX20260906_0003778047",
-          "date": "2026-09-06T06:17:09.000Z",
-          "summary": "[서울=뉴시스] 오정우 기자 = 김승원 법무부 장관 후보자의 '임상 시험 청탁' 의혹 관련 양모씨와의 녹취록이 수면 위에 오르면서 논란이 거세지고 있다. 한동훈 무소속 의원은 \"언론에 청탁 문자 두 번이 전부라고 하는 것 같지만 거짓말\"이라며 날 선 반응을 보이는 한편, 김 후보자 측은 \"승인 압력이 아닌 심사 점검\"이라",
+          "title": "교육부 \"교부금, 매년 안정적 증가…내년엔 올해보다 10.1%↑\"",
+          "link": "https://www.newsis.com/view/NISX20260906_0003778202",
+          "date": "2026-09-06T09:38:24.000Z",
+          "summary": "[서울=뉴시스]정예빈 기자 = 지방교육재정교부금 개편으로 교육재정이 축소될 것이라는 교육계의 우려가 큰 가운데, 정부는 \"교부금은 매년 안정적으로 증가한다\"는 기존 입장을 재확인했다. 교육부는 6일 \"2027년 교부금은 2026년 본예산 대비 10.1% 증가한다\"고 밝혔다. 앞서 교육부는 기존 내국세의 20.79%를 교육",
           "source": "뉴시스 사회",
           "via": "뉴시스 사회"
         },
         {
-          "title": "순천대, 전남권 신설 의대 후보 추천에…목포대, 취소소송",
-          "link": "https://www.newsis.com/view/NISX20260906_0003778085",
-          "date": "2026-09-06T06:13:04.000Z",
-          "summary": "[무안=뉴시스]맹대환 기자 = 순천대학교가 전남권 국립의과대학 신설 후보대학에 추천되자 목포대가 추천 취소 소송을 제기했다. 6일 국립목포대에 따르면 목포대는 지난 4일 의과대 후보대학 선정 추천처분 취소 소송을 제기하고, 통합특별시장의 추천처분 효력을 정지하는 집행정지도 함께 신청했다. 목포대가 국립대라 원고는 법무부장",
+          "title": "김승원, 사업가 양씨와 '고양이 필터 셀카'…친분 언제부터",
+          "link": "https://www.newsis.com/view/NISX20260906_0003778197",
+          "date": "2026-09-06T09:26:12.000Z",
+          "summary": "[서울=뉴시스] 김종민 기자 = 김승원 법무부 장관 후보자와 식품의약품안전처 청탁 의혹에 얽힌 사업가 양모씨가 2019년 함께 다정하게 사진을 촬영한 사실이 알려져 두 사람의 인연이 과거부터 지속해서 이어진 정황이 드러났다. 6일 매일경제 보도에 따르면, 양씨는 2019년 11월22일 김 후보자와 함께 찍은 사진을 본인의",
           "source": "뉴시스 사회",
           "via": "뉴시스 사회"
         },
         {
-          "title": "구로구, 1인가구 안심홈세트 지원 대상 54가구 모집",
-          "link": "https://www.newsis.com/view/NISX20260906_0003778075",
-          "date": "2026-09-06T06:09:29.000Z",
-          "summary": "[서울=뉴시스] 최현호 기자 = 서울 구로구는 1인가구 안심장비 지원사업 하반기 신청자 54가구를 이달 30일까지 모집한다고 6일 밝혔다. 지원 물품은 현관문 안전장치와 스마트초인종 또는 가정용 폐쇄회로 텔레비전(CCTV) 중 1개를 선택해 구성한 '안심홈세트'다. 신청 대상은 구로구에 거주하는 1인가구 가운데 주거 형태",
+          "title": "27년 돌본 중증자폐 아들 두고 떠난 날…끝내 빈소도 차리지 못했다",
+          "link": "https://www.newsis.com/view/NISX20260906_0003778185",
+          "date": "2026-09-06T09:07:14.000Z",
+          "summary": "[서울=뉴시스] 김종민 기자 = 중증 발달장애인 부모의 사망이나 건강 악화 시 남겨진 자녀가 맞닥뜨리는 돌봄 공백과 사회적 지원 체계의 부재가 심각한 문제로 떠오르고 있다. 방송을 통해 중증자폐 아들을 향한 진한 부성애를 전했던 전경철 작가가 지난 5일 세상을 떠나면서, 성인 중증 발달장애인 가족이 겪는 극한의 돌봄 부담",
           "source": "뉴시스 사회",
           "via": "뉴시스 사회"
         },
         {
-          "title": "'문항 거래' 교원 126명 징계…18명은 해임·정직·강등 '중징계'",
-          "link": "https://www.newsis.com/view/NISX20260906_0003778090",
-          "date": "2026-09-06T06:08:42.000Z",
-          "summary": "[서울=뉴시스]정예빈 기자 = 사교육 업체와 문항을 거래하다 적발돼 징계받은 교원이 126명에 이르는 것으로 나타났다. 이 중 18명은 정직·강등·해임 등 중징계 처분을 받았다. 6일 국회 교육위원회 소속 김문수 더불어민주당 의원실이 교육부로부터 받은 '사교육 카르텔 감사 문항거래 교원 징계 현황'에 따르면 지난해부터 올",
+          "title": "고속도로서 1t 화물차량 가드레일 받고 전도…3명 부상",
+          "link": "https://www.newsis.com/view/NISX20260906_0003778173",
+          "date": "2026-09-06T08:30:24.000Z",
+          "summary": "[임실=뉴시스]강경호 기자 = 6일 오전 10시43분께 전북 임실군 오수면을 지나는 순천완주고속도로 완주 방면 오수휴게소 인근에서 주행 중이던 1t 화물차량이 가드레일을 들이받고 전도됐다. 이 사고로 운전자 A(60대)씨 등 차량에 타있던 3명이 다쳐 인근 병원으로 옮겨졌다. 경찰은 정확한 사고 경위를 조사 중이다. ◎공",
           "source": "뉴시스 사회",
           "via": "뉴시스 사회"
         },
         {
-          "title": "이진숙, \"여자 히틀러\" 김민석 고소인 자격 출석…\"'여자 전두환'도 고소\"",
-          "link": "https://www.newsis.com/view/NISX20260906_0003778065",
-          "date": "2026-09-06T05:56:25.000Z",
-          "summary": "[서울=뉴시스]조수원 기자 = 자신을 '여자 히틀러'라고 지칭한 김민석 더불어민주당 대표를 모욕 혐의로 고소한 이진숙 국민의힘 의원이 고소인 조사를 받기 위해 경찰에 출석했다. 이 의원은 김 대표가 '여자 전두환'이라고 표현한 부분에 대해서도 추가 고소를 예고했다. 6일 뉴시스 취재를 종합하면 서울 영등포경찰서는 이날 오",
+          "title": "유퀴즈, 피터팬 아빠 전경철 추모 \"오래 기억하겠다\"",
+          "link": "https://www.newsis.com/view/NISX20260906_0003778162",
+          "date": "2026-09-06T08:11:55.000Z",
+          "summary": "[서울=뉴시스] 손정빈 기자 = '유퀴즈 온 더 블록' 제작진이 지난 5일 세상을 떠난 전경철 작가를 추모하며 \"남겨주신 그 마음, 오래 기억하겠다\"고 했다. '유퀴즈 온 더 블록'은 6일 공식 소셜미디어에 \"마지막까지 발달장애인들이 더 나은 세상에서 살아가길 꿈꾸셨던 전경철 작가님. 유퀴즈에서 작가님의 바람을 전할 수 ",
           "source": "뉴시스 사회",
           "via": "뉴시스 사회"
         },
         {
-          "title": "절기 백로 앞두고 파란 하늘과 구름 [뉴시스Pic]",
-          "link": "https://www.newsis.com/view/NISX20260906_0003778076",
-          "date": "2026-09-06T05:54:05.000Z",
-          "summary": "[서울=뉴시스]고범준 이무열 기자 = 본격적인 가을의 시작을 알리는 절기인 '백로'를 하루 앞둔 6일 대구 달서구 이월드에서 바라본 하늘이 구름과 어우러져 가을 정취를 더하고 있다. ◎공감언론 뉴시스 bjko@newsis.com, lmy@newsis.com",
+          "title": "가을 시작 '백로' 전국 맑아…강원·경상 곳곳 비 소식[내일날씨]",
+          "link": "https://www.newsis.com/view/NISX20260906_0003778159",
+          "date": "2026-09-06T08:09:19.000Z",
+          "summary": "[서울=뉴시스]조수원 기자 = 본격적인 가을의 시작을 알리는 절기 '백로'이자 7일 월요일은 전국이 대체로 맑겠으나, 강원 동해안·산지와 경상권, 제주도는 대체로 흐리고 비가 내리겠다. 기상청은 \"중국 북부지방에 위치한 고기압의 가장자리에 들어 전국이 대체로 맑겠다\"면서도 \"오전까지 강원 동해안·산지와 부산·울산·경남 동",
           "source": "뉴시스 사회",
           "via": "뉴시스 사회"
         },
         {
-          "title": "기네스 맥주 2억원어치 싣고 사라진 트럭…英서 트레일러 2대 도난",
-          "link": "https://www.newsis.com/view/NISX20260906_0003778005",
-          "date": "2026-09-06T05:44:00.000Z",
-          "summary": "[서울=뉴시스]허준희 인턴 기자 = 잉글랜드 북서부 리버풀 인근의 한 산업단지에서 기네스 맥주 약 4만ℓ를 실은 트레일러 2대가 도난당했다. 지난 3일(현지 시간) 영국 가디언 보도에 따르면, 경찰은 지난달 31일 밤 체셔주 런콘의 화이트하우스 산업단지에서 트럭 2대가 잇따라 들어와 맥주가 실린 트레일러를 훔쳐 달아났다고",
+          "title": "\"카드 훔쳐 골드바까지\"…CCTV에 얼굴 찍힌 범인, 반년째 못 잡았다",
+          "link": "https://www.newsis.com/view/NISX20260906_0003778108",
+          "date": "2026-09-06T07:58:00.000Z",
+          "summary": "[서울=뉴시스]허준희 인턴 기자 = 분실한 신용카드로 약 230만원을 결제하고 골드바까지 구매한 한 남성이 아직 잡히지 않고 있다는 사연이 전해졌다. 지난 5일 JTBC '사건반장'에 따르면, 제보자 A씨는 지난해 11월 27일 근무 중 휴대전화로 카드 결제 알림을 확인하다가 자신이 사용하지 않은 철도 승차권 결제 내역을",
           "source": "뉴시스 사회",
           "via": "뉴시스 사회"
         },
         {
-          "title": "금천구, 주민이 기획하는 '금천하모니축제' 조직위 출범",
-          "link": "https://www.newsis.com/view/NISX20260906_0003778056",
-          "date": "2026-09-06T05:38:05.000Z",
-          "summary": "[서울=뉴시스] 최현호 기자 = 서울 금천구는 올해 금천하모니축제를 주민참여형으로 운영한다고 6일 밝혔다. 구는 주민과 전문가, 지역언론 자문위원 등 십여 명으로 주민참여형 조직위원회를 꾸렸다. 조직위는 문화기획·공연행사·전시체험 3개 분과에서 논의·제안한 사항을 종합적으로 심의·의결해 축제에 반영할 예정이다. 금천하모니",
+          "title": "전남광주 한방병원서 불…50여명 대피",
+          "link": "https://www.newsis.com/view/NISX20260906_0003778142",
+          "date": "2026-09-06T07:52:06.000Z",
+          "summary": "[전남광주=뉴시스]이영주 기자 = 6일 오후 3시3분께 전남광주 북구 용두동 한 한방병원 4층에서 불이 나 7분 만에 꺼졌다. 이 불로 인명피해는 없으나 병원 관계자와 입원 환자 등 50여명이 대피하는 소동이 빚어졌다. 화재 진압은 소화기와 스프링클러를 통해 이뤄졌다. 당국은 벽걸이 에어컨에서 불이 시작된 것으로 보고 정",
           "source": "뉴시스 사회",
           "via": "뉴시스 사회"
         },
         {
           "title": "중수청장후보추천위원회, 초대 청장 후보자 4명 추천",
           "link": "https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&nttId=129297",
-          "date": null,
+          "date": "2026-09-04T09:00:00.000Z",
           "summary": "- 국민 천거와 엄정한 심사 거쳐 수사 전문성·공정성·리더십 갖춘 후보군 압축 - 행안부 장관, 후보추천위원회 결과를 존중하여 최종 1인 제청 예정 중대범죄수사청장후보추천위원회 ( 위원장 이주원 , 이하 후보추천위원회 ) 는 9 월 4 일 정부서울청사에서 회의를 개최하고 오는 10 월 2 일 출범하는 중대범죄수사청 ( 이",
           "source": "행정안전부 보도자료",
           "via": "행정안전부 보도자료"
@@ -490,7 +482,7 @@ window.MYNEWS_DATA = {
         {
           "title": "8.15.~18. 호우 피해 특별재난지역 추가 선포",
           "link": "https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&nttId=129296",
-          "date": null,
+          "date": "2026-09-04T09:00:00.000Z",
           "summary": "- 경상남도 통영시 전역 추가 선포, 국비 추가 지원 및 공공요금 감면 정부는 오늘(4일), 지난 8월 15일부터 18일까지 이어진 집중호우로 피해가 발생한 경상남도 통영시 전역에 대하여 대통령 재가를 받아 특별재난지역으로 추가 선포했다. 정부는 8월 21일 사전조사를 토대로 거제시 전역과 통영시 산양읍·봉평동을 특별재난",
           "source": "행정안전부 보도자료",
           "via": "행정안전부 보도자료"
@@ -498,7 +490,7 @@ window.MYNEWS_DATA = {
         {
           "title": "“안심하고 즐기세요” 서울세계불꽃축제 안전대책 현장점검",
           "link": "https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&nttId=129281",
-          "date": null,
+          "date": "2026-09-04T06:20:00.000Z",
           "summary": "- 윤호중 행정안전부 장관, 관계기관 안전대책 점검회의 주재 및 최종 현장점검(9.4.) - 여의나루역 무정차 등 주요 혼잡 지점 인파관리 및 안전대책 꼼꼼히 확인 윤호중 행정안전부 장관은 9 월 4 일 여의도 한강공원에서 열리는 ‘ 서울세계불꽃축제 ’ 현장을 방문해 축제장 안전관리 상황을 점검하고 현장 근무자를 격려했다",
           "source": "행정안전부 보도자료",
           "via": "행정안전부 보도자료"
@@ -506,7 +498,7 @@ window.MYNEWS_DATA = {
         {
           "title": "기부가 만든 고향의 변화, 고향사랑의 날 기념 고향사랑기부대상 시상식 개최",
           "link": "https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&nttId=129280",
-          "date": null,
+          "date": "2026-09-04T03:00:00.000Z",
           "summary": "- ‘고향사랑의 날(9.4)’ 맞아 유공자 9명 포상, 우수 지방정부 15곳 시상 - 우수 지방정부에 총 5억 원 특별교부세 지원, 우수사례 전국 확산 행정안전부 ( 장관 윤호중 ) 는 9 월 4 일 ( 금 ) 서울 상암동에서 ‘ 고향사랑의 날 ’ 을 기념해 고향사랑기부대상 시상식을 개최했다고 밝혔다 . * ‘ 고향사랑의",
           "source": "행정안전부 보도자료",
           "via": "행정안전부 보도자료"
@@ -514,7 +506,7 @@ window.MYNEWS_DATA = {
         {
           "title": "지역 농산물과 대기업 유통망의 만남… 행안부, '지방정부-기업 상생협력' 물꼬 터",
           "link": "https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&nttId=129224",
-          "date": null,
+          "date": "2026-09-03T08:00:00.000Z",
           "summary": "- 코레일유통-김제시, 롯데웰푸드㈜-군위군, 지방정부 상생발전 업무협약 체결(9.3.) - 김제시의 특산물인 ‘논콩’을 활용한 단백질바, 셰이크, 두유, 8종 개발 출시 - 군위군 사과로 만든 과자류 총 15종 가을철 한정, 서울역 반짝 매장 운영 행정안전부 ( 장관 윤호중 ) 는 9 월 3 일 ( 목 ), 정부서울청사에",
           "source": "행정안전부 보도자료",
           "via": "행정안전부 보도자료"
@@ -522,7 +514,7 @@ window.MYNEWS_DATA = {
         {
           "title": "가을 행락철 다중운집인파 안전관리 총력 대응",
           "link": "https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&nttId=129230",
-          "date": null,
+          "date": "2026-09-03T07:00:00.000Z",
           "summary": "- 가을철 축제‧행사 등 다중운집인파 안전관리 관계기관 대책회의 개최(9.3.) - 부처·지방정부 상황관리 강화 및 안전한 축제를 위한 국민행동요령 준수 당부 행정안전부 ( 장관 윤호중 ) 는 9 월 3 일 ( 목 ), 김광용 재난안전관리본부장 주재로 ‘ 가을철 축제 ‧ 행사 등 다중운집인파 안전관리 관계기관 대책회의 *",
           "source": "행정안전부 보도자료",
           "via": "행정안전부 보도자료"
@@ -530,7 +522,7 @@ window.MYNEWS_DATA = {
         {
           "title": "인공지능(AI)과 CCTV로 더 안전해지는 우리 동네",
           "link": "https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&nttId=129231",
-          "date": null,
+          "date": "2026-09-03T03:00:00.000Z",
           "summary": "- ｢2026년 지방정부 CCTV 통합관제 우수사례 경진대회｣ 개최, 7개 우수사례 공유 - 지하차도 차단정보 차량 내비게이션 안내서비스, 드론영상-재난안전상황실 연계 서비스, 도로·비탈면 비전 AI 서비스 등 소개 < 2026 년 CCTV 통합관제 우수사례 > # 경기도 동두천시 는 치매환자 , 정신질환자 , 아동 등 ",
           "source": "행정안전부 보도자료",
           "via": "행정안전부 보도자료"
@@ -538,7 +530,7 @@ window.MYNEWS_DATA = {
         {
           "title": "‘12대 강풍 취약시설’ 점검으로 일상 속 위험 요인 선제 제거",
           "link": "https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&nttId=129228",
-          "date": null,
+          "date": "2026-09-03T03:00:00.000Z",
           "summary": "- 옥외광고물부터 교회 첨탑·초고층빌딩까지, 강풍 점검 대상 확대 - 9월 4일까지 점검 완료, 강풍 취약 요인 보수·보강 추진 등 철저 행정안전부 ( 장관 윤호중 ) 는 강풍으로 인한 인명 · 시설 피해를 예방하기 위해 지난 7 월 29 일부터 8 월 14 일까지 관계기관 및 지방정부와 합동으로 ‘12 대 강풍 취약시설",
           "source": "행정안전부 보도자료",
           "via": "행정안전부 보도자료"
@@ -546,7 +538,7 @@ window.MYNEWS_DATA = {
         {
           "title": "재난안전 분야 논문 공모전 개최",
           "link": "https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&nttId=129227",
-          "date": null,
+          "date": "2026-09-03T03:00:00.000Z",
           "summary": "- 9월 1일부터 접수, 만 18세 이상 대한민국 국민 누구나 참여 가능 - 우수작 4점 선정하여 행안부 장관상 등 수여 및 학술대회 발표 기회 행정안전부 ( 장관 윤호중 ) 는 9 월 1 일부터 11 월 10 일까지 한국행정연구원 등 관계기관 * 과 함께 재난 · 안전 분야 논문 공모전을 개최한다고 밝혔다 . * 행정안",
           "source": "행정안전부 보도자료",
           "via": "행정안전부 보도자료"
@@ -554,7 +546,7 @@ window.MYNEWS_DATA = {
         {
           "title": "흩어져 있던 가족관계교육, 이제 「정부24」에서 한눈에 찾고 신청한다",
           "link": "https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&nttId=129226",
-          "date": null,
+          "date": "2026-09-03T03:00:00.000Z",
           "summary": "- 행안부·성평등가족부 협업… 생애주기·가족 상황을 고려한 7개 맞춤형 교육 제공 - 국민이 생애주기와 가족 상황에 맞는 교육 정보를 쉽게 찾아 참여 가능 - 올해 말, 인공지능(AI) 맞춤 검색 연동으로 나에게 딱 맞는 프로그램 추천까지 행정안전부 ( 장관 윤호중 ) 와 성평등가족부 ( 장관 원민경 ) 는 여러 부처와 ",
           "source": "행정안전부 보도자료",
           "via": "행정안전부 보도자료"
@@ -607,10 +599,186 @@ window.MYNEWS_DATA = {
       "error": null,
       "items": [
         {
+          "title": "현대제철 ‘미 전기로 제철소’ 새 활로 여나",
+          "link": "https://www.khan.co.kr/article/202609062036045/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+          "date": "2026-09-06T11:36:04.000Z",
+          "summary": "루이지애나서 첫삽…저탄소 설비로 2029년부터 연 270만t생산미 현지 자동차 생산지에 직접 공급…철강 통상 리스크 절감 효과현대제철이 주도하는 미국 전기로 제철소 건설 프로젝트가 첫발을 내디뎠다. 중국의 저렴한 범용제품 과잉생산과 미국·유럽연합(EU)의 고율 관세 부과, 원재료 가격 상승 등 다중고에 시달리는 국내 철강",
+          "source": "경향신문 경제",
+          "via": "경향신문 경제"
+        },
+        {
+          "title": "‘2조달러 IPO’가 쏜 AI 쩐의 전쟁",
+          "link": "https://www.khan.co.kr/article/202609062036035/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+          "date": "2026-09-06T11:36:03.000Z",
+          "summary": "앤트로픽 공격적 자본 조달에오픈AI, 아스트라 공개로 반격독과점 체제 속 실탄 확보 총력인공지능(AI) 패권을 둘러싼 앤트로픽과 오픈AI의 정면충돌이 격화하고 있다. 기업 시장에서 점유율을 뒤집으며 기세를 올린 앤트로픽이 사상 최대인 2조달러 규모의 기업공개(IPO) 절차에 착수하며 선공을 날리자, 오픈AI는 차세대 모델",
+          "source": "경향신문 경제",
+          "via": "경향신문 경제"
+        },
+        {
+          "title": "‘역대급 수출’ 떠받친 석유제품…정유사 “물량 남는데 빗장 풀자”",
+          "link": "https://www.khan.co.kr/article/202609062036025/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+          "date": "2026-09-06T11:36:02.000Z",
+          "summary": "중동·러시아산 경유 수급 차질 속유럽서 한국산 수입 등 판매 호조“국내 수급 안정적…탄력 운용을”정부는 “전쟁 중” 수출 제한 고수올해 수출 실적이 3분기를 지나기 전 일찌감치 지난해 연간 실적을 넘어선 주요 요인으로 석유제품 판매 호조가 꼽힌다. 반도체가 전체 수출 파이를 키웠다면 석유제품은 ‘두 개의 전쟁’ 국면에서 ",
+          "source": "경향신문 경제",
+          "via": "경향신문 경제"
+        },
+        {
+          "title": "K팝 아이돌이 우리 제품 팔아준다고?",
+          "link": "https://www.khan.co.kr/article/202609062036015/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+          "date": "2026-09-06T11:36:01.000Z",
+          "summary": "K트렌드·뷰티·푸드 등 3개 분야10일까지 소기업·소상공인 모집K팝 아이돌이 우수한 소기업·소상공인들의 상품을 직접 판매하는 ‘플리마켓’(벼룩시장)이 열린다. 중소기업중앙회는 K팝 아이돌과 함께 소기업·소상공인 상품을 홍보·판매하는 ‘노란우산’ 디지털 콘텐츠 ‘옐로우 플리마켓’에 참여할 소기업·소상공인을 모집한다고 6일 ",
+          "source": "경향신문 경제",
+          "via": "경향신문 경제"
+        },
+        {
+          "title": "LG전자 ‘로봇 관절’ 빅테크 공급 임박",
+          "link": "https://www.khan.co.kr/article/202609062036005/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+          "date": "2026-09-06T11:36:00.000Z",
+          "summary": "새 먹거리로 키우는 ‘액추에이터’수주 협의 중…내달 생산 미팅도LG전자가 복수의 글로벌 빅테크와 ‘로봇 관절’인 액추에이터를 공급하기 위한 수주 협의를 진행 중이라고 밝혔다. 다음달 생산 준비 상황을 파악하기 위한 미팅도 진행한다. LG전자는 국내외 생산거점에 휴머노이드를 배치하며 로봇을 신성장동력으로 삼고 있다.백승태 ",
+          "source": "경향신문 경제",
+          "via": "경향신문 경제"
+        },
+        {
+          "title": "“하이브리드 대세”라지만 중소형 차는 ‘가솔린’ 질주",
+          "link": "https://www.khan.co.kr/article/202609062034035/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+          "date": "2026-09-06T11:34:03.000Z",
+          "summary": "생애 첫 차·세컨드카 수요층초기 구매비 낮춘 ‘실속 선택’대형 차급과 연비 격차도 한몫디 올 뉴 아반떼국내 완성차 시장에서 하이브리드(HEV) 차량의 인기가 거세지만 모든 차급에서 같은 공식이 통하는 것은 아니다. 그랜저와 싼타페 등 차급이 올라갈수록 웃돈을 주고도 하이브리드 모델을 선택하는 비중이 압도적인 반면, 아반떼",
+          "source": "경향신문 경제",
+          "via": "경향신문 경제"
+        },
+        {
+          "title": "[부고]강윤진(재정경제부 개발금융국장)씨 부친상",
+          "link": "https://www.newsis.com/view/NISX20260906_0003778234",
+          "date": "2026-09-06T11:24:25.000Z",
+          "summary": "[세종=뉴시스] ▲강대용씨 별세, 강윤진(재정경제부 개발금융국장)씨 부친상=6일, 봉생병원 장례식장 VIP 2호실, 발인 8일 오전 11시30분, 장지 부산영락공원.",
+          "source": "뉴시스 경제",
+          "via": "뉴시스 경제"
+        },
+        {
+          "title": "새울 3호기 재가동 이틀 만에 정지…\"방사선 특이사항 없어\"",
+          "link": "https://www.newsis.com/view/NISX20260906_0003778229",
+          "date": "2026-09-06T11:24:03.000Z",
+          "summary": "[세종=뉴시스]이수정 기자 = 시운전 중이던 새울원자력발전소 3호기가 재가동 이틀 만에 다시 정지됐다. 원자력안전위원회는 한국수력원자력으로부터 6일 오후 3시1분께 새울 3호기를 수동정지했다는 보고를 받았다고 밝혔다. 한수원은 새울 3호기 시운전 시험을 위해 원자로 출력 상승 중 터빈건물 내 습분분리재열기 연결 배관부위에",
+          "source": "뉴시스 경제",
+          "via": "뉴시스 경제"
+        },
+        {
+          "title": "\"1300원대 갈 줄 몰랐다…환율 예측 대신 이렇게 대응해야\"",
+          "link": "https://www.newsis.com/view/NISX20260906_0003778041",
+          "date": "2026-09-06T11:12:00.000Z",
+          "summary": "[서울=뉴시스]서이현 인턴 기자 = 원-달러 환율이 고점 대비 100원 넘게 떨어졌지만 아직 원화가 과도하게 고평가된 상태는 아니라는 분석이 나왔다. 3일 촬영된 유튜브 채널 '홍춘욱의 경제강의노트'에 따르면 국제결제은행(BIS) 기준 실질실효환율로 볼 때 원화는 여전히 역사적 평균 대비 약 10% 저평가된 상태다. 홍춘",
+          "source": "뉴시스 금융",
+          "via": "뉴시스 금융"
+        },
+        {
+          "title": "히말라야 대홍수에 중국 티베트 사망자 43명·실종 519명",
+          "link": "https://www.ajunews.com/view/20260906200317437",
+          "date": "2026-09-06T11:05:26.000Z",
+          "summary": "지난달 31일(현지시간) 네팔군 인력들이 라수와 지역의 라수와가디 수력발전소 터널 입구에서 구조 작업을 진행하고 있다.[사진=AFP연합뉴스] 네팔과 중국 국경의 히말라야 산악지대에서 발생한 대규모 홍수와 토석류로 중국 티베트(시짱) 지역의 인명 피해가 커지고 있다. 6일 연합뉴스에 따르면 티베트 지룽현 당국은 이날 오후 ",
+          "source": "아주경제 경제",
+          "via": "아주경제 경제"
+        },
+        {
+          "title": "이란 협상단장 \"미국, 더 고통스러운 보복 뒤따를 것\"",
+          "link": "https://www.ajunews.com/view/20260906193213429",
+          "date": "2026-09-06T10:44:51.000Z",
+          "summary": "이란 남부 시리크 카운티의 쿠헤스탁에 있는 결혼식장 인근에서 미국의 공습 후 파손된 주택들 주변으로 잔해가 널려 있다. [사진=로이터 연합뉴스] 이란이 미국과의 무력 충돌이 이어지는 가운데 강경 대응을 예고했다. 6일 연합뉴스에 따르면 모하마드 바게르 갈리바프 이란 의회 의장은 &ldquo;비례적 대응의 시대는 끝났다&r",
+          "source": "아주경제 경제",
+          "via": "아주경제 경제"
+        },
+        {
+          "title": "남동발전, 네팔 수색 계속…육상팀 46명 등 투입",
+          "link": "https://www.newsis.com/view/NISX20260906_0003778208",
+          "date": "2026-09-06T10:22:38.000Z",
+          "summary": "[세종=뉴시스]이수정 기자 = 한국남동발전이 네팔 현지에서 연락이 두절된 직원들을 찾기 위해 6일 베이스캠프 주변 산악지대 등에서 수색을 이어가고 있다. 남동발전 현지대응반에 따르면 현재 육상수색 4개팀 46명이 산악지대 수색에 투입됐다. 공중수색 2개팀도 열화상·적외선 장비를 탑재한 고성능 드론을 활용해 파워하우스 하류",
+          "source": "뉴시스 경제",
+          "via": "뉴시스 경제"
+        },
+        {
+          "title": "교육부 \"교부금, 매년 안정적 증가…내년엔 올해보다 10.1%↑\"",
+          "link": "https://www.newsis.com/view/NISX20260906_0003778202",
+          "date": "2026-09-06T09:38:24.000Z",
+          "summary": "[서울=뉴시스]정예빈 기자 = 지방교육재정교부금 개편으로 교육재정이 축소될 것이라는 교육계의 우려가 큰 가운데, 정부는 \"교부금은 매년 안정적으로 증가한다\"는 기존 입장을 재확인했다. 교육부는 6일 \"2027년 교부금은 2026년 본예산 대비 10.1% 증가한다\"고 밝혔다. 앞서 교육부는 기존 내국세의 20.79%를 교육",
+          "source": "뉴시스 경제",
+          "via": "뉴시스 경제"
+        },
+        {
+          "title": "여름 가니 머리카락 '우수수'…대비하는 방법은?",
+          "link": "https://www.newsis.com/view/NISX20260904_0003776998",
+          "date": "2026-09-06T09:01:00.000Z",
+          "summary": "[서울=뉴시스]이소헌 기자 = 계절이 바뀌는 시기에는 누구나 일시적으로 머리카락이 빠질 수 있는데, 이를 '계절성(휴지기) 탈모'라고 한다. 일반적인 탈모와는 원인도 다르고 관리 방법도 다르지만 방치하면 만성 탈모로 이어질 위험이 있어 주의가 필요하다. 6일 JW중외제약 홈페이지에 따르면 평소 흔히 언급되는 '탈모'는 주",
+          "source": "뉴시스 금융",
+          "via": "뉴시스 금융"
+        },
+        {
+          "title": "\"강남은 떨어지고 강북은 오른다\"…서울 부동산 판도 바뀌나",
+          "link": "https://www.newsis.com/view/NISX20260906_0003778064",
+          "date": "2026-09-06T08:49:00.000Z",
+          "summary": "[서울=뉴시스]김성은 인턴 기자 = 서울 아파트 시장에서 강남권 집값은 하락하는 반면 강북권은 상승하는 이른바 '북고남저(北高南低)' 현상이 뚜렷해지고 있다는 분석이 나왔다. 고가 주택 중심의 강남권이 대출과 세금 부담에 위축된 사이, 직장 접근성과 가격 경쟁력을 갖춘 강북권으로 30대 실수요자가 몰리고 있다는 것이다. ",
+          "source": "뉴시스 경제",
+          "via": "뉴시스 경제"
+        },
+        {
+          "title": "시중 5만원권 195조원 돌파…5년 새 51조원 늘었다",
+          "link": "https://www.newsis.com/view/NISX20260906_0003778175",
+          "date": "2026-09-06T08:33:44.000Z",
+          "summary": "[서울=뉴시스]송혜리 기자 = 시중에 풀린 5만원권이 195조원을 넘어선 것으로 나타났다. 6일 국회 재정경제기획위원회 국민의힘 간사 배준영 의원이 한국은행으로부터 제출받은 자료를 분석한 결과, 올해 7월말 기준 5만원권 발행잔액은 195조4000억원으로 집계됐다. 5만원권 발행잔액은 2021년 144조2000억원에서 2",
+          "source": "뉴시스 금융",
+          "via": "뉴시스 금융"
+        },
+        {
+          "title": "불법금융광고 10년간 15만건…절반이 '미등록 대부'",
+          "link": "https://www.newsis.com/view/NISX20260906_0003778166",
+          "date": "2026-09-06T08:25:56.000Z",
+          "summary": "[서울=뉴시스]송혜리 기자 = 경기 둔화와 고금리 장기화 속에 서민·취약계층을 노린 불법사금융 피해가 빠르게 늘고 있다. 미등록 대부와 불법 채권추심, 고금리 대출 광고가 온라인을 중심으로 확산하면서 실제 피해로 이어지는 사례도 증가해 대응을 강화해야 한다는 지적이 나온다. 6일 국회 정무위원회 소속 국민의힘 박성훈 국회",
+          "source": "뉴시스 금융",
+          "via": "뉴시스 금융"
+        },
+        {
+          "title": "두산에너빌리티, 네팔 홍수 지역 헬기 수색 재개…\"하류 지역 집중 수색\"",
+          "link": "https://www.newsis.com/view/NISX20260906_0003778145",
+          "date": "2026-09-06T07:34:52.000Z",
+          "summary": "[서울=뉴시스] 류인선 기자 = 두산에너빌리티가 네팔 대홍수 발생 지역에서 실종자 수색을 이어가고 있다. 한국에서 열화상 카메라와 스피커를 장착한 드론을 공수해 투입하는 한편, 헬기 수색도 재개해 하류 방면을 집중적으로 살핀다. 6일 업계에 따르면 두산에너빌리티는 이날 현지시간으로 오전 11시50분(한국시간 오후 3시5분",
+          "source": "뉴시스 산업",
+          "via": "뉴시스 산업"
+        },
+        {
+          "title": "고려아연 \"영풍·MBK, 임시주총 앞두고 근거 없는 공세로 '여론전'…주주 판단 흐려\"",
+          "link": "https://www.newsis.com/view/NISX20260906_0003778144",
+          "date": "2026-09-06T07:30:37.000Z",
+          "summary": "[서울=뉴시스]유희석 기자 = 최윤범 고려아연 회장 측과 영풍·MBK파트너스 연합 간 경영권 분쟁이 오는 9일 임시주주총회를 앞두고 회계처리와 펀드 투자 등을 둘러싼 공방으로 확산하고 있다. 고려아연은 6일 입장문을 내고 영풍·MBK파트너스가 사실관계를 왜곡하거나 일방적인 주장을 반복하며 여론전에 나서고 있다고 비판했다.",
+          "source": "뉴시스 산업",
+          "via": "뉴시스 산업"
+        },
+        {
+          "title": "기초연금 2030년 지출 30조 돌파 전망⋯'하후상박' 개편 추진",
+          "link": "https://www.inews24.com/view/2002424",
+          "date": "2026-09-06T07:17:42.000Z",
+          "summary": "노후 생활 안정을 지원하는 기초연금 의무 지출액이 오는 2030년 30조원을 넘어설 것으로 전망됐다. 소득 하위층에게 더 주는 '하후상박' 개편과 고령화 심화가 맞물리면서 전반적인 재정 부담은 더욱 커질 것으로 보인다.정부가",
+          "source": "아이뉴스24 경제",
+          "via": "아이뉴스24 경제"
+        },
+        {
+          "title": "美 뉴욕 가는 길 넓어졌다…유나이티드항공, 인천~뉴어크 매일 운항",
+          "link": "https://www.newsis.com/view/NISX20260906_0003778045",
+          "date": "2026-09-06T07:14:01.000Z",
+          "summary": "[서울=뉴시스]김정환 관광전문 기자 = 미국 유나이티드항공이 한국 취항 40주년을 맞아 인천과 미국 뉴욕권을 잇는 직항 노선을 새로 열었다. 유나이티드항공은 5일 인천국제공항 제1터미널에서 뉴어크 리버티국제공항으로 향하는 인천~뉴욕(뉴어크) 노선 첫 항공편을 운항했다. 미국 국적 항공사 가운데 인천과 뉴욕 대도시권을 논스",
+          "source": "뉴시스 산업",
+          "via": "뉴시스 산업"
+        },
+        {
+          "title": "2030년 '기초연금' 의무지출 30조 돌파 전망…연평균 6.8%↑",
+          "link": "https://www.newsis.com/view/NISX20260906_0003778130",
+          "date": "2026-09-06T07:10:30.000Z",
+          "summary": "[서울=뉴시스]정예빈 기자 = 정부가 만 65세 이상 노인 중 소득 하위 70%에게 지급하는 기초연금 의무지출액이 2030년에는 30조원을 넘어설 전망이다. 정부가 저소득 노인을 더 두텁게 지원하는 '하후상박'식 개편을 추진하고 있지만, 급격한 고령화로 건강보험·노인장기요양보험 등 복지 지출이 늘어날 것으로 보인다. 6일",
+          "source": "뉴시스 경제",
+          "via": "뉴시스 경제"
+        },
+        {
           "title": "美·이란, 호르무즈서 유조선·함정 맞공격 '보복전'…\"시간은 이란편도 아냐\"",
           "link": "https://www.ajunews.com/view/20260906115312935",
           "date": "2026-09-06T06:35:26.000Z",
-          "summary": "미국 중부사령부(CENTCOM)가 5일 이란산 원유 운반선을 공격하는 장면이라고 공개한 영상에서 오만만 해상에 있는 것으로 표시된 유조선 'M/T 카일로'에서 화염이 치솟고 있다. [사진=로이터연합뉴스] 미국과 이란이 5일(현지시각) 호르무즈 해협 인근과 이란 인근 해역에서 상대방의 유조선과 함정을 직접 겨냥해 공격하며 ",
+          "summary": "미국 중부사령부(CENTCOM)가 5일 이란산 원유 운반선을 공격하는 장면이라고 공개한 영상에서 오만만 해상에 있는 것으로 표시된 유조선 'M/T 카일로'에서 화염이 치솟고 있다. [사진=로이터연합뉴스] 미국과 이란이 5일(현지시간) 호르무즈 해협 인근과 이란 인근 해역에서 상대방의 유조선과 함정을 직접 겨냥해 공격하며 ",
           "source": "아주경제 경제",
           "via": "아주경제 경제"
         },
@@ -639,52 +807,12 @@ window.MYNEWS_DATA = {
           "via": "아주경제 경제"
         },
         {
-          "title": "KDB미래전략硏이 꼽은 희토류 해법…\"고려아연, 제련·도시광산 주목\"",
-          "link": "https://www.newsis.com/view/NISX20260906_0003778110",
-          "date": "2026-09-06T06:22:14.000Z",
-          "summary": "[서울=뉴시스]유희석 기자 = 글로벌 희토류 공급망 경쟁이 치열해지는 가운데 한국의 고도화된 비철금속 제련기술과 도시광산 활용이 공급망 구축의 해법이 될 수 있다는 분석이 나왔다. 6일 고려아연에 따르면 한국산업은행 KDB미래전략연구소는 지난 2일 발간한 '글로벌 희토류 공급망 재편 동향' 보고서에서 한국의 핵심 경쟁력으",
-          "source": "뉴시스 산업",
-          "via": "뉴시스 산업"
-        },
-        {
-          "title": "65세 이상 고용률, 처음으로 20대 초반 추월",
-          "link": "https://www.khan.co.kr/article/202609061521001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-          "date": "2026-09-06T06:21:00.000Z",
-          "summary": "지난달 27일 서울 고려대학교 SK미래관에서 열린 2026 인크루트 채용설명회에서 한 참석자가 설명회 내용을 정리하고 있다. 연합뉴스65세 이상 고용률이 사상 처음으로 20대 초반을 추월했다. 기업의 신규 채용 축소와 경력직 선호 등으로 청년층의 노동시장 진입 문턱이 높아진 반면, 고령층은 생계형 취업 수요와 노인 일자리",
-          "source": "경향신문 경제",
-          "via": "경향신문 경제"
-        },
-        {
-          "title": "\"7곳 힘모은다\"…유한킴벌리, 자립준비청년 지원",
-          "link": "https://www.newsis.com/view/NISX20260904_0003776932",
-          "date": "2026-09-06T06:01:00.000Z",
-          "summary": "[서울=뉴시스]송연주 기자 = 유한킴벌리가 인구 감소 지역 자립 준비 청년의 안정적인 자립을 위해 협력한다. 6일 유한킴벌리에 따르면 지난 3일 서울올림픽파크텔에서 열린 '온:청년 프로젝트' 업무협약식에 참여했다. 민관 협력체계 구축에 동참하기로 했다. 온:청년 프로젝트는 인구 감소 지역의 자립준비청년을 대상으로 다양한 ",
-          "source": "뉴시스 산업",
-          "via": "뉴시스 산업"
-        },
-        {
           "title": "푸틴, 트럼프 특사와 3시간 협상...유익했지만 입장차 여전",
           "link": "https://www.ajunews.com/view/20260906141902035",
           "date": "2026-09-06T05:52:17.000Z",
           "summary": "블라디미르 푸틴 러시아 대통령(오른쪽)이 2026년 9월 5일(현지시간) 러시아 모스크바 크렘린궁 상원궁에서 회담에 앞서 도널드 트럼프 미국 대통령의 특사 스티브 위트코프(왼쪽 두 번째), 재러드 쿠슈너(왼쪽)와 인사하고 있다. [사진=AP연합뉴스] 블라디미르 푸틴 러시아 대통령이 5일(현지시간) 러시아를 방문한 도널드 ",
           "source": "아주경제 경제",
           "via": "아주경제 경제"
-        },
-        {
-          "title": "첨단산업·한미 투자에 ‘잠재 나랏빚’도 급증···관건은 ‘투자 성과’",
-          "link": "https://www.khan.co.kr/article/202609061449001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-          "date": "2026-09-06T05:49:00.000Z",
-          "summary": "이재명 대통령이 6월 29일 청와대에서 열린 ‘대한민국 대도약 3대 메가프로젝트 국민보고회’에서 모두발언을 하고 있다. 왼쪽 세번쨰부터 이재용 삼성전자 회장, 이 대통령, 최태원 에스케이(SK) 그룹 회장. 2026.06.29 청와대사진기자단정부의 국가보증채무가 첨단산업과 한미 전략투자 확대로 2030년 157조원까지 불",
-          "source": "경향신문 경제",
-          "via": "경향신문 경제"
-        },
-        {
-          "title": "[올댓차이나] 8월 대만 외환보유액 6019억＄…3개월 만에 증가",
-          "link": "https://www.newsis.com/view/NISX20260906_0003778055",
-          "date": "2026-09-06T05:28:57.000Z",
-          "summary": "[서울=뉴시스]이재준 기자 = 대만 8월 외환보유액이 3개월 만에 늘어나면서 6000억 달러대를 회복했다. 중앙통신과 거형망은 6일 대만 중앙은행 최신 통계를 인용해 8월 말 외환보유액이 6019억400만 달러(약 812조2695억원)로 전월 말 5942억7100만 달러보다 76억3300만 달러, 1.28% 증가했다고 전",
-          "source": "뉴시스 경제",
-          "via": "뉴시스 경제"
         },
         {
           "title": "50·60대 '급전' 늘었다…카드론·보험계약대출 동반 증가",
@@ -695,148 +823,12 @@ window.MYNEWS_DATA = {
           "via": "뉴시스 금융"
         },
         {
-          "title": "추석 앞두고 반려동물 용품도 할인…쿠팡 '펫페어'[펫과함께]",
-          "link": "https://www.newsis.com/view/NISX20260904_0003776311",
-          "date": "2026-09-06T05:00:00.000Z",
-          "summary": "[서울=뉴시스]오제일 기자 = 쿠팡은 가을철을 맞아 반려동물 용품 할인행사 '펫페어'를 14일까지 진행한다. 마즈, 굿데이, 하림펫푸드, ANF 등 90여개 대표 브랜드가 참여해 총 2만5000여개에 달하는 사료, 간식, 위생용품 등 다양한 반려동물용품을 선보인다. 즉시 할인과 함께 구매 금액대별 할인 쿠폰을 제공한다. ",
-          "source": "뉴시스 산업",
-          "via": "뉴시스 산업"
-        },
-        {
-          "title": "인니 화산재 덮쳐…공항 일시 폐쇄에 대한항공 등 자카르타행 항공편 운항 차질",
-          "link": "https://www.newsis.com/view/NISX20260906_0003778035",
-          "date": "2026-09-06T04:59:37.000Z",
-          "summary": "[서울=뉴시스] 류인선 기자 = 인도네시아 아낙 크라카타우 화산 분화로 화산재가 수도 자카르타를 덮치면서 항공편에 차질이 발생했다. 대한항공은 6일 \"인도네시아 크라카타우 화산재 영향으로 항공편의 비정상 운항이 발생했다\"고 공지했다. 자카르타 공항 운항 제한으로 지난 5일 대한항공의 인천~자카르타 왕복 항공편이 13시간 ",
-          "source": "뉴시스 산업",
-          "via": "뉴시스 산업"
-        },
-        {
-          "title": "CU, 아시안게임 앞두고 맥주·위스키 등 최대 56% 할인",
-          "link": "https://www.khan.co.kr/article/202609061352001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-          "date": "2026-09-06T04:52:00.000Z",
-          "summary": "CU 아시안게임 할인 행사. BGF리테일 제공오는 19일 개막하는 2026 아이치·나고야 아시안게임을 앞두고 편의점 CU가 주류, 안주류 등 70여종 상품을 최대 50% 이상 할인 판매한다.CU는 ‘응원은 HOT하게, 쇼핑은 COOL하게’를 주제로, 아시안게임 경기를 보며 즐길 수 있는 상품들을 오는 10일부터 할인해 판",
-          "source": "경향신문 경제",
-          "via": "경향신문 경제"
-        },
-        {
-          "title": "GS건설, ‘모듈러 주택처럼’ 모듈러 데이터센터 개발 착수···LGU+ 등과 협력",
-          "link": "https://www.khan.co.kr/article/202609061335001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-          "date": "2026-09-06T04:35:00.000Z",
-          "summary": "지난 4일 GS건설과 LG유플러스, 자이C&A, 간삼건축, D&O CM 등 대표자들이 ‘사전 제작형 모듈러 데이터센터(PMDC) 얼라이언스 구축을 위한 업무협약’을 체결하고 기념촬영을 하고 있다. 왼쪽 두번째가 허윤홍 GS건설 대표. GS건설 제공GS건설이 인공지능(AI) 데이터센터 수요 급증에 대응하기 위해 ‘모듈러 데",
-          "source": "경향신문 경제",
-          "via": "경향신문 경제"
-        },
-        {
-          "title": "현대제철, 미국 전기로 제철소 첫 삽…위기의 철강업계 구원투수 될까?",
-          "link": "https://www.khan.co.kr/article/202609061326001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-          "date": "2026-09-06T04:26:00.000Z",
-          "summary": "미국 루이지애나주 전기로 제철소 기공식2029년부터 연간 270만t 열연·냉연 생산미국 남부·멕시코 자동차 생산 기지 공급통상 리스크 감소 기대 “시장 진출 교두보”미국 루이지애나주 어센션 패리시 도널드슨빌에서 지난 4일(현지시간) ‘현대제철-포스코 루이지애나 전기로 제철소(HPLS)’ 기공식이 열리고 있다. 산업통상부 ",
-          "source": "경향신문 경제",
-          "via": "경향신문 경제"
-        },
-        {
-          "title": "에이핑크·우주소녀가 소상공인 옷·화장품 직접 팝니다~",
-          "link": "https://www.khan.co.kr/article/202609061318001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-          "date": "2026-09-06T04:18:00.000Z",
-          "summary": "옐로우 플리마켓 포스터. 중소기업중앙회 제공K-팝 아이돌이 우수한 소기업·소상공인들의 상품을 직접 판매하는 ‘플리마켓’이 열린다.중소기업중앙회는 K-팝 아이돌과 함께 소기업·소상공인 상품을 홍보·판매하는 ‘노란우산’ 디지털 콘텐츠 ‘옐로우 플리마켓’에 참여할 소기업·소상공인을 모집한다고 6일 밝혔다.‘옐로우 플리마켓’은 ",
-          "source": "경향신문 경제",
-          "via": "경향신문 경제"
-        },
-        {
-          "title": "\"가족 연령에 맞게 추천\"…세라젬, 추석선물 제안",
-          "link": "https://www.newsis.com/view/NISX20260904_0003776267",
-          "date": "2026-09-06T04:01:00.000Z",
-          "summary": "[서울=뉴시스]송종호 기자 = 세라젬이 추석을 앞두고 가족 연령대와 라이프 스타일에 맞춘 헬스케어 제품을 대거 추천했다. 세라젬은 오는 30일까지 신제품 '마스터 V9 2027'을 포함한 '마스터 V 컬렉션' 등 대표 제품의 구매·구독 혜택을 마련하고, 패밀리세일과 보상 프로그램을 운영한다고 6일 밝혔다. 세라점은 \"오는",
-          "source": "뉴시스 산업",
-          "via": "뉴시스 산업"
-        },
-        {
-          "title": "집값 계속 오르면 2030년 서울 22개구 종부세 과세권",
-          "link": "https://www.newsis.com/view/NISX20260906_0003777997",
-          "date": "2026-09-06T03:46:49.000Z",
-          "summary": "[세종=뉴시스] 안호균 기자 = 현재의 집값 상승세가 지속될 경우 올해 부동산 세제개편안에 따른 서울 지역의 종부세 부담이 빠르게 증가한다는 전망이 나왔다. 34평형 아파트를 기준으로 2030년에는 강북·금천·도봉구를 제외한 서울 전역이 과세 대상에 포함된다는 분석이다. 6일 국회 정무위원회 소속 국민의힘 신동욱 의원은 ",
-          "source": "뉴시스 경제",
-          "via": "뉴시스 경제"
-        },
-        {
-          "title": "파라다이스 부산, 7일 ‘센트 바레’ 선봬…웰니스 콘텐츠 확대",
-          "link": "https://www.newsis.com/view/NISX20260906_0003777992",
-          "date": "2026-09-06T03:11:50.000Z",
-          "summary": "[서울=뉴시스]김정환 관광전문 조인서 인턴 기자 = 부산 해운대구 해운대해변로 파라다이스 호텔 부산이 7일 오전 10시 본관 시실리룸에서 ‘센트 바레’(Scent Barre)를 선보인다. 천연 아로마 테라피와 바레 운동을 결합한 웰니스 프로그램이다. 향, 호흡, 음악, 움직임 등을 연결해 몸과 마음의 균형을 되찾고 활기차",
-          "source": "뉴시스 산업",
-          "via": "뉴시스 산업"
-        },
-        {
           "title": "고인 금융거래 즉시 차단, 사망신고 후 최대 2개월 '빈틈' 없앤다",
           "link": "https://www.inews24.com/view/2002241",
           "date": "2026-09-06T03:00:01.000Z",
           "summary": "사망신고 이후에도 최대 2개월간 고인 명의로 금융거래가 가능했던 정보 공백이 사라진다. 앞으로 사망 정보가 매일 금융권에 전달되고 은행·보험·카드·증권 등 모든 금융회사가 거래 직전 사망 여부를 확인해 명의도용 대출",
           "source": "아이뉴스24 경제",
           "via": "아이뉴스24 경제"
-        },
-        {
-          "title": "'제7회 푸른 하늘의 날'…50개 기업·기관 기후행동 선언",
-          "link": "https://www.newsis.com/view/NISX20260905_0003777551",
-          "date": "2026-09-06T03:00:00.000Z",
-          "summary": "[세종=뉴시스]이수정 기자 = 정부가 '제7회 푸른 하늘을 위한 국제 맑은 공기의 날'을 맞아 기업·시민사회와 함께 대기오염물질과 온실가스 감축을 위한 공동 행동에 나선다. 기후에너지환경부와 외교부는 오는 7일 '푸른 하늘의 날'을 맞아 '기후와 맑은 공기를 위한 행동'을 주제로 기념행사를 개최한다고 6일 밝혔다. 푸른 ",
-          "source": "뉴시스 경제",
-          "via": "뉴시스 경제"
-        },
-        {
-          "title": "미세먼지·오존 해법 찾는다…'푸른하늘 콘퍼런스' 개최",
-          "link": "https://www.newsis.com/view/NISX20260905_0003777558",
-          "date": "2026-09-06T03:00:00.000Z",
-          "summary": "[세종=뉴시스]이수정 기자 = 국내외 대기환경 전문가들이 한자리에 모여 초미세먼지와 오존을 함께 관리하기 위한 방안을 논의한다. 기후에너지환경부 소속 국가미세먼지정보센터는 오는 7일부터 11일까지 서울 드래곤시티에서 '2026 국제 푸른하늘 콘퍼런스'를 개최한다고 6일 밝혔다. 센터는 2023년부터 유엔 아시아·태평양 경",
-          "source": "뉴시스 경제",
-          "via": "뉴시스 경제"
-        },
-        {
-          "title": "국세청, '집중호우 피해' 통영 전역으로 세정지원 확대",
-          "link": "https://www.newsis.com/view/NISX20260906_0003777912",
-          "date": "2026-09-06T03:00:00.000Z",
-          "summary": "[세종=뉴시스] 안호균 기자 = 국세청은 통영시 전체가 특별재난지역으로 지정됨에 따라, 피해를 입은 납세자에 대해 신고 및 납부 기한연장, 압류·매각 유예, 세무조사 유예 등의 세정지원을 확대 실시한다고 6일 밝혔다. 앞서 정부는 지난달 집중호우 피해가 발생한 거제시와 통영시 산양읍·봉평동을 특별재난지역으로 지정한 데 이",
-          "source": "뉴시스 경제",
-          "via": "뉴시스 경제"
-        },
-        {
-          "title": "\"의심하고, 끊고, 확인하고\"…범금융권 보이스피싱 예방 주간 개최",
-          "link": "https://www.newsis.com/view/NISX20260904_0003776956",
-          "date": "2026-09-06T03:00:00.000Z",
-          "summary": "[서울=뉴시스]이지민 기자 = 금융감독원이 은행·증권·저축·여신·상호금융 등 전 금융권이 함께하는 '보이스피싱 예방 주간'을 개최한다. 6일 금감원에 따르면 올해 상반기 보이스피싱 발생 건수는 7033건, 피해액은 총 3276억원으로 집계됐다. 전년 동기 대비로는 각각 61.0%, 52.3% 줄어든 수치다. 다만 인공지능",
-          "source": "뉴시스 금융",
-          "via": "뉴시스 금융"
-        },
-        {
-          "title": "사망자 명의도용 금융 범죄 막는다…전 금융권 신속차단 시스템 가동",
-          "link": "https://www.newsis.com/view/NISX20260904_0003777170",
-          "date": "2026-09-06T03:00:00.000Z",
-          "summary": "[서울=뉴시스] 최홍 기자 = 정부가 사망신고 다음 날부터 사망자 명의의 불법 금융거래를 즉시 차단하는 시스템을 가동한다. 행정안전부와 금융위원회, 금융감독원, 한국신용정보원은 오는 11일부터 전 금융권이 참여하는 '사망자 명의 금융거래 신속 차단 시스템'을 전격 시행한다고 6일 밝혔다. 이번 조치는 사망자 명의를 도용한",
-          "source": "뉴시스 금융",
-          "via": "뉴시스 금융"
-        },
-        {
-          "title": "갑작스러운 은행 대출 중단 막는다…금감원, '사전 안내' 의무화",
-          "link": "https://www.newsis.com/view/NISX20260906_0003777926",
-          "date": "2026-09-06T03:00:00.000Z",
-          "summary": "[서울=뉴시스] 최홍 기자 = 최근 은행들이 가계대출 총량관리 여파로 충분한 사전 안내 없이 대출을 중단해 소비자 피해가 잇따르자, 금융감독원이 대출 중단·변경 시 사전 안내 조치를 의무화하기로 했다. 아울러 금융투자업자들이 수수료 실적을 올리기 위해 무분별하게 권유하는 '목표전환형 펀드'에 대해서도 설명 의무를 대폭 강",
-          "source": "뉴시스 금융",
-          "via": "뉴시스 금융"
-        },
-        {
-          "title": "금감원, 주요 인허가·등록 8종 사전협의 시스템 고도화",
-          "link": "https://www.newsis.com/view/NISX20260906_0003777938",
-          "date": "2026-09-06T03:00:00.000Z",
-          "summary": "[서울=뉴시스] 최홍 기자 = 금융감독원이 주요 인허가·등록 8종에 대해 기존 사전협의 시스템을 고도화하고, 사전협의 신청서류를 심사 단계까지 활용한다고 6일 밝혔다. 기존에는 전체 인허가·등록 신청에 대한 통합 안내자료가 제공됐으나 앞으로는 인허가·등록 종류별 구분돼 제공된다. 제출서류를 항목별로 구분 등록함으로써 신청",
-          "source": "뉴시스 금융",
-          "via": "뉴시스 금융"
-        },
-        {
-          "title": "인천~뉴욕 주 42회로 확대…유나이티드항공 신규 취항",
-          "link": "https://www.newsis.com/view/NISX20260906_0003777955",
-          "date": "2026-09-06T02:22:21.000Z",
-          "summary": "[서울=뉴시스] 박성환 기자 = 미국 유나이티드항공이 인천과 뉴욕을 잇는 신규 노선에 취항하면서 인천국제공항의 미주 항공 네트워크가 확대됐다. 인천국제공항공사는 유나이티드항공이 지난 5일부터 인천∼뉴어크(EWR) 노선을 신규 취항해 주 7회 운항하고 있다고 6일 밝혔다. 이 노선에는 257석 규모의 보잉 787-9가 투입",
-          "source": "뉴시스 경제",
-          "via": "뉴시스 경제"
         },
         {
           "title": "네오사피엔스 일반청약 돌입⋯'스카이랩스 상장 첫날 135%↑ [IPO 돋보기]",
@@ -977,55 +969,7 @@ window.MYNEWS_DATA = {
       "error": null,
       "items": [
         {
-          "title": "오늘 16시 · 28.0℃ · 맑음 · 강수확률 0% · 북동풍 4.6m/s · 습도 50%",
-          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
-          "date": "2026-09-06T07:00:00.000Z",
-          "summary": "서울특별시",
-          "source": "기상청",
-          "via": "기상청"
-        },
-        {
-          "title": "오늘 17시 · 27.0℃ · 맑음 · 강수확률 0% · 북동풍 4.3m/s · 습도 55%",
-          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
-          "date": "2026-09-06T08:00:00.000Z",
-          "summary": "서울특별시",
-          "source": "기상청",
-          "via": "기상청"
-        },
-        {
-          "title": "오늘 18시 · 26.0℃ · 맑음 · 강수확률 0% · 북동풍 3.6m/s · 습도 60%",
-          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
-          "date": "2026-09-06T09:00:00.000Z",
-          "summary": "서울특별시",
-          "source": "기상청",
-          "via": "기상청"
-        },
-        {
-          "title": "오늘 19시 · 24.0℃ · 맑음 · 강수확률 0% · 북동풍 3.0m/s · 습도 65%",
-          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
-          "date": "2026-09-06T10:00:00.000Z",
-          "summary": "서울특별시",
-          "source": "기상청",
-          "via": "기상청"
-        },
-        {
-          "title": "오늘 20시 · 24.0℃ · 맑음 · 강수확률 0% · 북동풍 2.6m/s · 습도 70%",
-          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
-          "date": "2026-09-06T11:00:00.000Z",
-          "summary": "서울특별시",
-          "source": "기상청",
-          "via": "기상청"
-        },
-        {
-          "title": "오늘 21시 · 23.0℃ · 맑음 · 강수확률 0% · 북동풍 2.2m/s · 습도 70%",
-          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
-          "date": "2026-09-06T12:00:00.000Z",
-          "summary": "서울특별시",
-          "source": "기상청",
-          "via": "기상청"
-        },
-        {
-          "title": "오늘 22시 · 23.0℃ · 맑음 · 강수확률 0% · 북동풍 1.7m/s · 습도 75%",
+          "title": "오늘 22시 · 23.0℃ · 구름 많음 · 강수확률 20% · 북동풍 1.8m/s · 습도 75%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-06T13:00:00.000Z",
           "summary": "서울특별시",
@@ -1033,7 +977,7 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "오늘 23시 · 22.0℃ · 맑음 · 강수확률 0% · 북동풍 1.4m/s · 습도 75%",
+          "title": "오늘 23시 · 22.0℃ · 구름 많음 · 강수확률 20% · 북동풍 1.5m/s · 습도 75%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-06T14:00:00.000Z",
           "summary": "서울특별시",
@@ -1041,7 +985,7 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "오늘 24시 · 22.0℃ · 맑음 · 강수확률 0% · 북풍 1.2m/s · 습도 80%",
+          "title": "오늘 24시 · 21.0℃ · 맑음 · 강수확률 0% · 북풍 1.5m/s · 습도 80%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-06T15:00:00.000Z",
           "summary": "서울특별시",
@@ -1049,7 +993,7 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 01시 · 21.0℃ · 맑음 · 강수확률 0% · 북풍 1.2m/s · 습도 80%",
+          "title": "내일 01시 · 21.0℃ · 맑음 · 강수확률 0% · 북동풍 1.5m/s · 습도 80%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-06T16:00:00.000Z",
           "summary": "서울특별시",
@@ -1057,7 +1001,7 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 02시 · 21.0℃ · 맑음 · 강수확률 0% · 북풍 1.2m/s · 습도 80%",
+          "title": "내일 02시 · 21.0℃ · 맑음 · 강수확률 0% · 북동풍 1.5m/s · 습도 85%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-06T17:00:00.000Z",
           "summary": "서울특별시",
@@ -1065,9 +1009,57 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 03시 · 21.0℃ · 맑음 · 강수확률 0% · 북풍 1.3m/s · 습도 85%",
+          "title": "내일 03시 · 20.0℃ · 맑음 · 강수확률 0% · 북동풍 1.6m/s · 습도 85%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-06T18:00:00.000Z",
+          "summary": "서울특별시",
+          "source": "기상청",
+          "via": "기상청"
+        },
+        {
+          "title": "내일 04시 · 20.0℃ · 맑음 · 강수확률 0% · 북동풍 1.6m/s · 습도 85%",
+          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
+          "date": "2026-09-06T19:00:00.000Z",
+          "summary": "서울특별시",
+          "source": "기상청",
+          "via": "기상청"
+        },
+        {
+          "title": "내일 05시 · 19.0℃ · 맑음 · 강수확률 0% · 북동풍 1.3m/s · 습도 85%",
+          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
+          "date": "2026-09-06T20:00:00.000Z",
+          "summary": "서울특별시",
+          "source": "기상청",
+          "via": "기상청"
+        },
+        {
+          "title": "내일 06시 · 19.0℃ · 맑음 · 강수확률 0% · 북동풍 1.3m/s · 습도 85%",
+          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
+          "date": "2026-09-06T21:00:00.000Z",
+          "summary": "서울특별시",
+          "source": "기상청",
+          "via": "기상청"
+        },
+        {
+          "title": "내일 07시 · 19.0℃ · 맑음 · 강수확률 0% · 북동풍 1.5m/s · 습도 85%",
+          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
+          "date": "2026-09-06T22:00:00.000Z",
+          "summary": "서울특별시",
+          "source": "기상청",
+          "via": "기상청"
+        },
+        {
+          "title": "내일 08시 · 21.0℃ · 맑음 · 강수확률 0% · 북동풍 2.6m/s · 습도 75%",
+          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
+          "date": "2026-09-06T23:00:00.000Z",
+          "summary": "서울특별시",
+          "source": "기상청",
+          "via": "기상청"
+        },
+        {
+          "title": "내일 09시 · 22.0℃ · 맑음 · 강수확률 0% · 북동풍 2.8m/s · 습도 70%",
+          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
+          "date": "2026-09-07T00:00:00.000Z",
           "summary": "서울특별시",
           "source": "기상청",
           "via": "기상청"
