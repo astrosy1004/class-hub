@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>같은 브리프, 다른 창고 SaaS 랜딩</title>
+<meta name="description" content="두 프롬프트로 만든 물류 SaaS 랜딩 페이지 '루프'와 'Palletto'를 배경색·서체·여백 등 여섯 축으로 비교합니다.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=Hanken+Grotesk:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,600&family=Noto+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+  /* ================= tokens ================= */
+  :root{
+    --paper:#F5F6F4;
+    --card:#FFFFFF;
+    --card-2:#FAFBFA;
+    --ink:#191D21;
+    --ink-soft:#3F4650;
+    --muted:#6A727D;
+    --line:#DBDEDA;
+    --line-soft:#E7E9E5;
+    --accent:#48566B;
+    --loop:#2358C6;
+    --palletto:#3E9E93;
+    --shadow:0 1px 2px rgba(25,29,33,.04), 0 18px 38px -22px rgba(25,29,33,.18);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#14171A;
+      --card:#1B1F23;
+      --card-2:#171B1E;
+      --ink:#E7EAE6;
+      --ink-soft:#B3B9B4;
+      --muted:#7C858C;
+      --line:#2A2F33;
+      --line-soft:#22262A;
+      --accent:#9DAABE;
+      --loop:#6E9BEE;
+      --palletto:#5BBFB2;
+      --shadow:0 1px 2px rgba(0,0,0,.4), 0 22px 44px -24px rgba(0,0,0,.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#14171A;
+    --card:#1B1F23;
+    --card-2:#171B1E;
+    --ink:#E7EAE6;
+    --ink-soft:#B3B9B4;
+    --muted:#7C858C;
+    --line:#2A2F33;
+    --line-soft:#22262A;
+    --accent:#9DAABE;
+    --loop:#6E9BEE;
+    --palletto:#5BBFB2;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 22px 44px -24px rgba(0,0,0,.6);
+  }
+
+  *,*::before,*::after{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--paper);color:var(--ink-soft);
+    font-family:"Noto Sans KR",system-ui,sans-serif;
+    font-size:1rem;line-height:1.7;-webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;height:auto}
+  [hidden]{display:none!important}
+  h1,h2,h3{margin:0;color:var(--ink);font-family:"Newsreader","Noto Sans KR",serif;font-weight:600;line-height:1.2;text-wrap:balance}
+  p{margin:0}
+  a{color:inherit}
+  :where(a,button):focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px}
+
+  .wrap{max-width:1080px;margin-inline:auto;padding-inline:clamp(1.25rem,4vw,2.5rem)}
+  .measure{max-width:44rem}
+
+  /* header */
+  .hdr{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .hdr .wrap{display:flex;align-items:center;justify-content:space-between;height:56px;gap:1rem}
+  .hdr .mk{font-family:"IBM Plex Mono",monospace;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .tgl{width:32px;height:32px;display:grid;place-items:center;border:1px solid var(--line);border-radius:7px;background:var(--card);color:var(--ink);cursor:pointer;transition:border-color .15s}
+  .tgl:hover{border-color:var(--accent)}
+
+  /* intro */
+  .intro{padding-block:clamp(3rem,7vw,5rem)}
+  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:.7rem;margin-bottom:1.4rem}
+  .eyebrow::before{content:"";width:24px;height:1px;background:var(--accent)}
+  .intro h1{font-size:clamp(2.1rem,4.6vw,3.1rem);letter-spacing:-.01em;line-height:1.14}
+  .intro .lead{margin-top:1.2rem;font-size:1.08rem;color:var(--ink-soft)}
+  .intro .brief{margin-top:1.4rem;padding:1rem 1.2rem;border-left:2px solid var(--line);font-size:.95rem;color:var(--muted)}
+  .intro .brief b{color:var(--ink-soft);font-weight:600}
+
+  /* link cards */
+  .cards{display:grid;grid-template-columns:1fr;gap:1rem;margin-top:2.5rem}
+  @media (min-width:720px){ .cards{grid-template-columns:1fr 1fr} }
+  .pcard{
+    display:flex;flex-direction:column;gap:.9rem;
+    padding:1.5rem;border:1px solid var(--line);border-radius:12px;background:var(--card);
+    text-decoration:none;box-shadow:var(--shadow);transition:transform .16s ease,border-color .16s ease;
+  }
+  .pcard:hover{transform:translateY(-2px);border-color:var(--accent)}
+  .pcard .nm{font-family:"Newsreader","Noto Sans KR",serif;font-weight:600;font-size:1.3rem;color:var(--ink)}
+  .pcard .ds{font-size:.9rem;color:var(--muted)}
+  .pcard .sw{display:flex;gap:6px;margin-top:.2rem}
+  .pcard .sw i{width:26px;height:14px;border-radius:3px;display:block;border:1px solid rgba(128,128,128,.25)}
+  .pcard .go{margin-top:auto;font-family:"IBM Plex Mono",monospace;font-size:.78rem;letter-spacing:.06em;color:var(--accent)}
+  .pcard.loop{border-top:3px solid var(--loop)}
+  .pcard.palletto{border-top:3px solid var(--palletto)}
+
+  /* section */
+  .sec{padding-block:clamp(2.5rem,5vw,3.5rem);border-top:1px solid var(--line)}
+  .sec-title{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:1.5rem}
+
+  /* summary table */
+  .tbl-x{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+  table.cmp{width:100%;border-collapse:collapse;font-size:.88rem;min-width:640px}
+  table.cmp th,table.cmp td{text-align:left;padding:.75rem 1rem;vertical-align:top}
+  table.cmp thead th{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line);font-weight:500}
+  table.cmp thead th.c-loop{color:var(--loop)}
+  table.cmp thead th.c-pal{color:var(--palletto)}
+  table.cmp tbody td{border-top:1px solid var(--line-soft);color:var(--ink-soft)}
+  table.cmp tbody th{border-top:1px solid var(--line-soft);color:var(--ink);font-weight:600;font-family:"Noto Sans KR",sans-serif;white-space:nowrap}
+  table.cmp tbody tr:first-child td,table.cmp tbody tr:first-child th{border-top:0}
+
+  /* diff blocks */
+  .diff{padding-block:clamp(2.25rem,5vw,3.25rem);border-top:1px solid var(--line)}
+  .diff-head{display:flex;gap:1rem;align-items:baseline;margin-bottom:1.4rem}
+  .diff-n{font-family:"IBM Plex Mono",monospace;font-size:.9rem;color:var(--accent);font-weight:500;flex:none}
+  .diff-h{font-size:1.4rem;letter-spacing:-.01em}
+  .split{display:grid;grid-template-columns:1fr;gap:1rem}
+  @media (min-width:720px){ .split{grid-template-columns:1fr 1fr} }
+  .side{border:1px solid var(--line);border-radius:10px;background:var(--card);padding:1.1rem 1.2rem;display:flex;flex-direction:column;gap:.7rem}
+  .side.loop{border-top:2px solid var(--loop)}
+  .side.palletto{border-top:2px solid var(--palletto)}
+  .side .who{font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .side .val{font-size:.92rem;color:var(--ink-soft)}
+  .side .val b{color:var(--ink);font-weight:600}
+  .why{margin-top:1rem;padding:1rem 1.2rem;background:var(--card-2);border:1px solid var(--line-soft);border-left:2px solid var(--accent);border-radius:8px;font-size:.92rem;color:var(--ink-soft)}
+  .why b{color:var(--ink);font-weight:600}
+
+  /* mini visuals */
+  .bar{height:38px;border-radius:6px;border:1px solid rgba(128,128,128,.22);display:flex;align-items:center;padding:0 .7rem;font-family:"IBM Plex Mono",monospace;font-size:.72rem}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chips i{font-family:"IBM Plex Mono",monospace;font-size:.68rem;padding:.2rem .5rem;border-radius:4px;border:1px solid rgba(128,128,128,.22);color:#fff}
+  .spec{padding:.5rem 0;border-top:1px dashed var(--line);border-bottom:1px dashed var(--line)}
+  .spec .lg{font-size:1.5rem;color:var(--ink);line-height:1.1}
+  .spec.archivo .lg{font-family:"Archivo",sans-serif;font-weight:700;letter-spacing:-.01em}
+  .spec.hanken .lg{font-family:"Hanken Grotesk",sans-serif;font-weight:700}
+  .spec small{font-family:"IBM Plex Mono",monospace;font-size:.68rem;color:var(--muted);letter-spacing:.04em}
+  .lines{display:flex;flex-direction:column}
+  .lines.loose span{padding:5px 0;border-bottom:1px solid var(--line-soft)}
+  .lines.tight span{padding:1px 0;border-bottom:1px solid var(--line-soft)}
+  .lines span:last-child{border-bottom:0}
+  .lines span{font-family:"IBM Plex Mono",monospace;font-size:.78rem;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+
+  footer{border-top:1px solid var(--line);padding-block:2rem;color:var(--muted);font-size:.82rem}
+  footer .wrap{display:flex;flex-wrap:wrap;gap:.6rem 1.5rem;justify-content:space-between;align-items:center}
+  footer .fine{font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.04em}
+  footer a:hover{color:var(--ink)}
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{transition-duration:.001ms!important}
+  }
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="wrap">
+    <span class="mk">디자인 비교 · 창고 SaaS 랜딩</span>
+    <button class="tgl" type="button" id="themeBtn" aria-label="색상 테마 전환">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<main>
+  <section class="intro">
+    <div class="wrap measure">
+      <p class="eyebrow">케이스 스터디</p>
+      <h1>같은 목적, 다른 창고 SaaS 랜딩 페이지</h1>
+      <p class="lead">두 개의 서로 다른 브리프로 물류 SaaS 랜딩 페이지를 각각 만들었습니다. 아래에서 두 결과물을 열어 보고, 배경색·강조색·서체·여백 등 여섯 가지 축으로 무엇이 어떻게, 왜 달라졌는지 정리합니다.</p>
+      <div class="brief">
+        <p><b>루프(LOOP)</b> — “물류 SaaS 랜딩 페이지. 깔끔하고 모던하게.” 영업용 소개 페이지에 가까운 열린 브리프.</p>
+        <p style="margin-top:.5rem"><b>Palletto</b> — 창고 관리자가 하루 6시간 이상 보는 사내 대시보드. 신뢰감, 저피로, 다크 모드 우선, 표와 숫자 중심의 고밀도.</p>
+      </div>
+
+      <div class="cards">
+        <a class="pcard loop" href="./loop.html">
+          <span class="nm">루프 (LOOP)</span>
+          <span class="ds">파렛트 풀링 운영 플랫폼 — 배송·회수·정산을 한 화면에서</span>
+          <span class="sw" aria-hidden="true">
+            <i style="background:#F2F4F7"></i><i style="background:#2358C6"></i><i style="background:#141C25"></i>
+          </span>
+          <span class="go">페이지 열기 →</span>
+        </a>
+        <a class="pcard palletto" href="./palletto.html">
+          <span class="nm">Palletto</span>
+          <span class="ds">창고 운영 대시보드 — 다크 우선, 고밀도 데이터</span>
+          <span class="sw" aria-hidden="true">
+            <i style="background:#0F1419"></i><i style="background:#54B3A8"></i><i style="background:#D6DDE5"></i>
+          </span>
+          <span class="go">페이지 열기 →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <p class="sec-title">한눈에 보기</p>
+      <div class="tbl-x">
+        <table class="cmp">
+          <thead>
+            <tr><th scope="col">항목</th><th scope="col" class="c-loop">루프 (LOOP)</th><th scope="col" class="c-pal">Palletto</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">성격</th><td>영업용 소개 랜딩</td><td>제품(대시보드) 자체를 보여주는 랜딩</td></tr>
+            <tr><th scope="row">배경 · 테마</th><td>쿨 오프화이트 #F2F4F7 · 라이트 기본 + 다크 토글</td><td>다크 청회색 #0F1419 · OS와 무관하게 다크 기본 + 라이트 토글</td></tr>
+            <tr><th scope="row">강조색</th><td>코발트 블루 #2358C6</td><td>저채도 청록 #54B3A8</td></tr>
+            <tr><th scope="row">디스플레이 서체</th><td>Archivo</td><td>Hanken Grotesk</td></tr>
+            <tr><th scope="row">본문 · 데이터 서체</th><td>IBM Plex Sans KR / IBM Plex Mono</td><td>Gothic A1 / JetBrains Mono(모든 수치 고정폭)</td></tr>
+            <tr><th scope="row">기준 폰트 크기</th><td>16px</td><td>15px</td></tr>
+            <tr><th scope="row">히어로 제목</th><td>clamp 최대 ≈ 4.05rem, 등각 투영 일러스트</td><td>clamp 최대 ≈ 3rem, 실데이터 대시보드 목업</td></tr>
+            <tr><th scope="row">섹션 여백</th><td>넉넉함 (clamp 3.5–6rem)</td><td>타이트함 (clamp 3–5rem), 행 높이 압축</td></tr>
+            <tr><th scope="row">모션</th><td>히어로 파렛트 스택 드리프트</td><td>사실상 없음 (깜빡임 금지)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <p class="sec-title">여섯 가지 차이</p>
+
+      <article class="diff">
+        <div class="diff-head"><span class="diff-n">01</span><h3 class="diff-h">배경색과 테마 전략</h3></div>
+        <div class="split">
+          <div class="side loop">
+            <span class="who">루프</span>
+            <div class="bar" style="background:#F2F4F7;color:#141C25">#F2F4F7 · 쿨 오프화이트</div>
+            <p class="val">라이트가 <b>기본</b>. 우상단 토글로 다크 전환, <code>prefers-color-scheme</code>로 OS 설정도 존중.</p>
+          </div>
+          <div class="side palletto">
+            <span class="who">Palletto</span>
+            <div class="bar" style="background:#0F1419;color:#D6DDE5">#0F1419 · 다크 청회색 (순흑 아님)</div>
+            <p class="val">다크가 <b>기본</b>. <code>:root</code> 자체가 다크라 OS가 라이트여도 다크로 열림. 라이트는 토글로만.</p>
+          </div>
+        </div>
+        <p class="why"><b>왜</b> — 루프는 처음 방문하는 잠재 고객을 위한 페이지라 밝고 개방적인 인상이 우선입니다. Palletto는 관리자가 교대 내내 응시하는 화면이라, 눈부심·잔상을 줄이려고 순백/순흑을 피하고 대비를 낮춘 다크를 기본값으로 못 박았습니다. 브리프의 “다크 모드 우선”을 “다크가 디폴트”로 해석한 결과입니다.</p>
+      </article>
+
+      <article class="diff">
+        <div class="diff-head"><span class="diff-n">02</span><h3 class="diff-h">강조색과 의미 색</h3></div>
+        <div class="split">
+          <div class="side loop">
+            <span class="who">루프</span>
+            <div class="chips" aria-hidden="true">
+              <i style="background:#2358C6">accent #2358C6</i>
+              <i style="background:#1F8F63">good</i>
+              <i style="background:#B87A0B;color:#1a1a1a">warn</i>
+            </div>
+            <p class="val">채도 높은 <b>코발트 블루</b>. 버튼·링크·CTA에서 시선을 끌어 행동을 유도.</p>
+          </div>
+          <div class="side palletto">
+            <span class="who">Palletto</span>
+            <div class="chips" aria-hidden="true">
+              <i style="background:#54B3A8;color:#0B1211">accent #54B3A8</i>
+              <i style="background:#63A97A;color:#0B1211">good</i>
+              <i style="background:#C99E52;color:#0B1211">warn</i>
+              <i style="background:#C86F66;color:#0B1211">crit</i>
+            </div>
+            <p class="val">채도를 낮춘 <b>청록</b> 하나. 경고색(호박·벽돌빨강)도 저채도라 장시간 봐도 자극이 적음.</p>
+          </div>
+        </div>
+        <p class="why"><b>왜</b> — 루프의 파랑은 플라스틱 파렛트를 연상시키는 브랜드색이자 전환(conversion) 장치입니다. Palletto는 “빨간 게 없으면 정상”이라는 사용 방식을 전제로, 색이 피로를 유발하지 않도록 전 팔레트의 채도를 끌어내렸습니다. 또한 Palletto는 상태를 <b>색 + 형태(● ▲ ■)</b>로 이중 표기해 저조도·색각 이상 환경에서도 구분되게 했습니다.</p>
+      </article>
+
+      <article class="diff">
+        <div class="diff-head"><span class="diff-n">03</span><h3 class="diff-h">서체</h3></div>
+        <div class="split">
+          <div class="side loop">
+            <span class="who">루프 · Archivo + IBM Plex Sans KR</span>
+            <div class="spec archivo"><span class="lg">LOOP 1,240,000장</span><br><small>Archivo 700 — 사이니지 계열, 헤드라인 크게</small></div>
+            <p class="val">창고 표지판 같은 <b>기하학적 그로테스크</b>. 히어로 제목을 큼직하게 써서 마케팅 임팩트.</p>
+          </div>
+          <div class="side palletto">
+            <span class="who">Palletto · Hanken Grotesk + Gothic A1 + JetBrains Mono</span>
+            <div class="spec hanken"><span class="lg">Palletto UPH 142</span><br><small>Hanken Grotesk 700 — 휴머니스트, 저피로 · 수치는 JetBrains Mono</small></div>
+            <p class="val">부드러운 <b>휴머니스트 그로테스크</b>로 장시간 가독성 확보. 모든 숫자는 <b>고정폭</b>이라 자릿수가 세로로 정렬됨.</p>
+          </div>
+        </div>
+        <p class="why"><b>왜</b> — 루프는 한 번 훑고 지나가는 페이지라 디스플레이 서체의 개성과 큰 스케일이 유리합니다. Palletto는 표와 숫자를 정확히 읽어야 하는 도구라, 본문은 눈이 편한 휴머니스트 계열을 쓰고 데이터는 전용 고정폭 서체(JetBrains Mono)에 <code>tabular-nums</code>를 걸어 “표를 훑을 때 값의 크기가 바로 보이게” 했습니다.</p>
+      </article>
+
+      <article class="diff">
+        <div class="diff-head"><span class="diff-n">04</span><h3 class="diff-h">여백과 데이터 밀도</h3></div>
+        <div class="split">
+          <div class="side loop">
+            <span class="who">루프 · 넉넉하게</span>
+            <div class="lines loose">
+              <span>재고 정확도  99.42</span>
+              <span>피킹 UPH     142</span>
+              <span>적치율       87.30</span>
+            </div>
+            <p class="val">섹션 패딩 clamp 3.5–6rem, 본문 폭 ~65자, 기준 폰트 <b>16px</b>. 요소 사이에 숨 쉴 공간.</p>
+          </div>
+          <div class="side palletto">
+            <span class="who">Palletto · 촘촘하게</span>
+            <div class="lines tight">
+              <span>재고 정확도  99.42</span>
+              <span>피킹 UPH     142</span>
+              <span>적치율       87.30</span>
+            </div>
+            <p class="val">테이블 셀 상하 패딩 9px, 라인 좁게, 기준 폰트 <b>15px</b>, KPI는 1px 헤어라인 그리드. 1080p에 재고 28행 목표.</p>
+          </div>
+        </div>
+        <p class="why"><b>왜</b> — 루프의 여백은 “읽기 편한 소개 문서”를 위한 것이고, Palletto의 압축은 “한 화면에 최대한 많은 행”을 위한 것입니다. 관리자는 스크롤을 최소화하고 싶어 하므로, 행 높이·여백·폰트 크기를 모두 조금씩 줄여 정보 밀도를 높였습니다. 같은 3줄이 Palletto에서 눈에 띄게 짧게 들어갑니다.</p>
+      </article>
+
+      <article class="diff">
+        <div class="diff-head"><span class="diff-n">05</span><h3 class="diff-h">히어로와 레이아웃 구조</h3></div>
+        <div class="split">
+          <div class="side loop">
+            <span class="who">루프</span>
+            <p class="val"><b>일러스트 히어로</b> + 마케팅 섹션: 지표 띠 → 기능 4 → 풀 사이클 5단계 → 규격표 → 포털 미리보기 → 후기 → 요금. CSS로 그린 등각 투영 파렛트 스택.</p>
+          </div>
+          <div class="side palletto">
+            <span class="who">Palletto</span>
+            <p class="val"><b>대시보드가 곧 히어로</b>: 실시간 패널(현재 지표·지연 오더·시간대별 막대) → KPI 밴드(스파크라인) → 데이터 테이블 → 알림 피드 → 연동 → 요금. 전부 실데이터 형태의 목업.</p>
+          </div>
+        </div>
+        <p class="why"><b>왜</b> — 열린 브리프의 루프는 “무엇을 해주는 서비스인가”를 설명해야 해서 일러스트와 단계별 서사를 씁니다. Palletto는 “이 화면이 어떻게 생겼고 얼마나 빽빽한가”가 곧 구매 판단 근거라, 마케팅 카피 대신 실제 대시보드 조각을 그대로 보여 줍니다. 번호 매김(01–05 사이클)은 루프처럼 <b>실제 순서</b>가 있는 곳에만 썼습니다.</p>
+      </article>
+
+      <article class="diff">
+        <div class="diff-head"><span class="diff-n">06</span><h3 class="diff-h">모션</h3></div>
+        <div class="split">
+          <div class="side loop">
+            <span class="who">루프</span>
+            <p class="val">히어로의 파렛트 스택이 <b>천천히 위아래로 드리프트</b>. 장식적 생동감. <code>prefers-reduced-motion</code>에서 정지.</p>
+          </div>
+          <div class="side palletto">
+            <span class="who">Palletto</span>
+            <p class="val">전환(hover) 외에는 <b>움직임 없음</b>. 라이브 표시등·중요 수치도 깜빡이지 않음.</p>
+          </div>
+        </div>
+        <p class="why"><b>왜</b> — 루프에서 약간의 움직임은 첫인상에 활기를 더합니다. Palletto에서는 정반대입니다. 주변 시야의 움직임은 계속 주의를 끌어당기고, 8시간이면 피로가 누적됩니다. 그래서 “중요한 것일수록 가만히 둔다”를 원칙으로 삼았습니다.</p>
+      </article>
+
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>같은 브리프, 다른 창고 SaaS 랜딩 · 디자인 비교</span>
+    <nav>
+      <a href="./loop.html">루프</a>
+      <a href="./palletto.html" style="margin-left:1.2rem">Palletto</a>
+    </nav>
+    <span class="fine">© 2026</span>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    try{
+      var t=localStorage.getItem("compareTheme");
+      if(t==="light"||t==="dark") document.documentElement.setAttribute("data-theme",t);
+    }catch(e){}
+    var btn=document.getElementById("themeBtn");
+    if(!btn) return;
+    btn.addEventListener("click",function(){
+      var root=document.documentElement;
+      var cur=root.getAttribute("data-theme");
+      if(!cur) cur=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";
+      var next=cur==="dark"?"light":"dark";
+      root.setAttribute("data-theme",next);
+      try{localStorage.setItem("compareTheme",next);}catch(e){}
+    });
+  })();
+</script>
+</body>
+</html>
