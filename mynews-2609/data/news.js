@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-09-08T14:00:04.962Z",
+  "updatedAt": "2026-09-08T17:46:37.220Z",
   "categories": [
     {
       "id": "ai",
@@ -23,6 +23,14 @@ window.MYNEWS_DATA = {
       ],
       "error": null,
       "items": [
+        {
+          "title": "삼성전자, 미스트랄 4.7조 투자 주도…'AI 동맹' 확대",
+          "link": "https://www.inews24.com/view/2003457",
+          "date": "2026-09-08T16:00:01.000Z",
+          "summary": "삼성전자가 유럽 대표 인공지능(AI) 기업 미스트랄 AI에 투자하고 반도체 설계·제조에 AI를 본격 도입한다.글로벌 AI 기업을 미래 반도체 고객으로 확보하는 동시에 이들의 기술을 활용해 반도체 개발과 생산 경쟁력을 높이려는",
+          "source": "아이뉴스24 IT",
+          "via": "아이뉴스24 IT"
+        },
         {
           "title": "삼성전자, 日 요코하마에 첨단 패키징 R&D 거점",
           "link": "https://www.inews24.com/view/2003460",
@@ -174,14 +182,6 @@ window.MYNEWS_DATA = {
           "summary": "과학기술정보통신부가 티빙의 개인정보 유출 사고 지연 신고에 대해 과태료 처분에 나선다. 산하기관인 정보통신기획평가원(IITP)의 잇단 해킹 사고에 대해서는 사과했다.류제명 과기정통부 2차관은 8일 국회 과학기술정보방송",
           "source": "아이뉴스24 IT",
           "via": "아이뉴스24 IT"
-        },
-        {
-          "title": "배순민 삼성SDS 상무 \"RX는 공장 전체를 설계하는 일\"",
-          "link": "https://www.ajunews.com/view/20260908163215312",
-          "date": "2026-09-08T08:10:24.000Z",
-          "summary": "배순민 삼성SDS RX사업팀장 상무가 8일 &lsquo;리얼 서밋 2026&rsquo; 로봇 시연 현장에서 전시된 로봇을 설명하고 있다. [사진=안신혜 기자] \"로봇 전환(RX)은 로봇 하나를 만드는 일이 아니라 공장 전체를 설계하는 일입니다.\" 배순민 삼성SDS RX사업팀장 상무는 25년간 쌓아온 제조실행시스템(MES)",
-          "source": "아주경제 AI",
-          "via": "아주경제 AI"
         }
       ]
     },
@@ -195,8 +195,7 @@ window.MYNEWS_DATA = {
           "source": "중소벤처기업부 사업공고",
           "url": "https://mss.go.kr/rss/smba/board/310.do",
           "count": 8,
-          "error": "fetch failed",
-          "stale": true
+          "error": null
         },
         {
           "source": "지원금가이드 신규 정부지원금",
@@ -226,11 +225,11 @@ window.MYNEWS_DATA = {
       "error": null,
       "items": [
         {
-          "title": "경상원, ‘1인 소상공인 고용보험료 지원사업’ 모집 - popcornnews.net",
-          "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE5LYXh2Y25KSVpXRHZZbmNnVlpRNEJ1NjFfVnJHbGNZSHlRWVJNR3hqSHBvMVgtRHp6VE1SU2lrbFhRcXdBQzN6NlBObVAtMnNHZnVpS0xMNVRNRGNjZG5zdW1LOVlNdDVCelhVS2F6Y9IBckFVX3lxTE9IUWFhMEdNY3ZMMmhoTXI4SWNyeVNGNUV5NXo1N0h4Umw5VTRab1V3M3dmdmdCdmpVN2tCRXZfblhRbzBuQ29Yam1KSUUzTmQ5aGZYMTBlYTZPQzZXeWlramYtQkl0RDhqaF9hWUJNX1RRQQ?oc=5",
-          "date": "2026-09-08T09:34:26.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMib0FVX3lxTE5LYXh2Y25KSVpXRHZZbmNnVlpRNEJ1NjFfVnJHbGNZSHlRWVJNR3hqSHBvMVgtRHp6VE1SU2lrbFhRcXdBQzN6NlBObVAtMnNHZnVpS0xMNVRNRGNjZG5zdW",
-          "source": "popcornnews.net",
+          "title": "경상원, 소상공인 사회안전망 확충 나선다…‘1인 소상공인 고용보험료 지원사업’ 모집 - 경기핫타임뉴스",
+          "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE5ld1VBLUlTNHVkblA1UkFFbFlCNS1uNzZOejZPSXkyWWxfajF5bDVNOFd0OEpCVTNMbWh5RlhwTlhBV1FXOGJIRmxEeEZWTk1fUzBhdzVPVXNoRUlLd2VKMExoVWh2REU?oc=5",
+          "date": "2026-09-08T15:47:11.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiZ0FVX3lxTE5ld1VBLUlTNHVkblA1UkFFbFlCNS1uNzZOejZPSXkyWWxfajF5bDVNOFd0OEpCVTNMbWh5RlhwTlhBV1FXOGJIRmxEeEZWTk1fUzBhdzVPVXNoRUlLd2VKME",
+          "source": "경기핫타임뉴스",
           "via": "Google 뉴스 지원사업"
         },
         {
@@ -242,10 +241,18 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 지원사업"
         },
         {
+          "title": "공정, 혁신, 포용의 경기 - 경기도청",
+          "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTE5zT1BHMWtab1ZvREJSX19CQVJGNUF0Wi1NVlJsYUtoV1dMNE4yZXRBenl3VTFFWjRKNXlOZWZ1TWs4QmR2REFhWWh0cXV3a1p2YldJMDg2aGh3cVZsR2hvYXg0NlFaWGVTb29xMU4yd0tmZ1NhVzJPanBlZ2VDbWc?oc=5",
+          "date": "2026-09-08T09:03:18.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMif0FVX3lxTE5zT1BHMWtab1ZvREJSX19CQVJGNUF0Wi1NVlJsYUtoV1dMNE4yZXRBenl3VTFFWjRKNXlOZWZ1TWs4QmR2REFhWWh0cXV3a1p2YldJMDg2aGh3cVZsR2hvYX",
+          "source": "경기도청",
+          "via": "Google 뉴스 지원사업"
+        },
+        {
           "title": "군산시 보건소, 한방 난임부부 지원사업 대상자 추가모집 - 한국방송뉴스",
-          "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTFA1RkFjZy1kakRPTVU5MElxOVhSekZzTDk2OUZnZFIxMGppYmszbVBIZzZuekc0Vy1LQ3Q5eHhlMnRvSlZqUzVUaGdpNXVJeE9TVy1MZm9MWkVtRHJRd3c?oc=5",
+          "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE9wSE04UWpVWjl4d1gwT3otWTEtSjFGZ1lCYzRiSmVRdXo4ZV9hRnJoOXRXa3RoX0hjLWlPMXlBSTExVkZfeXZIeEJRbG9iZUg4UTZlNVNjSkRTRkxP?oc=5",
           "date": "2026-09-08T08:19:42.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiXkFVX3lxTFA1RkFjZy1kakRPTVU5MElxOVhSekZzTDk2OUZnZFIxMGppYmszbVBIZzZuekc0Vy1LQ3Q5eHhlMnRvSlZqUzVUaGdpNXVJeE9TVy1MZm9MWkVtRHJRd3c?oc",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiXEFVX3lxTE9wSE04UWpVWjl4d1gwT3otWTEtSjFGZ1lCYzRiSmVRdXo4ZV9hRnJoOXRXa3RoX0hjLWlPMXlBSTExVkZfeXZIeEJRbG9iZUg4UTZlNVNjSkRTRkxP?oc=5\"",
           "source": "한국방송뉴스",
           "via": "Google 뉴스 지원사업"
         },
@@ -263,14 +270,6 @@ window.MYNEWS_DATA = {
           "date": "2026-09-08T07:11:16.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiW0FVX3lxTE00Nm5rLWxpbkFVSGU1dHhpZHBKbzdwZHBaTVNxZmhocHNlWVVuN2ZtM09mQXVjeXI4ZGlmdWNsR3dzVEJYS2VOaE55WDU4QXlWenVVRXJmbzJma1U?oc=5\" ",
           "source": "경기일보",
-          "via": "Google 뉴스 지원사업"
-        },
-        {
-          "title": "경상원 '결혼 페널티 없는' 소상공인 고용보험료 지원사업 2차 모집 - gukjenews.com",
-          "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE9ZaWFvazUtY2VMN2gxcXFQcEd4VkxsdDJRNFpacGxlRVlPQjhwS3VQTUJqYWVJemJGN05lb2pZRjBZWm9EV1Fqd1p1YnRKUEJvTjRlQW40VWVoY2FZQlBodjNwdDNXOHlEVnVGa1hn?oc=5",
-          "date": "2026-09-08T06:35:53.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMibkFVX3lxTE9ZaWFvazUtY2VMN2gxcXFQcEd4VkxsdDJRNFpacGxlRVlPQjhwS3VQTUJqYWVJemJGN05lb2pZRjBZWm9EV1Fqd1p1YnRKUEJvTjRlQW40VWVoY2FZQlBodj",
-          "source": "gukjenews.com",
           "via": "Google 뉴스 지원사업"
         },
         {
@@ -442,82 +441,82 @@ window.MYNEWS_DATA = {
       "error": null,
       "items": [
         {
-          "title": "檢, 7억 뒷돈 받고 목사 청부 수사한 전직 경찰 간부 구속기소",
-          "link": "https://www.newsis.com/view/NISX20260908_0003781623",
-          "date": "2026-09-08T13:18:50.000Z",
-          "summary": "[서울=뉴시스]권지원 기자 = 특정 목사를 '청부 수사' 해 주는 대가로 대형 교회 목사 측으로부터 현금 7억 원을 챙긴 전직 총경이 구속 상태로 재판에 넘겨졌다. 8일 법조계에 따르면 서울중앙지검 형사7부(부장검사 조윤철)는 지난달 말 전직 총경 A씨를 공무상 비밀 누설, 부정처사후수뢰, 특정경제범죄 가중 처벌법상 사기",
+          "title": "\"버스비 부족한데 만원 달랑 들고 멀뚱\"…공항버스 세운 中여성",
+          "link": "https://www.newsis.com/view/NISX20260908_0003780966",
+          "date": "2026-09-08T17:00:00.000Z",
+          "summary": "[서울=뉴시스]김혜경 기자, 박지우 인턴기자 = 인천공항으로 향하는 버스에서 한 중국인 여성이 요금 부족 상황을 해결하지 못한 채 머뭇거리면서 다른 승객들이 불편을 겪었다는 사연이 전해졌다. 지난 8일 한 사회관계망서비스(SNS)에는 중국인 여성이 버스 요금을 제대로 지불하지 못한 상황에서 가만히 서 있어 승객들이 한동안",
           "source": "뉴시스 사회",
           "via": "뉴시스 사회"
         },
         {
-          "title": "경북 포항서 12중 추돌 사고…13명 경상",
-          "link": "https://www.newsis.com/view/NISX20260908_0003781621",
-          "date": "2026-09-08T13:15:13.000Z",
-          "summary": "[포항=뉴시스] 박홍식 기자 = 8일 오후 5시 33분께 경북 포항시 남구 동촌동 현대제철 인근 도로에서 12중 추돌 사고가 났다. 경북소방본부와 경찰 등에 따르면 이날 사고는 25t 덤프트럭이 신호 대기 중이던 앞 차량을 들이받으면서 12중 추돌 사고로 이어져 13명이 경상을 입었다. 경찰은 덤프트럭 운전자가 술에 취해",
+          "title": "\"아니 벌써\"…일찍 찾아온 독감에 합병증 '비상'",
+          "link": "https://www.newsis.com/view/NISX20260908_0003781351",
+          "date": "2026-09-08T16:01:00.000Z",
+          "summary": "[서울=뉴시스] 류난영 기자 = 최근 인플루엔자 환자가 지난해보다 빠르게 늘고 있다. 특히 개학과 함께 유·소아와 초등학생 연령층에서 발생이 두드러지고 있는 등 학교와 어린이집 등에서 지역사회 전파 위험이 커지고 있어 주의가 요구된다. 통상 인플루엔자는 기온이 떨어지는 가을과 겨울철에 유행이 본격화되지만, 올해는 예년보다",
           "source": "뉴시스 사회",
           "via": "뉴시스 사회"
         },
         {
-          "title": "\"비 맞으면 옷 젖으니까?\"…대낮 아파트 옥상에 '알몸 남성' 포착",
-          "link": "https://www.newsis.com/view/NISX20260908_0003780083",
-          "date": "2026-09-08T13:00:00.000Z",
-          "summary": "[서울=뉴시스]이지우 인턴 기자 = 대낮에 건물 옥상에서 알몸으로 작업하는 남성이 목격돼 주민이 불편을 호소했다. 7일 JTBC '사건반장'은 전남광주특별통합시의 한 주택에 거주하는 A씨의 제보를 보도했다. A씨는 지난달 29일 창문 커튼을 걷었다가 맞은편에 거주하는 60대 남성이 발가벗은 상태로 옥상에 있는 모습을 목격",
+          "title": "\"결혼보다 독립이 먼저\"…서른넷에 처음 깨달은 부모의 가스라이팅",
+          "link": "https://www.newsis.com/view/NISX20260908_0003780094",
+          "date": "2026-09-08T16:00:00.000Z",
+          "summary": "[서울=뉴시스]허준희 인턴 기자 = 34세까지 연애 경험이 없던 여성이 낮은 자존감으로 어려움을 겪은 사연이 전해진 가운데, 자신의 삶은 스스로 결정해야 한다는 전문가의 조언이 나왔다. 지난 7일 구독자 43만명을 보유한 유튜브 채널 '한방언니'에 출연한 결혼정보회사 노블마리아주 박정원 대표는 부모로부터 독립하지 못한 3",
           "source": "뉴시스 사회",
           "via": "뉴시스 사회"
         },
         {
-          "title": "\"자영업 진짜 힘들다\"…회만 쏙 먹고 초밥 식었다 환불해달라는 손님",
-          "link": "https://www.newsis.com/view/NISX20260908_0003780871",
-          "date": "2026-09-08T13:00:00.000Z",
-          "summary": "[서울=뉴시스]허준희 인턴 기자 = 배달받은 초밥이 식었다며 환불을 요구한 손님이 초밥 위 회는 대부분 먹은 뒤 음식만 돌려줬다는 사연이 전해져 논란이 일고 있다. 8일 한 온라인 커뮤니티에는 '초밥 식었으니 환불해달라 해놓고 회 다 먹은 손님'이라는 제목의 글이 올라왔다. 초밥집을 운영하는 자영업자인 작성자 A씨는 고객",
+          "title": "\"부산 운전 처음, 죄송합니다\"…초보 운전자 간절한 문구에 응원 폭발",
+          "link": "https://www.newsis.com/view/NISX20260908_0003780265",
+          "date": "2026-09-08T16:00:00.000Z",
+          "summary": "[서울=뉴시스]이지우 인턴 기자 = 부산을 방문하게 된 운전자가 다른 차량에 양해를 구하기 위해 자동차에 붙인 이색 문구가 화제가 됐다. 지난달 20일 소셜미디어(SNS)에 시댁 방문을 위해 부산을 찾은 A씨의 글이 올라왔다. 부산 운전이 걱정됐던 A씨는 트렁크에 '부산 운전 처음, 죄송합니다'라는 문구를 적어서 붙였다.",
           "source": "뉴시스 사회",
           "via": "뉴시스 사회"
         },
         {
-          "title": "익산 양계장에서 화재…인명피해 없어",
-          "link": "https://www.newsis.com/view/NISX20260908_0003781608",
-          "date": "2026-09-08T12:55:44.000Z",
-          "summary": "[익산=뉴시스]강경호 기자 = 8일 오후 7시22분께 전북 익산시 왕궁면의 한 양계장에서 불이 나 2시간5분여 만에 진화됐다. 이날 화재로 다친 사람은 없는 것으로 파악됐다. 또 화재 당시 양계장은 비어 있던 상태로 전해졌다. 소방당국은 정확한 화재 원인과 피해 규모 등을 조사 중이다. ◎공감언론 뉴시스 lukekang@",
+          "title": "UFO? 미사일? 유성?…전국 곳곳서 '초록 불빛' 목격담",
+          "link": "https://www.newsis.com/view/NISX20260908_0003781211",
+          "date": "2026-09-08T15:55:00.000Z",
+          "summary": "[서울=뉴시스]김혜경 기자, 정승혜 인턴기자 = 지난 7일 밤 전국 각지의 하늘에서 강한 빛을 내며 이동하는 의문의 물체가 목격됐다는 글이 사회관계망서비스(SNS)를 중심으로 잇따르고 있다. 8일 SNS와 주요 온라인 커뮤니티에 따르면 전날 오후 8시49분께 \"UFO? 미사일? 유성? 본 사람 있어?\", \"8시49분에 저",
           "source": "뉴시스 사회",
           "via": "뉴시스 사회"
         },
         {
-          "title": "여수서 30대 노동자 잠수 작업 중 사망…중대재해법 조사",
-          "link": "https://www.newsis.com/view/NISX20260908_0003781602",
-          "date": "2026-09-08T12:44:26.000Z",
-          "summary": "[서울=뉴시스] 구무서 기자 = 전남 여수에서 잠수 작업을 하던 30대 하청 노동자가 숨져 노동 당국이 조사에 나섰다. 8일 고용노동부에 따르면 이날 오전 11시20분께 한국서부발전 사업장에서 하청업체 소속 A(32)씨가 숨지는 사고가 발생했다. 이 노동자는 전남 여수 인근 해상 선박에서 스쿠버 잠수 작업 중 사망한 채로",
+          "title": "\"남은 10억 중 30% 더 달라\"…부친 생전 20억 가져간 큰아들의 욕심",
+          "link": "https://www.newsis.com/view/NISX20260908_0003780895",
+          "date": "2026-09-08T15:50:00.000Z",
+          "summary": "[서울=뉴시스]이준형 인턴 기자 = 부친 생전에 20억원이 넘는 재산을 미리 받고도 사망 후 남아있는 유산 10억원 중 30%를 기여분으로 달라며 상속재산분할심판을 청구한 큰아들의 사연이 알려졌다. 8일 YTN 라디오 '조인섭 변호사의 상담소'에서는 부친이 남긴 10억원 상당의 상속재산을 둘러싼 유산 분쟁 사연이 다뤄졌다",
           "source": "뉴시스 사회",
           "via": "뉴시스 사회"
         },
         {
-          "title": "법원, '사상자 14명' 안전공업 참사 손주환 대표 등 6명 영장 기각",
-          "link": "https://www.newsis.com/view/NISX20260908_0003781595",
-          "date": "2026-09-08T12:16:01.000Z",
-          "summary": "[대전=뉴시스]김도현 기자 = 사망 14명을 포함해 74명의 사상자를 낸 대전 안전공업 참사와 관련해 손주환 대표 등 6명의 구속 영장이 기각됐다. 대전지법 송선양 영장전담 부장판사는 8일 업무상과실치사상, 중대재해처벌법 위반 등 혐의를 받는 손 대표와 증거인멸 등 혐의를 받는 임직원 5명의 구속 영장을 기각했다. 송 부",
+          "title": "\"치료비 많이 드나요?\"…빵 봉지에 쥐 담아온 초등생들에 수의사가 건넨 말",
+          "link": "https://www.newsis.com/view/NISX20260908_0003780949",
+          "date": "2026-09-08T15:25:00.000Z",
+          "summary": "[서울=뉴시스]서이현 인턴 기자 = 초등학생 세 명이 비닐봉지에 담긴 야생 생쥐를 치료해 달라며 2만원을 들고 동물병원을 찾아온 사연이 전해졌다. 지난 5일 김포 동행동물병원 유튜브 채널에 따르면 영상 게시일로부터 며칠 전 어린이 3명이 작은 빵 비닐봉지를 들고 병원 앞을 맴돌았다. 아이들은 승강기를 탔다 내리기를 거듭하",
           "source": "뉴시스 사회",
           "via": "뉴시스 사회"
         },
         {
-          "title": "\"제발 오해하지 마세요\"…파주 냉동창고 시신 사건에 동일 상호 카페 '불똥'",
-          "link": "https://www.newsis.com/view/NISX20260908_0003781582",
-          "date": "2026-09-08T11:59:51.000Z",
-          "summary": "[서울=뉴시스]이기주 인턴 기자 = 경기 파주시의 한 카페에서 60대 여성이 숨진 채 발견된 사건과 관련해 해당 카페와 같은 상호를 사용하는 경기 용인시의 한 카페가 무분별한 오해와 문의로 인한 피해를 호소하고 있다. 지난 7일 해당 카페 측은 포털사이트 소식란에 공지를 올리고 \"최근 파주 문산읍에서 발생한 사건과 관련해",
+          "title": "딸 남겨두고 가출한 불륜 아내…엄마 찾는 아이 위해 연락했다 '스토킹' 피소 위기",
+          "link": "https://www.newsis.com/view/NISX20260908_0003780199",
+          "date": "2026-09-08T15:10:00.000Z",
+          "summary": "[서울=뉴시스]이준형 인턴 기자 = 아내의 외도로 가정이 파탄났음에도 오히려 스토킹 혐의로 고소당할 위기에 처했다는 한 남성의 사연이 전해졌다. 7일 방송된 JTBC '사건반장'에는 40대 남성 A씨의 사연이 다뤄졌다. A씨는 3살 연하 아내와 결혼한 뒤 자녀가 초등학교에 입학하면서 아내의 재취업을 적극 응원했다. 그러나",
           "source": "뉴시스 사회",
           "via": "뉴시스 사회"
         },
         {
-          "title": "납품업체와 짜고 수천만원 횡령한 거제시 공무원 징역 2년 선고",
-          "link": "https://www.newsis.com/view/NISX20260908_0003781530",
-          "date": "2026-09-08T11:33:56.000Z",
-          "summary": "[거제=뉴시스] 신정철 기자 = 지인이 운영하는 납품업체와 짜고 단가를 부풀려 예산을 집행하고, 공금을 횡령한 경남 거제시 공무원이 1심에서 실형을 선고받았다. 8일 창원지방법원 통영지원 형사2단독(부장판사 이은숙)에 따르면 지난 2일 업무상 횡령과 업무상 배임, 허위공문서작성, 등 혐의로 기소된 경남 거제시 7급 공무원",
+          "title": "\"일부러 두 세트 시켰어요\"…배달기사 아침 챙긴 '천사 고객'",
+          "link": "https://www.newsis.com/view/NISX20260908_0003780081",
+          "date": "2026-09-08T15:05:00.000Z",
+          "summary": "[서울=뉴시스]이지우 인턴 기자 = 같은 음식을 하나 더 주문한 뒤 배달 기사에게 제공한 손님의 선행이 화제가 됐다. 지난 4일 한 온라인 커뮤니티에 '아침까지 챙겨주시는 고객님'이라는 제목의 글이 올라왔다. 배달 기사 A씨는 손님이 남긴 요청사항을 캡처해 공유했다. 사진에 따르면 손님은 \"일부러 똑같은 음식을 두 세트 ",
           "source": "뉴시스 사회",
           "via": "뉴시스 사회"
         },
         {
-          "title": "서울 지하철이 클럽?…대형 스피커 틀고 춤춘 외국인 틱톡커 '눈살'",
-          "link": "https://www.newsis.com/view/NISX20260908_0003781565",
-          "date": "2026-09-08T11:08:21.000Z",
-          "summary": "[서울=뉴시스]이기주 인턴 기자 = 서울 지하철 안에서 대형 스피커로 음악을 크게 틀고 춤을 춘 외국인 틱톡커의 영상이 공개돼 논란이 일고 있다. 이 틱톡커는 'Streichbruder'라는 이름으로 활동하는 독일인으로, 틱톡 팔로워가 약 327만명에 달한다. 그동안 여러 나라의 지하철과 거리, 광장 등에서 스피커로 음악",
+          "title": "\"저러고 도로를?\"…비닐 쇼핑백 붙여 번호판 싹 가리고 질주",
+          "link": "https://www.newsis.com/view/NISX20260908_0003780203",
+          "date": "2026-09-08T15:05:00.000Z",
+          "summary": "[서울=뉴시스]서이현 인턴 기자 = 부산의 한 번화가에서 비닐 쇼핑백으로 번호판을 가린 경차가 주행하는 모습이 제보돼 논란이 일고 있다. 7일 JTBC '사건반장'에 따르면 부산 서면 일대에서 번호판을 가려놓은 채 주행하는 차량이 있다는 제보가 들어왔다. 제보 영상에는 번호판이 식별되지 않도록 비닐 쇼핑백을 붙인 채 도로",
           "source": "뉴시스 사회",
           "via": "뉴시스 사회"
         },
@@ -649,6 +648,54 @@ window.MYNEWS_DATA = {
       "error": null,
       "items": [
         {
+          "title": "\"전세 가뭄에 등 떠밀려 '생존 매수'\"…대출 묶인 무주택자 '틈새 전략'은?",
+          "link": "https://www.newsis.com/view/NISX20260908_0003781105",
+          "date": "2026-09-08T16:30:00.000Z",
+          "summary": "[서울=뉴시스]김혜경 기자, 정승혜 인턴기자 = 대출 규제 강화와 전월세 매물 품귀가 겹치면서 무주택 세입자들이 등 떠밀리듯 집을 사는 이른바 '생존 매수' 현상이 이어지고 있다. 복잡해진 대출 규제와 치솟는 집값 속에서 무주택자들은 자신의 자본금과 조건에 맞는 '틈새 전략'을 세워 내 집 마련에 나서야 한다는 전문가의 ",
+          "source": "뉴시스 금융",
+          "via": "뉴시스 금융"
+        },
+        {
+          "title": "\"경기침체·저출산·고령화 덮쳤건만…부동산이 블랙홀 됐다\"",
+          "link": "https://www.newsis.com/view/NISX20260908_0003781107",
+          "date": "2026-09-08T15:45:00.000Z",
+          "summary": "[서울=뉴시스]김성은 인턴 기자 = 부동산 가격이 오르더라도 과거처럼 경제 성장과 소비 증가로 이어지기 어려우며, 오히려 가계부채와 내수 침체를 심화시킬 수 있다는 분석이 나왔다. 구독자 수 35만명을 보유한 유튜브 채널 '대장TV'에서는 지난 4일 한국 경제의 구조적 위기와 부동산 시장의 관계에 대한 이야기가 나왔다. ",
+          "source": "뉴시스 경제",
+          "via": "뉴시스 경제"
+        },
+        {
+          "title": "\"남들 경기 남부 볼 때 '이곳' 보세요\"…박원갑 위원이 주목하는 지역은",
+          "link": "https://www.newsis.com/view/NISX20260908_0003780303",
+          "date": "2026-09-08T15:10:00.000Z",
+          "summary": "[서울=뉴시스]이준형 인턴 기자 = 서울과 수도권 집값이 전고점 수준을 회복하며 상승 기조를 보이는 가운데 급등한 지역보다는 상대적으로 회복세가 더딘 지역을 중심으로 접근하는 실리적 내집마련 전략이 필요하다는 제언이 나왔다. 박원갑 KB국민은행 수석부동산전문위원은 7일 유튜브 채널 '부읽남TV'에 출연해 \"현재 수도권 주",
+          "source": "뉴시스 금융",
+          "via": "뉴시스 금융"
+        },
+        {
+          "title": "\"전세 사라지면 갭투자도 끝?…막 내린 전세 불패, 앞으로 집값은\"",
+          "link": "https://www.newsis.com/view/NISX20260908_0003780100",
+          "date": "2026-09-08T15:00:00.000Z",
+          "summary": "[서울=뉴시스]장인혜 인턴 기자 = 그동안 국내 주택시장에서 집값을 떠받치는 핵심 축 가운데 하나였던 전세제도가 변화를 맞으면서 ‘전세 불패’가 막을 내릴 수 있다는 전망이 나온다. 전세가율이 낮아지고 월세 중심의 임대차 시장으로 빠르게 이동하면서 전세 보증금을 활용해 집을 사는 이른바 ‘갭투자’ 역시 과거와 같은 방식으",
+          "source": "뉴시스 경제",
+          "via": "뉴시스 경제"
+        },
+        {
+          "title": "\"대안이 없다\"…달러 약세에도 S&P500 투자 유지해야 하는 이유",
+          "link": "https://www.newsis.com/view/NISX20260908_0003780292",
+          "date": "2026-09-08T15:00:00.000Z",
+          "summary": "[서울=뉴시스]김성은 인턴 기자 = 달러 약세와 미국 시장의 불확실성이 커지는 상황에서도 S&P500 투자를 이어가도 되는지를 두고, 현재 이를 대체할 뚜렷한 시장이 없다는 분석이 나왔다. 지난 7일 구독자 수 144만명을 보유한 유튜브 채널 '지식한상'에 따르면 최근 달러 패권 약화 가능성이 거론되는 가운데 달러 약세 ",
+          "source": "뉴시스 금융",
+          "via": "뉴시스 금융"
+        },
+        {
+          "title": "\"나이키 다시 날개 달까\"…AI에 밀리고 '영포티' 낙인에 이중고",
+          "link": "https://www.newsis.com/view/NISX20260908_0003781124",
+          "date": "2026-09-08T15:00:00.000Z",
+          "summary": "[서울=뉴시스] 김종민 기자 = 글로벌 스포츠 브랜드 나이키가 주가 폭락에 이어 미국 증시 대표 대형주 지수에서 제외되고, 국내 시장에서도 '영포티(40대) 브랜드'라는 인식 속에 입지가 크게 줄어들고 있다. S&P 다우존스 인디시즈는 나이키가 오는 21일 뉴욕증시 개장 전 S&P 100 지수에서 제외된다고 밝혔다. 나이",
+          "source": "뉴시스 산업",
+          "via": "뉴시스 산업"
+        },
+        {
           "title": "뉴욕증시, 국제 유가 상승에 하락 출발…다우, 0.88% ↓",
           "link": "https://www.newsis.com/view/NISX20260908_0003781630",
           "date": "2026-09-08T13:53:28.000Z",
@@ -745,14 +792,6 @@ window.MYNEWS_DATA = {
           "via": "뉴시스 경제"
         },
         {
-          "title": "[올댓차이나] 홍콩 증시, 중동정세 악화·中 경기불안에 속락 마감… H주 0.38%↓",
-          "link": "https://www.newsis.com/view/NISX20260908_0003781563",
-          "date": "2026-09-08T10:58:40.000Z",
-          "summary": "[서울=뉴시스]이재준 기자 = 홍콩 증시는 8일 중동 정세 악화로 유가가 상승한 가운데 중국 경기 선행에 대한 불안이 커지면서 기술주와 소비 관련주를 중심으로 매도 선행, 속락 마감했다. 항셍지수는 이날 전일 대비 95.94 포인트, 0.38% 내려간 2만5317.18로 폐장했다. 홍콩 증시 상장 중국기업주 중심의 H주 ",
-          "source": "뉴시스 경제",
-          "via": "뉴시스 경제"
-        },
-        {
           "title": "이 대통령, 한-프랑스 비즈니스 라운드테이블…이재용 등 참석",
           "link": "https://www.newsis.com/view/NISX20260908_0003781557",
           "date": "2026-09-08T10:47:15.000Z",
@@ -775,14 +814,6 @@ window.MYNEWS_DATA = {
           "summary": "도널드 트럼프 미국 대통령[사진=EPA&middot;연합뉴스] 미국 정부가 3500억 달러를 웃도는 규모의 대미투자를 요구하면서 우리 정부가 방어에 집중하고 있다. 8일 연합뉴스 등에 따르면 산업통상부는 최근 이 같은 내용으로 한미 전략투자 후속 협상 경과를 국회에 비공개로 보고했다. 양국이 협상 테이블에 올려둔 핵심 프",
           "source": "아주경제 경제",
           "via": "아주경제 경제"
-        },
-        {
-          "title": "[올댓차이나] 8월 中 희토류 수출 12% 증가…1~8월 누적은 11% 감소",
-          "link": "https://www.newsis.com/view/NISX20260908_0003781525",
-          "date": "2026-09-08T09:41:20.000Z",
-          "summary": "[서울=뉴시스]이재준 기자 = 중국이 반출을 통제하는 희토류 수출은 8월에 전달보다 12.1% 늘었지만 올해 들어 월평균 수출량에는 미치지 못했다. 재신쾌보와 경제통, 중앙통신은 8일 중국 해관총서 최신 무역통계를 인용, 8월 희토류 수출량이 4735.1t으로 7월 4223.5t에서 511.6t 늘었다고 전했다. 8년 희",
-          "source": "뉴시스 경제",
-          "via": "뉴시스 경제"
         },
         {
           "title": "이란 전쟁 안끝났는데 사우디·예멘 후티 반군 충돌까지…브렌트유 99달러 '돌파'",
@@ -833,14 +864,6 @@ window.MYNEWS_DATA = {
           "via": "뉴시스 산업"
         },
         {
-          "title": "\"전쟁 터지자 코인으로 돈 몰렸다\"…중동 가상자산 거래 3배↑",
-          "link": "https://www.newsis.com/view/NISX20260908_0003780862",
-          "date": "2026-09-08T08:40:00.000Z",
-          "summary": "[서울=뉴시스]이지영 기자 = 미국과 이란의 전쟁이 계속되는 가운데 중동·북아프리카 지역의 가상자산 거래 규모가 3년여 만에 3배 넘게 늘었다. 전쟁과 통화가치 하락 등에 대응하기 위해 자금이 비트코인과 스테이블코인으로 몰렸다는 분석이다. 8일(현지시간) 디크립트가 인용한 비트코인정책연구소(BPI) 최근 보고서에 따르면 ",
-          "source": "뉴시스 금융",
-          "via": "뉴시스 금융"
-        },
-        {
           "title": "[NNA] SM벡셀 건전지, 동남아 첫 수출…태국서 판매 개시",
           "link": "https://www.ajunews.com/view/20260908173804508",
           "date": "2026-09-08T08:39:33.000Z",
@@ -863,30 +886,6 @@ window.MYNEWS_DATA = {
           "summary": "[사진=울트라휴먼 홈페이지] 인도의 스마트링 제조업체인 울트라휴먼 헬스케어는 3일 미국 반도체 대기업 퀄컴의 벤처 투자 부문인 퀄컴 벤처스 등으로부터 7000만 미국 달러(약 109억 엔)를 조달했다고 밝혔다. 이번 자금 조달을 통해 센서 기술, 인공지능(AI), 전자기기 소형화, 건강 관리 알고리즘의 연구개발(R&D)을",
           "source": "아주경제 경제",
           "via": "아주경제 경제"
-        },
-        {
-          "title": "김병석 식량과학원장, 무인 예찰 포획 장치 구축 현황 점검",
-          "link": "https://www.newsis.com/view/NISX20260908_0003781437",
-          "date": "2026-09-08T08:33:18.000Z",
-          "summary": "[세종=뉴시스]김동현 기자 = 김병석 농촌진흥청 국립식량과학원 원장은 8일 경북 의성군 '무인 예찰 포획 장치(AI트랩)' 시범사업 현장을 방문해 기술 적용 현황을 살피고, 현장 의견을 청취했다. 농진청이 개발한 AI트랩은 해충 유인 물질(페로몬)로 개체를 유인하고, 촬영 영상을 인공지능이 자동 분석해 해충 발생을 원격으",
-          "source": "뉴시스 산업",
-          "via": "뉴시스 산업"
-        },
-        {
-          "title": "벼멸구 방제 시급한 논 3배 가까이 늘어…수확 전 집중 대응",
-          "link": "https://www.newsis.com/view/NISX20260908_0003781417",
-          "date": "2026-09-08T08:32:08.000Z",
-          "summary": "[세종=뉴시스]임소현 기자 = 수확기를 앞두고 벼멸구 방제가 시급한 논이 8월 초보다 3배 가까이 늘어난 것으로 나타났다. 혹명나방과 깨씨무늬병 발생도 증가해 추가 방제가 필요한 상황이다. 농촌진흥청은 지난달 24일부터 이달 1일까지 충남과 전북, 전남·광주, 경남 등 20개 시군의 309개 필지를 대상으로 3차 합동 예",
-          "source": "뉴시스 산업",
-          "via": "뉴시스 산업"
-        },
-        {
-          "title": "농진청, 농촌공간 재생 연구 5년 사업 성과 공유",
-          "link": "https://www.newsis.com/view/NISX20260908_0003781419",
-          "date": "2026-09-08T08:31:10.000Z",
-          "summary": "[세종=뉴시스]김동현 기자 = 농촌진흥청은 8일 대전광역시에서 '제14차 농촌다움 공개 토론회'를 열고 2022년부터 5년간 추진해 온 '디지털 기반 농촌공간 재생 기술 개발' 공동 연구사업의 성과를 공유했다고 밝혔다. 사업은 농촌공간을 국민의 삶터·쉼터·일터로 재생한다는 목표 아래 농촌공간 관리를 위한 과학적 근거 구축",
-          "source": "뉴시스 산업",
-          "via": "뉴시스 산업"
         }
       ]
     },
@@ -1019,55 +1018,7 @@ window.MYNEWS_DATA = {
       "error": null,
       "items": [
         {
-          "title": "오늘 22시 · 23.0℃ · 구름 많음 · 강수확률 20% · 동풍 2.8m/s · 습도 70%",
-          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
-          "date": "2026-09-08T13:00:00.000Z",
-          "summary": "서울특별시",
-          "source": "기상청",
-          "via": "기상청"
-        },
-        {
-          "title": "오늘 23시 · 23.0℃ · 맑음 · 강수확률 0% · 동풍 2.8m/s · 습도 75%",
-          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
-          "date": "2026-09-08T14:00:00.000Z",
-          "summary": "서울특별시",
-          "source": "기상청",
-          "via": "기상청"
-        },
-        {
-          "title": "오늘 24시 · 22.0℃ · 구름 많음 · 강수확률 20% · 동풍 2.9m/s · 습도 75%",
-          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
-          "date": "2026-09-08T15:00:00.000Z",
-          "summary": "서울특별시",
-          "source": "기상청",
-          "via": "기상청"
-        },
-        {
-          "title": "내일 01시 · 22.0℃ · 구름 많음 · 강수확률 20% · 북동풍 3.0m/s · 습도 70%",
-          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
-          "date": "2026-09-08T16:00:00.000Z",
-          "summary": "서울특별시",
-          "source": "기상청",
-          "via": "기상청"
-        },
-        {
-          "title": "내일 02시 · 21.0℃ · 맑음 · 강수확률 0% · 북동풍 3.0m/s · 습도 70%",
-          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
-          "date": "2026-09-08T17:00:00.000Z",
-          "summary": "서울특별시",
-          "source": "기상청",
-          "via": "기상청"
-        },
-        {
-          "title": "내일 03시 · 21.0℃ · 구름 많음 · 강수확률 20% · 북동풍 2.8m/s · 습도 70%",
-          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
-          "date": "2026-09-08T18:00:00.000Z",
-          "summary": "서울특별시",
-          "source": "기상청",
-          "via": "기상청"
-        },
-        {
-          "title": "내일 04시 · 20.0℃ · 흐림 · 강수확률 30% · 북동풍 3.0m/s · 습도 65%",
+          "title": "오늘 04시 · 20.0℃ · 흐림 · 강수확률 30% · 북동풍 2.8m/s · 습도 65%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-08T19:00:00.000Z",
           "summary": "서울특별시",
@@ -1075,7 +1026,7 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 05시 · 20.0℃ · 흐림 · 강수확률 30% · 북동풍 2.8m/s · 습도 65%",
+          "title": "오늘 05시 · 20.0℃ · 흐림 · 강수확률 30% · 북동풍 2.5m/s · 습도 65%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-08T20:00:00.000Z",
           "summary": "서울특별시",
@@ -1083,7 +1034,7 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 06시 · 20.0℃ · 흐림 · 강수확률 30% · 북동풍 2.6m/s · 습도 60%",
+          "title": "오늘 06시 · 20.0℃ · 흐림 · 강수확률 30% · 북동풍 2.3m/s · 습도 60%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-08T21:00:00.000Z",
           "summary": "서울특별시",
@@ -1091,7 +1042,7 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 07시 · 20.0℃ · 흐림 · 강수확률 30% · 북동풍 2.4m/s · 습도 60%",
+          "title": "오늘 07시 · 20.0℃ · 흐림 · 강수확률 30% · 북동풍 2.2m/s · 습도 60%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-08T22:00:00.000Z",
           "summary": "서울특별시",
@@ -1099,7 +1050,7 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 08시 · 21.0℃ · 흐림 · 강수확률 30% · 북동풍 2.6m/s · 습도 55%",
+          "title": "오늘 08시 · 21.0℃ · 흐림 · 강수확률 30% · 북동풍 2.3m/s · 습도 55%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-08T23:00:00.000Z",
           "summary": "서울특별시",
@@ -1107,9 +1058,57 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 09시 · 21.0℃ · 흐림 · 강수확률 30% · 북동풍 3.3m/s · 습도 55%",
+          "title": "오늘 09시 · 21.0℃ · 흐림 · 강수확률 30% · 북동풍 3.0m/s · 습도 55%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-09T00:00:00.000Z",
+          "summary": "서울특별시",
+          "source": "기상청",
+          "via": "기상청"
+        },
+        {
+          "title": "오늘 10시 · 22.0℃ · 흐림 · 강수확률 30% · 북동풍 3.3m/s · 습도 55%",
+          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
+          "date": "2026-09-09T01:00:00.000Z",
+          "summary": "서울특별시",
+          "source": "기상청",
+          "via": "기상청"
+        },
+        {
+          "title": "오늘 11시 · 23.0℃ · 흐림 · 강수확률 30% · 북동풍 3.3m/s · 습도 50%",
+          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
+          "date": "2026-09-09T02:00:00.000Z",
+          "summary": "서울특별시",
+          "source": "기상청",
+          "via": "기상청"
+        },
+        {
+          "title": "오늘 12시 · 24.0℃ · 구름 많음 · 강수확률 20% · 북동풍 3.4m/s · 습도 50%",
+          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
+          "date": "2026-09-09T03:00:00.000Z",
+          "summary": "서울특별시",
+          "source": "기상청",
+          "via": "기상청"
+        },
+        {
+          "title": "오늘 13시 · 25.0℃ · 구름 많음 · 강수확률 20% · 북동풍 3.6m/s · 습도 45%",
+          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
+          "date": "2026-09-09T04:00:00.000Z",
+          "summary": "서울특별시",
+          "source": "기상청",
+          "via": "기상청"
+        },
+        {
+          "title": "오늘 14시 · 27.0℃ · 구름 많음 · 강수확률 20% · 북동풍 3.6m/s · 습도 45%",
+          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
+          "date": "2026-09-09T05:00:00.000Z",
+          "summary": "서울특별시",
+          "source": "기상청",
+          "via": "기상청"
+        },
+        {
+          "title": "오늘 15시 · 27.0℃ · 흐림 · 강수확률 30% · 북동풍 3.6m/s · 습도 45%",
+          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
+          "date": "2026-09-09T06:00:00.000Z",
           "summary": "서울특별시",
           "source": "기상청",
           "via": "기상청"
