@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-09-12T16:38:24.345Z",
+  "updatedAt": "2026-09-12T19:52:29.728Z",
   "categories": [
     {
       "id": "ai",
@@ -242,11 +242,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 지원사업"
         },
         {
-          "title": "남해군, 여성어업인 특화건강검진 지원사업 신청자 모집 - naewoeilbo.com",
+          "title": "남해군, 여성어업인 특화건강검진 지원사업 신청자 모집 - 내외일보",
           "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBOOVIzeFVxdF9yY3ZxcTNQX1QtLUtaVHRzVWQzWlhEbDZEVzNmSHdhMGdKVG56WmY0OWVsbkVIVVhjV3ZvcnpIcUNaWlJhbXo4TjNoOHVuaE1GdjVTMGsxR3F3dUdJWWh5S2Y3bXhVVQ?oc=5",
           "date": "2026-09-11T11:43:02.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMib0FVX3lxTFBOOVIzeFVxdF9yY3ZxcTNQX1QtLUtaVHRzVWQzWlhEbDZEVzNmSHdhMGdKVG56WmY0OWVsbkVIVVhjV3ZvcnpIcUNaWlJhbXo4TjNoOHVuaE1GdjVTMGsxR3",
-          "source": "naewoeilbo.com",
+          "source": "내외일보",
           "via": "Google 뉴스 지원사업"
         },
         {
@@ -1019,31 +1019,7 @@ window.MYNEWS_DATA = {
       "error": null,
       "items": [
         {
-          "title": "내일 01시 · 21.0℃ · 맑음 · 강수확률 0% · 남풍 0.1m/s · 습도 80%",
-          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
-          "date": "2026-09-12T16:00:00.000Z",
-          "summary": "서울특별시",
-          "source": "기상청",
-          "via": "기상청"
-        },
-        {
-          "title": "내일 02시 · 20.0℃ · 구름 많음 · 강수확률 20% · 남풍 0.1m/s · 습도 80%",
-          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
-          "date": "2026-09-12T17:00:00.000Z",
-          "summary": "서울특별시",
-          "source": "기상청",
-          "via": "기상청"
-        },
-        {
-          "title": "내일 03시 · 20.0℃ · 흐림 · 강수확률 30% · 남풍 0.1m/s · 습도 80%",
-          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
-          "date": "2026-09-12T18:00:00.000Z",
-          "summary": "서울특별시",
-          "source": "기상청",
-          "via": "기상청"
-        },
-        {
-          "title": "내일 04시 · 20.0℃ · 흐림 · 강수확률 30% · 동풍 0.1m/s · 습도 80%",
+          "title": "오늘 04시 · 20.0℃ · 흐림 · 강수확률 30% · 동풍 0.1m/s · 습도 80%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-12T19:00:00.000Z",
           "summary": "서울특별시",
@@ -1051,7 +1027,7 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 05시 · 19.0℃ · 흐림 · 강수확률 30% · 서풍 0.1m/s · 습도 85%",
+          "title": "오늘 05시 · 19.0℃ · 흐림 · 강수확률 30% · 서풍 0.1m/s · 습도 85%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-12T20:00:00.000Z",
           "summary": "서울특별시",
@@ -1059,7 +1035,7 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 06시 · 19.0℃ · 흐림 · 강수확률 30% · 남풍 0.1m/s · 습도 80%",
+          "title": "오늘 06시 · 19.0℃ · 흐림 · 강수확률 30% · 남풍 0.1m/s · 습도 80%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-12T21:00:00.000Z",
           "summary": "서울특별시",
@@ -1067,7 +1043,7 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 07시 · 20.0℃ · 흐림 · 강수확률 30% · 남풍 0.2m/s · 습도 80%",
+          "title": "오늘 07시 · 20.0℃ · 흐림 · 강수확률 30% · 남풍 0.2m/s · 습도 80%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-12T22:00:00.000Z",
           "summary": "서울특별시",
@@ -1075,7 +1051,7 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 08시 · 21.0℃ · 흐림 · 강수확률 30% · 남풍 0.5m/s · 습도 75%",
+          "title": "오늘 08시 · 21.0℃ · 흐림 · 강수확률 30% · 남풍 0.5m/s · 습도 75%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-12T23:00:00.000Z",
           "summary": "서울특별시",
@@ -1083,7 +1059,7 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 09시 · 21.0℃ · 흐림 · 강수확률 30% · 남풍 0.2m/s · 습도 70%",
+          "title": "오늘 09시 · 21.0℃ · 흐림 · 강수확률 30% · 남풍 0.2m/s · 습도 70%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-13T00:00:00.000Z",
           "summary": "서울특별시",
@@ -1091,7 +1067,7 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 10시 · 22.0℃ · 흐림 · 강수확률 30% · 서풍 0.0m/s · 습도 70%",
+          "title": "오늘 10시 · 22.0℃ · 흐림 · 강수확률 30% · 서풍 0.1m/s · 습도 70%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-13T01:00:00.000Z",
           "summary": "서울특별시",
@@ -1099,7 +1075,7 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 11시 · 23.0℃ · 흐림 · 강수확률 30% · 서풍 0.1m/s · 습도 65%",
+          "title": "오늘 11시 · 23.0℃ · 흐림 · 강수확률 30% · 서풍 0.1m/s · 습도 65%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-13T02:00:00.000Z",
           "summary": "서울특별시",
@@ -1107,9 +1083,33 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 12시 · 24.0℃ · 흐림 · 강수확률 30% · 서풍 0.5m/s · 습도 60%",
+          "title": "오늘 12시 · 24.0℃ · 흐림 · 강수확률 30% · 서풍 0.5m/s · 습도 60%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-13T03:00:00.000Z",
+          "summary": "서울특별시",
+          "source": "기상청",
+          "via": "기상청"
+        },
+        {
+          "title": "오늘 13시 · 24.0℃ · 구름 많음 · 강수확률 20% · 서풍 1.3m/s · 습도 60%",
+          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
+          "date": "2026-09-13T04:00:00.000Z",
+          "summary": "서울특별시",
+          "source": "기상청",
+          "via": "기상청"
+        },
+        {
+          "title": "오늘 14시 · 25.0℃ · 구름 많음 · 강수확률 20% · 서풍 1.3m/s · 습도 60%",
+          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
+          "date": "2026-09-13T05:00:00.000Z",
+          "summary": "서울특별시",
+          "source": "기상청",
+          "via": "기상청"
+        },
+        {
+          "title": "오늘 15시 · 25.0℃ · 구름 많음 · 강수확률 20% · 서풍 1.8m/s · 습도 55%",
+          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
+          "date": "2026-09-13T06:00:00.000Z",
           "summary": "서울특별시",
           "source": "기상청",
           "via": "기상청"
