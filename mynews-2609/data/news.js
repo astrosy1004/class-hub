@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-09-13T17:15:16.802Z",
+  "updatedAt": "2026-09-13T20:01:01.622Z",
   "categories": [
     {
       "id": "ai",
@@ -187,7 +187,8 @@ window.MYNEWS_DATA = {
           "source": "중소벤처기업부 사업공고",
           "url": "https://mss.go.kr/rss/smba/board/310.do",
           "count": 8,
-          "error": null
+          "error": "fetch failed",
+          "stale": true
         },
         {
           "source": "지원금가이드 신규 정부지원금",
@@ -217,11 +218,11 @@ window.MYNEWS_DATA = {
       "error": null,
       "items": [
         {
-          "title": "GIST, '호남권 지역자율 R&D 사업' 연구단 모집…반도체·에너지·모빌리티 등 3개 분야 - etnews.com",
+          "title": "GIST, '호남권 지역자율 R&D 사업' 연구단 모집…반도체·에너지·모빌리티 등 3개 분야 - 전자신문",
           "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTFBhQ1QzMl96NHZ4RXQ4NWtzT29mQ0xBQVBqNl9OSnZ6TUQ0YlhDWWlnWGdOR3lXWThEbVNaZDR5ZTJhNXBIWlV0d1ZjREIzZw?oc=5",
           "date": "2026-09-13T00:24:49.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiTkFVX3lxTFBhQ1QzMl96NHZ4RXQ4NWtzT29mQ0xBQVBqNl9OSnZ6TUQ0YlhDWWlnWGdOR3lXWThEbVNaZDR5ZTJhNXBIWlV0d1ZjREIzZw?oc=5\" target=\"_blank\">G",
-          "source": "etnews.com",
+          "source": "전자신문",
           "via": "Google 뉴스 지원사업"
         },
         {
@@ -241,11 +242,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 지원사업"
         },
         {
-          "title": "남해군, 여성어업인 특화건강검진 지원사업 신청자 모집 - 내외일보",
+          "title": "남해군, 여성어업인 특화건강검진 지원사업 신청자 모집 - naewoeilbo.com",
           "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBOOVIzeFVxdF9yY3ZxcTNQX1QtLUtaVHRzVWQzWlhEbDZEVzNmSHdhMGdKVG56WmY0OWVsbkVIVVhjV3ZvcnpIcUNaWlJhbXo4TjNoOHVuaE1GdjVTMGsxR3F3dUdJWWh5S2Y3bXhVVQ?oc=5",
           "date": "2026-09-11T11:43:02.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMib0FVX3lxTFBOOVIzeFVxdF9yY3ZxcTNQX1QtLUtaVHRzVWQzWlhEbDZEVzNmSHdhMGdKVG56WmY0OWVsbkVIVVhjV3ZvcnpIcUNaWlJhbXo4TjNoOHVuaE1GdjVTMGsxR3",
-          "source": "내외일보",
+          "source": "naewoeilbo.com",
           "via": "Google 뉴스 지원사업"
         },
         {
@@ -426,7 +427,8 @@ window.MYNEWS_DATA = {
           "source": "행정안전부 보도자료",
           "url": "https://www.mois.go.kr/gpms/view/jsp/rss/rss.jsp?ctxCd=1012",
           "count": 10,
-          "error": null
+          "error": "fetch failed",
+          "stale": true
         }
       ],
       "error": null,
@@ -638,6 +640,14 @@ window.MYNEWS_DATA = {
       ],
       "error": null,
       "items": [
+        {
+          "title": "캐나다 총리의 '친 유럽' 승부수…EU 준회원국 제안도",
+          "link": "https://www.ajunews.com/view/20260914005619790",
+          "date": "2026-09-13T16:07:20.000Z",
+          "summary": "지난달 24일(현지시간) 마크 카니 캐나다 총리가 퀘벡주 레비에 있는 데이비 조선소에서 연설하고 있다. [사진=AFP 연합뉴스] 미국과 무역 갈등을 빚고 있는 캐나다의 마크 카니 총리가 자국을 유럽연합(EU)의 준회원국으로 제안해 관심이 모인다. 미국의 51번째 주가 되라는 도널드 트럼프 미 대통령의 제안 대신 EU의 2",
+          "source": "아주경제 경제",
+          "via": "아주경제 경제"
+        },
         {
           "title": "\"돈 찍던 미국 형님? 이젠 옛말\"…흔들리는 글로벌 금융시장, 고금리 늪 빠진 이유",
           "link": "https://www.newsis.com/view/NISX20260911_0003785262",
@@ -869,14 +879,6 @@ window.MYNEWS_DATA = {
           "summary": "김정관 산업통상부 장관이 10일(현지시간) 미국 뉴욕 인근 뉴어크 공항에 도착해 기자들의 질문에 답하고 있다. [사진=연합뉴스] 한국의 대(對)미 전략투자 첫 사업이 이르면 이번 주 윤곽을 드러낼 전망이다. 사업비 증액과 조기 자금 집행 가능성이 거론되면서 투자금 회수와 손실 분산을 위한 안전장치가 실제 투자 조건에서도 ",
           "source": "아주경제 경제",
           "via": "아주경제 경제"
-        },
-        {
-          "title": "인사청문회 D-2…이형일의 경제정책 키워드는 '적극 재정'",
-          "link": "https://www.ajunews.com/view/20260913154911357",
-          "date": "2026-09-13T07:03:02.000Z",
-          "summary": "이형일 부총리 겸 재정경제부 장관 후보자가 지난 3일 서울 중구 예금보험공사에 마련된 인사청문회 준비 사무실로 출근, 취재진의 질문에 답하고 있다. [사진=유대길 기자 dbeorlf123@ajunews.com] 이형일 경제부총리 겸 재정경제부 장관 후보자가 오는 15일 인사청문회를 앞두고 성장동력 확보를 위한 적극적인 재",
-          "source": "아주경제 경제",
-          "via": "아주경제 경제"
         }
       ]
     },
@@ -1009,31 +1011,7 @@ window.MYNEWS_DATA = {
       "error": null,
       "items": [
         {
-          "title": "내일 01시 · 20.0℃ · 구름 많음 · 강수확률 20% · 서풍 1.4m/s · 습도 85%",
-          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
-          "date": "2026-09-13T16:00:00.000Z",
-          "summary": "서울특별시",
-          "source": "기상청",
-          "via": "기상청"
-        },
-        {
-          "title": "내일 02시 · 20.0℃ · 구름 많음 · 강수확률 20% · 서풍 1.3m/s · 습도 85%",
-          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
-          "date": "2026-09-13T17:00:00.000Z",
-          "summary": "서울특별시",
-          "source": "기상청",
-          "via": "기상청"
-        },
-        {
-          "title": "내일 03시 · 20.0℃ · 구름 많음 · 강수확률 20% · 서풍 1.2m/s · 습도 90%",
-          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
-          "date": "2026-09-13T18:00:00.000Z",
-          "summary": "서울특별시",
-          "source": "기상청",
-          "via": "기상청"
-        },
-        {
-          "title": "내일 04시 · 19.0℃ · 구름 많음 · 강수확률 20% · 서풍 1.0m/s · 습도 90%",
+          "title": "오늘 04시 · 19.0℃ · 구름 많음 · 강수확률 20% · 서풍 1.0m/s · 습도 90%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-13T19:00:00.000Z",
           "summary": "서울특별시",
@@ -1041,7 +1019,7 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 05시 · 19.0℃ · 구름 많음 · 강수확률 20% · 서풍 0.7m/s · 습도 90%",
+          "title": "오늘 05시 · 19.0℃ · 구름 많음 · 강수확률 20% · 서풍 0.6m/s · 습도 90%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-13T20:00:00.000Z",
           "summary": "서울특별시",
@@ -1049,7 +1027,7 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 06시 · 19.0℃ · 구름 많음 · 강수확률 20% · 서풍 0.8m/s · 습도 90%",
+          "title": "오늘 06시 · 19.0℃ · 구름 많음 · 강수확률 20% · 서풍 0.8m/s · 습도 90%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-13T21:00:00.000Z",
           "summary": "서울특별시",
@@ -1057,7 +1035,7 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 07시 · 19.0℃ · 구름 많음 · 강수확률 20% · 서풍 0.8m/s · 습도 85%",
+          "title": "오늘 07시 · 19.0℃ · 구름 많음 · 강수확률 20% · 서풍 0.8m/s · 습도 85%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-13T22:00:00.000Z",
           "summary": "서울특별시",
@@ -1065,7 +1043,7 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 08시 · 20.0℃ · 구름 많음 · 강수확률 20% · 서풍 1.3m/s · 습도 80%",
+          "title": "오늘 08시 · 20.0℃ · 구름 많음 · 강수확률 20% · 서풍 1.1m/s · 습도 80%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-13T23:00:00.000Z",
           "summary": "서울특별시",
@@ -1073,7 +1051,7 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 09시 · 21.0℃ · 구름 많음 · 강수확률 20% · 북서풍 2.1m/s · 습도 75%",
+          "title": "오늘 09시 · 21.0℃ · 구름 많음 · 강수확률 20% · 북서풍 1.9m/s · 습도 75%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-14T00:00:00.000Z",
           "summary": "서울특별시",
@@ -1081,7 +1059,7 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 10시 · 23.0℃ · 구름 많음 · 강수확률 20% · 북서풍 2.6m/s · 습도 65%",
+          "title": "오늘 10시 · 23.0℃ · 구름 많음 · 강수확률 20% · 북서풍 2.4m/s · 습도 65%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-14T01:00:00.000Z",
           "summary": "서울특별시",
@@ -1089,7 +1067,7 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 11시 · 24.0℃ · 구름 많음 · 강수확률 20% · 북서풍 2.9m/s · 습도 55%",
+          "title": "오늘 11시 · 24.0℃ · 구름 많음 · 강수확률 20% · 북서풍 2.8m/s · 습도 55%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-14T02:00:00.000Z",
           "summary": "서울특별시",
@@ -1097,9 +1075,33 @@ window.MYNEWS_DATA = {
           "via": "기상청"
         },
         {
-          "title": "내일 12시 · 25.0℃ · 구름 많음 · 강수확률 20% · 북서풍 3.4m/s · 습도 45%",
+          "title": "오늘 12시 · 25.0℃ · 구름 많음 · 강수확률 20% · 북서풍 3.3m/s · 습도 45%",
           "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
           "date": "2026-09-14T03:00:00.000Z",
+          "summary": "서울특별시",
+          "source": "기상청",
+          "via": "기상청"
+        },
+        {
+          "title": "오늘 13시 · 26.0℃ · 구름 많음 · 강수확률 20% · 북서풍 3.2m/s · 습도 35%",
+          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
+          "date": "2026-09-14T04:00:00.000Z",
+          "summary": "서울특별시",
+          "source": "기상청",
+          "via": "기상청"
+        },
+        {
+          "title": "오늘 14시 · 27.0℃ · 구름 많음 · 강수확률 20% · 북서풍 3.0m/s · 습도 35%",
+          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
+          "date": "2026-09-14T05:00:00.000Z",
+          "summary": "서울특별시",
+          "source": "기상청",
+          "via": "기상청"
+        },
+        {
+          "title": "오늘 15시 · 27.0℃ · 구름 많음 · 강수확률 20% · 북서풍 3.3m/s · 습도 35%",
+          "link": "https://www.weather.go.kr/w/weather/forecast/short-term.do#dong/1100000000",
+          "date": "2026-09-14T06:00:00.000Z",
           "summary": "서울특별시",
           "source": "기상청",
           "via": "기상청"
