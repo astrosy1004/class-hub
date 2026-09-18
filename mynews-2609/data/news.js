@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-09-18T09:25:43.912Z",
+  "updatedAt": "2026-09-18T09:46:21.793Z",
   "categories": [
     {
       "id": "job",
@@ -10,9 +10,16 @@ window.MYNEWS_DATA = {
       "feeds": [
         {
           "source": "Google 뉴스 코딩강사 구인",
-          "url": "https://news.google.com/rss/search?q=%22%EC%BD%94%EB%94%A9%EA%B0%95%EC%82%AC%22+%EC%B1%84%EC%9A%A9+OR+%EA%B5%AC%EC%9D%B8+OR+%EB%AA%A8%EC%A7%91&hl=ko&gl=KR&ceid=KR:ko",
+          "url": "https://news.google.com/rss/search?q=%28%22%EC%BD%94%EB%94%A9%EA%B0%95%EC%82%AC%22+OR+%22%EC%BD%94%EB%94%A9+%EA%B0%95%EC%82%AC%22%29+%28%22%EA%B0%95%EC%82%AC+%EC%B1%84%EC%9A%A9%22+OR+%22%EA%B0%95%EC%82%AC+%EA%B5%AC%EC%9D%B8%22+OR+%22%EA%B0%95%EC%82%AC+%EB%AA%A8%EC%A7%91%22%29+-%EC%88%98%EA%B0%95%EC%83%9D+-%EC%B0%B8%EA%B0%80%EC%9E%90+-%ED%95%99%EC%83%9D+when%3A14d&hl=ko&gl=KR&ceid=KR:ko",
           "count": 13,
-          "error": null
+          "error": "항목 없음",
+          "stale": true
+        },
+        {
+          "source": "Google 뉴스 교육청 코딩강사 채용",
+          "url": "https://news.google.com/rss/search?q=%28%22%EC%BD%94%EB%94%A9%EA%B0%95%EC%82%AC%22+OR+%22%EC%BD%94%EB%94%A9+%EA%B0%95%EC%82%AC%22+OR+%22SW%EA%B0%95%EC%82%AC%22+OR+%22%EC%A0%95%EB%B3%B4%EA%B0%95%EC%82%AC%22%29+%28%EA%B5%90%EC%9C%A1%EC%B2%AD+OR+%EB%B0%A9%EA%B3%BC%ED%9B%84+OR+%EB%8A%98%EB%B4%84%ED%95%99%EA%B5%90+OR+%ED%95%99%EA%B5%90%29+%28%EC%B1%84%EC%9A%A9+OR+%EB%AA%A8%EC%A7%91+OR+%EA%B5%AC%EC%9D%B8%29+-%EC%88%98%EA%B0%95%EC%83%9D+-%EC%B0%B8%EA%B0%80%EC%9E%90+when%3A14d&hl=ko&gl=KR&ceid=KR:ko",
+          "count": 0,
+          "error": "항목 없음"
         }
       ],
       "error": null,
