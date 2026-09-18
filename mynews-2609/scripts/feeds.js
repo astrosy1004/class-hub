@@ -20,6 +20,8 @@ const CATEGORIES = [
       // "강사 채용/구인/모집" 구를 정확히 포함하는 기사만, 최근 14일 이내(when:14d)로 제한.
       // 수강생·참가자·학생 모집(강사가 아닌 학생 대상) 관련 기사는 제외.
       { source: 'Google 뉴스 코딩강사 구인', url: 'https://news.google.com/rss/search?q=%28%22%EC%BD%94%EB%94%A9%EA%B0%95%EC%82%AC%22+OR+%22%EC%BD%94%EB%94%A9+%EA%B0%95%EC%82%AC%22%29+%28%22%EA%B0%95%EC%82%AC+%EC%B1%84%EC%9A%A9%22+OR+%22%EA%B0%95%EC%82%AC+%EA%B5%AC%EC%9D%B8%22+OR+%22%EA%B0%95%EC%82%AC+%EB%AA%A8%EC%A7%91%22%29+-%EC%88%98%EA%B0%95%EC%83%9D+-%EC%B0%B8%EA%B0%80%EC%9E%90+-%ED%95%99%EC%83%9D+when%3A14d&hl=ko&gl=KR&ceid=KR:ko' },
+      // 교육청·학교·방과후·늘봄학교 등 학교 현장 코딩/SW/정보 강사 채용 관련 뉴스만 최근 14일로 제한.
+      { source: 'Google 뉴스 교육청 코딩강사 채용', url: 'https://news.google.com/rss/search?q=%28%22%EC%BD%94%EB%94%A9%EA%B0%95%EC%82%AC%22+OR+%22%EC%BD%94%EB%94%A9+%EA%B0%95%EC%82%AC%22+OR+%22SW%EA%B0%95%EC%82%AC%22+OR+%22%EC%A0%95%EB%B3%B4%EA%B0%95%EC%82%AC%22%29+%28%EA%B5%90%EC%9C%A1%EC%B2%AD+OR+%EB%B0%A9%EA%B3%BC%ED%9B%84+OR+%EB%8A%98%EB%B4%84%ED%95%99%EA%B5%90+OR+%ED%95%99%EA%B5%90%29+%28%EC%B1%84%EC%9A%A9+OR+%EB%AA%A8%EC%A7%91+OR+%EA%B5%AC%EC%9D%B8%29+-%EC%88%98%EA%B0%95%EC%83%9D+-%EC%B0%B8%EA%B0%80%EC%9E%90+when%3A14d&hl=ko&gl=KR&ceid=KR:ko' },
     ],
   },
   {
