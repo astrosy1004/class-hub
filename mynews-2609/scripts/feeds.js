@@ -17,7 +17,9 @@ const CATEGORIES = [
     perFeed: 20,
     limit: 30,
     feeds: [
-      { source: 'Google 뉴스 코딩강사 구인', url: 'https://news.google.com/rss/search?q=%22%EC%BD%94%EB%94%A9%EA%B0%95%EC%82%AC%22+%EC%B1%84%EC%9A%A9+OR+%EA%B5%AC%EC%9D%B8+OR+%EB%AA%A8%EC%A7%91&hl=ko&gl=KR&ceid=KR:ko' },
+      // "강사 채용/구인/모집" 구를 정확히 포함하는 기사만, 최근 14일 이내(when:14d)로 제한.
+      // 수강생·참가자·학생 모집(강사가 아닌 학생 대상) 관련 기사는 제외.
+      { source: 'Google 뉴스 코딩강사 구인', url: 'https://news.google.com/rss/search?q=%28%22%EC%BD%94%EB%94%A9%EA%B0%95%EC%82%AC%22+OR+%22%EC%BD%94%EB%94%A9+%EA%B0%95%EC%82%AC%22%29+%28%22%EA%B0%95%EC%82%AC+%EC%B1%84%EC%9A%A9%22+OR+%22%EA%B0%95%EC%82%AC+%EA%B5%AC%EC%9D%B8%22+OR+%22%EA%B0%95%EC%82%AC+%EB%AA%A8%EC%A7%91%22%29+-%EC%88%98%EA%B0%95%EC%83%9D+-%EC%B0%B8%EA%B0%80%EC%9E%90+-%ED%95%99%EC%83%9D+when%3A14d&hl=ko&gl=KR&ceid=KR:ko' },
     ],
   },
   {
