@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-09-19T02:11:33.996Z",
+  "updatedAt": "2026-09-19T08:22:36.446Z",
   "categories": [
     {
       "id": "job",
@@ -57,11 +57,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "인제대, 로봇·코딩 강사양성교육 3기 수료식 개최 - gimhaenews.co.kr",
+          "title": "인제대, 로봇·코딩 강사양성교육 3기 수료식 개최 - 김해뉴스",
           "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE5uTWRCYlZ2M2drYjVyM1hQZkZ3anl5MF9CTVBmMDYxOGhXX0J3V1JZMDFNOGdpR3lUbkdGdlFoS1JuV09mc0xRRDlxYjlNU2pKY01kQ1d4VjhZTVl6aUVaeDlfVnAzVUFHRmltcUtn?oc=5",
           "date": "2026-07-08T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMibkFVX3lxTE5uTWRCYlZ2M2drYjVyM1hQZkZ3anl5MF9CTVBmMDYxOGhXX0J3V1JZMDFNOGdpR3lUbkdGdlFoS1JuV09mc0xRRDlxYjlNU2pKY01kQ1d4VjhZTVl6aUVaeD",
-          "source": "gimhaenews.co.kr",
+          "source": "김해뉴스",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -102,14 +102,6 @@ window.MYNEWS_DATA = {
           "date": "2024-02-29T08:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMikAFBVV95cUxQQlRUVVZCTmpwRTMyX2NwWVZLRjJvMHlvX3Q0eG1YMkRDMmFGVHZCcGZ0NURqX3dSWmdUY2pRUXFOWk5EQWlLSm8xVjM3Yk15ZEctZmJDZWF0RktCSjN5dm",
           "source": "twig24.com",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
-          "title": "LG CNS 신입사원, 초등학교 일일 '코딩 강사'로 나서 - 뉴스핌",
-          "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1wWHp6ZDRyWElZd3R0Y1ZNblJ0SW1Qd2VqUG1ONGJNeXItTlVYTmx5dVl5SWg3aUdkcDU1SVVMS2xLSnhfSjl1eExtaVhZcWY3TnloeHJoSWdNUWJE?oc=5",
-          "date": "2023-09-21T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiXEFVX3lxTE1wWHp6ZDRyWElZd3R0Y1ZNblJ0SW1Qd2VqUG1ONGJNeXItTlVYTmx5dVl5SWg3aUdkcDU1SVVMS2xLSnhfSjl1eExtaVhZcWY3TnloeHJoSWdNUWJE?oc=5\"",
-          "source": "뉴스핌",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -185,11 +177,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "경기도, 여성대상 ‘SW융합코딩강사 양성과정’ 교육생 모집 - 뉴스핌",
+          "title": "경기도, 여성대상 ‘SW융합코딩강사 양성과정’ 교육생 모집 - newspim.com",
           "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5qbFpBdFROR0pZMlRMc2VmQXRkelNsRGhzLTgtX2p2OVg1bW0xOEJMMFZ2RXZ4WFRFSW0wM3Y3UTV1dFNMN3VHUVo0Y0pXVzRDZkpwTkVpenk2WlVw?oc=5",
           "date": "2019-07-29T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiXEFVX3lxTE5qbFpBdFROR0pZMlRMc2VmQXRkelNsRGhzLTgtX2p2OVg1bW0xOEJMMFZ2RXZ4WFRFSW0wM3Y3UTV1dFNMN3VHUVo0Y0pXVzRDZkpwTkVpenk2WlVw?oc=5\"",
-          "source": "뉴스핌",
+          "source": "newspim.com",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -206,6 +198,14 @@ window.MYNEWS_DATA = {
           "date": "2019-05-29T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiQkFVX3lxTFAtVmRGY3FiRl9nVHpzYTk5c010eUZibmFKSk9SSEp5VnFwdnYyM3VqcmRhbE1jc25jNUUtV2I2UWhIUQ?oc=5\" target=\"_blank\">김포새일센터「코딩강사 양성과정」",
           "source": "김포시민신문",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "김포여성새로일하기센터, 코딩강사 양성과정 개강 - cwn.kr",
+          "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE5SeS04S3BHcWs4LVl4TzRZcU05Z3BscHJabXVUTUNyeDhSMS1HSWxxVThUOUpJWXdDZkwtUFRjbTFmU2MxeDVkQVk3cklXa3lCSHNJWnVBa3FkZjZyWWpJ?oc=5",
+          "date": "2019-03-26T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiX0FVX3lxTE5SeS04S3BHcWs4LVl4TzRZcU05Z3BscHJabXVUTUNyeDhSMS1HSWxxVThUOUpJWXdDZkwtUFRjbTFmU2MxeDVkQVk3cklXa3lCSHNJWnVBa3FkZjZyWWpJ?o",
+          "source": "cwn.kr",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
