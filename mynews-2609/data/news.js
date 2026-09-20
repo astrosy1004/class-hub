@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-09-20T13:48:45.909Z",
+  "updatedAt": "2026-09-20T17:06:46.543Z",
   "categories": [
     {
       "id": "job",
@@ -106,14 +106,6 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "한신대 디지털새싹사업단, ‘AI 아트 코딩 강사 워크숍’ 개최 - christiandaily.co.kr",
-          "link": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE5OU1ZlZG1oVk5aLV9ZUWg0T2FqdTdFUVFGVDA1X0Rrb1hWZW12bXhGRE1KbGJBakQ2RF9ucER6N200bE9pYmVjMU8zbzNGUDJBQXZ3MV9PMNIBXEFVX3lxTE5CMjFiMmZrX0FETDhLclEzZTU1TXRsNTRFTTM5NFEwZmxuMVJCYndETG02N0J2eGIyYkQtQnJCOTRhaE9uN3JrUC14WVhWdXZuSkhVZ1FRVC03LXN2?oc=5",
-          "date": "2024-07-26T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiV0FVX3lxTE5OU1ZlZG1oVk5aLV9ZUWg0T2FqdTdFUVFGVDA1X0Rrb1hWZW12bXhGRE1KbGJBakQ2RF9ucER6N200bE9pYmVjMU8zbzNGUDJBQXZ3MV9PMNIBXEFVX3lxTE",
-          "source": "christiandaily.co.kr",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
           "title": "한신대, ‘2024 여름방학 디지털새싹 캠프 AI 아트 코딩 강사 워크숍’ - 대학저널",
           "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTFBZeDdhQzJwTGMtVEdLLTdWd0VZX2tHeTZwWE56aFVPLWVwOTgzTUpwTnBBTHBmNVA1eURwSUhEbXVac3owc3BxOVZJdjM2Qmx5RzluTlMwRUg5cUpLU3fSAWpBVV95cUxPWS00XzZUSmF2Z1ZEYlVlckZjUDVvc19HamR6VGVLcXlHeDZzOW1rcmdlX0gyZ0JYUkdOdmQ5bU1EMFpyVVpJWHUyQzdib0ZSOVh6Z3lKMmRqRUZmdEUzY2JUODMyVl9Nc1VR?oc=5",
           "date": "2024-07-25T07:00:00.000Z",
@@ -146,6 +138,14 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
+          "title": "동부새일센터, 25일까지 '교과융합SW콘텐츠활용강사양성과정' 교육생 모집 - 서울경제",
+          "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE85UVlPVTluUm5nVUw5VzlpY1pXSTU2aUd3ZkVLSFVwc0FqWVBNUUR4NGl4ZE9GWnJtWUdLMGE1eFV3QmZRU2hWS1hLaFN2X2hwWXfSAVNBVV95cUxNZzBsSnBFUG5FV1BHSmVJZEFNVEpQcHk5U3pMckM5WDl1d2lSeldzd2ItYURXNVBJakxOa3R6NjBGb3pIR011VnUxejZDTTNDdEdjbw?oc=5",
+          "date": "2022-03-24T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiUkFVX3lxTE85UVlPVTluUm5nVUw5VzlpY1pXSTU2aUd3ZkVLSFVwc0FqWVBNUUR4NGl4ZE9GWnJtWUdLMGE1eFV3QmZRU2hWS1hLaFN2X2hwWXfSAVNBVV95cUxNZzBsSn",
+          "source": "서울경제",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
           "title": "구, 경력단절여성 강사양성 과정 수료생 22명 배출 - 남동뉴스",
           "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1oWGpINmRhNUVUcmJtdlhLQlRJYlpmVW01dmRRNkwzZUMwQktqSnZqUVpGQlU0bklRUm9EOFpncXRqbERXbW9WcTZQUmpIOWNqdzJId1UweW02ZEtmcUpPX08xN0t2NF9ocGtQcmVNZ9IBc0FVX3lxTFBDR3VDa2lCUDJkN2dkSk5heElQVnZKelZmRkIzaFQwUzZrRU9yQWhDMmpKc2Q3OFgxQ25SN05uZ3BGRjVOaC1wU2N0dld2T0tOSzd1bE9mS3BwS2t4Y2tfUUVOdVczQ2U4OUdMZ1liNXJXaU0?oc=5",
           "date": "2021-10-18T07:00:00.000Z",
@@ -170,14 +170,6 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "김포시, ‘코딩강사 양성과정’ 일자리 협력망 회의 개최 - 스트레이트뉴스",
-          "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE13M3plU2l5ZjlVcGlXT3l6VktialVtU1JVUVVPQkRRdW5sTW1TQXRjVDR3TzVSWmNjcWxuRlp3Rl9ta1hpTWs3b2lWYm9BZHNwNUNfdS1QSnNBd3J3Y1FoOW94cFd0a2JESWRyZmFRY3JOUdIBdkFVX3lxTFBjMDhsWGpNandhTUJJTkpIOGFsdzFESXN4a2pGOURWVVhZZ1Y3MFhLVElsZjlSRzRXa29HYUhmQlBkVHg0bzRwc0laOTdaVUFqV1N4cmpkWGltTTJDODdwYVp3b0REWU5feHBobU1scFE0UlJWRkE?oc=5",
-          "date": "2020-11-18T08:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMickFVX3lxTE13M3plU2l5ZjlVcGlXT3l6VktialVtU1JVUVVPQkRRdW5sTW1TQXRjVDR3TzVSWmNjcWxuRlp3Rl9ta1hpTWs3b2lWYm9BZHNwNUNfdS1QSnNBd3J3Y1FoOW",
-          "source": "스트레이트뉴스",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
           "title": "달아오르는 코딩교육시장…광주 지역대학·지자체, 교육 프로그램 일제히 운영 - AI타임스",
           "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5KTHIyMmhNOENYblRYdkFmYlZtbW15Z1RkME1tN05uYkh1TEMtVnJwTUdnMG9nNjNqUnBPMEVsb2dhckkyTDFNb0hZY1FtUDhxbTExb0s1LVIza0xPVmVNSVV4d3hJRFhydmc?oc=5",
           "date": "2020-09-02T07:00:00.000Z",
@@ -194,19 +186,27 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "여수에도 코딩협동조합이! '펀SW융합코딩협동조합' 오픈 - 여수넷통뉴스",
-          "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE03blpoMXZBcjRmWjlhdG9pelo1WHFndDhROHdpOURmZjJyVWE3SHZFLWxpMkJsSHR3LUJraUl0ckRRVV9BNzNzRk4tY09HcWtkbWdDd3pkN0VlazZxck9WNDZ2TjV1RTNs?oc=5",
-          "date": "2019-11-20T08:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiaEFVX3lxTE03blpoMXZBcjRmWjlhdG9pelo1WHFndDhROHdpOURmZjJyVWE3SHZFLWxpMkJsSHR3LUJraUl0ckRRVV9BNzNzRk4tY09HcWtkbWdDd3pkN0VlazZxck9WND",
-          "source": "여수넷통뉴스",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
           "title": "LG CNS 경력보유여성, 중학교 코딩 강사로 새출발! - 테크월드",
           "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE95SFZKYmVucDVKM3MtaGlFcDhEN0dmZ3k0LTJHamdFUHp3dnV0cFo4eUlxRDhHYkxXNUx5bGpaT2dPX0tzMnlVMWN4S09RMG9iN1NDYUQtVE1nQjQ0VGVtd294eGtlNE0?oc=5",
           "date": "2019-08-27T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiZ0FVX3lxTE95SFZKYmVucDVKM3MtaGlFcDhEN0dmZ3k0LTJHamdFUHp3dnV0cFo4eUlxRDhHYkxXNUx5bGpaT2dPX0tzMnlVMWN4S09RMG9iN1NDYUQtVE1nQjQ0VGVtd2",
           "source": "테크월드",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "관악여성새일센터 SW코딩교육전문가과정 수료생들 ‘방과 후 코딩강사’ 활동 준비 마쳐 - 헤럴드경제",
+          "link": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFAwNlZ1VXNpVnZ2WV9BZ3p2NkZsLW1BNUZBOWZCUmtvVEFvUTllS2FzWVhyWkw0MXNGQjFXc1NGQk9zOUR4akF2Zm9CZERINFBBXzhmOQ?oc=5",
+          "date": "2019-06-27T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiVEFVX3lxTFAwNlZ1VXNpVnZ2WV9BZ3p2NkZsLW1BNUZBOWZCUmtvVEFvUTllS2FzWVhyWkw0MXNGQjFXc1NGQk9zOUR4akF2Zm9CZERINFBBXzhmOQ?oc=5\" target=\"_",
+          "source": "헤럴드경제",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "김포새일센터「코딩강사 양성과정」수료식 개최 - 김포시민신문",
+          "link": "https://news.google.com/rss/articles/CBMiQkFVX3lxTFAtVmRGY3FiRl9nVHpzYTk5c010eUZibmFKSk9SSEp5VnFwdnYyM3VqcmRhbE1jc25jNUUtV2I2UWhIUQ?oc=5",
+          "date": "2019-05-29T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiQkFVX3lxTFAtVmRGY3FiRl9nVHpzYTk5c010eUZibmFKSk9SSEp5VnFwdnYyM3VqcmRhbE1jc25jNUUtV2I2UWhIUQ?oc=5\" target=\"_blank\">김포새일센터「코딩강사 양성과정」",
+          "source": "김포시민신문",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
