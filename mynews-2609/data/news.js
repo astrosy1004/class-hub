@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-09-21T16:05:07.097Z",
+  "updatedAt": "2026-09-21T21:22:55.069Z",
   "categories": [
     {
       "id": "job",
@@ -74,19 +74,19 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "양구군, AI 로봇 코딩강사 양성 본격화…디지털 인재 육성 - 신아일보",
+          "title": "양구군, AI 로봇 코딩강사 양성 본격화…디지털 인재 육성 - shinailbo.co.kr",
           "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9CUTVzdmpBUUtQTlRlVDducGVtQWc2cnhzV2Z5OV93UHVCZUVLcHpZUVJtN2tRdHhNZThYUnBkYlRkSlZOWS1MU0RmX0lMVG82YmhJY1Z4aEFLbVlubmhYNFNSSmlRTjNaUmJRMTdBeG8?oc=5",
           "date": "2026-05-17T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMicEFVX3lxTE9CUTVzdmpBUUtQTlRlVDducGVtQWc2cnhzV2Z5OV93UHVCZUVLcHpZUVJtN2tRdHhNZThYUnBkYlRkSlZOWS1MU0RmX0lMVG82YmhJY1Z4aEFLbVlubmhYNF",
-          "source": "신아일보",
+          "source": "shinailbo.co.kr",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "율목초, ‘찾아가는 코딩교실’ 디지털 교육 강화 - hstodays.com",
+          "title": "율목초, ‘찾아가는 코딩교실’ 디지털 교육 강화 - 화성 투데이",
           "link": "https://news.google.com/rss/articles/CBMiREFVX3lxTE5nRkxJbDZJb1lnLUcyUFh3MnU0c2ZVb3o0b3hGN0UyMFBLLUpOeTdYbmg4eVV1aVZfSmlQTlcwLV9CVlhB?oc=5",
           "date": "2026-04-15T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiREFVX3lxTE5nRkxJbDZJb1lnLUcyUFh3MnU0c2ZVb3o0b3hGN0UyMFBLLUpOeTdYbmg4eVV1aVZfSmlQTlcwLV9CVlhB?oc=5\" target=\"_blank\">율목초, ‘찾아가는 코딩교실",
-          "source": "hstodays.com",
+          "source": "화성 투데이",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -162,6 +162,22 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
+          "title": "안랩, SW 코딩강사 양성 사회공헌 프로그램 ‘안랩샘(SEM)’ 9기 개강 - 보안뉴스",
+          "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTFB5Y0ZISDBLNHluakhEZDJ4cjBlY2dVRDU5cC1rTWFYUUlodXFHMEx2dVhoSmVtd3QweEVqLUdUd1AzR3BYLV9CS2h2Q0FwYmREeWxnaGdpcWZyTlVIWVpaVlRoYllhR3Rj?oc=5",
+          "date": "2019-10-11T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiaEFVX3lxTFB5Y0ZISDBLNHluakhEZDJ4cjBlY2dVRDU5cC1rTWFYUUlodXFHMEx2dVhoSmVtd3QweEVqLUdUd1AzR3BYLV9CS2h2Q0FwYmREeWxnaGdpcWZyTlVIWVpaVl",
+          "source": "보안뉴스",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "안랩, SW 코딩강사 양성 사회공헌 프로그램 ‘안랩샘(SEM)’ 9기 수강생 모집 - 보안뉴스",
+          "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE53YkpGT0Z1Nk1iV2FoQkpCUUdHcVBUeTBpXzhvNDI0N3QwY1pqV2lpQWZQYWpkRWJRSmp3am5BV0ozSGt5SmM1TWVKRzd0SEJiTWZSaTZlUm01SnVyc1dNVm9SUFF4Vm5TZUE?oc=5",
+          "date": "2019-09-10T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTE53YkpGT0Z1Nk1iV2FoQkpCUUdHcVBUeTBpXzhvNDI0N3QwY1pqV2lpQWZQYWpkRWJRSmp3am5BV0ozSGt5SmM1TWVKRzd0SEJiTWZSaTZlUm01SnVyc1dNVm",
+          "source": "보안뉴스",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
           "title": "LG CNS 경력보유여성, 중학교 코딩 강사로 새출발! - 테크월드",
           "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE95SFZKYmVucDVKM3MtaGlFcDhEN0dmZ3k0LTJHamdFUHp3dnV0cFo4eUlxRDhHYkxXNUx5bGpaT2dPX0tzMnlVMWN4S09RMG9iN1NDYUQtVE1nQjQ0VGVtd294eGtlNE0?oc=5",
           "date": "2019-08-27T07:00:00.000Z",
@@ -186,27 +202,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "관악여성새일센터 SW코딩교육전문가과정 수료생들 ‘방과 후 코딩강사’ 활동 준비 마쳐 - 헤럴드경제",
+          "title": "관악여성새일센터 SW코딩교육전문가과정 수료생들 ‘방과 후 코딩강사’ 활동 준비 마쳐 - biz.heraldcorp.com",
           "link": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFAwNlZ1VXNpVnZ2WV9BZ3p2NkZsLW1BNUZBOWZCUmtvVEFvUTllS2FzWVhyWkw0MXNGQjFXc1NGQk9zOUR4akF2Zm9CZERINFBBXzhmOQ?oc=5",
           "date": "2019-06-27T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiVEFVX3lxTFAwNlZ1VXNpVnZ2WV9BZ3p2NkZsLW1BNUZBOWZCUmtvVEFvUTllS2FzWVhyWkw0MXNGQjFXc1NGQk9zOUR4akF2Zm9CZERINFBBXzhmOQ?oc=5\" target=\"_",
-          "source": "헤럴드경제",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
-          "title": "김포여성새로일하기센터, 코딩강사 양성과정 개강 - cwn.kr",
-          "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE5SeS04S3BHcWs4LVl4TzRZcU05Z3BscHJabXVUTUNyeDhSMS1HSWxxVThUOUpJWXdDZkwtUFRjbTFmU2MxeDVkQVk3cklXa3lCSHNJWnVBa3FkZjZyWWpJ?oc=5",
-          "date": "2019-03-26T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiX0FVX3lxTE5SeS04S3BHcWs4LVl4TzRZcU05Z3BscHJabXVUTUNyeDhSMS1HSWxxVThUOUpJWXdDZkwtUFRjbTFmU2MxeDVkQVk3cklXa3lCSHNJWnVBa3FkZjZyWWpJ?o",
-          "source": "cwn.kr",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
-          "title": "안랩, 코딩강사 양성 사회공헌 프로그램 ‘안랩샘(SEM)’ 8기 수강생 모집 - boannews.com",
-          "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE93cVpEdzhFa0hua0Y2OFN3ZDE3U2VQV05BSkFNWDJqSTdIVnJCaG0zWDNzUURtaFF2MW1mRkRKcG9xZ2R4MVNFWENSdlhub2JwQm1NeDNDNmNZU0FHS3RIYWE0MXFNTVJF?oc=5",
-          "date": "2019-02-13T08:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiaEFVX3lxTE93cVpEdzhFa0hua0Y2OFN3ZDE3U2VQV05BSkFNWDJqSTdIVnJCaG0zWDNzUURtaFF2MW1mRkRKcG9xZ2R4MVNFWENSdlhub2JwQm1NeDNDNmNZU0FHS3RIYW",
-          "source": "boannews.com",
+          "source": "biz.heraldcorp.com",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
