@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-09-22T20:38:28.358Z",
+  "updatedAt": "2026-09-22T23:54:44.256Z",
   "categories": [
     {
       "id": "job",
@@ -66,11 +66,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "AI 콘텐츠마케팅부터 드론 코딩까지…전북도 여성 창업교육 강화 - asiatoday.co.kr",
+          "title": "AI 콘텐츠마케팅부터 드론 코딩까지…전북도 여성 창업교육 강화 - 아시아투데이",
           "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE40RGxrc01feU5tandPa2gyOU5JSVYtd21JOWVwUTdnT3FfcEtXcjYzUHBFOGRXQlNnZHJuUHR6aWVCZXlhV19Sc3ZIUUxYMzNvYmpPZWhzTDFfV3VSOFVHVHVwd09fV2Z1T1hSdWd3?oc=5",
           "date": "2026-06-04T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMibkFVX3lxTE40RGxrc01feU5tandPa2gyOU5JSVYtd21JOWVwUTdnT3FfcEtXcjYzUHBFOGRXQlNnZHJuUHR6aWVCZXlhV19Sc3ZIUUxYMzNvYmpPZWhzTDFfV3VSOFVHVH",
-          "source": "asiatoday.co.kr",
+          "source": "아시아투데이",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -90,27 +90,19 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "양평군, 2025년 청년 SW·AI 강사 양성과정 참가자 모집 - kihoilbo.co.kr",
+          "title": "양평군, 2025년 청년 SW·AI 강사 양성과정 참가자 모집 - 기호일보",
           "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE5tbUZOblg0ODFhTzhDRE82dnp2bm1pUUZzNHdJUzJzNW9DWTJJOXBSMlJNTUFDU1hQTEM0MHJKQmZLOUhaMFI2LWd1OHJEWHpaRjUwUW9TMElwZWRSWU9uUFZqRmRoN0dwVktJVTAwOA?oc=5",
           "date": "2025-08-28T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMib0FVX3lxTE5tbUZOblg0ODFhTzhDRE82dnp2bm1pUUZzNHdJUzJzNW9DWTJJOXBSMlJNTUFDU1hQTEM0MHJKQmZLOUhaMFI2LWd1OHJEWHpaRjUwUW9TMElwZWRSWU9uUF",
-          "source": "kihoilbo.co.kr",
+          "source": "기호일보",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "화성시인재육성재단, 찾아가는 코딩교실 운영 시작…초등 대상 맞춤형 코딩 교육 강화 - sisamirae.com",
+          "title": "화성시인재육성재단, 찾아가는 코딩교실 운영 시작…초등 대상 맞춤형 코딩 교육 강화 - 시사미래신문",
           "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE9VVDZwV2hCZmdfdUhNRVNLVERXMGFaRmVtVG1sMm91bnlKVllISWQ0ek5NQmhaOTBKa0JlOVpidkpFNnUxd2FsekZ1a2hGa0FTTjZmd0FnbnF5UEJGTE80bg?oc=5",
           "date": "2025-05-13T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiYEFVX3lxTE9VVDZwV2hCZmdfdUhNRVNLVERXMGFaRmVtVG1sMm91bnlKVllISWQ0ek5NQmhaOTBKa0JlOVpidkpFNnUxd2FsekZ1a2hGa0FTTjZmd0FnbnF5UEJGTE80bg",
-          "source": "sisamirae.com",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
-          "title": "남양주새일센터, 코딩OA융합강사과정 수료식 개최 - 뉴스Q",
-          "link": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE8wY0RHSjZIenl4SlFoZjY2Z1FoOG1lR1AwQjlmekRtWkhNYTdEbDZRcXp0aFF0eW9iS241YkpLX3Iwd0ZTeUtUYlc4bEVLV1JIblFXaUtHeXI1VEp0bmY2eDdFUW9jZw?oc=5",
-          "date": "2024-08-17T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiZkFVX3lxTE8wY0RHSjZIenl4SlFoZjY2Z1FoOG1lR1AwQjlmekRtWkhNYTdEbDZRcXp0aFF0eW9iS241YkpLX3Iwd0ZTeUtUYlc4bEVLV1JIblFXaUtHeXI1VEp0bmY2eD",
-          "source": "뉴스Q",
+          "source": "시사미래신문",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -138,19 +130,19 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "구, 경력단절여성 강사양성 과정 수료생 22명 배출 - namdongnews.co.kr",
+          "title": "구, 경력단절여성 강사양성 과정 수료생 22명 배출 - 남동뉴스",
           "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1oWGpINmRhNUVUcmJtdlhLQlRJYlpmVW01dmRRNkwzZUMwQktqSnZqUVpGQlU0bklRUm9EOFpncXRqbERXbW9WcTZQUmpIOWNqdzJId1UweW02ZEtmcUpPX08xN0t2NF9ocGtQcmVNZ9IBc0FVX3lxTFBDR3VDa2lCUDJkN2dkSk5heElQVnZKelZmRkIzaFQwUzZrRU9yQWhDMmpKc2Q3OFgxQ25SN05uZ3BGRjVOaC1wU2N0dld2T0tOSzd1bE9mS3BwS2t4Y2tfUUVOdVczQ2U4OUdMZ1liNXJXaU0?oc=5",
           "date": "2021-10-18T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMib0FVX3lxTE1oWGpINmRhNUVUcmJtdlhLQlRJYlpmVW01dmRRNkwzZUMwQktqSnZqUVpGQlU0bklRUm9EOFpncXRqbERXbW9WcTZQUmpIOWNqdzJId1UweW02ZEtmcUpPX0",
-          "source": "namdongnews.co.kr",
+          "source": "남동뉴스",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "아이씨뱅큐, 마이크로비트 코딩 강사 기초 연수 전액 무료 진행 - 테크월드",
+          "title": "아이씨뱅큐, 마이크로비트 코딩 강사 기초 연수 전액 무료 진행 - epnc.co.kr",
           "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE1VMnRwdTdZRkE4aU4yUzZ2MjVzQmJJRTQxYUlRaGx6WmltY056cjFfMEtHX21ob0ZkM1F3UGZNZmg5Um54MmhTd09DMXNEZTNUSzE4WEZuYjdTdk5scWhuYS1SUFBaUEYx?oc=5",
           "date": "2021-05-28T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiaEFVX3lxTE1VMnRwdTdZRkE4aU4yUzZ2MjVzQmJJRTQxYUlRaGx6WmltY056cjFfMEtHX21ob0ZkM1F3UGZNZmg5Um54MmhTd09DMXNEZTNUSzE4WEZuYjdTdk5scWhuYS",
-          "source": "테크월드",
+          "source": "epnc.co.kr",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -194,11 +186,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "LG CNS 경력보유여성, 중학교 코딩 강사로 새출발! - 테크월드",
+          "title": "LG CNS 경력보유여성, 중학교 코딩 강사로 새출발! - epnc.co.kr",
           "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE95SFZKYmVucDVKM3MtaGlFcDhEN0dmZ3k0LTJHamdFUHp3dnV0cFo4eUlxRDhHYkxXNUx5bGpaT2dPX0tzMnlVMWN4S09RMG9iN1NDYUQtVE1nQjQ0VGVtd294eGtlNE0?oc=5",
           "date": "2019-08-27T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiZ0FVX3lxTE95SFZKYmVucDVKM3MtaGlFcDhEN0dmZ3k0LTJHamdFUHp3dnV0cFo4eUlxRDhHYkxXNUx5bGpaT2dPX0tzMnlVMWN4S09RMG9iN1NDYUQtVE1nQjQ0VGVtd2",
-          "source": "테크월드",
+          "source": "epnc.co.kr",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -207,6 +199,14 @@ window.MYNEWS_DATA = {
           "date": "2019-07-29T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiXEFVX3lxTE5qbFpBdFROR0pZMlRMc2VmQXRkelNsRGhzLTgtX2p2OVg1bW0xOEJMMFZ2RXZ4WFRFSW0wM3Y3UTV1dFNMN3VHUVo0Y0pXVzRDZkpwTkVpenk2WlVw?oc=5\"",
           "source": "뉴스핌",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "광명시, 경단녀 SW정보화교육강사로 양성 - 경기신문",
+          "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE9hSVlkV0I0WEk2WGZ0bldWX3lZcU9UQ3VSdFpoSFB4cXQ1NGV1dEVuLTUyX0ZOdHNXTnlWdTlVMG5jQWI5TVlheUpEcHc3OFoyZVRqVmpLQ2VkaWoyMzhXbndn?oc=5",
+          "date": "2019-07-10T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiYkFVX3lxTE9hSVlkV0I0WEk2WGZ0bldWX3lZcU9UQ3VSdFpoSFB4cXQ1NGV1dEVuLTUyX0ZOdHNXTnlWdTlVMG5jQWI5TVlheUpEcHc3OFoyZVRqVmpLQ2VkaWoyMzhXbn",
+          "source": "경기신문",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
