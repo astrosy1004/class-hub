@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-09-22T00:22:59.400Z",
+  "updatedAt": "2026-09-22T07:01:49.309Z",
   "categories": [
     {
       "id": "job",
@@ -74,11 +74,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "양구군, AI 로봇 코딩강사 양성 본격화…디지털 인재 육성 - 신아일보",
+          "title": "양구군, AI 로봇 코딩강사 양성 본격화…디지털 인재 육성 - shinailbo.co.kr",
           "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9CUTVzdmpBUUtQTlRlVDducGVtQWc2cnhzV2Z5OV93UHVCZUVLcHpZUVJtN2tRdHhNZThYUnBkYlRkSlZOWS1MU0RmX0lMVG82YmhJY1Z4aEFLbVlubmhYNFNSSmlRTjNaUmJRMTdBeG8?oc=5",
           "date": "2026-05-17T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMicEFVX3lxTE9CUTVzdmpBUUtQTlRlVDducGVtQWc2cnhzV2Z5OV93UHVCZUVLcHpZUVJtN2tRdHhNZThYUnBkYlRkSlZOWS1MU0RmX0lMVG82YmhJY1Z4aEFLbVlubmhYNF",
-          "source": "신아일보",
+          "source": "shinailbo.co.kr",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -146,6 +146,14 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
+          "title": "서울시중부기술교육원, ‘AI CODE 기술을 활용한 코딩 강사 양성과정’ 교육생 모집 - 뉴스와이어",
+          "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9EQjVVSExPeHhvNWVDUXdOV2dVOTRUN2lobHJoelhzTUtiSUJZZ2RlbFhsM1BjWGV0TnB6dDNnS1cwQ2lmZ2FWcXU1YTlRLWNZSkxBM3hDRDJTMWk2ZUE?oc=5",
+          "date": "2021-04-29T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiXkFVX3lxTE9EQjVVSExPeHhvNWVDUXdOV2dVOTRUN2lobHJoelhzTUtiSUJZZ2RlbFhsM1BjWGV0TnB6dDNnS1cwQ2lmZ2FWcXU1YTlRLWNZSkxBM3hDRDJTMWk2ZUE?oc",
+          "source": "뉴스와이어",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
           "title": "북부여성새로일하기센터, 경력단절여성 위한 코딩융합교육전문가과정 모집 - 더쎈뉴스",
           "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9MMFVTSU9jUUxjczZtb09zVElYRks3YzNpWU9VMkxkdVV6YjJGbmtHWEFWa1VBVWg5d0paV2daWE9IU0tUbUwxemk5cHZCOFJFSUJwQ1lEeUc3aWUyNXo4bTBtSEM2V2pI?oc=5",
           "date": "2021-03-31T07:00:00.000Z",
@@ -154,11 +162,19 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "여성 AI 전문가 양성 현장을 가다 - AI타임스",
+          "title": "여성 AI 전문가 양성 현장을 가다 - aitimes.com",
           "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1IS3NTSHV4N2FidTlTVHB6SUdHMFpFU0htdzYzbFF3YkZSV3BXUUtnVVhST3JZX0NtWFpLZEpMSVJBcm9tY282RHBLS3pNQVpfVjM4RnYwaWp2SjVmalJXMW9LNzhvZEpwdkE?oc=5",
           "date": "2020-07-08T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTE1IS3NTSHV4N2FidTlTVHB6SUdHMFpFU0htdzYzbFF3YkZSV3BXUUtnVVhST3JZX0NtWFpLZEpMSVJBcm9tY282RHBLS3pNQVpfVjM4RnYwaWp2SjVmalJXMW",
-          "source": "AI타임스",
+          "source": "aitimes.com",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "안랩, SW 코딩강사 양성 사회공헌 프로그램 ‘안랩샘(SEM)’ 9기 개강 - 보안뉴스",
+          "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTFB5Y0ZISDBLNHluakhEZDJ4cjBlY2dVRDU5cC1rTWFYUUlodXFHMEx2dVhoSmVtd3QweEVqLUdUd1AzR3BYLV9CS2h2Q0FwYmREeWxnaGdpcWZyTlVIWVpaVlRoYllhR3Rj?oc=5",
+          "date": "2019-10-11T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiaEFVX3lxTFB5Y0ZISDBLNHluakhEZDJ4cjBlY2dVRDU5cC1rTWFYUUlodXFHMEx2dVhoSmVtd3QweEVqLUdUd1AzR3BYLV9CS2h2Q0FwYmREeWxnaGdpcWZyTlVIWVpaVl",
+          "source": "보안뉴스",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -191,22 +207,6 @@ window.MYNEWS_DATA = {
           "date": "2019-07-10T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiYkFVX3lxTE9hSVlkV0I0WEk2WGZ0bldWX3lZcU9UQ3VSdFpoSFB4cXQ1NGV1dEVuLTUyX0ZOdHNXTnlWdTlVMG5jQWI5TVlheUpEcHc3OFoyZVRqVmpLQ2VkaWoyMzhXbn",
           "source": "경기신문",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
-          "title": "관악여성새일센터 SW코딩교육전문가과정 수료생들 ‘방과 후 코딩강사’ 활동 준비 마쳐 - 헤럴드경제",
-          "link": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFAwNlZ1VXNpVnZ2WV9BZ3p2NkZsLW1BNUZBOWZCUmtvVEFvUTllS2FzWVhyWkw0MXNGQjFXc1NGQk9zOUR4akF2Zm9CZERINFBBXzhmOQ?oc=5",
-          "date": "2019-06-27T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiVEFVX3lxTFAwNlZ1VXNpVnZ2WV9BZ3p2NkZsLW1BNUZBOWZCUmtvVEFvUTllS2FzWVhyWkw0MXNGQjFXc1NGQk9zOUR4akF2Zm9CZERINFBBXzhmOQ?oc=5\" target=\"_",
-          "source": "헤럴드경제",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
-          "title": "김포여성새로일하기센터, 코딩강사 양성과정 개강 - cwn.kr",
-          "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE5SeS04S3BHcWs4LVl4TzRZcU05Z3BscHJabXVUTUNyeDhSMS1HSWxxVThUOUpJWXdDZkwtUFRjbTFmU2MxeDVkQVk3cklXa3lCSHNJWnVBa3FkZjZyWWpJ?oc=5",
-          "date": "2019-03-26T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiX0FVX3lxTE5SeS04S3BHcWs4LVl4TzRZcU05Z3BscHJabXVUTUNyeDhSMS1HSWxxVThUOUpJWXdDZkwtUFRjbTFmU2MxeDVkQVk3cklXa3lCSHNJWnVBa3FkZjZyWWpJ?o",
-          "source": "cwn.kr",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
