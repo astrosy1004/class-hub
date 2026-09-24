@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-09-24T08:50:57.900Z",
+  "updatedAt": "2026-09-24T14:30:53.385Z",
   "categories": [
     {
       "id": "job",
@@ -82,11 +82,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "남양주새일센터, 코딩OA융합강사과정 수료식 개최 - newsq.kr",
+          "title": "남양주새일센터, 코딩OA융합강사과정 수료식 개최 - 뉴스Q",
           "link": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE8wY0RHSjZIenl4SlFoZjY2Z1FoOG1lR1AwQjlmekRtWkhNYTdEbDZRcXp0aFF0eW9iS241YkpLX3Iwd0ZTeUtUYlc4bEVLV1JIblFXaUtHeXI1VEp0bmY2eDdFUW9jZw?oc=5",
           "date": "2024-08-17T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiZkFVX3lxTE8wY0RHSjZIenl4SlFoZjY2Z1FoOG1lR1AwQjlmekRtWkhNYTdEbDZRcXp0aFF0eW9iS241YkpLX3Iwd0ZTeUtUYlc4bEVLV1JIblFXaUtHeXI1VEp0bmY2eD",
-          "source": "newsq.kr",
+          "source": "뉴스Q",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -106,11 +106,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "포스코인재창조원, 한국퓨얼셀과 함께 지역 초등생 코딩교육 위한 ‘JUMP 코딩’ 프로그램 실시 - 포스코그룹 뉴스룸",
-          "link": "https://news.google.com/rss/articles/CBMixwJBVV95cUxNV0RReE1RbVFCRVhPNnQ2VWpuQV9xMU5qM2lkZnc5T0VwMkpjXzBDTUJqTHlaZTdNOUJCa0taMmpFRmNMVWU5Y1pJekJiaFI4YWNpT3pBMVN1aXgyb3o3Y2RLVDhvSWYycU9yZGpVWVRTQnNrSVFWdlpIclU1MTd2MTYzaWNyQkVnZm1EelhDSk10eWNZNC0zUC1OUzh1S0hXaTZuOXhrTXY5bHBTMzZKT3BuTnNzM0JvSTZMeV92R0E0a2FicF9PckdlRDA1emVBNV9aVUszazV5SUw2QjVYTzZVVldmdTJSalphSHB3anZzUTA1T0ZWTVFtMlI3MExJd1FqYVNiNGdhTHZuNXBoMnFfZDVLUjVjSXBxMzBRam1qVXN2WUdiWmg2ZnNtU05wOFFjSTJnVE5CSTVDM21reDlyU2ItVGs?oc=5",
+          "title": "포스코인재창조원, 한국퓨얼셀과 함께 지역 초등생 코딩교육 위한 ‘JUMP 코딩’ 프로그램 실시 - 한국인포맥스",
+          "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE05MDdyZjdUUVhkMmxQaTYybHBrejd0LXdueE1jRDhTcXotTzMzcTBEZjZWcDE1ZlpXVnZmLVlscTJnTXQ4ZXBjXzFHOFByVk9JQzZBYkVrS2dmS2c1Mm9pQ1hXMXc1Q0FWcl94LQ?oc=5",
           "date": "2023-07-12T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMixwJBVV95cUxNV0RReE1RbVFCRVhPNnQ2VWpuQV9xMU5qM2lkZnc5T0VwMkpjXzBDTUJqTHlaZTdNOUJCa0taMmpFRmNMVWU5Y1pJekJiaFI4YWNpT3pBMVN1aXgyb3o3Y2",
-          "source": "포스코그룹 뉴스룸",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTE05MDdyZjdUUVhkMmxQaTYybHBrejd0LXdueE1jRDhTcXotTzMzcTBEZjZWcDE1ZlpXVnZmLVlscTJnTXQ4ZXBjXzFHOFByVk9JQzZBYkVrS2dmS2c1Mm9pQ1",
+          "source": "한국인포맥스",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -122,11 +122,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "구, 경력단절여성 강사양성 과정 수료생 22명 배출 - 남동뉴스",
+          "title": "구, 경력단절여성 강사양성 과정 수료생 22명 배출 - namdongnews.co.kr",
           "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1oWGpINmRhNUVUcmJtdlhLQlRJYlpmVW01dmRRNkwzZUMwQktqSnZqUVpGQlU0bklRUm9EOFpncXRqbERXbW9WcTZQUmpIOWNqdzJId1UweW02ZEtmcUpPX08xN0t2NF9ocGtQcmVNZ9IBc0FVX3lxTFBDR3VDa2lCUDJkN2dkSk5heElQVnZKelZmRkIzaFQwUzZrRU9yQWhDMmpKc2Q3OFgxQ25SN05uZ3BGRjVOaC1wU2N0dld2T0tOSzd1bE9mS3BwS2t4Y2tfUUVOdVczQ2U4OUdMZ1liNXJXaU0?oc=5",
           "date": "2021-10-18T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMib0FVX3lxTE1oWGpINmRhNUVUcmJtdlhLQlRJYlpmVW01dmRRNkwzZUMwQktqSnZqUVpGQlU0bklRUm9EOFpncXRqbERXbW9WcTZQUmpIOWNqdzJId1UweW02ZEtmcUpPX0",
-          "source": "남동뉴스",
+          "source": "namdongnews.co.kr",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
