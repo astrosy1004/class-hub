@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-09-25T19:41:07.735Z",
+  "updatedAt": "2026-09-25T22:56:29.191Z",
   "categories": [
     {
       "id": "job",
@@ -82,11 +82,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "남양주새일센터, 코딩OA융합강사과정 수료식 개최 - 뉴스Q",
+          "title": "남양주새일센터, 코딩OA융합강사과정 수료식 개최 - newsq.kr",
           "link": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE8wY0RHSjZIenl4SlFoZjY2Z1FoOG1lR1AwQjlmekRtWkhNYTdEbDZRcXp0aFF0eW9iS241YkpLX3Iwd0ZTeUtUYlc4bEVLV1JIblFXaUtHeXI1VEp0bmY2eDdFUW9jZw?oc=5",
           "date": "2024-08-17T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiZkFVX3lxTE8wY0RHSjZIenl4SlFoZjY2Z1FoOG1lR1AwQjlmekRtWkhNYTdEbDZRcXp0aFF0eW9iS241YkpLX3Iwd0ZTeUtUYlc4bEVLV1JIblFXaUtHeXI1VEp0bmY2eD",
-          "source": "뉴스Q",
+          "source": "newsq.kr",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -98,11 +98,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "한신대, ‘2024 여름방학 디지털새싹 캠프 AI 아트 코딩 강사 워크숍’ - dhnews.co.kr",
-          "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTFBZeDdhQzJwTGMtVEdLLTdWd0VZX2tHeTZwWE56aFVPLWVwOTgzTUpwTnBBTHBmNVA1eURwSUhEbXVac3owc3BxOVZJdjM2Qmx5RzluTlMwRUg5cUpLU3fSAWpBVV95cUxPWS00XzZUSmF2Z1ZEYlVlckZjUDVvc19HamR6VGVLcXlHeDZzOW1rcmdlX0gyZ0JYUkdOdmQ5bU1EMFpyVVpJWHUyQzdib0ZSOVh6Z3lKMmRqRUZmdEUzY2JUODMyVl9Nc1VR?oc=5",
+          "title": "한신대, ‘2024 여름방학 디지털새싹 캠프 AI 아트 코딩 강사 워크숍’ 진행 - usline.kr",
+          "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTFBBN0pMMkcyUzRpVmNFSTF6T29Dc09hZ2k0OUZiWk96TjRTc09aREdReU93VmNHenhfb1V0UDBVNElYZEVJRGI5bW5Gd1BZX3kwWXNJMTBFc1p2ZGNVWUVEbWZaTzjSAWhBVV95cUxQalZsZEZCTDk4R2g4NW51d0R6b250aFJfcEg5cnZzcTRjWFFyNFpacEpQOVN0LWgySHRyenJlVGtqb05WSGU5Q2c3Uk1JeGxZNm9uSmRjM0FHQUt5MHNPd2ZJYWhTU01xYQ?oc=5",
           "date": "2024-07-25T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiXkFVX3lxTFBZeDdhQzJwTGMtVEdLLTdWd0VZX2tHeTZwWE56aFVPLWVwOTgzTUpwTnBBTHBmNVA1eURwSUhEbXVac3owc3BxOVZJdjM2Qmx5RzluTlMwRUg5cUpLU3fSAW",
-          "source": "dhnews.co.kr",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiZEFVX3lxTFBBN0pMMkcyUzRpVmNFSTF6T29Dc09hZ2k0OUZiWk96TjRTc09aREdReU93VmNHenhfb1V0UDBVNElYZEVJRGI5bW5Gd1BZX3kwWXNJMTBFc1p2ZGNVWUVEbW",
+          "source": "usline.kr",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -138,11 +138,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "아이씨뱅큐, 마이크로비트 코딩 강사 기초 연수 전액 무료 진행 - 테크월드",
+          "title": "아이씨뱅큐, 마이크로비트 코딩 강사 기초 연수 전액 무료 진행 - epnc.co.kr",
           "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE1VMnRwdTdZRkE4aU4yUzZ2MjVzQmJJRTQxYUlRaGx6WmltY056cjFfMEtHX21ob0ZkM1F3UGZNZmg5Um54MmhTd09DMXNEZTNUSzE4WEZuYjdTdk5scWhuYS1SUFBaUEYx?oc=5",
           "date": "2021-05-28T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiaEFVX3lxTE1VMnRwdTdZRkE4aU4yUzZ2MjVzQmJJRTQxYUlRaGx6WmltY056cjFfMEtHX21ob0ZkM1F3UGZNZmg5Um54MmhTd09DMXNEZTNUSzE4WEZuYjdTdk5scWhuYS",
-          "source": "테크월드",
+          "source": "epnc.co.kr",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -154,11 +154,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "김포시, ‘코딩강사 양성과정’ 일자리 협력망 회의 개최 - 스트레이트뉴스",
+          "title": "김포시, ‘코딩강사 양성과정’ 일자리 협력망 회의 개최 - straightnews.co.kr",
           "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE13M3plU2l5ZjlVcGlXT3l6VktialVtU1JVUVVPQkRRdW5sTW1TQXRjVDR3TzVSWmNjcWxuRlp3Rl9ta1hpTWs3b2lWYm9BZHNwNUNfdS1QSnNBd3J3Y1FoOW94cFd0a2JESWRyZmFRY3JOUdIBdkFVX3lxTFBjMDhsWGpNandhTUJJTkpIOGFsdzFESXN4a2pGOURWVVhZZ1Y3MFhLVElsZjlSRzRXa29HYUhmQlBkVHg0bzRwc0laOTdaVUFqV1N4cmpkWGltTTJDODdwYVp3b0REWU5feHBobU1scFE0UlJWRkE?oc=5",
           "date": "2020-11-18T08:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMickFVX3lxTE13M3plU2l5ZjlVcGlXT3l6VktialVtU1JVUVVPQkRRdW5sTW1TQXRjVDR3TzVSWmNjcWxuRlp3Rl9ta1hpTWs3b2lWYm9BZHNwNUNfdS1QSnNBd3J3Y1FoOW",
-          "source": "스트레이트뉴스",
+          "source": "straightnews.co.kr",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -202,11 +202,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "광명시, 경단녀 SW정보화교육강사로 양성 - 경기신문",
+          "title": "광명시, 경단녀 SW정보화교육강사로 양성 - kgnews.co.kr",
           "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE9hSVlkV0I0WEk2WGZ0bldWX3lZcU9UQ3VSdFpoSFB4cXQ1NGV1dEVuLTUyX0ZOdHNXTnlWdTlVMG5jQWI5TVlheUpEcHc3OFoyZVRqVmpLQ2VkaWoyMzhXbndn?oc=5",
           "date": "2019-07-10T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiYkFVX3lxTE9hSVlkV0I0WEk2WGZ0bldWX3lZcU9UQ3VSdFpoSFB4cXQ1NGV1dEVuLTUyX0ZOdHNXTnlWdTlVMG5jQWI5TVlheUpEcHc3OFoyZVRqVmpLQ2VkaWoyMzhXbn",
-          "source": "경기신문",
+          "source": "kgnews.co.kr",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
