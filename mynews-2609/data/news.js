@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-09-25T02:27:09.414Z",
+  "updatedAt": "2026-09-25T09:11:32.331Z",
   "categories": [
     {
       "id": "job",
@@ -74,11 +74,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "화성시인재육성재단, 찾아가는 코딩교실 운영 시작…초등 대상 맞춤형 코딩 교육 강화 - sisamirae.com",
+          "title": "화성시인재육성재단, 찾아가는 코딩교실 운영 시작…초등 대상 맞춤형 코딩 교육 강화 - 시사미래신문",
           "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE9VVDZwV2hCZmdfdUhNRVNLVERXMGFaRmVtVG1sMm91bnlKVllISWQ0ek5NQmhaOTBKa0JlOVpidkpFNnUxd2FsekZ1a2hGa0FTTjZmd0FnbnF5UEJGTE80bg?oc=5",
           "date": "2025-05-13T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiYEFVX3lxTE9VVDZwV2hCZmdfdUhNRVNLVERXMGFaRmVtVG1sMm91bnlKVllISWQ0ek5NQmhaOTBKa0JlOVpidkpFNnUxd2FsekZ1a2hGa0FTTjZmd0FnbnF5UEJGTE80bg",
-          "source": "sisamirae.com",
+          "source": "시사미래신문",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -154,19 +154,19 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "김포시, ‘코딩강사 양성과정’ 일자리 협력망 회의 개최 - straightnews.co.kr",
+          "title": "김포시, ‘코딩강사 양성과정’ 일자리 협력망 회의 개최 - 스트레이트뉴스",
           "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE13M3plU2l5ZjlVcGlXT3l6VktialVtU1JVUVVPQkRRdW5sTW1TQXRjVDR3TzVSWmNjcWxuRlp3Rl9ta1hpTWs3b2lWYm9BZHNwNUNfdS1QSnNBd3J3Y1FoOW94cFd0a2JESWRyZmFRY3JOUdIBdkFVX3lxTFBjMDhsWGpNandhTUJJTkpIOGFsdzFESXN4a2pGOURWVVhZZ1Y3MFhLVElsZjlSRzRXa29HYUhmQlBkVHg0bzRwc0laOTdaVUFqV1N4cmpkWGltTTJDODdwYVp3b0REWU5feHBobU1scFE0UlJWRkE?oc=5",
           "date": "2020-11-18T08:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMickFVX3lxTE13M3plU2l5ZjlVcGlXT3l6VktialVtU1JVUVVPQkRRdW5sTW1TQXRjVDR3TzVSWmNjcWxuRlp3Rl9ta1hpTWs3b2lWYm9BZHNwNUNfdS1QSnNBd3J3Y1FoOW",
-          "source": "straightnews.co.kr",
+          "source": "스트레이트뉴스",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "여성 AI 전문가 양성 현장을 가다 - aitimes.com",
+          "title": "여성 AI 전문가 양성 현장을 가다 - AI타임스",
           "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1IS3NTSHV4N2FidTlTVHB6SUdHMFpFU0htdzYzbFF3YkZSV3BXUUtnVVhST3JZX0NtWFpLZEpMSVJBcm9tY282RHBLS3pNQVpfVjM4RnYwaWp2SjVmalJXMW9LNzhvZEpwdkE?oc=5",
           "date": "2020-07-08T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTE1IS3NTSHV4N2FidTlTVHB6SUdHMFpFU0htdzYzbFF3YkZSV3BXUUtnVVhST3JZX0NtWFpLZEpMSVJBcm9tY282RHBLS3pNQVpfVjM4RnYwaWp2SjVmalJXMW",
-          "source": "aitimes.com",
+          "source": "AI타임스",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
