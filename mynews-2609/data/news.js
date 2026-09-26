@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-09-26T02:30:35.055Z",
+  "updatedAt": "2026-09-26T08:55:04.368Z",
   "categories": [
     {
       "id": "job",
@@ -58,11 +58,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "AI 콘텐츠마케팅부터 드론 코딩까지…전북도 여성 창업교육 강화 - 아시아투데이",
+          "title": "AI 콘텐츠마케팅부터 드론 코딩까지…전북도 여성 창업교육 강화 - asiatoday.co.kr",
           "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE40RGxrc01feU5tandPa2gyOU5JSVYtd21JOWVwUTdnT3FfcEtXcjYzUHBFOGRXQlNnZHJuUHR6aWVCZXlhV19Sc3ZIUUxYMzNvYmpPZWhzTDFfV3VSOFVHVHVwd09fV2Z1T1hSdWd3?oc=5",
           "date": "2026-06-04T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMibkFVX3lxTE40RGxrc01feU5tandPa2gyOU5JSVYtd21JOWVwUTdnT3FfcEtXcjYzUHBFOGRXQlNnZHJuUHR6aWVCZXlhV19Sc3ZIUUxYMzNvYmpPZWhzTDFfV3VSOFVHVH",
-          "source": "아시아투데이",
+          "source": "asiatoday.co.kr",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -162,11 +162,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "여성 AI 전문가 양성 현장을 가다 - AI타임스",
+          "title": "여성 AI 전문가 양성 현장을 가다 - aitimes.com",
           "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1IS3NTSHV4N2FidTlTVHB6SUdHMFpFU0htdzYzbFF3YkZSV3BXUUtnVVhST3JZX0NtWFpLZEpMSVJBcm9tY282RHBLS3pNQVpfVjM4RnYwaWp2SjVmalJXMW9LNzhvZEpwdkE?oc=5",
           "date": "2020-07-08T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTE1IS3NTSHV4N2FidTlTVHB6SUdHMFpFU0htdzYzbFF3YkZSV3BXUUtnVVhST3JZX0NtWFpLZEpMSVJBcm9tY282RHBLS3pNQVpfVjM4RnYwaWp2SjVmalJXMW",
-          "source": "AI타임스",
+          "source": "aitimes.com",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
