@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-09-27T07:18:55.697Z",
+  "updatedAt": "2026-09-27T13:23:58.864Z",
   "categories": [
     {
       "id": "job",
@@ -82,11 +82,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "율목초, ‘찾아가는 코딩교실’ 디지털 교육 강화 - 화성 투데이",
+          "title": "율목초, ‘찾아가는 코딩교실’ 디지털 교육 강화 - hstodays.com",
           "link": "https://news.google.com/rss/articles/CBMiREFVX3lxTE5nRkxJbDZJb1lnLUcyUFh3MnU0c2ZVb3o0b3hGN0UyMFBLLUpOeTdYbmg4eVV1aVZfSmlQTlcwLV9CVlhB?oc=5",
           "date": "2026-04-15T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiREFVX3lxTE5nRkxJbDZJb1lnLUcyUFh3MnU0c2ZVb3o0b3hGN0UyMFBLLUpOeTdYbmg4eVV1aVZfSmlQTlcwLV9CVlhB?oc=5\" target=\"_blank\">율목초, ‘찾아가는 코딩교실",
-          "source": "화성 투데이",
+          "source": "hstodays.com",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -122,11 +122,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "포스코인재창조원, 한국퓨얼셀과 함께 지역 초등생 코딩교육 위한 ‘JUMP 코딩’ 프로그램 실시 - 한국인포맥스",
+          "title": "포스코인재창조원, 한국퓨얼셀과 함께 지역 초등생 코딩교육 위한 ‘JUMP 코딩’ 프로그램 실시 - hinfomax.co.kr",
           "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE05MDdyZjdUUVhkMmxQaTYybHBrejd0LXdueE1jRDhTcXotTzMzcTBEZjZWcDE1ZlpXVnZmLVlscTJnTXQ4ZXBjXzFHOFByVk9JQzZBYkVrS2dmS2c1Mm9pQ1hXMXc1Q0FWcl94LQ?oc=5",
           "date": "2023-07-12T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTE05MDdyZjdUUVhkMmxQaTYybHBrejd0LXdueE1jRDhTcXotTzMzcTBEZjZWcDE1ZlpXVnZmLVlscTJnTXQ4ZXBjXzFHOFByVk9JQzZBYkVrS2dmS2c1Mm9pQ1",
-          "source": "한국인포맥스",
+          "source": "hinfomax.co.kr",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
