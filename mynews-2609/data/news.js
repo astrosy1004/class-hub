@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-09-28T16:18:04.925Z",
+  "updatedAt": "2026-09-28T22:45:10.845Z",
   "categories": [
     {
       "id": "job",
@@ -50,11 +50,11 @@ window.MYNEWS_DATA = {
       "error": null,
       "items": [
         {
-          "title": "류석문 현대오토에버 대표 ‘코딩 강사’ 변신…“AI 맹신 안돼, 최소 비용·최대 효율 중요” - biz.heraldcorp.com",
+          "title": "류석문 현대오토에버 대표 ‘코딩 강사’ 변신…“AI 맹신 안돼, 최소 비용·최대 효율 중요” - 헤럴드경제",
           "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE43ZVpyQ2NadU5yR0tMRXR1Q0JHbnd0OVVDNkhJNDNqV2hYQm9DZE9zSTE4MFFucGVub0Y2RkJnR3NHb1BXSVM5eFdOeXdaWnNPSC11WFdB?oc=5",
           "date": "2026-08-12T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiVkFVX3lxTE43ZVpyQ2NadU5yR0tMRXR1Q0JHbnd0OVVDNkhJNDNqV2hYQm9DZE9zSTE4MFFucGVub0Y2RkJnR3NHb1BXSVM5eFdOeXdaWnNPSC11WFdB?oc=5\" target=",
-          "source": "biz.heraldcorp.com",
+          "source": "헤럴드경제",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
