@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-09-27T20:57:28.818Z",
+  "updatedAt": "2026-09-28T00:08:11.161Z",
   "categories": [
     {
       "id": "job",
@@ -98,11 +98,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "남양주새일센터, 코딩OA융합강사과정 수료식 개최 - newsq.kr",
+          "title": "남양주새일센터, 코딩OA융합강사과정 수료식 개최 - 뉴스Q",
           "link": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE8wY0RHSjZIenl4SlFoZjY2Z1FoOG1lR1AwQjlmekRtWkhNYTdEbDZRcXp0aFF0eW9iS241YkpLX3Iwd0ZTeUtUYlc4bEVLV1JIblFXaUtHeXI1VEp0bmY2eDdFUW9jZw?oc=5",
           "date": "2024-08-17T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiZkFVX3lxTE8wY0RHSjZIenl4SlFoZjY2Z1FoOG1lR1AwQjlmekRtWkhNYTdEbDZRcXp0aFF0eW9iS241YkpLX3Iwd0ZTeUtUYlc4bEVLV1JIblFXaUtHeXI1VEp0bmY2eD",
-          "source": "newsq.kr",
+          "source": "뉴스Q",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -138,11 +138,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "[인터뷰] 오지 마을의 코딩 전도사 ‘숲속엄마’ 송미선 강사 - 쿠키뉴스",
+          "title": "[인터뷰] 오지 마을의 코딩 전도사 ‘숲속엄마’ 송미선 강사 - kukinews.com",
           "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5xblVYb0s1LUNYTTZYLUNVdXVhZVYxemtxRW9icWsxd0ZESUt6bXdvazlMd05oeWVBcUVoTExQekZaV1RpWDE3RTB4YWhUazdlQ3I5NDF3MEZfY2VxTG5HMTNQMA?oc=5",
           "date": "2021-11-29T08:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiY0FVX3lxTE5xblVYb0s1LUNYTTZYLUNVdXVhZVYxemtxRW9icWsxd0ZESUt6bXdvazlMd05oeWVBcUVoTExQekZaV1RpWDE3RTB4YWhUazdlQ3I5NDF3MEZfY2VxTG5HMT",
-          "source": "쿠키뉴스",
+          "source": "kukinews.com",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
