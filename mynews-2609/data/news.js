@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-09-29T17:14:41.810Z",
+  "updatedAt": "2026-09-29T21:38:28.138Z",
   "categories": [
     {
       "id": "job",
@@ -50,11 +50,11 @@ window.MYNEWS_DATA = {
       "error": null,
       "items": [
         {
-          "title": "류석문 현대오토에버 대표 ‘코딩 강사’ 변신…“AI 맹신 안돼, 최소 비용·최대 효율 중요” - biz.heraldcorp.com",
+          "title": "류석문 현대오토에버 대표 ‘코딩 강사’ 변신…“AI 맹신 안돼, 최소 비용·최대 효율 중요” - 헤럴드경제",
           "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE43ZVpyQ2NadU5yR0tMRXR1Q0JHbnd0OVVDNkhJNDNqV2hYQm9DZE9zSTE4MFFucGVub0Y2RkJnR3NHb1BXSVM5eFdOeXdaWnNPSC11WFdB?oc=5",
           "date": "2026-08-12T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiVkFVX3lxTE43ZVpyQ2NadU5yR0tMRXR1Q0JHbnd0OVVDNkhJNDNqV2hYQm9DZE9zSTE4MFFucGVub0Y2RkJnR3NHb1BXSVM5eFdOeXdaWnNPSC11WFdB?oc=5\" target=",
-          "source": "biz.heraldcorp.com",
+          "source": "헤럴드경제",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -82,11 +82,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "율목초, ‘찾아가는 코딩교실’ 디지털 교육 강화 - hstodays.com",
+          "title": "율목초, ‘찾아가는 코딩교실’ 디지털 교육 강화 - 화성 투데이",
           "link": "https://news.google.com/rss/articles/CBMiREFVX3lxTE5nRkxJbDZJb1lnLUcyUFh3MnU0c2ZVb3o0b3hGN0UyMFBLLUpOeTdYbmg4eVV1aVZfSmlQTlcwLV9CVlhB?oc=5",
           "date": "2026-04-15T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiREFVX3lxTE5nRkxJbDZJb1lnLUcyUFh3MnU0c2ZVb3o0b3hGN0UyMFBLLUpOeTdYbmg4eVV1aVZfSmlQTlcwLV9CVlhB?oc=5\" target=\"_blank\">율목초, ‘찾아가는 코딩교실",
-          "source": "hstodays.com",
+          "source": "화성 투데이",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -154,11 +154,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "김포시, ‘코딩강사 양성과정’ 일자리 협력망 회의 개최 - straightnews.co.kr",
+          "title": "김포시, ‘코딩강사 양성과정’ 일자리 협력망 회의 개최 - 스트레이트뉴스",
           "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE13M3plU2l5ZjlVcGlXT3l6VktialVtU1JVUVVPQkRRdW5sTW1TQXRjVDR3TzVSWmNjcWxuRlp3Rl9ta1hpTWs3b2lWYm9BZHNwNUNfdS1QSnNBd3J3Y1FoOW94cFd0a2JESWRyZmFRY3JOUdIBdkFVX3lxTFBjMDhsWGpNandhTUJJTkpIOGFsdzFESXN4a2pGOURWVVhZZ1Y3MFhLVElsZjlSRzRXa29HYUhmQlBkVHg0bzRwc0laOTdaVUFqV1N4cmpkWGltTTJDODdwYVp3b0REWU5feHBobU1scFE0UlJWRkE?oc=5",
           "date": "2020-11-18T08:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMickFVX3lxTE13M3plU2l5ZjlVcGlXT3l6VktialVtU1JVUVVPQkRRdW5sTW1TQXRjVDR3TzVSWmNjcWxuRlp3Rl9ta1hpTWs3b2lWYm9BZHNwNUNfdS1QSnNBd3J3Y1FoOW",
-          "source": "straightnews.co.kr",
+          "source": "스트레이트뉴스",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
