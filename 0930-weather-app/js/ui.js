@@ -1,9 +1,9 @@
 // 화면 그리기 전담 파일. DOM 조작만 하고, fetch는 하지 않는다.
 // API나 공유 링크에서 온 글자(지역 이름 등)는 반드시 esc()를 거치거나 textContent로 넣는다.
 
-import { getWeatherInfo } from "./weather-codes.js";
-import { LEVELS, CATEGORIES, BASIC_RULES, getCategory, getDustGrade } from "./safety-rules.js";
-import { icon, art, illo, workerArt } from "./icons.js";
+import { getWeatherInfo } from "./weather-codes.js?v=2";
+import { LEVELS, CATEGORIES, BASIC_RULES, getCategory, getDustGrade } from "./safety-rules.js?v=2";
+import { icon, art, illo, workerArt } from "./icons.js?v=2";
 
 const WEEKDAY_LABELS = ["일", "월", "화", "수", "목", "금", "토"];
 

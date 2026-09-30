@@ -13,7 +13,7 @@ import {
   limit,
   getDocs,
   onSnapshot,
-} from "./firebase.js";
+} from "./firebase.js?v=2";
 
 const MAX_HISTORY = 5;
 

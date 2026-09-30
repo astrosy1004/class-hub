@@ -2,13 +2,16 @@
 // 화면 5개(메인 · 날씨 정보 · 안전수칙 · 상세 안전수칙 · 알림/공유)는 주소의 # 뒷부분으로 바꾼다
 // (#home, #weather, #rules, #rule/heat, #alerts). 그래서 휴대폰 뒤로가기 버튼이 그대로 동작한다.
 
-import { searchCity, getForecast, getForecastMany, getAirQuality, reverseGeocode } from "./weather-api.js";
-import { getWeatherInfo } from "./weather-codes.js";
-import { CATEGORIES, LEVELS, getCategory, evaluateHazards } from "./safety-rules.js";
-import * as store from "./store.js";
-import * as share from "./share.js";
-import * as ui from "./ui.js";
-import { hydrateIcons } from "./icons.js";
+// 모든 import 주소 끝의 ?v=2: 예전 버전의 JS가 휴대폰 캐시에 남아 새 HTML과 섞이는 것을 막으려고 한 번 바꾼 주소.
+// 지금은 firebase.json이 no-cache 헤더를 보내 매번 새 버전을 확인하므로, 파일을 고칠 때마다 올릴 필요는 없다.
+// 단, 같은 파일은 어디서든 같은 주소(?v=2 포함)로 불러야 한다 (주소가 다르면 모듈이 두 번 실행된다).
+import { searchCity, getForecast, getForecastMany, getAirQuality, reverseGeocode } from "./weather-api.js?v=2";
+import { getWeatherInfo } from "./weather-codes.js?v=2";
+import { CATEGORIES, LEVELS, getCategory, evaluateHazards } from "./safety-rules.js?v=2";
+import * as store from "./store.js?v=2";
+import * as share from "./share.js?v=2";
+import * as ui from "./ui.js?v=2";
+import { hydrateIcons } from "./icons.js?v=2";
 
 // 메인 화면 "지금 전국 현장 날씨" 카드에 보여줄 도시 (좌표는 시청 기준)
 const FEATURED_CITIES = [
@@ -584,7 +587,7 @@ let unsubscribeHistory = null;
 
 function loadHistoryApi() {
   if (!historyApiPromise) {
-    historyApiPromise = import("./history.js").catch((err) => {
+    historyApiPromise = import("./history.js?v=2").catch((err) => {
       historyApiPromise = null;
       logHistory("history.js 로드 실패:", err);
       throw err;
@@ -627,7 +630,7 @@ function saveCurrentToHistory(place) {
     });
 }
 
-import("./auth.js")
+import("./auth.js?v=2")
   .then((mod) => {
     authApi = mod;
     logAuth("auth.js 로드 완료");

@@ -7,7 +7,7 @@ import {
   signInWithPopup,
   signOut,
   onAuthStateChanged,
-} from "./firebase.js";
+} from "./firebase.js?v=2";
 
 const provider = new GoogleAuthProvider();
 
