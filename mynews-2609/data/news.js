@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-09-30T07:41:29.897Z",
+  "updatedAt": "2026-09-30T14:24:11.283Z",
   "categories": [
     {
       "id": "job",
@@ -154,11 +154,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "김포시, ‘코딩강사 양성과정’ 일자리 협력망 회의 개최 - 스트레이트뉴스",
+          "title": "김포시, ‘코딩강사 양성과정’ 일자리 협력망 회의 개최 - straightnews.co.kr",
           "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE13M3plU2l5ZjlVcGlXT3l6VktialVtU1JVUVVPQkRRdW5sTW1TQXRjVDR3TzVSWmNjcWxuRlp3Rl9ta1hpTWs3b2lWYm9BZHNwNUNfdS1QSnNBd3J3Y1FoOW94cFd0a2JESWRyZmFRY3JOUdIBdkFVX3lxTFBjMDhsWGpNandhTUJJTkpIOGFsdzFESXN4a2pGOURWVVhZZ1Y3MFhLVElsZjlSRzRXa29HYUhmQlBkVHg0bzRwc0laOTdaVUFqV1N4cmpkWGltTTJDODdwYVp3b0REWU5feHBobU1scFE0UlJWRkE?oc=5",
           "date": "2020-11-18T08:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMickFVX3lxTE13M3plU2l5ZjlVcGlXT3l6VktialVtU1JVUVVPQkRRdW5sTW1TQXRjVDR3TzVSWmNjcWxuRlp3Rl9ta1hpTWs3b2lWYm9BZHNwNUNfdS1QSnNBd3J3Y1FoOW",
-          "source": "스트레이트뉴스",
+          "source": "straightnews.co.kr",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -186,19 +186,19 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "안랩, SW 코딩강사 양성 사회공헌 프로그램 ‘안랩샘(SEM)’ 9기 개강 - 보안뉴스",
+          "title": "안랩, SW 코딩강사 양성 사회공헌 프로그램 ‘안랩샘(SEM)’ 9기 개강 - boannews.com",
           "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTFB5Y0ZISDBLNHluakhEZDJ4cjBlY2dVRDU5cC1rTWFYUUlodXFHMEx2dVhoSmVtd3QweEVqLUdUd1AzR3BYLV9CS2h2Q0FwYmREeWxnaGdpcWZyTlVIWVpaVlRoYllhR3Rj?oc=5",
           "date": "2019-10-11T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiaEFVX3lxTFB5Y0ZISDBLNHluakhEZDJ4cjBlY2dVRDU5cC1rTWFYUUlodXFHMEx2dVhoSmVtd3QweEVqLUdUd1AzR3BYLV9CS2h2Q0FwYmREeWxnaGdpcWZyTlVIWVpaVl",
-          "source": "보안뉴스",
+          "source": "boannews.com",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "안랩, SW 코딩강사 양성 사회공헌 프로그램 ‘안랩샘(SEM)’ 9기 수강생 모집 - 보안뉴스",
+          "title": "안랩, SW 코딩강사 양성 사회공헌 프로그램 ‘안랩샘(SEM)’ 9기 수강생 모집 - boannews.com",
           "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE53YkpGT0Z1Nk1iV2FoQkpCUUdHcVBUeTBpXzhvNDI0N3QwY1pqV2lpQWZQYWpkRWJRSmp3am5BV0ozSGt5SmM1TWVKRzd0SEJiTWZSaTZlUm01SnVyc1dNVm9SUFF4Vm5TZUE?oc=5",
           "date": "2019-09-10T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTE53YkpGT0Z1Nk1iV2FoQkpCUUdHcVBUeTBpXzhvNDI0N3QwY1pqV2lpQWZQYWpkRWJRSmp3am5BV0ozSGt5SmM1TWVKRzd0SEJiTWZSaTZlUm01SnVyc1dNVm",
-          "source": "보안뉴스",
+          "source": "boannews.com",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
