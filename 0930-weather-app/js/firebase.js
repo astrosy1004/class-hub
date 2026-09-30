@@ -10,6 +10,19 @@ import {
   signOut,
   onAuthStateChanged,
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  deleteDoc,
+  serverTimestamp,
+  collection,
+  query,
+  orderBy,
+  limit,
+  getDocs,
+  onSnapshot,
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 // Firebase 콘솔 → 프로젝트 설정 → 내 앱에서 복사한 값.
 // apiKey는 비밀번호가 아니라 프로젝트 식별 정보라 코드에 넣어도 된다.
@@ -24,6 +37,18 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
+export const db = getFirestore(app);
 
-// 3단계에서 db(Firestore)가 여기 추가될 예정이다.
 export { GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged };
+export {
+  doc,
+  setDoc,
+  deleteDoc,
+  serverTimestamp,
+  collection,
+  query,
+  orderBy,
+  limit,
+  getDocs,
+  onSnapshot,
+};
