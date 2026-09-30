@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>날씨 검색</title>
+<link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <header class="app-header">
+    <h1>날씨 검색</h1>
+    <div class="login-slot" id="loginSlot"></div>
+  </header>
+  <p id="authStatus" class="status-message auth-status" role="status" aria-live="polite"></p>
+
+  <main>
+    <section class="search-section" aria-label="도시 검색">
+      <form id="searchForm" class="search-form">
+        <label for="cityInput" class="sr-only">도시 이름</label>
+        <input type="text" id="cityInput" name="city" placeholder="도시 이름을 입력하세요 (예: 서울특별시)" autocomplete="off">
+        <button type="submit" id="searchBtn">검색</button>
+      </form>
+
+      <div class="quick-cities" id="quickCities">
+        <button type="button" class="quick-city-btn" data-city="서울특별시">서울특별시</button>
+        <button type="button" class="quick-city-btn" data-city="부산광역시">부산광역시</button>
+        <button type="button" class="quick-city-btn" data-city="대구광역시">대구광역시</button>
+        <button type="button" class="quick-city-btn" data-city="광주광역시">광주광역시</button>
+        <button type="button" class="quick-city-btn" data-city="제주시">제주시</button>
+      </div>
+
+      <p id="statusMessage" class="status-message" role="status" aria-live="polite"></p>
+      <ul id="searchResults" class="search-results"></ul>
+    </section>
+
+    <section id="weatherSection" class="weather-section" hidden>
+      <div id="currentWeather" class="current-weather"></div>
+      <div class="forecast-wrap">
+        <h2 class="forecast-title">5일 예보</h2>
+        <ul id="forecastList" class="forecast-list"></ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <a href="https://open-meteo.com/" target="_blank" rel="noopener">Weather data by Open-Meteo.com</a>
+  </footer>
+
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>
