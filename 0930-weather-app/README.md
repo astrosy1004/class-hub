@@ -1,8 +1,10 @@
-# 날씨 검색 웹앱 (2단계)
+# 날씨 검색 웹앱
 
 도시 이름을 검색하면 현재 날씨와 5일 예보를 보여주고, 구글로 로그인할 수 있는 웹앱입니다.
-전체 4단계(1. 날씨 웹앱 → 2. 구글 로그인 → 3. 즐겨찾기 저장 → 4. 배포) 중 2단계까지 진행했습니다.
-Firestore 저장·배포는 아직 포함하지 않습니다.
+전체 4단계(1. 날씨 웹앱 → 2. 구글 로그인 → 3. 즐겨찾기 저장 → 4. Firebase Hosting 배포) 중
+1·2·4단계를 진행했습니다. Firestore 즐겨찾기 저장(3단계)은 아직 없습니다.
+
+**배포 주소**: https://weath-app-sykim.web.app
 
 ## 실행 방법
 
@@ -45,6 +47,8 @@ weather-app/
 │  ├─ ui.js             DOM 렌더링 전담
 │  ├─ firebase.js       Firebase SDK(CDN) import + 설정값. SDK를 불러오는 유일한 파일
 │  └─ auth.js           로그인 · 로그아웃 · 로그인 상태 구독
+├─ firebase.json         Hosting 배포 설정 (public: 이 폴더 자체, 설정/README 파일은 배포 제외)
+├─ .firebaserc           기본 Firebase 프로젝트(weath-app-sykim) 지정
 └─ README.md
 ```
 
@@ -65,6 +69,21 @@ weather-app/
 - 새로고침해도 로그인 상태가 유지됩니다 (Firebase가 자체적으로 세션을 기억합니다).
 - Firebase를 못 불러온 경우(`gstatic.com` 차단 등) "로그인을 불러오지 못했습니다"가 표시되고,
   날씨 검색 기능은 그대로 동작합니다.
+
+## Firebase Hosting 배포
+
+```bash
+npm install -g firebase-tools   # 최초 1회
+firebase login                  # 최초 1회, 브라우저에서 구글 계정으로 로그인
+firebase deploy --only hosting  # 이 폴더(weather-app/)에서 실행
+```
+
+- `firebase init hosting` 마법사(방향키 메뉴) 대신 `firebase.json`/`.firebaserc`를 직접 작성했습니다.
+  기존 프로젝트(`weath-app-sykim`) 사용, 배포 폴더는 이 폴더 자체(`.`), SPA 아님(rewrite 없음),
+  GitHub 자동배포 미설정으로 구성했습니다.
+- 배포 후 주소: https://weath-app-sykim.web.app (`https://weath-app-sykim.firebaseapp.com`도 같은 사이트)
+- 이 두 도메인은 Firebase 프로젝트 생성 시 Authentication 승인된 도메인에 기본 포함되어 있어
+  배포된 사이트에서도 별도 설정 없이 구글 로그인이 됩니다.
 
 ## 사용한 API (Open-Meteo, API 키 불필요)
 
@@ -105,3 +124,8 @@ weather-app/
 - [ ] `http://localhost:5500`과 `http://127.0.0.1:5500` 두 주소 모두에서 로그인이 된다
 - [ ] 로그인·로그아웃하는 동안 콘솔에 빨간 오류가 없다 (`Cross-Origin-Opener-Policy` 경고는 제외)
 - [ ] 개발자 도구 Network 탭에서 `gstatic.com`을 막고 새로고침해도 날씨 검색은 된다
+
+### 4단계 (Hosting 배포)
+- [ ] https://weath-app-sykim.web.app 접속 시 로컬과 동일하게 검색·날씨·로그인이 동작한다
+- [ ] 배포된 사이트에서 구글 로그인이 팝업 차단 없이 된다
+- [ ] 새로고침해도 로그인 상태가 유지된다
