@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VR 진로 전시관</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  .stage{ position:relative; max-width:760px; margin:0 auto; }
+  #view{ width:100%; background:#05060f; cursor:grab; }
+  #view:active{ cursor:grabbing; }
+  #map{
+    position:absolute; right:12px; top:12px; z-index:3;
+    border-radius:10px; border:1px solid rgba(255,255,255,.2);
+    background:rgba(6,8,20,.72); backdrop-filter:blur(4px);
+  }
+  .prompt{
+    position:absolute; left:50%; bottom:22px; transform:translateX(-50%); z-index:3;
+    padding:10px 20px; border-radius:999px; font-size:14px; font-weight:800; color:#0a0918;
+    background:linear-gradient(135deg,#6ff2ff,#39ff88); box-shadow:0 6px 24px rgba(57,255,136,.5);
+    animation:bob 1.2s ease-in-out infinite; white-space:nowrap;
+  }
+  .prompt[hidden]{ display:none; }
+  @keyframes bob{ 50%{ transform:translateX(-50%) translateY(-5px); } }
+
+  .crosshair{
+    position:absolute; left:50%; top:50%; width:18px; height:18px; margin:-9px 0 0 -9px;
+    pointer-events:none; z-index:2; opacity:.55;
+  }
+  .crosshair::before,.crosshair::after{
+    content:""; position:absolute; background:#fff; box-shadow:0 0 6px rgba(0,0,0,.6);
+  }
+  .crosshair::before{ left:8px; top:0; width:2px; height:18px; }
+  .crosshair::after{ top:8px; left:0; height:2px; width:18px; }
+
+  /* 부스 모달 */
+  .booth{
+    position:absolute; inset:0; z-index:6; display:flex; align-items:center; justify-content:center;
+    background:rgba(6,6,22,.86); backdrop-filter:blur(6px); border-radius:14px; padding:18px;
+  }
+  .booth[hidden]{ display:none; }
+  .booth-card{
+    background:#fff; color:var(--text); border-radius:18px; padding:22px 24px;
+    max-width:520px; width:100%; max-height:100%; overflow-y:auto;
+    box-shadow:0 20px 50px rgba(0,0,0,.5);
+  }
+  .booth-head{ display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+  .booth-head .em{ font-size:38px; line-height:1; }
+  .booth-head h3{ margin:0; font-size:21px; font-weight:900; }
+  .booth-head .en{ font-size:12px; font-weight:700; color:var(--text-muted); letter-spacing:.04em; }
+  .kv{ display:flex; gap:10px; font-size:13.5px; line-height:1.7; margin-bottom:9px; }
+  .kv .k{
+    flex:0 0 76px; font-weight:800; color:#fff; font-size:11.5px; height:22px;
+    border-radius:7px; display:grid; place-items:center; background:var(--violet);
+  }
+  .kv .v{ flex:1; color:#3b3b52; word-break:keep-all; }
+  .quiz{ margin-top:18px; padding-top:16px; border-top:2px dashed var(--border); }
+  .quiz .q{ font-size:14.5px; font-weight:800; margin-bottom:12px; word-break:keep-all; }
+  .quiz .choices{ display:flex; flex-direction:column; gap:8px; }
+  .choice{
+    text-align:left; padding:11px 15px; border-radius:12px; cursor:pointer;
+    border:2px solid var(--border); background:#faf9ff; font-family:inherit;
+    font-size:13.5px; font-weight:700; color:var(--text); transition:all .15s;
+  }
+  .choice:hover:not(:disabled){ border-color:var(--violet-light); background:#f2effe; }
+  .choice.ok{ border-color:#22c55e; background:#eafff2; color:#15803d; }
+  .choice.no{ border-color:#ef4444; background:#fff0f0; color:#b91c1c; }
+  .choice:disabled{ cursor:default; }
+  .quiz-fb{ margin-top:12px; font-size:13px; line-height:1.7; color:#3b3b52; word-break:keep-all; }
+  .booth-close{ margin-top:16px; width:100%; }
+
+  /* 도장판 */
+  .stamps{ display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin-top:20px; }
+  .stamp{
+    display:flex; align-items:center; gap:9px; padding:10px 13px; border-radius:13px;
+    border:2px solid var(--border); background:#faf9ff; font-size:12.5px; font-weight:800;
+    color:var(--text-muted); transition:all .2s;
+  }
+  .stamp .e{ font-size:19px; filter:grayscale(1); opacity:.5; }
+  .stamp.done{ border-color:#22c55e; background:#eafff2; color:#15803d; }
+  .stamp.done .e{ filter:none; opacity:1; }
+  .row-btns{ display:flex; gap:10px; justify-content:center; margin-top:18px; flex-wrap:wrap; }
+</style>
+</head>
+<body>
+<div class="game-wrap">
+  <div class="game-top">
+    <a class="back" href="../index.html">← 게임 허브</a>
+    <h1 class="game-title">🥽 VR 진로 전시관</h1>
+  </div>
+
+  <div class="panel">
+    <div class="stats">
+      <div class="stat"><div class="label">모은 도장</div><div class="value" id="stampN">0 / 6</div></div>
+      <div class="stat"><div class="label">퀴즈 점수</div><div class="value" id="score">0</div></div>
+      <div class="stat"><div class="label">탐험 시간</div><div class="value" id="time">0:00</div></div>
+      <div class="stat"><div class="label">최고 기록</div><div class="value" id="best">0 / 6</div></div>
+    </div>
+
+    <div class="stage">
+      <canvas id="view" width="720" height="420"></canvas>
+      <canvas id="map" width="128" height="128"></canvas>
+      <div class="crosshair"></div>
+      <div class="prompt" id="prompt" hidden>E 키를 눌러 상담하기</div>
+
+      <div class="booth" id="booth" hidden>
+        <div class="booth-card">
+          <div class="booth-head">
+            <span class="em" id="bEm">🥽</span>
+            <div>
+              <h3 id="bName">직업</h3>
+              <div class="en" id="bEn"></div>
+            </div>
+          </div>
+          <div class="kv"><span class="k">하는 일</span><span class="v" id="bWork"></span></div>
+          <div class="kv"><span class="k">필요 역량</span><span class="v" id="bSkill"></span></div>
+          <div class="kv"><span class="k">주요 툴</span><span class="v" id="bTool"></span></div>
+          <div class="kv"><span class="k">진학 경로</span><span class="v" id="bPath"></span></div>
+
+          <div class="quiz">
+            <div class="q" id="bQ"></div>
+            <div class="choices" id="bChoices"></div>
+            <div class="quiz-fb" id="bFb"></div>
+          </div>
+          <button class="btn booth-close" id="bClose">전시관으로 돌아가기 (Esc)</button>
+        </div>
+      </div>
+
+      <div class="overlay" id="ov">
+        <h3 id="ovTitle">VR 진로 전시관</h3>
+        <p id="ovText">
+          1인칭으로 전시관을 걸어다니며 6개 XR 직업 부스를 찾아보세요.<br>
+          <b>W A S D</b> 또는 방향키로 이동 · 마우스 드래그로 시점 · 부스 앞에서 <b>E</b>
+        </p>
+        <button class="btn" id="startBtn">입장하기</button>
+      </div>
+    </div>
+
+    <div class="stamps" id="stamps"></div>
+
+    <div class="row-btns">
+      <button class="btn ghost" id="restartBtn">처음부터 다시</button>
+    </div>
+
+    <p class="hint">
+      부스마다 직업 정보와 퀴즈가 하나씩 있어요. 퀴즈를 맞히면 <b>도장 +1, 100점</b>,
+      틀려도 도장은 받지만 점수는 40점이에요.<br>
+      6개를 모두 모으면 전시관 탐험 완료! 🎖️
+    </p>
+  </div>
+</div>
+
+<script>
+(function(){
+  // ══════════════════════════════════════
+  //  전시관 지도 (16 x 16)
+  //  # = 벽, 2~7 = 직업 부스, . = 통로
+  // ══════════════════════════════════════
+  const MAP = [
+    '################',
+    '#..............#',
+    '#..####...####.#',
+    '#..#22#...#33#.#',
+    '#..............#',
+    '#..............#',
+    '#....#6666#....#',
+    '#....######....#',
+    '#....#7777#....#',
+    '#..............#',
+    '#..####...####.#',
+    '#..#44#...#55#.#',
+    '#..............#',
+    '#..............#',
+    '#..............#',
+    '################'
+  ];
+  const MS = MAP.length;
+  const at = (x, y) => {
+    if (x < 0 || y < 0 || x >= MS || y >= MS) return '#';
+    return MAP[y | 0][x | 0];
+  };
+  const solid = ch => ch !== '.';
+
+  // ══════════════════════════════════════
+  //  직업 데이터
+  // ══════════════════════════════════════
+  const JOBS = {
+    '2': {
+      em:'🧊', name:'3D 모델러', en:'3D MODELER', color:[110, 200, 255],
+      work:'게임·VR 속 캐릭터, 건물, 소품을 3차원으로 만들어내는 사람. 형태를 만들고 색과 질감(텍스처)까지 입힙니다.',
+      skill:'공간지각력, 관찰력, 해부학·구조 이해, 꾸준함',
+      tool:'Blender, Maya, ZBrush, Substance Painter',
+      path:'애니메이션과 · 게임그래픽과 · 시각디자인과 / 특성화고 게임과',
+      q:'3D 모델의 표면에 색과 무늬를 입히는 작업을 뭐라고 할까요?',
+      c:['텍스처링 (Texturing)', '렌더 팜 (Render Farm)', '디버깅 (Debugging)'],
+      a:0,
+      exp:'맞아요! 모델의 껍데기에 이미지를 입히는 것을 텍스처링이라고 해요. 요즘은 Substance Painter로 직접 칠하듯 작업합니다.'
+    },
+    '3': {
+      em:'🕹️', name:'VR 개발자', en:'VR DEVELOPER', color:[168, 130, 255],
+      work:'VR 헤드셋 안에서 실제로 움직이고 반응하는 세계를 코드로 구현합니다. 컨트롤러 조작, 물리, 상호작용을 담당해요.',
+      skill:'프로그래밍(C#/C++), 수학·물리 기초, 문제해결력',
+      tool:'Unity, Unreal Engine, C#, OpenXR SDK',
+      path:'컴퓨터공학과 · 게임공학과 · 소프트웨어학과 / 고교 정보 과목',
+      q:'VR 게임을 만들 때 가장 많이 쓰이는 게임 엔진 두 가지는?',
+      c:['포토샵과 일러스트레이터', 'Unity와 Unreal Engine', '엑셀과 파워포인트'],
+      a:1,
+      exp:'정답! Unity(C#)와 Unreal Engine(C++/블루프린트)이 XR 개발의 양대 엔진이에요. 둘 다 학생은 무료로 배울 수 있어요.'
+    },
+    '4': {
+      em:'🎨', name:'테크니컬 아티스트', en:'TECHNICAL ARTIST', color:[255, 180, 90],
+      work:'아티스트와 개발자 사이의 다리 역할. 예쁜 그래픽이 VR에서도 끊김 없이 돌아가도록 최적화하고 셰이더를 만듭니다.',
+      skill:'그래픽 지식 + 코딩 지식, 최적화 감각, 소통 능력',
+      tool:'Shader Graph, HLSL, Python 스크립트, Houdini',
+      path:'게임공학과 · 멀티미디어공학과 (미술 + 코딩 둘 다 관심 있는 사람에게 최고)',
+      q:'VR에서 프레임(FPS)이 낮으면 생기는 가장 큰 문제는?',
+      c:['소리가 작아진다', '멀미(사이버 멀미)가 심해진다', '용량이 커진다'],
+      a:1,
+      exp:'맞아요! VR은 보통 90FPS 이상을 유지해야 해요. 프레임이 떨어지면 어지럼증이 생겨서 최적화가 정말 중요합니다.'
+    },
+    '5': {
+      em:'📐', name:'XR 콘텐츠 기획자', en:'XR CONTENT PLANNER', color:[120, 240, 170],
+      work:'“무엇을 왜 VR로 만들까?”를 정하는 사람. 소방 훈련, 수술 실습, 전시 체험처럼 쓰임새를 설계하고 팀을 이끕니다.',
+      skill:'기획·글쓰기, 사용자 이해, 발표력, 트렌드 감각',
+      tool:'Figma, Notion, 스토리보드, 프로토타이핑 도구',
+      path:'콘텐츠학과 · 미디어커뮤니케이션 · 산업디자인 / 동아리 기획 경험이 큰 자산',
+      q:'VR이 특히 강점을 갖는 교육 분야는 어디일까요?',
+      c:['위험하거나 비용이 큰 실습 (소방·수술 등)', '단순 암기 과목', '독서 감상문 쓰기'],
+      a:0,
+      exp:'정답! 실제로 하면 위험하거나 돈이 많이 드는 훈련을 안전하게 반복할 수 있다는 게 VR 교육의 가장 큰 무기예요.'
+    },
+    '6': {
+      em:'🏃', name:'모션캡처 아티스트', en:'MOTION CAPTURE ARTIST', color:[255, 120, 170],
+      work:'배우의 실제 움직임을 센서로 기록해 3D 캐릭터에 입힙니다. 지저분한 데이터를 다듬어 자연스러운 동작으로 만들어요.',
+      skill:'동작 관찰력, 리깅·애니메이션 이해, 꼼꼼함',
+      tool:'Vicon/OptiTrack, MotionBuilder, Maya',
+      path:'애니메이션과 · 영상학과 · 무용/체육 경험도 의외로 큰 도움',
+      q:'모션캡처로 얻은 움직임을 3D 캐릭터의 뼈대에 연결하는 작업은?',
+      c:['렌더링 (Rendering)', '리깅 (Rigging)', '컴파일 (Compile)'],
+      a:1,
+      exp:'맞아요! 캐릭터 안에 뼈대(본)를 심고 움직임을 연결하는 작업이 리깅이에요. 리깅이 잘 돼야 동작이 자연스러워집니다.'
+    },
+    '7': {
+      em:'🧭', name:'XR UX 디자이너', en:'XR UX DESIGNER', color:[255, 230, 110],
+      work:'VR 안에서 메뉴는 어디에 띄울지, 손으로 어떻게 잡을지를 설계합니다. 화면이 아니라 “공간”을 디자인하는 직업이에요.',
+      skill:'사용자 관찰, 프로토타이핑, 인체공학, 실험 정신',
+      tool:'Figma, ShapesXR, Unity 프로토타입, 사용자 테스트',
+      path:'산업디자인 · UX디자인 · 심리학과 (사람의 행동에 관심 많은 사람에게 추천)',
+      q:'VR에서 메뉴를 사용자 눈앞 너무 가까이 띄우면 생기는 문제는?',
+      c:['눈이 피로하고 초점이 안 맞는다', '배터리가 빨리 닳는다', '소리가 울린다'],
+      a:0,
+      exp:'정답! 너무 가까운 UI는 눈이 초점을 맞추기 힘들어 금방 피로해져요. 보통 0.5~2m 거리에 배치하는 것이 권장됩니다.'
+    }
+  };
+  const CODES = ['2','3','4','5','6','7'];
+
+  // ══════════════════════════════════════
+  //  DOM
+  // ══════════════════════════════════════
+  const cv = document.getElementById('view'), ctx = cv.getContext('2d');
+  const mp = document.getElementById('map'), mctx = mp.getContext('2d');
+  const W = cv.width, H = cv.height;
+  const el = {
+    stampN: document.getElementById('stampN'), score: document.getElementById('score'),
+    time: document.getElementById('time'), best: document.getElementById('best'),
+    prompt: document.getElementById('prompt'), booth: document.getElementById('booth'),
+    bEm: document.getElementById('bEm'), bName: document.getElementById('bName'),
+    bEn: document.getElementById('bEn'), bWork: document.getElementById('bWork'),
+    bSkill: document.getElementById('bSkill'), bTool: document.getElementById('bTool'),
+    bPath: document.getElementById('bPath'), bQ: document.getElementById('bQ'),
+    bChoices: document.getElementById('bChoices'), bFb: document.getElementById('bFb'),
+    bClose: document.getElementById('bClose'), stamps: document.getElementById('stamps'),
+    ov: document.getElementById('ov'), ovTitle: document.getElementById('ovTitle'),
+    ovText: document.getElementById('ovText'), startBtn: document.getElementById('startBtn'),
+    restartBtn: document.getElementById('restartBtn')
+  };
+  const BEST_KEY = 'vrjob.stamps';
+  let best = 0;
+  try { best = parseInt(localStorage.getItem(BEST_KEY) || '0', 10) || 0; } catch(e){}
+  el.best.textContent = best + ' / 6';
+
+  // ══════════════════════════════════════
+  //  상태
+  // ══════════════════════════════════════
+  let px = 8.0, py = 4.6, dir = Math.PI/2;   // dir: 0 = +x, PI/2 = +y(아래)
+  let keys = {}, running = false, raf = null;
+  let stamped = {}, score = 0, startAt = 0, timeTimer = null;
+  let nearBooth = null;
+
+  function buildStamps(){
+    el.stamps.innerHTML = '';
+    for (const code of CODES){
+      const j = JOBS[code];
+      const d = document.createElement('div');
+      d.className = 'stamp' + (stamped[code] ? ' done' : '');
+      d.innerHTML = '<span class="e">' + j.em + '</span><span>' + j.name +
+                    (stamped[code] ? ' ✓' : '') + '</span>';
+      el.stamps.appendChild(d);
+    }
+  }
+
+  function sync(){
+    const n = Object.keys(stamped).length;
+    el.stampN.textContent = n + ' / 6';
+    el.score.textContent = score;
+  }
+
+  // ══════════════════════════════════════
+  //  레이캐스팅 렌더
+  // ══════════════════════════════════════
+  const FOV = Math.PI / 3;
+
+  function castRay(angle){
+    // DDA
+    const sinA = Math.sin(angle), cosA = Math.cos(angle);
+    let mapX = px | 0, mapY = py | 0;
+    const dX = Math.abs(1 / (cosA || 1e-9));
+    const dY = Math.abs(1 / (sinA || 1e-9));
+    let stepX, stepY, sideX, sideY;
+    if (cosA < 0){ stepX = -1; sideX = (px - mapX) * dX; }
+    else         { stepX =  1; sideX = (mapX + 1 - px) * dX; }
+    if (sinA < 0){ stepY = -1; sideY = (py - mapY) * dY; }
+    else         { stepY =  1; sideY = (mapY + 1 - py) * dY; }
+
+    let side = 0, ch = '#', guard = 0;
+    while (guard++ < 64){
+      if (sideX < sideY){ sideX += dX; mapX += stepX; side = 0; }
+      else              { sideY += dY; mapY += stepY; side = 1; }
+      ch = at(mapX, mapY);
+      if (solid(ch)) break;
+    }
+    const dist = side === 0
+      ? (mapX - px + (1 - stepX) / 2) / (cosA || 1e-9)
+      : (mapY - py + (1 - stepY) / 2) / (sinA || 1e-9);
+    return { dist: Math.max(0.02, dist), ch, side, mapX, mapY };
+  }
+
+  function render(){
+    // 천장 / 바닥
+    const sky = ctx.createLinearGradient(0, 0, 0, H/2);
+    sky.addColorStop(0, '#181234'); sky.addColorStop(1, '#2a1f52');
+    ctx.fillStyle = sky; ctx.fillRect(0, 0, W, H/2);
+    const flr = ctx.createLinearGradient(0, H/2, 0, H);
+    flr.addColorStop(0, '#14122b'); flr.addColorStop(1, '#080714');
+    ctx.fillStyle = flr; ctx.fillRect(0, H/2, W, H/2);
+
+    for (let x = 0; x < W; x++){
+      // 화면 왜곡을 줄이기 위해 카메라 평면 기준으로 각도를 잡는다
+      const camX = 2 * x / W - 1;
+      const a = dir + Math.atan(camX * Math.tan(FOV / 2));
+      const r = castRay(a);
+      const corrected = r.dist * Math.cos(a - dir);
+      const h = Math.min(H * 3, H / corrected);
+      const y0 = (H - h) / 2;
+
+      let col;
+      if (r.ch === '#') col = [58, 53, 96];
+      else col = stamped[r.ch] ? [70, 200, 120] : JOBS[r.ch].color;
+
+      // 벽면 방향 + 거리에 따른 음영
+      let sh = (r.side === 1 ? 0.68 : 1) * Math.max(0.18, 1 - corrected / 13);
+      ctx.fillStyle = 'rgb(' + (col[0]*sh|0) + ',' + (col[1]*sh|0) + ',' + (col[2]*sh|0) + ')';
+      ctx.fillRect(x, y0, 1, h);
+
+      // 부스는 위아래에 네온 띠를 넣어 눈에 띄게
+      if (r.ch !== '#'){
+        const g = Math.max(0.25, 1 - corrected / 10);
+        ctx.fillStyle = 'rgba(255,255,255,' + (0.5 * g) + ')';
+        ctx.fillRect(x, y0, 1, Math.max(1, h * 0.06));
+        ctx.fillRect(x, y0 + h - Math.max(1, h * 0.06), 1, Math.max(1, h * 0.06));
+      }
+    }
+
+    // 비네트
+    const vg = ctx.createRadialGradient(W/2, H/2, H*0.32, W/2, H/2, H*0.85);
+    vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,.55)');
+    ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H);
+
+    drawMap();
+  }
+
+  function drawMap(){
+    const s = mp.width / MS;
+    mctx.clearRect(0, 0, mp.width, mp.height);
+    for (let y = 0; y < MS; y++){
+      for (let x = 0; x < MS; x++){
+        const ch = at(x, y);
+        if (ch === '.') continue;
+        if (ch === '#') mctx.fillStyle = 'rgba(255,255,255,.16)';
+        else {
+          const c = JOBS[ch].color;
+          mctx.fillStyle = stamped[ch]
+            ? 'rgba(70,220,130,.95)'
+            : 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',.95)';
+        }
+        mctx.fillRect(x*s, y*s, s, s);
+      }
+    }
+    // 플레이어 + 시야
+    mctx.strokeStyle = 'rgba(255,255,255,.7)'; mctx.lineWidth = 1.5;
+    mctx.beginPath();
+    mctx.moveTo(px*s, py*s);
+    mctx.lineTo((px + Math.cos(dir)*2.2)*s, (py + Math.sin(dir)*2.2)*s);
+    mctx.stroke();
+    mctx.fillStyle = '#fff';
+    mctx.beginPath(); mctx.arc(px*s, py*s, 2.6, 0, 7); mctx.fill();
+  }
+
+  // ══════════════════════════════════════
+  //  이동 / 상호작용
+  // ══════════════════════════════════════
+  function tryMove(nx, ny){
+    const pad = 0.22;
+    if (!solid(at(nx + Math.sign(nx - px) * pad, py))) px = nx;
+    if (!solid(at(px, ny + Math.sign(ny - py) * pad))) py = ny;
+  }
+
+  function step(){
+    if (!running) return;
+    const spd = 0.055, rot = 0.038;
+    let mx = 0, my = 0;
+    if (keys['w'] || keys['arrowup'])   { mx += Math.cos(dir)*spd; my += Math.sin(dir)*spd; }
+    if (keys['s'] || keys['arrowdown']) { mx -= Math.cos(dir)*spd; my -= Math.sin(dir)*spd; }
+    if (keys['a'] || keys['arrowleft'])  dir -= rot;
+    if (keys['d'] || keys['arrowright']) dir += rot;
+    if (keys['q']) { mx += Math.cos(dir - Math.PI/2)*spd; my += Math.sin(dir - Math.PI/2)*spd; }
+    if (mx || my) tryMove(px + mx, py + my);
+
+    // 정면 부스 탐지
+    const r = castRay(dir);
+    nearBooth = (r.ch !== '#' && r.dist < 2.4) ? r.ch : null;
+    if (nearBooth){
+      el.prompt.hidden = false;
+      el.prompt.textContent = stamped[nearBooth]
+        ? JOBS[nearBooth].name + ' — 도장 완료 ✓ (E 다시 보기)'
+        : 'E 키 — ' + JOBS[nearBooth].name + ' 부스 상담하기';
+    } else {
+      el.prompt.hidden = true;
+    }
+
+    render();
+    raf = requestAnimationFrame(step);
+  }
+
+  function openBooth(code){
+    const j = JOBS[code];
+    el.bEm.textContent = j.em; el.bName.textContent = j.name; el.bEn.textContent = j.en;
+    el.bWork.textContent = j.work; el.bSkill.textContent = j.skill;
+    el.bTool.textContent = j.tool; el.bPath.textContent = j.path;
+    el.bQ.textContent = 'Q. ' + j.q;
+    el.bFb.textContent = '';
+    el.bChoices.innerHTML = '';
+
+    const already = !!stamped[code];
+    j.c.forEach((text, i) => {
+      const b = document.createElement('button');
+      b.className = 'choice'; b.type = 'button'; b.textContent = text;
+      if (already){
+        b.disabled = true;
+        if (i === j.a) b.classList.add('ok');
+      } else {
+        b.addEventListener('click', () => answer(code, i, b));
+      }
+      el.bChoices.appendChild(b);
+    });
+    if (already) el.bFb.textContent = '✅ 이미 도장을 받은 부스예요. ' + j.exp;
+
+    el.booth.hidden = false;
+    el.prompt.hidden = true;
+  }
+
+  function answer(code, i, btn){
+    const j = JOBS[code];
+    [...el.bChoices.children].forEach((b, k) => {
+      b.disabled = true;
+      if (k === j.a) b.classList.add('ok');
+    });
+    const ok = i === j.a;
+    if (!ok) btn.classList.add('no');
+    score += ok ? 100 : 40;
+    stamped[code] = true;
+    saveBest();
+    el.bFb.textContent = (ok ? '🎉 정답! +100점 · ' : '아쉬워요! +40점 · ') + j.exp;
+    sync(); buildStamps();
+
+    if (Object.keys(stamped).length === 6) setTimeout(clearGame, 900);
+  }
+
+  function saveBest(){
+    const n = Object.keys(stamped).length;
+    if (n > best){
+      best = n;
+      try { localStorage.setItem(BEST_KEY, String(best)); } catch(e){}
+      el.best.textContent = best + ' / 6';
+    }
+  }
+
+  function closeBooth(){
+    el.booth.hidden = true;
+  }
+
+  function clearGame(){
+    running = false;
+    cancelAnimationFrame(raf);
+    clearInterval(timeTimer);
+    closeBooth();
+    saveBest();
+    el.ovTitle.textContent = '🎖️ 전시관 탐험 완료!';
+    el.ovText.innerHTML =
+      '6개 XR 직업 부스를 모두 방문했어요!<br>퀴즈 점수 <b>' + score + '점</b> · 탐험 시간 <b>' + el.time.textContent + '</b><br>' +
+      (score >= 560 ? '거의 다 맞혔네요, XR 진로 전문가! 🏆' : '관심 가는 직업이 생겼다면 그 툴을 하나 깔아보세요 💡');
+    el.startBtn.textContent = '다시 탐험하기';
+    el.ov.hidden = false;
+  }
+
+  // ══════════════════════════════════════
+  //  입력
+  // ══════════════════════════════════════
+  document.addEventListener('keydown', e => {
+    const k = e.key.toLowerCase();
+    if (k === 'escape'){ closeBooth(); return; }
+    if (!el.booth.hidden) return;
+    if (k === 'e'){
+      if (running && nearBooth) openBooth(nearBooth);
+      return;
+    }
+    keys[k] = true;
+    if (['w','a','s','d','arrowup','arrowdown','arrowleft','arrowright',' '].includes(k)) e.preventDefault();
+  });
+  document.addEventListener('keyup', e => { keys[e.key.toLowerCase()] = false; });
+
+  // 마우스 드래그로 시점 회전
+  let dragging = false, lastX = 0;
+  cv.addEventListener('mousedown', e => { dragging = true; lastX = e.clientX; });
+  window.addEventListener('mouseup', () => dragging = false);
+  window.addEventListener('mousemove', e => {
+    if (!dragging || !running) return;
+    dir += (e.clientX - lastX) * 0.005;
+    lastX = e.clientX;
+  });
+  cv.addEventListener('touchstart', e => { dragging = true; lastX = e.touches[0].clientX; }, { passive:true });
+  cv.addEventListener('touchmove', e => {
+    e.preventDefault();
+    if (!running) return;
+    dir += (e.touches[0].clientX - lastX) * 0.006;
+    lastX = e.touches[0].clientX;
+  }, { passive:false });
+  cv.addEventListener('touchend', () => dragging = false);
+
+  el.bClose.addEventListener('click', closeBooth);
+
+  // ══════════════════════════════════════
+  //  시작
+  // ══════════════════════════════════════
+  function start(){
+    px = 8.0; py = 4.6; dir = Math.PI/2;
+    keys = {}; stamped = {}; score = 0; nearBooth = null;
+    running = true;
+    el.ov.hidden = true;
+    closeBooth();
+    sync(); buildStamps();
+    startAt = Date.now();
+    clearInterval(timeTimer);
+    timeTimer = setInterval(() => {
+      const s = Math.floor((Date.now() - startAt) / 1000);
+      el.time.textContent = Math.floor(s/60) + ':' + String(s % 60).padStart(2, '0');
+    }, 500);
+    cancelAnimationFrame(raf);
+    step();
+  }
+
+  el.startBtn.addEventListener('click', start);
+  el.restartBtn.addEventListener('click', start);
+
+  buildStamps();
+  sync();
+  render();
+})();
+</script>
+</body>
+</html>

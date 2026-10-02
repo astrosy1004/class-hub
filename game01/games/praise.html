@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>칭찬 주고받기</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  .deck{ display:flex; flex-direction:column; align-items:center; gap:18px; }
+  .card-slot{ perspective:1200px; width:100%; max-width:380px; height:230px; }
+  .praise-card{
+    position:relative; width:100%; height:100%; transform-style:preserve-3d;
+    transition:transform .6s cubic-bezier(.3,.9,.3,1); cursor:pointer;
+  }
+  .praise-card.flipped{ transform:rotateY(180deg); }
+  .face{
+    position:absolute; inset:0; border-radius:20px; backface-visibility:hidden;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:12px; padding:26px; text-align:center; box-shadow:0 12px 30px rgba(60,20,90,.22);
+  }
+  .face.back{
+    background:linear-gradient(140deg,#f7b6cd,#ef5a8c);
+    color:#fff;
+  }
+  .face.back .mark{ font-size:52px; }
+  .face.back .t{ font-size:15px; font-weight:800; opacity:.95; }
+  .face.front{
+    transform:rotateY(180deg); background:#fff; border:2px solid #f7d0de;
+    color:var(--text);
+  }
+  .face.front .emoji{ font-size:44px; }
+  .face.front .msg{ font-size:18px; font-weight:800; line-height:1.5; word-break:keep-all; }
+  .face.front .tagline{ font-size:12.5px; color:var(--text-muted); }
+
+  .who{ display:flex; gap:12px; flex-wrap:wrap; justify-content:center; width:100%; }
+  .who input{
+    flex:1 1 150px; max-width:190px; padding:10px 14px; border:1px solid var(--border);
+    border-radius:12px; font-family:inherit; font-size:14px; background:#fbfaff; color:var(--text);
+  }
+  .who input:focus{ outline:2px solid var(--violet-light); outline-offset:0; border-color:transparent; }
+  .row-btns{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+
+  .log{ margin-top:28px; }
+  .log h3{ font-size:14px; margin:0 0 12px; text-align:center; color:var(--text-muted); }
+  .log-list{ display:flex; flex-direction:column; gap:10px; max-width:520px; margin:0 auto; }
+  .log-item{
+    display:flex; align-items:center; gap:12px; padding:12px 16px;
+    background:#fff6f9; border:1px solid #f7d0de; border-radius:14px;
+    animation:slide .3s ease-out;
+  }
+  .log-item .e{ font-size:24px; }
+  .log-item .body{ flex:1; min-width:0; }
+  .log-item .head{ font-size:12px; font-weight:800; color:#e0447f; margin-bottom:2px; }
+  .log-item .text{ font-size:13.5px; color:var(--text); word-break:keep-all; }
+  .log-item .del{
+    border:0; background:none; color:var(--text-muted); cursor:pointer; font-size:16px; padding:4px;
+  }
+  .log-item .del:hover{ color:#e0447f; }
+  @keyframes slide{ from{ opacity:0; transform:translateY(-8px); } }
+  .empty{ text-align:center; font-size:13px; color:var(--text-muted); padding:18px; }
+</style>
+</head>
+<body>
+<div class="game-wrap">
+  <div class="game-top">
+    <a class="back" href="../index.html">← 게임 허브</a>
+    <h1 class="game-title">🌸 칭찬 주고받기</h1>
+  </div>
+
+  <div class="panel">
+    <div class="stats">
+      <div class="stat"><div class="label">보낸 칭찬</div><div class="value" id="sent">0</div></div>
+      <div class="stat"><div class="label">칭찬 포인트</div><div class="value" id="points">0</div></div>
+      <div class="stat"><div class="label">뽑은 카드</div><div class="value" id="drawn">0</div></div>
+    </div>
+
+    <div class="deck">
+      <div class="card-slot">
+        <div class="praise-card" id="card">
+          <div class="face back">
+            <div class="mark">🌸</div>
+            <div class="t">카드를 뽑아보세요</div>
+          </div>
+          <div class="face front">
+            <div class="emoji" id="cEmoji">✨</div>
+            <div class="msg" id="cMsg">—</div>
+            <div class="tagline" id="cTag"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="who">
+        <input type="text" id="from" maxlength="12" placeholder="보내는 사람">
+        <input type="text" id="to" maxlength="12" placeholder="받는 사람">
+      </div>
+
+      <div class="row-btns">
+        <button class="btn" id="drawBtn">칭찬 카드 뽑기</button>
+        <button class="btn ghost" id="sendBtn" disabled>이 칭찬 보내기</button>
+        <button class="btn ghost" id="clearBtn">기록 지우기</button>
+      </div>
+    </div>
+
+    <p class="hint">
+      카드를 뽑아 마음에 드는 칭찬을 고르고, 보내는 사람 · 받는 사람을 적어 보내세요.<br>
+      칭찬 하나당 <b>10포인트</b>, 기록은 이 브라우저에 저장됩니다. 🐳 칭찬은 고래도 춤추게 해요!
+    </p>
+
+    <div class="log">
+      <h3>주고받은 칭찬</h3>
+      <div class="log-list" id="logList"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const el = {
+    card: document.getElementById('card'),
+    cEmoji: document.getElementById('cEmoji'), cMsg: document.getElementById('cMsg'),
+    cTag: document.getElementById('cTag'),
+    from: document.getElementById('from'), to: document.getElementById('to'),
+    drawBtn: document.getElementById('drawBtn'), sendBtn: document.getElementById('sendBtn'),
+    clearBtn: document.getElementById('clearBtn'),
+    sent: document.getElementById('sent'), points: document.getElementById('points'),
+    drawn: document.getElementById('drawn'), logList: document.getElementById('logList')
+  };
+
+  const CARDS = [
+    ['🌟','언제나 최선을 다하는 모습이 멋져요','성실함'],
+    ['💡','아이디어가 정말 반짝반짝해요','창의력'],
+    ['🤝','어려울 때 먼저 손 내밀어 줘서 고마워요','배려'],
+    ['😄','당신 덕분에 분위기가 밝아져요','에너지'],
+    ['🎯','맡은 일은 끝까지 해내는 사람이에요','책임감'],
+    ['👂','내 이야기를 진심으로 들어줘서 고마워요','경청'],
+    ['🌱','조금씩 성장하는 모습이 대단해요','성장'],
+    ['🧡','따뜻한 말 한마디가 큰 힘이 됐어요','다정함'],
+    ['🚀','새로운 일에 도전하는 용기가 멋져요','도전정신'],
+    ['🧩','복잡한 문제를 척척 풀어내요','문제해결'],
+    ['🕰️','약속을 늘 지켜줘서 믿음직해요','신뢰'],
+    ['🎨','당신만의 색깔이 정말 특별해요','개성'],
+    ['🍀','함께 있으면 운이 좋아지는 기분이에요','행운'],
+    ['📚','배우려는 자세가 정말 본받고 싶어요','열정'],
+    ['🛠️','꼼꼼하게 챙겨줘서 늘 든든해요','꼼꼼함'],
+    ['🎁','작은 것도 함께 나눠줘서 고마워요','나눔'],
+    ['🌈','힘든 순간에도 웃음을 잃지 않아요','긍정'],
+    ['🤗','곁에 있어 줘서 정말 고마워요','존재 자체']
+  ];
+
+  const KEY = 'praise.log.v1';
+  let log = [];
+  try { log = JSON.parse(localStorage.getItem(KEY) || '[]'); } catch(e){ log = []; }
+  if (!Array.isArray(log)) log = [];
+
+  let drawnCount = 0, current = null, deck = [];
+
+  function save(){
+    try { localStorage.setItem(KEY, JSON.stringify(log)); } catch(e){}
+  }
+  function sync(){
+    el.sent.textContent = log.length;
+    el.points.textContent = log.length * 10;
+    el.drawn.textContent = drawnCount;
+  }
+  function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+  function renderLog(){
+    el.logList.innerHTML = '';
+    if (!log.length){
+      el.logList.innerHTML = '<div class="empty">아직 주고받은 칭찬이 없어요. 첫 칭찬을 보내보세요! 🌸</div>';
+      return;
+    }
+    log.forEach((it, i) => {
+      const row = document.createElement('div');
+      row.className = 'log-item';
+      row.innerHTML =
+        '<div class="e">' + esc(it.emoji) + '</div>' +
+        '<div class="body">' +
+          '<div class="head">' + esc(it.from) + ' → ' + esc(it.to) + '</div>' +
+          '<div class="text">' + esc(it.msg) + '</div>' +
+        '</div>' +
+        '<button class="del" type="button" aria-label="삭제">✕</button>';
+      row.querySelector('.del').addEventListener('click', () => {
+        log.splice(i, 1); save(); renderLog(); sync();
+      });
+      el.logList.appendChild(row);
+    });
+  }
+
+  // 같은 카드가 연속으로 나오지 않도록 섞은 덱에서 순서대로 뽑는다
+  function nextCard(){
+    if (!deck.length){
+      deck = CARDS.slice();
+      for (let i = deck.length-1; i > 0; i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [deck[i], deck[j]] = [deck[j], deck[i]];
+      }
+    }
+    return deck.pop();
+  }
+
+  function drawCard(){
+    const flipped = el.card.classList.contains('flipped');
+    const show = () => {
+      const c = nextCard();
+      current = { emoji:c[0], msg:c[1], tag:c[2] };
+      drawnCount++;
+      el.cEmoji.textContent = current.emoji;
+      el.cMsg.textContent = current.msg;
+      el.cTag.textContent = '# ' + current.tag;
+      el.card.classList.add('flipped');
+      el.sendBtn.disabled = false;
+      el.drawBtn.textContent = '다른 카드 뽑기';
+      sync();
+    };
+    if (flipped){
+      el.card.classList.remove('flipped');   // 뒤집었다가 새 카드로
+      setTimeout(show, 320);
+    } else {
+      show();
+    }
+  }
+
+  function send(){
+    if (!current) return;
+    const from = el.from.value.trim() || '익명';
+    const to   = el.to.value.trim();
+    if (!to){
+      el.to.focus();
+      alert('받는 사람을 적어주세요! 🙂');
+      return;
+    }
+    log.unshift({ from, to, emoji:current.emoji, msg:current.msg, tag:current.tag, at:Date.now() });
+    save(); renderLog(); sync();
+
+    el.sendBtn.disabled = true;
+    el.card.classList.remove('flipped');
+    current = null;
+    el.drawBtn.textContent = '칭찬 카드 뽑기';
+    el.to.value = '';
+  }
+
+  el.drawBtn.addEventListener('click', drawCard);
+  el.card.addEventListener('click', drawCard);
+  el.sendBtn.addEventListener('click', send);
+  el.clearBtn.addEventListener('click', () => {
+    if (!log.length) return;
+    if (!confirm('주고받은 칭찬 기록을 모두 지울까요?')) return;
+    log = []; save(); renderLog(); sync();
+  });
+
+  renderLog();
+  sync();
+})();
+</script>
+</body>
+</html>

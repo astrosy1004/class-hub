@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>게임 허브</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="hub-header">
+  <span class="eyebrow"><span class="dot"></span>8 GAMES · ONLINE</span>
+  <h1>게임 허브</h1>
+  <p class="sub">
+    쉬는 시간엔 <b>아케이드</b>, 진로 시간엔 <b>3D·VR 직업 체험</b>.<br>
+    플레이할 게임을 골라보세요 🎮
+  </p>
+
+  <div class="hub-summary">
+    <div class="chip-stat"><span class="k">플레이한 게임</span><span class="v" id="sumPlayed">0 / 8</span></div>
+    <div class="chip-stat"><span class="k">모은 배지</span><span class="v" id="sumBadge">0</span></div>
+    <div class="chip-stat"><span class="k">진로 코스</span><span class="v" id="sumCareer">0 / 3</span></div>
+  </div>
+</header>
+
+<nav class="filters" id="filters">
+  <button class="filter on" data-cat="all">전체</button>
+  <button class="filter" data-cat="action">⚡ 액션</button>
+  <button class="filter" data-cat="puzzle">🧩 퍼즐</button>
+  <button class="filter" data-cat="party">🎉 파티</button>
+  <button class="filter" data-cat="career">🥽 3D·VR 진로</button>
+  <button class="filter" id="randomBtn">🎲 랜덤</button>
+</nav>
+
+<main class="grid" id="grid">
+
+  <!-- 1. 공 피하기 -->
+  <a class="card" href="games/ball-dodge.html" data-cat="action" data-id="ball-dodge"
+     style="--glow:rgba(0,229,255,.6)">
+    <span class="key-hint">1</span>
+    <svg class="icon" viewBox="0 0 100 100" aria-hidden="true">
+      <defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#8f6ce0"/><stop offset="1" stop-color="#6d4bd8"/>
+      </linearGradient></defs>
+      <circle cx="50" cy="50" r="46" fill="url(#g1)"/>
+      <circle cx="60" cy="56" r="18" fill="#ffd9ea"/>
+      <circle cx="36" cy="38" r="9" fill="#5ad1e6"/>
+      <circle cx="66" cy="30" r="5" fill="#ffffff" opacity=".85"/>
+    </svg>
+    <h2>공 피하기 게임</h2>
+    <p class="desc">적을 피하고 아이템을 수집하세요! 마우스로 플레이어를 조종합니다.</p>
+    <div class="tags"><span class="tag">🎮 액션</span><span class="tag">🔥 빠른 반사</span></div>
+    <div class="best" data-best>기록 없음</div>
+    <span class="play">플레이</span>
+  </a>
+
+  <!-- 2. 테트리스 -->
+  <a class="card" href="games/tetris.html" data-cat="puzzle" data-id="tetris"
+     style="--glow:rgba(255,210,74,.55)">
+    <span class="key-hint">2</span>
+    <svg class="icon" viewBox="0 0 100 100" aria-hidden="true">
+      <circle cx="50" cy="50" r="46" fill="#2b1f52"/>
+      <rect x="32" y="26" width="20" height="20" rx="4" fill="#3ecf8e" transform="rotate(-12 42 36)"/>
+      <rect x="52" y="34" width="20" height="20" rx="4" fill="#ffc93c" transform="rotate(10 62 44)"/>
+      <rect x="28" y="50" width="20" height="20" rx="4" fill="#4d7dff" transform="rotate(8 38 60)"/>
+      <rect x="50" y="56" width="20" height="20" rx="4" fill="#ff5b7f" transform="rotate(-8 60 66)"/>
+    </svg>
+    <h2>테트리스</h2>
+    <p class="desc">블록을 회전하고 배치하여 라인을 완성하세요! 키보드 화살표로 조작합니다.</p>
+    <div class="tags"><span class="tag">🧩 퍼즐</span><span class="tag">🧠 전략</span></div>
+    <div class="best" data-best>기록 없음</div>
+    <span class="play">플레이</span>
+  </a>
+
+  <!-- 3. 사다리 -->
+  <a class="card" href="games/ladder.html" data-cat="party" data-id="ladder"
+     style="--glow:rgba(57,255,136,.5)">
+    <span class="key-hint">3</span>
+    <svg class="icon" viewBox="0 0 100 100" aria-hidden="true">
+      <circle cx="50" cy="50" r="46" fill="#1fb89b"/>
+      <g stroke="#fff" stroke-width="6" stroke-linecap="round">
+        <line x1="30" y1="26" x2="30" y2="74"/>
+        <line x1="50" y1="26" x2="50" y2="74"/>
+        <line x1="70" y1="26" x2="70" y2="74"/>
+        <line x1="30" y1="40" x2="50" y2="40"/>
+        <line x1="50" y1="58" x2="70" y2="58"/>
+      </g>
+    </svg>
+    <h2>사다리 게임</h2>
+    <p class="desc">참가자와 결과를 설정하고 운명의 사다리를 타보세요! 클릭으로 간편하게 플레이합니다.</p>
+    <div class="tags"><span class="tag">🎲 운</span><span class="tag">🎯 랜덤</span></div>
+    <div class="best" data-best>언제든 바로 플레이</div>
+    <span class="play">플레이</span>
+  </a>
+
+  <!-- 4. 두더지 잡기 -->
+  <a class="card" href="games/whack-a-mole.html" data-cat="action" data-id="whack-a-mole"
+     style="--glow:rgba(255,138,61,.55)">
+    <span class="key-hint">4</span>
+    <span class="badge hot">HOT</span>
+    <svg class="icon" viewBox="0 0 100 100" aria-hidden="true">
+      <circle cx="50" cy="50" r="46" fill="#2f7d4f"/>
+      <circle cx="33" cy="36" r="10" fill="#7a5236"/>
+      <circle cx="67" cy="36" r="10" fill="#7a5236"/>
+      <ellipse cx="50" cy="55" rx="26" ry="24" fill="#8b5e3c"/>
+      <ellipse cx="50" cy="64" rx="15" ry="12" fill="#d8ab84"/>
+      <circle cx="41" cy="49" r="3.6" fill="#22160e"/>
+      <circle cx="59" cy="49" r="3.6" fill="#22160e"/>
+      <ellipse cx="50" cy="59" rx="4.5" ry="3.4" fill="#3d2317"/>
+    </svg>
+    <h2>두더지 잡기</h2>
+    <p class="desc">빠르게 나타나는 두더지를 클릭해 잡으세요! 시간이 지날수록 속도가 빨라집니다.</p>
+    <div class="tags"><span class="tag">⚡ 반사신경</span><span class="tag">🏃 스피드</span></div>
+    <div class="best" data-best>기록 없음</div>
+    <span class="play">플레이</span>
+  </a>
+
+  <!-- 5. 칭찬 주고받기 -->
+  <a class="card" href="games/praise.html" data-cat="party" data-id="praise"
+     style="--glow:rgba(255,46,136,.5)">
+    <span class="key-hint">5</span>
+    <svg class="icon" viewBox="0 0 100 100" aria-hidden="true">
+      <circle cx="50" cy="50" r="46" fill="#f7b6cd"/>
+      <g fill="#ef5a8c">
+        <ellipse cx="50" cy="31" rx="9" ry="13"/>
+        <ellipse cx="50" cy="69" rx="9" ry="13"/>
+        <ellipse cx="31" cy="50" rx="13" ry="9"/>
+        <ellipse cx="69" cy="50" rx="13" ry="9"/>
+        <ellipse cx="50" cy="50" rx="12" ry="12"/>
+      </g>
+      <circle cx="50" cy="50" r="5" fill="#fff0f5"/>
+    </svg>
+    <h2>칭찬 주고받기</h2>
+    <p class="desc">따뜻한 칭찬 카드를 뽑아 서로에게 보내세요! 칭찬은 고래도 춤추게 해요.</p>
+    <div class="tags"><span class="tag">💌 칭찬</span><span class="tag">⭐ 포인트</span></div>
+    <div class="best" data-best>기록 없음</div>
+    <span class="play">플레이</span>
+  </a>
+
+  <!-- 6. 3D 회전 마스터 -->
+  <a class="card" href="games/model-match.html" data-cat="career" data-id="model-match"
+     style="--glow:rgba(0,229,255,.65)">
+    <span class="key-hint">6</span>
+    <span class="badge new">NEW</span>
+    <svg class="icon" viewBox="0 0 100 100" aria-hidden="true">
+      <circle cx="50" cy="50" r="46" fill="#0e2a3d"/>
+      <g stroke="#00e5ff" stroke-width="2.6" fill="none" stroke-linejoin="round">
+        <path d="M50 22 L74 34 L74 62 L50 76 L26 62 L26 34 Z"/>
+        <path d="M50 22 L50 48 L74 62"/>
+        <path d="M50 48 L26 62"/>
+      </g>
+      <path d="M50 22 L74 34 L50 48 L26 34 Z" fill="#00e5ff" opacity=".28"/>
+      <circle cx="50" cy="48" r="3.4" fill="#aef6ff"/>
+    </svg>
+    <h2>3D 회전 마스터</h2>
+    <p class="desc">돌아가는 3D 모델과 같은 형태를 찾아내세요! 3D 모델러의 핵심 능력, 공간지각력 훈련.</p>
+    <div class="tags"><span class="tag">🥽 3D 직무</span><span class="tag">🧠 공간지각</span></div>
+    <div class="best" data-best>기록 없음</div>
+    <span class="play">플레이</span>
+  </a>
+
+  <!-- 7. VR 진로 전시관 -->
+  <a class="card" href="games/vr-job-quest.html" data-cat="career" data-id="vr-job-quest"
+     style="--glow:rgba(124,92,255,.7)">
+    <span class="key-hint">7</span>
+    <span class="badge new">NEW</span>
+    <svg class="icon" viewBox="0 0 100 100" aria-hidden="true">
+      <circle cx="50" cy="50" r="46" fill="#1b1140"/>
+      <rect x="16" y="36" width="68" height="30" rx="13" fill="#7c5cff"/>
+      <path d="M44 52c3-6 9-6 12 0-3 8-9 8-12 0z" fill="#1b1140"/>
+      <circle cx="33" cy="51" r="9" fill="#0c0722"/>
+      <circle cx="67" cy="51" r="9" fill="#0c0722"/>
+      <circle cx="30" cy="48" r="3" fill="#6ff2ff"/>
+      <circle cx="64" cy="48" r="3" fill="#6ff2ff"/>
+      <path d="M16 44c-5 1-7 5-6 9" stroke="#a688ff" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M84 44c5 1 7 5 6 9" stroke="#a688ff" stroke-width="4" fill="none" stroke-linecap="round"/>
+    </svg>
+    <h2>VR 진로 전시관</h2>
+    <p class="desc">1인칭 3D 전시관을 직접 걸어다니며 6개 XR 직업 부스를 탐험하고 도장을 모으세요!</p>
+    <div class="tags"><span class="tag">🥽 VR 체험</span><span class="tag">🗺️ 탐험</span></div>
+    <div class="best" data-best>기록 없음</div>
+    <span class="play">플레이</span>
+  </a>
+
+  <!-- 8. XR 면접 시뮬레이터 -->
+  <a class="card" href="games/xr-interview.html" data-cat="career" data-id="xr-interview"
+     style="--glow:rgba(57,255,136,.6)">
+    <span class="key-hint">8</span>
+    <span class="badge new">NEW</span>
+    <svg class="icon" viewBox="0 0 100 100" aria-hidden="true">
+      <circle cx="50" cy="50" r="46" fill="#0d2e22"/>
+      <rect x="22" y="24" width="40" height="52" rx="7" fill="#fff"/>
+      <g stroke="#39ff88" stroke-width="3.4" stroke-linecap="round">
+        <line x1="30" y1="38" x2="54" y2="38"/>
+        <line x1="30" y1="48" x2="54" y2="48"/>
+        <line x1="30" y1="58" x2="45" y2="58"/>
+      </g>
+      <circle cx="68" cy="60" r="17" fill="#39ff88"/>
+      <path d="M60 60l6 6 11-12" stroke="#06301c" stroke-width="5" fill="none"
+            stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <h2>XR 면접 시뮬레이터</h2>
+    <p class="desc">VR 스튜디오 면접에 도전! 선택지에 따라 기술·포트폴리오·소통 능력이 달라집니다.</p>
+    <div class="tags"><span class="tag">🥽 취업</span><span class="tag">💬 선택형</span></div>
+    <div class="best" data-best>기록 없음</div>
+    <span class="play">플레이</span>
+  </a>
+
+</main>
+
+<footer class="hub-foot">
+  숫자키 <kbd>1</kbd>~<kbd>8</kbd> 로 바로 실행 · <kbd>R</kbd> 랜덤 게임<br>
+  기록은 이 브라우저에만 저장됩니다.
+</footer>
+
+<script>
+(function(){
+  const grid = document.getElementById('grid');
+  const cards = [...grid.querySelectorAll('.card')];
+
+  // ── 게임별 기록 읽기 ───────────────────
+  const num = k => { try { return parseInt(localStorage.getItem(k) || '0', 10) || 0; } catch(e){ return 0; } };
+  const len = k => { try { const a = JSON.parse(localStorage.getItem(k) || '[]'); return Array.isArray(a) ? a.length : 0; } catch(e){ return 0; } };
+
+  const BEST = {
+    'ball-dodge':   () => { const v = num('balldodge.best');   return v ? '🏆 최고 ' + v.toLocaleString() + '점' : null; },
+    'tetris':       () => { const v = num('tetris.best');      return v ? '🏆 최고 ' + v.toLocaleString() + '점' : null; },
+    'whack-a-mole': () => { const v = num('whackamole.best');  return v ? '🏆 최고 ' + v.toLocaleString() + '점' : null; },
+    'praise':       () => { const v = len('praise.log.v1');    return v ? '💌 칭찬 ' + v + '개 전달' : null; },
+    'model-match':  () => { const v = num('modelmatch.best');  return v ? '🏆 최고 ' + v.toLocaleString() + '점' : null; },
+    'vr-job-quest': () => { const v = num('vrjob.stamps');     return v ? '🎖️ 도장 ' + v + ' / 6개' : null; },
+    'xr-interview': () => { const v = num('xrinterview.best'); return v ? '📈 최고 평점 ' + v + '점' : null; },
+    'ladder':       () => null
+  };
+
+  let played = 0, career = 0;
+  for (const card of cards){
+    const id = card.dataset.id;
+    const node = card.querySelector('[data-best]');
+    const fn = BEST[id];
+    const text = fn ? fn() : null;
+    if (text){
+      node.textContent = text;
+      node.classList.add('has');
+      played++;
+      if (card.dataset.cat === 'career') career++;
+    } else if (id !== 'ladder'){
+      node.textContent = '아직 기록이 없어요';
+    }
+  }
+  document.getElementById('sumPlayed').textContent = played + ' / ' + cards.length;
+  document.getElementById('sumBadge').textContent  = played * 1 + (career === 3 ? 1 : 0);
+  document.getElementById('sumCareer').textContent = career + ' / 3';
+
+  // ── 카테고리 필터 ─────────────────────
+  const filters = [...document.querySelectorAll('.filter[data-cat]')];
+  filters.forEach(btn => btn.addEventListener('click', () => {
+    filters.forEach(b => b.classList.toggle('on', b === btn));
+    const cat = btn.dataset.cat;
+    let shown = 0;
+    for (const c of cards){
+      const hit = cat === 'all' || c.dataset.cat === cat;
+      c.classList.toggle('hidden', !hit);
+      if (hit) shown++;
+    }
+    note.hidden = shown > 0;
+  }));
+
+  const note = document.createElement('div');
+  note.className = 'empty-note';
+  note.textContent = '이 카테고리에는 아직 게임이 없어요.';
+  note.hidden = true;
+  grid.appendChild(note);
+
+  // ── 랜덤 / 단축키 ─────────────────────
+  const randomGo = () => {
+    const pool = cards.filter(c => !c.classList.contains('hidden'));
+    if (pool.length) location.href = pool[Math.floor(Math.random()*pool.length)].getAttribute('href');
+  };
+  document.getElementById('randomBtn').addEventListener('click', randomGo);
+
+  document.addEventListener('keydown', e => {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    if (e.key === 'r' || e.key === 'R'){ randomGo(); return; }
+    const n = parseInt(e.key, 10);
+    if (n >= 1 && n <= cards.length) location.href = cards[n-1].getAttribute('href');
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>사다리 게임</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  .setup{ display:flex; gap:20px; flex-wrap:wrap; justify-content:center; margin-bottom:20px; }
+  .field{ flex:1 1 260px; min-width:240px; }
+  .field > label{
+    display:block; font-size:12px; font-weight:800; color:var(--text-muted);
+    letter-spacing:.04em; margin-bottom:8px;
+  }
+  .inputs{ display:flex; flex-direction:column; gap:8px; }
+  .inputs input{
+    padding:9px 13px; border:1px solid var(--border); border-radius:10px;
+    font-family:inherit; font-size:14px; color:var(--text); background:#fbfaff;
+  }
+  .inputs input:focus{ outline:2px solid var(--violet-light); outline-offset:0; border-color:transparent; }
+  .count-row{ display:flex; align-items:center; gap:10px; justify-content:center; margin-bottom:18px; }
+  .count-row label{ font-size:13px; font-weight:700; color:var(--text-muted); }
+  .stepper{ display:flex; align-items:center; gap:8px; }
+  .stepper button{
+    width:32px; height:32px; border-radius:10px; border:1px solid var(--border);
+    background:#fff; color:var(--violet); font-size:18px; font-weight:800; cursor:pointer; line-height:1;
+  }
+  .stepper button:hover{ background:#f4f2fd; }
+  .stepper .n{ font-size:18px; font-weight:800; color:var(--violet); min-width:24px; text-align:center; }
+  .stage{ position:relative; overflow-x:auto; }
+  #cv{ background:#faf9ff; border:1px solid var(--border); margin:0 auto; }
+  .row-btns{ display:flex; gap:10px; justify-content:center; margin-top:18px; flex-wrap:wrap; }
+  .results{ margin-top:20px; }
+  .results h3{ font-size:14px; margin:0 0 10px; text-align:center; color:var(--text-muted); }
+  .result-list{ display:flex; flex-direction:column; gap:8px; max-width:420px; margin:0 auto; }
+  .result-item{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:10px 16px; border-radius:12px; background:#f4f2fd; border:1px solid var(--border);
+    font-size:14px; font-weight:700; animation:pop .3s ease-out;
+  }
+  .result-item .arrow{ color:var(--text-muted); font-weight:400; }
+  .result-item .to{ color:var(--violet); }
+  @keyframes pop{ from{ opacity:0; transform:translateY(8px); } }
+</style>
+</head>
+<body>
+<div class="game-wrap">
+  <div class="game-top">
+    <a class="back" href="../index.html">← 게임 허브</a>
+    <h1 class="game-title">🪜 사다리 게임</h1>
+  </div>
+
+  <div class="panel">
+    <div class="count-row">
+      <label>참가 인원</label>
+      <div class="stepper">
+        <button type="button" id="minus" aria-label="인원 줄이기">−</button>
+        <span class="n" id="count">4</span>
+        <button type="button" id="plus" aria-label="인원 늘리기">+</button>
+      </div>
+    </div>
+
+    <div class="setup">
+      <div class="field">
+        <label>참가자</label>
+        <div class="inputs" id="players"></div>
+      </div>
+      <div class="field">
+        <label>결과 (당첨/벌칙 등)</label>
+        <div class="inputs" id="prizes"></div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <canvas id="cv" width="720" height="420"></canvas>
+    </div>
+
+    <div class="row-btns">
+      <button class="btn" id="shuffleBtn">사다리 새로 만들기</button>
+      <button class="btn ghost" id="allBtn">전체 결과 보기</button>
+      <button class="btn ghost" id="clearBtn">지우기</button>
+    </div>
+
+    <p class="hint">
+      사다리 위쪽의 <b>참가자 이름을 클릭</b>하면 그 사람의 경로가 애니메이션으로 그려집니다.<br>
+      「전체 결과 보기」를 누르면 모든 참가자의 결과가 한 번에 나옵니다.
+    </p>
+
+    <div class="results" id="results" hidden>
+      <h3>결과</h3>
+      <div class="result-list" id="resultList"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const cv = document.getElementById('cv'), ctx = cv.getContext('2d');
+  const el = {
+    count: document.getElementById('count'),
+    minus: document.getElementById('minus'), plus: document.getElementById('plus'),
+    players: document.getElementById('players'), prizes: document.getElementById('prizes'),
+    shuffleBtn: document.getElementById('shuffleBtn'), allBtn: document.getElementById('allBtn'),
+    clearBtn: document.getElementById('clearBtn'),
+    results: document.getElementById('results'), resultList: document.getElementById('resultList')
+  };
+
+  const COLORS = ['#6d4bd8','#e0447f','#22a06b','#e08a1e','#3b82f6','#c0392b','#0f9aa8','#8b5cf6'];
+  const MIN = 2, MAX = 8;
+  const ROWS = 10;                       // 가로줄이 놓일 수 있는 단
+  const TOP = 56, BOTTOM = 56;           // 이름/결과 라벨 영역
+
+  let n = 4;
+  let rungs = [];        // rungs[row] = [col, ...]  (col ↔ col+1 을 잇는 가로줄)
+  let drawn = [];        // 이미 확정 표시된 경로 { path, color, idx }
+  let animating = false;
+
+  const defaultPrizes = ['🎉 당첨', '꽝', '커피 사기', '설거지', '청소', '간식 쏘기', '노래 한 곡', '통과'];
+
+  // ── 입력 필드 ─────────────────────────
+  function buildInputs(){
+    const oldP = [...el.players.querySelectorAll('input')].map(i => i.value);
+    const oldZ = [...el.prizes.querySelectorAll('input')].map(i => i.value);
+    el.players.innerHTML = ''; el.prizes.innerHTML = '';
+    for (let i = 0; i < n; i++){
+      const p = document.createElement('input');
+      p.type = 'text'; p.maxLength = 10;
+      p.placeholder = '참가자 ' + (i+1);
+      p.value = oldP[i] !== undefined ? oldP[i] : '참가자 ' + (i+1);
+      p.addEventListener('input', () => render());
+      el.players.appendChild(p);
+
+      const z = document.createElement('input');
+      z.type = 'text'; z.maxLength = 10;
+      z.placeholder = '결과 ' + (i+1);
+      z.value = oldZ[i] !== undefined ? oldZ[i] : defaultPrizes[i % defaultPrizes.length];
+      z.addEventListener('input', () => render());
+      el.prizes.appendChild(z);
+    }
+    el.count.textContent = n;
+    el.minus.disabled = n <= MIN;
+    el.plus.disabled  = n >= MAX;
+  }
+
+  const names  = () => [...el.players.querySelectorAll('input')].map((i,k) => i.value.trim() || ('참가자 ' + (k+1)));
+  const prizes = () => [...el.prizes.querySelectorAll('input')].map((i,k) => i.value.trim() || ('결과 ' + (k+1)));
+
+  // ── 사다리 생성 ───────────────────────
+  function makeLadder(){
+    rungs = Array.from({length:ROWS}, () => []);
+    for (let r = 0; r < ROWS; r++){
+      for (let c = 0; c < n-1; c++){
+        // 같은 단에서 인접한 가로줄이 겹치지 않게 한다
+        if (rungs[r].includes(c-1)) continue;
+        if (Math.random() < 0.36) rungs[r].push(c);
+      }
+    }
+    // 모든 세로줄이 최소 한 번은 연결되도록 보정
+    for (let c = 0; c < n-1; c++){
+      if (!rungs.some(row => row.includes(c))){
+        for (let t = 0; t < 40; t++){
+          const r = Math.floor(Math.random()*ROWS);
+          if (!rungs[r].includes(c-1) && !rungs[r].includes(c+1) && !rungs[r].includes(c)){
+            rungs[r].push(c); break;
+          }
+        }
+      }
+    }
+    drawn = [];
+    hideResults();
+    render();
+  }
+
+  // ── 좌표 ──────────────────────────────
+  const colX = c => {
+    const pad = Math.max(52, cv.width * 0.07);
+    return pad + c * ((cv.width - pad*2) / (n - 1 || 1));
+  };
+  const rowY = r => TOP + (r + 1) * ((cv.height - TOP - BOTTOM) / (ROWS + 1));
+
+  // ── 경로 계산 ─────────────────────────
+  function tracePath(start){
+    const pts = [{ x: colX(start), y: TOP }];
+    let c = start;
+    for (let r = 0; r < ROWS; r++){
+      const y = rowY(r);
+      if (rungs[r].includes(c)){
+        pts.push({ x: colX(c), y });
+        c++;
+        pts.push({ x: colX(c), y });
+      } else if (rungs[r].includes(c-1)){
+        pts.push({ x: colX(c), y });
+        c--;
+        pts.push({ x: colX(c), y });
+      }
+    }
+    pts.push({ x: colX(c), y: cv.height - BOTTOM });
+    return { pts, end: c };
+  }
+
+  // ── 렌더 ──────────────────────────────
+  function render(highlight){
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    ctx.fillStyle = '#faf9ff';
+    ctx.fillRect(0, 0, cv.width, cv.height);
+
+    // 세로줄
+    ctx.strokeStyle = '#d6d2ec'; ctx.lineWidth = 4; ctx.lineCap = 'round';
+    for (let c = 0; c < n; c++){
+      ctx.beginPath();
+      ctx.moveTo(colX(c), TOP);
+      ctx.lineTo(colX(c), cv.height - BOTTOM);
+      ctx.stroke();
+    }
+    // 가로줄
+    for (let r = 0; r < ROWS; r++){
+      for (const c of rungs[r]){
+        ctx.beginPath();
+        ctx.moveTo(colX(c), rowY(r));
+        ctx.lineTo(colX(c+1), rowY(r));
+        ctx.stroke();
+      }
+    }
+
+    // 확정된 경로
+    for (const d of drawn) strokePath(d.pts, d.color, d.pts.length);
+    if (highlight) strokePath(highlight.pts, highlight.color, highlight.upto);
+
+    // 라벨
+    const nm = names(), pz = prizes();
+    ctx.textAlign = 'center'; ctx.font = '700 14px system-ui, sans-serif';
+    for (let c = 0; c < n; c++){
+      const x = colX(c), color = COLORS[c % COLORS.length];
+      chip(x, TOP - 30, nm[c], color, '#fff');
+      const done = drawn.find(d => d.end === c);
+      chip(x, cv.height - BOTTOM + 8, pz[c], done ? done.color : '#efedfa', done ? '#fff' : '#4a4560');
+    }
+  }
+
+  function chip(cx, y, text, bg, fg){
+    ctx.font = '700 13px system-ui, sans-serif';
+    const w = Math.max(56, ctx.measureText(text).width + 22), h = 26;
+    const x = cx - w/2;
+    ctx.fillStyle = bg;
+    ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(x, y, w, h, 13);
+    else ctx.rect(x, y, w, h);
+    ctx.fill();
+    ctx.fillStyle = fg;
+    ctx.fillText(text, cx, y + 17);
+  }
+
+  function strokePath(pts, color, upto){
+    ctx.strokeStyle = color; ctx.lineWidth = 5; ctx.lineJoin = 'round';
+    ctx.beginPath();
+    ctx.moveTo(pts[0].x, pts[0].y);
+    for (let i = 1; i < Math.min(upto, pts.length); i++) ctx.lineTo(pts[i].x, pts[i].y);
+    ctx.stroke();
+    const last = pts[Math.min(upto, pts.length) - 1];
+    ctx.fillStyle = color;
+    ctx.beginPath(); ctx.arc(last.x, last.y, 6, 0, 7); ctx.fill();
+  }
+
+  // ── 애니메이션 ────────────────────────
+  function animate(idx, done){
+    if (animating || drawn.some(d => d.idx === idx)) { if (done) done(); return; }
+    animating = true;
+    const { pts, end } = tracePath(idx);
+    const color = COLORS[idx % COLORS.length];
+    let i = 1;
+    (function step(){
+      render({ pts, color, upto: i });
+      i++;
+      if (i <= pts.length) setTimeout(step, 55);
+      else {
+        drawn.push({ pts, color, idx, end });
+        animating = false;
+        render();
+        addResult(idx, end, color);
+        if (done) done();
+      }
+    })();
+  }
+
+  function addResult(idx, end, color){
+    el.results.hidden = false;
+    const row = document.createElement('div');
+    row.className = 'result-item';
+    row.innerHTML = '<span style="color:' + color + '">' + esc(names()[idx]) + '</span>' +
+                    '<span class="arrow">→</span>' +
+                    '<span class="to">' + esc(prizes()[end]) + '</span>';
+    el.resultList.appendChild(row);
+  }
+  function esc(s){ return s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+  function hideResults(){ el.results.hidden = true; el.resultList.innerHTML = ''; }
+
+  // ── 클릭: 상단 이름 영역 ──────────────
+  cv.addEventListener('click', e => {
+    if (animating) return;
+    const r = cv.getBoundingClientRect();
+    const x = (e.clientX - r.left) * (cv.width / r.width);
+    const y = (e.clientY - r.top)  * (cv.height / r.height);
+    if (y > TOP + 10) return;
+    for (let c = 0; c < n; c++){
+      if (Math.abs(x - colX(c)) < 44){ animate(c); return; }
+    }
+  });
+
+  // ── 버튼 ──────────────────────────────
+  el.minus.addEventListener('click', () => { if (n > MIN){ n--; buildInputs(); makeLadder(); } });
+  el.plus .addEventListener('click', () => { if (n < MAX){ n++; buildInputs(); makeLadder(); } });
+  el.shuffleBtn.addEventListener('click', makeLadder);
+  el.clearBtn.addEventListener('click', () => { drawn = []; hideResults(); render(); });
+  el.allBtn.addEventListener('click', () => {
+    if (animating) return;
+    drawn = []; hideResults(); render();
+    let i = 0;
+    (function nextOne(){
+      while (i < n && drawn.some(d => d.idx === i)) i++;
+      if (i >= n) return;
+      const cur = i++;
+      animate(cur, nextOne);
+    })();
+  });
+
+  buildInputs();
+  makeLadder();
+})();
+</script>
+</body>
+</html>

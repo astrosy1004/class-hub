@@ -3,58 +3,173 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>나의 북마크 모음집</title>
-    <meta name="description" content="자주 쓰는 AI 도구와 참고 자료를 모아둔 개인 북마크 페이지" />
+    <title>나의 북마크</title>
+    <meta name="description" content="자주 쓰는 AI 도구와 직접 만든 프로그램을 한곳에 모아둔 개인 북마크 페이지" />
+    <link rel="icon" href="./assets/logo.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
     <link rel="stylesheet" href="./assets/styles.css" />
   </head>
   <body>
-    <div class="app-shell">
-      <aside class="sidebar" aria-label="북마크 메뉴">
-        <a class="brand" href="#home" aria-label="나의 북마크 모음집 홈">
-          <span class="brand-mark">B</span>
-          <span>나의 북마크 모음집</span>
+    <header class="site-header">
+      <nav class="topnav" aria-label="주 메뉴">
+        <a class="brand" href="#top" aria-label="나의 북마크 홈">
+          <img class="brand-mark" src="./assets/logo.svg" alt="" width="34" height="34" />
+          <span class="brand-name">나의 북마크</span>
         </a>
 
-        <nav class="side-nav" id="sideNav" aria-label="카테고리"></nav>
-
-        <button class="theme-toggle" id="themeToggle" type="button" aria-label="테마 변경">
-          <span id="themeIcon">☾</span>
-          <span>테마</span>
-        </button>
-      </aside>
-
-      <main class="main-panel" id="home">
-        <section class="hero">
-          <div class="hero-copy">
-            <p class="eyebrow">Personal Bookmark Library</p>
-            <h1>나의 북마크 모음집</h1>
-            <p class="hero-text">
-              자주 쓰는 AI 도구, 개발 환경, 자동화 서비스, 참고 자료를 한곳에서 빠르게 찾을 수 있도록 정리했습니다.
-            </p>
+        <div class="nav-links" id="navLinks">
+          <div class="dropdown">
+            <button class="dropdown-trigger nav-item" type="button" aria-expanded="false">
+              <span class="hamburger" aria-hidden="true">☰</span>카테고리
+            </button>
+            <div class="dropdown-panel" id="categoryMenu" hidden></div>
           </div>
-          <img class="hero-image" src="./assets/bookmark-hero.png" alt="디지털 북마크와 작업 도구가 정리된 책상 이미지" />
-        </section>
+          <div class="dropdown">
+            <button class="dropdown-trigger nav-item" type="button" aria-expanded="false">내 프로그램</button>
+            <div class="dropdown-panel" id="programMenu" hidden></div>
+          </div>
+          <a class="nav-item" href="#classes">수업 바로가기</a>
+          <a class="nav-item" href="#board">전체 북마크</a>
+        </div>
 
-        <section class="toolbar" aria-label="검색">
-          <label class="search-box" for="searchInput">
-            <span>⌕</span>
+        <div class="nav-actions">
+          <button class="icon-button" id="searchOpen" type="button" aria-label="검색 열기" aria-expanded="false" aria-controls="searchLayer">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="7" /><path d="m16 16 5 5" /></svg>
+          </button>
+          <button class="btn-line-blue" type="button" data-register><span class="btn-label">프로그램 </span>등록</button>
+          <button class="btn-line" id="themeToggle" type="button" aria-label="테마 변경"><span id="themeIcon">☾</span><span class="btn-label">테마</span></button>
+        </div>
+      </nav>
+
+      <div class="search-layer" id="searchLayer" hidden>
+        <div class="search-inner">
+          <form class="search-field" id="searchForm" role="search">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="7" /><path d="m16 16 5 5" /></svg>
+            <input id="layerQuery" type="search" placeholder="북마크나 내 프로그램을 검색해 보세요" autocomplete="off" aria-label="검색어" />
+            <button class="search-close" type="button" id="searchClose" aria-label="검색 닫기">×</button>
+          </form>
+          <div class="search-tabs" role="tablist" aria-label="검색 대상">
+            <button class="search-tab active" type="button" role="tab" aria-selected="true" data-mode="bookmarks">북마크</button>
+            <button class="search-tab" type="button" role="tab" aria-selected="false" data-mode="programs">내 프로그램</button>
+          </div>
+          <div class="search-suggest" id="searchSuggest"></div>
+          <ul class="search-results" id="searchResults"></ul>
+        </div>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <nav class="quick-menu" id="quickMenu" aria-label="빠른 메뉴"></nav>
+      </section>
+
+      <section class="row-section" id="programs">
+        <div class="row-heading">
+          <h2>내가 만든 프로그램 <span class="row-count" id="programCount"></span></h2>
+          <div class="row-tools">
+            <button class="text-button" type="button" id="exportPrograms">JSON 내보내기</button>
+            <button class="text-button" type="button" id="programExpand" aria-pressed="false">전체보기</button>
+            <div class="arrow-group" data-carousel="programTrack">
+              <button type="button" class="arrow" data-dir="-1" aria-label="이전">‹</button>
+              <button type="button" class="arrow" data-dir="1" aria-label="다음">›</button>
+            </div>
+          </div>
+        </div>
+        <div class="carousel" id="programTrack"></div>
+      </section>
+
+      <section class="row-section" id="classes">
+        <div class="row-heading">
+          <h2>수업 바로가기</h2>
+          <div class="row-tools">
+            <div class="arrow-group" data-carousel="classTrack">
+              <button type="button" class="arrow" data-dir="-1" aria-label="이전">‹</button>
+              <button type="button" class="arrow" data-dir="1" aria-label="다음">›</button>
+            </div>
+          </div>
+        </div>
+        <div class="carousel" id="classTrack"></div>
+      </section>
+
+      <section class="row-section" id="board" aria-live="polite">
+        <div class="row-heading">
+          <h2><span id="activeTitle">전체 북마크</span> <span class="row-count" id="countBadge"></span></h2>
+          <label class="board-search" for="searchInput">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="7" /><path d="m16 16 5 5" /></svg>
             <input id="searchInput" type="search" placeholder="북마크 검색" autocomplete="off" />
           </label>
-        </section>
+        </div>
 
-        <section class="content-board" aria-live="polite">
-          <div class="board-heading">
-            <div>
-              <p class="eyebrow" id="activeMeta">Bookmark</p>
-              <h2 id="activeTitle">전체 북마크</h2>
-            </div>
-            <span class="count-badge" id="countBadge"></span>
-          </div>
-          <div class="card-grid" id="bookmarkGrid"></div>
-          <p class="empty-state hidden" id="emptyState">검색 결과가 없습니다.</p>
-        </section>
-      </main>
-    </div>
+        <div class="tabs" id="chips" role="tablist" aria-label="카테고리 필터"></div>
+
+        <div class="card-grid" id="bookmarkGrid"></div>
+        <p class="empty-state hidden" id="emptyState">검색 결과가 없습니다.</p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>나의 북마크 · 기본 데이터는 <code>assets/app.js</code>, 화면에서 등록한 프로그램은 이 브라우저에 저장됩니다.</p>
+    </footer>
+
+    <dialog class="program-dialog" id="programDialog" aria-labelledby="dialogTitle">
+      <form id="programForm" method="dialog" novalidate>
+        <div class="dialog-head">
+          <h2 id="dialogTitle">프로그램 등록</h2>
+          <button class="dialog-close" type="button" id="dialogClose" aria-label="닫기">×</button>
+        </div>
+
+        <div class="form-grid">
+          <label class="field span-2">
+            <span>이름 *</span>
+            <input name="title" required maxlength="40" placeholder="예: 사주 시각화" />
+          </label>
+          <label class="field span-2">
+            <span>주소(URL) *</span>
+            <input name="url" required placeholder="https://… 또는 ../폴더/index.html" />
+          </label>
+          <label class="field span-2">
+            <span>한 줄 소개</span>
+            <input name="description" maxlength="80" placeholder="무엇을 하는 프로그램인지 한 줄로" />
+          </label>
+          <label class="field">
+            <span>분류</span>
+            <select name="type" id="typeSelect"></select>
+          </label>
+          <label class="field">
+            <span>상태</span>
+            <select name="status" id="statusSelect"></select>
+          </label>
+          <label class="field">
+            <span>아이콘 (이모지)</span>
+            <input name="icon" maxlength="4" placeholder="🚀" />
+          </label>
+          <label class="field">
+            <span>색상</span>
+            <select name="tone" id="toneSelect"></select>
+          </label>
+          <label class="field span-2">
+            <span>주요 기능 <small>한 줄에 하나씩</small></span>
+            <textarea name="features" rows="4" placeholder="음력 변환&#10;인생 흐름 그래프&#10;구글 로그인 저장"></textarea>
+          </label>
+          <label class="field span-2">
+            <span>태그 <small>쉼표로 구분</small></span>
+            <input name="tags" placeholder="Firebase, 사주" />
+          </label>
+        </div>
+
+        <p class="form-error" id="formError" role="alert"></p>
+        <p class="dialog-note">이 브라우저에 저장됩니다. 다른 기기에 공유하려면 <b>JSON 내보내기</b> 후 <code>app.js</code> 의 <code>programs</code> 에 붙여 넣으세요.</p>
+
+        <div class="dialog-actions">
+          <button class="btn-line" type="button" id="dialogCancel">취소</button>
+          <button class="btn-blue" type="submit" id="dialogSubmit">등록하기</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <button class="fab" id="fab" type="button" aria-label="맨 위로">↑</button>
 
     <script src="./assets/app.js"></script>
   </body>

@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3D 회전 마스터</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  .job-note{
+    display:flex; gap:12px; align-items:flex-start;
+    background:linear-gradient(135deg,#eafaff,#f2f0ff); border:1px solid #cfe9f5;
+    border-radius:16px; padding:14px 18px; margin-bottom:20px;
+  }
+  .job-note .em{ font-size:26px; line-height:1; }
+  .job-note p{ margin:0; font-size:12.5px; line-height:1.7; color:#41506b; }
+  .job-note b{ color:#0e7490; }
+
+  .arena{ display:flex; gap:24px; flex-wrap:wrap; justify-content:center; align-items:flex-start; }
+  .ref{ text-align:center; }
+  .ref h3, .opts h3{
+    font-size:12px; font-weight:800; letter-spacing:.06em; color:var(--text-muted);
+    margin:0 0 10px;
+  }
+  #ref{ background:#0d1b2e; cursor:grab; }
+  #ref:active{ cursor:grabbing; }
+  .opts{ flex:1 1 380px; min-width:320px; }
+  .opt-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+  .opt{
+    position:relative; padding:0; border:2px solid var(--border); border-radius:16px;
+    background:#0d1b2e; cursor:pointer; overflow:hidden; line-height:0;
+    transition:border-color .16s, transform .16s, box-shadow .16s;
+  }
+  .opt:hover:not(:disabled){ border-color:var(--violet-light); transform:translateY(-3px);
+    box-shadow:0 8px 20px rgba(124,92,255,.28); }
+  .opt canvas{ width:100%; height:auto; border-radius:0; }
+  .opt .mark{
+    position:absolute; inset:0; display:none; align-items:center; justify-content:center;
+    font-size:52px; font-weight:900;
+  }
+  .opt.right{ border-color:#22c55e; } .opt.right .mark{ display:flex; color:#22c55e; text-shadow:0 0 20px rgba(34,197,94,.7); }
+  .opt.wrong{ border-color:#ef4444; } .opt.wrong .mark{ display:flex; color:#ef4444; text-shadow:0 0 20px rgba(239,68,68,.7); }
+  .opt .n{
+    position:absolute; left:8px; top:8px; width:22px; height:22px; border-radius:7px;
+    background:rgba(255,255,255,.14); color:#cfe9ff; font-size:11px; font-weight:900;
+    display:grid; place-items:center; line-height:1;
+  }
+  .opt:disabled{ cursor:default; }
+
+  .stage{ position:relative; }
+  .row-btns{ display:flex; gap:10px; justify-content:center; margin-top:20px; }
+  .feedback{ text-align:center; font-size:14px; font-weight:800; height:22px; margin-top:14px; }
+  .feedback.ok{ color:#16a34a; } .feedback.no{ color:#dc2626; }
+</style>
+</head>
+<body>
+<div class="game-wrap">
+  <div class="game-top">
+    <a class="back" href="../index.html">← 게임 허브</a>
+    <h1 class="game-title">🧊 3D 회전 마스터</h1>
+  </div>
+
+  <div class="panel">
+    <div class="job-note">
+      <span class="em">🥽</span>
+      <p>
+        <b>3D 모델러 · 테크니컬 아티스트</b>가 매일 쓰는 능력이 <b>공간지각력</b>이에요.
+        머릿속에서 모델을 돌려보고 같은 형태인지 판단하는 훈련입니다 —
+        실제 3D·VR 회사 적성검사에도 자주 나오는 유형이에요!
+      </p>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="label">점수</div><div class="value" id="score">0</div></div>
+      <div class="stat"><div class="label">남은 시간</div><div class="value" id="time">60</div></div>
+      <div class="stat"><div class="label">연속 정답</div><div class="value" id="streak">0</div></div>
+      <div class="stat"><div class="label">레벨</div><div class="value" id="level">1</div></div>
+      <div class="stat"><div class="label">최고 점수</div><div class="value" id="best">0</div></div>
+    </div>
+
+    <div class="stage">
+      <div class="arena">
+        <div class="ref">
+          <h3>기준 모델 (드래그해서 돌려보세요)</h3>
+          <canvas id="ref" width="320" height="290"></canvas>
+        </div>
+        <div class="opts">
+          <h3>같은 모델을 고르세요 — 나머지는 좌우가 뒤집혔거나 형태가 달라요</h3>
+          <div class="opt-grid" id="optGrid"></div>
+        </div>
+      </div>
+
+      <div class="overlay" id="ov">
+        <h3 id="ovTitle">3D 회전 마스터</h3>
+        <p id="ovText">60초 안에 최대한 많이 맞혀보세요!<br>기준 모델은 마우스로 자유롭게 돌릴 수 있어요.</p>
+        <button class="btn" id="startBtn">게임 시작</button>
+      </div>
+    </div>
+
+    <div class="feedback" id="fb"></div>
+
+    <div class="row-btns">
+      <button class="btn ghost" id="spinBtn">자동 회전 켜기/끄기</button>
+      <button class="btn ghost" id="skipBtn">이 문제 넘기기 (−5초)</button>
+    </div>
+
+    <p class="hint">
+      정답 <b>+100점 ×레벨</b>, 연속 정답마다 보너스가 붙어요. 오답이면 연속이 초기화되고 5초를 잃습니다.<br>
+      3문제를 맞힐 때마다 레벨이 올라 블록 수가 늘어납니다.
+    </p>
+  </div>
+</div>
+
+<script>
+(function(){
+  // ══════════════════════════════════════
+  //  3D 유틸 — 폴리큐브 생성 · 회전 · 렌더
+  // ══════════════════════════════════════
+
+  // 24가지 축 정렬 회전 행렬 (det = +1 인 부호 있는 치환행렬)
+  const ROTS = (function(){
+    const perms = [[0,1,2],[0,2,1],[1,0,2],[1,2,0],[2,0,1],[2,1,0]];
+    const signs = [[1,1,1],[1,1,-1],[1,-1,1],[1,-1,-1],[-1,1,1],[-1,1,-1],[-1,-1,1],[-1,-1,-1]];
+    const out = [];
+    for (const p of perms){
+      // 치환의 부호
+      let sgn = 1;
+      for (let i=0;i<3;i++) for (let j=i+1;j<3;j++) if (p[i] > p[j]) sgn = -sgn;
+      for (const s of signs){
+        if (sgn * s[0] * s[1] * s[2] !== 1) continue;   // det = +1 만
+        const M = [[0,0,0],[0,0,0],[0,0,0]];
+        for (let i=0;i<3;i++) M[i][p[i]] = s[i];
+        out.push(M);
+      }
+    }
+    return out;
+  })();
+
+  const applyM = (M, c) => [
+    M[0][0]*c[0] + M[0][1]*c[1] + M[0][2]*c[2],
+    M[1][0]*c[0] + M[1][1]*c[1] + M[1][2]*c[2],
+    M[2][0]*c[0] + M[2][1]*c[1] + M[2][2]*c[2]
+  ];
+  const rotateCells = (cells, M) => cells.map(c => applyM(M, c));
+  const mirrorCells = cells => cells.map(c => [-c[0], c[1], c[2]]);
+
+  function normalize(cells){
+    const mn = [Infinity,Infinity,Infinity];
+    for (const c of cells) for (let i=0;i<3;i++) if (c[i] < mn[i]) mn[i] = c[i];
+    return cells.map(c => [c[0]-mn[0], c[1]-mn[1], c[2]-mn[2]]);
+  }
+  const key = cells => normalize(cells).map(c => c.join(',')).sort().join('|');
+  function canonical(cells){
+    let best = null;
+    for (const M of ROTS){
+      const k = key(rotateCells(cells, M));
+      if (best === null || k < best) best = k;
+    }
+    return best;
+  }
+
+  const DIRS = [[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]];
+
+  function randomShape(n){
+    const cells = [[0,0,0]];
+    const has = s => cells.some(c => c[0]===s[0] && c[1]===s[1] && c[2]===s[2]);
+    let guard = 0;
+    while (cells.length < n && guard++ < 500){
+      const base = cells[Math.floor(Math.random()*cells.length)];
+      const d = DIRS[Math.floor(Math.random()*6)];
+      const nc = [base[0]+d[0], base[1]+d[1], base[2]+d[2]];
+      if (!has(nc)) cells.push(nc);
+    }
+    return normalize(cells);
+  }
+
+  // 거울상이 회전으로 겹치지 않는(=키랄) 도형만 사용해야 문제가 성립한다
+  function chiralShape(n){
+    for (let t = 0; t < 200; t++){
+      const s = randomShape(n);
+      if (canonical(s) !== canonical(mirrorCells(s))) return s;
+    }
+    return randomShape(n);
+  }
+
+  // 큐브 한 칸을 다른 위치로 옮긴 변형(형태가 달라짐)
+  function mutate(cells){
+    for (let t = 0; t < 200; t++){
+      const out = cells.slice();
+      const i = Math.floor(Math.random()*out.length);
+      const removed = out.splice(i, 1)[0];
+      const base = out[Math.floor(Math.random()*out.length)];
+      const d = DIRS[Math.floor(Math.random()*6)];
+      const nc = [base[0]+d[0], base[1]+d[1], base[2]+d[2]];
+      if (out.some(c => c[0]===nc[0] && c[1]===nc[1] && c[2]===nc[2])) continue;
+      out.push(nc);
+      if (!connected(out)) continue;
+      if (canonical(out) !== canonical(cells) && canonical(out) !== canonical(mirrorCells(cells))) return normalize(out);
+    }
+    return null;
+  }
+
+  function connected(cells){
+    const set = new Set(cells.map(c => c.join(',')));
+    const seen = new Set([cells[0].join(',')]);
+    const stack = [cells[0]];
+    while (stack.length){
+      const c = stack.pop();
+      for (const d of DIRS){
+        const k = (c[0]+d[0]) + ',' + (c[1]+d[1]) + ',' + (c[2]+d[2]);
+        if (set.has(k) && !seen.has(k)){ seen.add(k); stack.push(k.split(',').map(Number)); }
+      }
+    }
+    return seen.size === cells.length;
+  }
+
+  // ── 렌더 ──────────────────────────────
+  const FACES = [
+    { n:[ 1,0,0], v:[[ .5,-.5,-.5],[ .5, .5,-.5],[ .5, .5, .5],[ .5,-.5, .5]] },
+    { n:[-1,0,0], v:[[-.5,-.5,-.5],[-.5,-.5, .5],[-.5, .5, .5],[-.5, .5,-.5]] },
+    { n:[0, 1,0], v:[[-.5, .5,-.5],[-.5, .5, .5],[ .5, .5, .5],[ .5, .5,-.5]] },
+    { n:[0,-1,0], v:[[-.5,-.5,-.5],[ .5,-.5,-.5],[ .5,-.5, .5],[-.5,-.5, .5]] },
+    { n:[0,0, 1], v:[[-.5,-.5, .5],[ .5,-.5, .5],[ .5, .5, .5],[-.5, .5, .5]] },
+    { n:[0,0,-1], v:[[-.5,-.5,-.5],[-.5, .5,-.5],[ .5, .5,-.5],[ .5,-.5,-.5]] }
+  ];
+  const LIGHT = (function(){ const v = [-0.45, 0.78, -0.44]; return v; })();
+
+  function drawShape(ctx, cells, ax, ay, scale, hue){
+    const cv = ctx.canvas, W = cv.width, H = cv.height;
+    const bg = ctx.createLinearGradient(0, 0, 0, H);
+    bg.addColorStop(0, '#132840'); bg.addColorStop(1, '#0a1524');
+    ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+
+    // 도형 중심을 원점으로
+    let cx = 0, cy = 0, cz = 0;
+    for (const c of cells){ cx += c[0]; cy += c[1]; cz += c[2]; }
+    cx /= cells.length; cy /= cells.length; cz /= cells.length;
+
+    const set = new Set(cells.map(c => c.join(',')));
+    const sx = Math.sin(ax), cxr = Math.cos(ax);
+    const sy = Math.sin(ay), cyr = Math.cos(ay);
+
+    const rot = p => {
+      // Y축 회전 → X축 회전
+      let x = p[0]*cyr + p[2]*sy;
+      let z = -p[0]*sy  + p[2]*cyr;
+      let y = p[1]*cxr - z*sx;
+      z = p[1]*sx + z*cxr;
+      return [x, y, z];
+    };
+
+    const D = 9;            // 카메라 거리
+    const proj = p => {
+      const s = D / (D + p[2]);
+      return [W/2 + p[0]*scale*s, H/2 - p[1]*scale*s];
+    };
+
+    const polys = [];
+    for (const c of cells){
+      for (const f of FACES){
+        const nb = (c[0]+f.n[0]) + ',' + (c[1]+f.n[1]) + ',' + (c[2]+f.n[2]);
+        if (set.has(nb)) continue;                       // 내부 면은 그리지 않음
+        const pts = f.v.map(v => rot([c[0]-cx+v[0], c[1]-cy+v[1], c[2]-cz+v[2]]));
+        const rn = rot(f.n);
+        const mid = [(pts[0][0]+pts[2][0])/2, (pts[0][1]+pts[2][1])/2, (pts[0][2]+pts[2][2])/2];
+        // 후면 제거: 면이 카메라 반대쪽을 보면 skip
+        if (rn[0]*mid[0] + rn[1]*mid[1] + rn[2]*(mid[2] + D) >= 0) continue;
+        const lit = Math.max(0, rn[0]*LIGHT[0] + rn[1]*LIGHT[1] + rn[2]*LIGHT[2]);
+        polys.push({ pts, depth: mid[2], lit });
+      }
+    }
+    polys.sort((a, b) => b.depth - a.depth);              // 먼 것부터
+
+    for (const p of polys){
+      const L = 34 + p.lit * 40;
+      ctx.beginPath();
+      const s = p.pts.map(proj);
+      ctx.moveTo(s[0][0], s[0][1]);
+      for (let i = 1; i < s.length; i++) ctx.lineTo(s[i][0], s[i][1]);
+      ctx.closePath();
+      ctx.fillStyle = 'hsl(' + hue + ',72%,' + L + '%)';
+      ctx.fill();
+      ctx.strokeStyle = 'hsl(' + hue + ',85%,' + Math.min(88, L + 26) + '%)';
+      ctx.lineWidth = 1.4; ctx.stroke();
+    }
+  }
+
+  // ══════════════════════════════════════
+  //  게임
+  // ══════════════════════════════════════
+  const refCv = document.getElementById('ref'), refCtx = refCv.getContext('2d');
+  const optGrid = document.getElementById('optGrid');
+  const el = {
+    score: document.getElementById('score'), time: document.getElementById('time'),
+    streak: document.getElementById('streak'), level: document.getElementById('level'),
+    best: document.getElementById('best'), fb: document.getElementById('fb'),
+    ov: document.getElementById('ov'), ovTitle: document.getElementById('ovTitle'),
+    ovText: document.getElementById('ovText'), startBtn: document.getElementById('startBtn'),
+    spinBtn: document.getElementById('spinBtn'), skipBtn: document.getElementById('skipBtn')
+  };
+  const BEST_KEY = 'modelmatch.best';
+  const GAME_TIME = 60;
+
+  let best = 0;
+  try { best = parseInt(localStorage.getItem(BEST_KEY) || '0', 10) || 0; } catch(e){}
+  el.best.textContent = best;
+
+  const opts = [];
+  for (let i = 0; i < 4; i++){
+    const b = document.createElement('button');
+    b.className = 'opt'; b.type = 'button';
+    b.innerHTML = '<span class="n">' + (i+1) + '</span>' +
+                  '<canvas width="200" height="170"></canvas><span class="mark"></span>';
+    b.addEventListener('click', () => choose(i));
+    optGrid.appendChild(b);
+    opts.push({ node:b, ctx:b.querySelector('canvas').getContext('2d') });
+  }
+
+  let running = false, score = 0, streak = 0, level = 1, correctCount = 0, timeLeft = GAME_TIME;
+  let answer = 0, locked = true, tick = null, spin = true;
+  let ax = -0.5, ay = 0.7, hue = 190, refCells = null, raf = null;
+
+  function sync(){
+    el.score.textContent = score;
+    el.time.textContent = timeLeft;
+    el.streak.textContent = streak > 1 ? streak + '연속' : streak;
+    el.level.textContent = level;
+  }
+
+  function newRound(){
+    const n = Math.min(7, 4 + Math.floor((level - 1) / 2));
+    refCells = chiralShape(n);
+    hue = [190, 265, 145, 32, 330][Math.floor(Math.random()*5)];
+
+    const pool = [];
+    // 정답: 같은 도형을 임의로 회전
+    pool.push({ cells: rotateCells(refCells, ROTS[Math.floor(Math.random()*ROTS.length)]), right:true });
+    // 오답 1~2: 거울상을 회전
+    const mir = mirrorCells(refCells);
+    pool.push({ cells: rotateCells(mir, ROTS[Math.floor(Math.random()*ROTS.length)]), right:false });
+    pool.push({ cells: rotateCells(mir, ROTS[Math.floor(Math.random()*ROTS.length)]), right:false });
+    // 오답 3: 큐브 하나를 옮긴 다른 형태
+    const mu = mutate(refCells);
+    pool.push({
+      cells: rotateCells(mu || mir, ROTS[Math.floor(Math.random()*ROTS.length)]),
+      right:false
+    });
+
+    for (let i = pool.length-1; i > 0; i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [pool[i], pool[j]] = [pool[j], pool[i]];
+    }
+    answer = pool.findIndex(p => p.right);
+
+    opts.forEach((o, i) => {
+      o.node.classList.remove('right','wrong');
+      o.node.disabled = false;
+      o.node.querySelector('.mark').textContent = '';
+      // 보기마다 조금씩 다른 각도로 그려 단순 실루엣 비교를 막는다
+      drawShape(o.ctx, pool[i].cells, -0.5 + (Math.random()-.5)*0.5, Math.random()*Math.PI*2, 26, hue);
+    });
+
+    ax = -0.5; ay = 0.7;
+    locked = false;
+    el.fb.textContent = ''; el.fb.className = 'feedback';
+    drawRef();
+  }
+
+  function drawRef(){
+    if (refCells) drawShape(refCtx, refCells, ax, ay, 38, hue);
+  }
+
+  function loop(){
+    if (spin && running && !dragging) ay += 0.011;
+    drawRef();
+    raf = requestAnimationFrame(loop);
+  }
+
+  function choose(i){
+    if (locked || !running) return;
+    locked = true;
+    opts.forEach(o => o.node.disabled = true);
+
+    if (i === answer){
+      streak++; correctCount++;
+      const bonus = streak >= 2 ? (streak - 1) * 20 : 0;
+      const gain = 100 * level + bonus;
+      score += gain;
+      opts[i].node.classList.add('right');
+      opts[i].node.querySelector('.mark').textContent = '✓';
+      el.fb.textContent = '정답! +' + gain + '점' + (bonus ? ' (연속 보너스 +' + bonus + ')' : '');
+      el.fb.className = 'feedback ok';
+      if (correctCount % 3 === 0) level++;
+      sync();
+      setTimeout(() => { if (running) newRound(); }, 700);
+    } else {
+      streak = 0;
+      timeLeft = Math.max(0, timeLeft - 5);
+      opts[i].node.classList.add('wrong');
+      opts[i].node.querySelector('.mark').textContent = '✕';
+      opts[answer].node.classList.add('right');
+      opts[answer].node.querySelector('.mark').textContent = '✓';
+      el.fb.textContent = '아쉬워요! 정답은 ' + (answer+1) + '번 (−5초)';
+      el.fb.className = 'feedback no';
+      sync();
+      if (timeLeft <= 0){ setTimeout(finish, 500); return; }
+      setTimeout(() => { if (running) newRound(); }, 1100);
+    }
+  }
+
+  // ── 드래그로 회전 ─────────────────────
+  let dragging = false, lastX = 0, lastY = 0;
+  function down(x, y){ dragging = true; lastX = x; lastY = y; }
+  function move(x, y){
+    if (!dragging) return;
+    ay += (x - lastX) * 0.012;
+    ax += (y - lastY) * 0.012;
+    ax = Math.max(-1.4, Math.min(1.4, ax));
+    lastX = x; lastY = y;
+    drawRef();
+  }
+  refCv.addEventListener('mousedown', e => down(e.clientX, e.clientY));
+  window.addEventListener('mousemove', e => move(e.clientX, e.clientY));
+  window.addEventListener('mouseup', () => dragging = false);
+  refCv.addEventListener('touchstart', e => { down(e.touches[0].clientX, e.touches[0].clientY); }, { passive:true });
+  refCv.addEventListener('touchmove', e => {
+    e.preventDefault(); move(e.touches[0].clientX, e.touches[0].clientY);
+  }, { passive:false });
+  refCv.addEventListener('touchend', () => dragging = false);
+
+  // ── 진행 ──────────────────────────────
+  function start(){
+    running = true; score = 0; streak = 0; level = 1; correctCount = 0; timeLeft = GAME_TIME;
+    el.ov.hidden = true;
+    sync(); newRound();
+    clearInterval(tick);
+    tick = setInterval(() => {
+      timeLeft--; sync();
+      if (timeLeft <= 0) finish();
+    }, 1000);
+    cancelAnimationFrame(raf); loop();
+  }
+
+  function finish(){
+    running = false; locked = true;
+    clearInterval(tick);
+    cancelAnimationFrame(raf);
+    opts.forEach(o => o.node.disabled = true);
+    const isRecord = score > best;
+    if (isRecord){
+      best = score;
+      try { localStorage.setItem(BEST_KEY, String(best)); } catch(e){}
+      el.best.textContent = best;
+    }
+    const grade = score >= 2000 ? 'S — 3D 모델러 재능 있어요! 🏆'
+                : score >= 1200 ? 'A — 공간지각력이 훌륭해요! ✨'
+                : score >= 600  ? 'B — 조금만 더 연습하면 최고! 💪'
+                                : 'C — 다시 도전해봐요! 🔥';
+    el.ovTitle.textContent = '시간 종료!';
+    el.ovText.innerHTML = score + '점 · 레벨 ' + level + '<br>' + grade +
+      (isRecord ? '<br><b>🎉 신기록 달성!</b>' : '<br>최고 기록 ' + best + '점');
+    el.startBtn.textContent = '다시 도전';
+    el.ov.hidden = false;
+  }
+
+  el.startBtn.addEventListener('click', start);
+  el.spinBtn.addEventListener('click', () => {
+    spin = !spin;
+    el.spinBtn.textContent = spin ? '자동 회전 끄기' : '자동 회전 켜기';
+  });
+  el.skipBtn.addEventListener('click', () => {
+    if (!running || locked) return;
+    timeLeft = Math.max(0, timeLeft - 5); sync();
+    if (timeLeft <= 0) return finish();
+    newRound();
+  });
+
+  // 시작 전 미리보기
+  refCells = chiralShape(5);
+  drawRef();
+  opts.forEach(o => drawShape(o.ctx, chiralShape(5), -0.5, Math.random()*6, 26, 210));
+  el.spinBtn.textContent = '자동 회전 끄기';
+  sync();
+})();
+</script>
+</body>
+</html>

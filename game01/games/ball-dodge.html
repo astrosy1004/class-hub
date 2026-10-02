@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>공 피하기 게임</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  .stage{ position:relative; width:100%; max-width:720px; margin:0 auto; }
+  canvas{ width:100%; background:#141031; touch-action:none; cursor:none; }
+</style>
+</head>
+<body>
+<div class="game-wrap">
+  <div class="game-top">
+    <a class="back" href="../index.html">← 게임 허브</a>
+    <h1 class="game-title">🎮 공 피하기 게임</h1>
+  </div>
+
+  <div class="panel">
+    <div class="stats">
+      <div class="stat"><div class="label">점수</div><div class="value" id="score">0</div></div>
+      <div class="stat"><div class="label">최고 점수</div><div class="value" id="best">0</div></div>
+      <div class="stat"><div class="label">생명</div><div class="value" id="lives">♥♥♥</div></div>
+      <div class="stat"><div class="label">레벨</div><div class="value" id="level">1</div></div>
+    </div>
+
+    <div class="stage">
+      <canvas id="cv" width="720" height="470"></canvas>
+      <div class="overlay" id="ov">
+        <h3 id="ovTitle">공 피하기 게임</h3>
+        <p id="ovText">빨간 적을 피하고 노란 아이템을 모으세요!</p>
+        <button class="btn" id="startBtn">게임 시작</button>
+      </div>
+    </div>
+
+    <p class="hint">마우스(또는 터치)로 파란 공을 조종하세요 · <b>노란 코인</b> +50점 · <b>빨간 적</b>에 닿으면 생명 -1 · <kbd>P</kbd> 일시정지</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  const cv = document.getElementById('cv'), ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  const el = {
+    score: document.getElementById('score'), best: document.getElementById('best'),
+    lives: document.getElementById('lives'), level: document.getElementById('level'),
+    ov: document.getElementById('ov'), ovTitle: document.getElementById('ovTitle'),
+    ovText: document.getElementById('ovText'), startBtn: document.getElementById('startBtn')
+  };
+
+  const BEST_KEY = 'balldodge.best';
+  let best = 0;
+  try { best = parseInt(localStorage.getItem(BEST_KEY) || '0', 10) || 0; } catch(e){}
+  el.best.textContent = best;
+
+  let state = 'ready';   // ready | playing | paused | over
+  let player, enemies, coins, particles, stars;
+  let score, lives, level, invuln, spawnTimer, coinTimer, elapsed, raf, last;
+
+  function reset(){
+    player = { x:W/2, y:H-70, r:14, tx:W/2, ty:H-70 };
+    enemies = []; coins = []; particles = [];
+    stars = Array.from({length:60}, () => ({
+      x:Math.random()*W, y:Math.random()*H, r:Math.random()*1.6+.4, s:Math.random()*.4+.1
+    }));
+    score = 0; lives = 3; level = 1; invuln = 0;
+    spawnTimer = 0; coinTimer = 0; elapsed = 0;
+    draw();
+    sync();
+  }
+
+  function sync(){
+    el.score.textContent = Math.floor(score);
+    el.lives.textContent = lives > 0 ? '♥'.repeat(lives) : '—';
+    el.level.textContent = level;
+  }
+
+  // ── 입력 ──────────────────────────────
+  function movePlayer(clientX, clientY){
+    const r = cv.getBoundingClientRect();
+    player.tx = (clientX - r.left) * (W / r.width);
+    player.ty = (clientY - r.top) * (H / r.height);
+  }
+  cv.addEventListener('mousemove', e => movePlayer(e.clientX, e.clientY));
+  cv.addEventListener('touchmove', e => {
+    e.preventDefault();
+    movePlayer(e.touches[0].clientX, e.touches[0].clientY);
+  }, { passive:false });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'p' || e.key === 'P'){
+      if (state === 'playing'){ state = 'paused'; showOverlay('일시정지', 'P 를 눌러 계속하기', '계속하기'); }
+      else if (state === 'paused'){ resume(); }
+    }
+  });
+  el.startBtn.addEventListener('click', () => {
+    if (state === 'paused') resume(); else start();
+  });
+
+  function showOverlay(title, text, btn){
+    el.ovTitle.textContent = title; el.ovText.textContent = text;
+    el.startBtn.textContent = btn; el.ov.hidden = false;
+  }
+  function start(){ reset(); state = 'playing'; el.ov.hidden = true; last = performance.now(); loop(last); }
+  function resume(){ state = 'playing'; el.ov.hidden = true; last = performance.now(); loop(last); }
+
+  // ── 스폰 ──────────────────────────────
+  function spawnEnemy(){
+    const r = 9 + Math.random()*12;
+    enemies.push({
+      x: Math.random()*(W-2*r)+r, y:-r, r,
+      vx:(Math.random()-.5)*1.4, vy: 1.6 + Math.random()*1.4 + level*0.32
+    });
+  }
+  function spawnCoin(){
+    coins.push({ x: Math.random()*(W-60)+30, y:-12, r:10, vy: 1.5 + level*0.15, t:Math.random()*6 });
+  }
+  function burst(x, y, color, n){
+    for (let i=0;i<n;i++){
+      const a = Math.random()*Math.PI*2, sp = Math.random()*3.4+.7;
+      particles.push({ x, y, vx:Math.cos(a)*sp, vy:Math.sin(a)*sp, life:1, color });
+    }
+  }
+
+  // ── 루프 ──────────────────────────────
+  function loop(now){
+    if (state !== 'playing') return;
+    const dt = Math.min((now - last)/16.667, 3); last = now;
+    update(dt); draw();
+    raf = requestAnimationFrame(loop);
+  }
+
+  function update(dt){
+    elapsed += dt;
+    score += dt * 0.28;
+    level = Math.min(12, 1 + Math.floor(elapsed / 480));
+    if (invuln > 0) invuln -= dt;
+
+    // 플레이어: 커서를 부드럽게 따라감
+    player.x += (player.tx - player.x) * 0.22 * dt;
+    player.y += (player.ty - player.y) * 0.22 * dt;
+    player.x = Math.max(player.r, Math.min(W-player.r, player.x));
+    player.y = Math.max(player.r, Math.min(H-player.r, player.y));
+
+    spawnTimer -= dt; coinTimer -= dt;
+    if (spawnTimer <= 0){ spawnEnemy(); spawnTimer = Math.max(12, 46 - level*3); }
+    if (coinTimer  <= 0){ spawnCoin();  coinTimer  = 90 + Math.random()*70; }
+
+    for (let i = enemies.length-1; i >= 0; i--){
+      const e = enemies[i];
+      e.x += e.vx*dt; e.y += e.vy*dt;
+      if (e.x < e.r || e.x > W-e.r) e.vx *= -1;
+      if (e.y - e.r > H){ enemies.splice(i,1); continue; }
+      if (invuln <= 0 && Math.hypot(e.x-player.x, e.y-player.y) < e.r + player.r){
+        enemies.splice(i,1);
+        lives--; invuln = 90;
+        burst(player.x, player.y, '#ff5b7f', 26);
+        sync();
+        if (lives <= 0) return gameOver();
+      }
+    }
+
+    for (let i = coins.length-1; i >= 0; i--){
+      const c = coins[i];
+      c.y += c.vy*dt; c.t += dt*0.12;
+      if (c.y - c.r > H){ coins.splice(i,1); continue; }
+      if (Math.hypot(c.x-player.x, c.y-player.y) < c.r + player.r){
+        coins.splice(i,1); score += 50;
+        burst(c.x, c.y, '#ffd24a', 18); sync();
+      }
+    }
+
+    for (let i = particles.length-1; i >= 0; i--){
+      const p = particles[i];
+      p.x += p.vx*dt; p.y += p.vy*dt; p.vy += .06*dt; p.life -= .022*dt;
+      if (p.life <= 0) particles.splice(i,1);
+    }
+
+    for (const s of stars){ s.y += s.s*dt; if (s.y > H) { s.y = 0; s.x = Math.random()*W; } }
+    sync();
+  }
+
+  function gameOver(){
+    state = 'over';
+    cancelAnimationFrame(raf);
+    const s = Math.floor(score);
+    if (s > best){ best = s; try{ localStorage.setItem(BEST_KEY, String(best)); }catch(e){} }
+    el.best.textContent = best;
+    draw();
+    showOverlay('게임 오버', '점수 ' + s + '점 · 최고 ' + best + '점', '다시 하기');
+  }
+
+  // ── 렌더 ──────────────────────────────
+  function draw(){
+    const g = ctx.createLinearGradient(0,0,0,H);
+    g.addColorStop(0,'#1c1550'); g.addColorStop(1,'#0e0b26');
+    ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+
+    ctx.fillStyle = 'rgba(255,255,255,.5)';
+    for (const s of stars){ ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,7); ctx.fill(); }
+
+    for (const c of coins){
+      ctx.save(); ctx.translate(c.x, c.y);
+      ctx.scale(Math.abs(Math.cos(c.t)) * .75 + .25, 1);
+      ctx.fillStyle = '#ffd24a'; ctx.beginPath(); ctx.arc(0,0,c.r,0,7); ctx.fill();
+      ctx.fillStyle = '#c8891a'; ctx.beginPath(); ctx.arc(0,0,c.r*.55,0,7); ctx.fill();
+      ctx.restore();
+    }
+
+    for (const e of enemies){
+      ctx.fillStyle = 'rgba(255,91,127,.22)';
+      ctx.beginPath(); ctx.arc(e.x,e.y,e.r*1.5,0,7); ctx.fill();
+      const eg = ctx.createRadialGradient(e.x-e.r*.3, e.y-e.r*.3, 1, e.x, e.y, e.r);
+      eg.addColorStop(0,'#ff9db2'); eg.addColorStop(1,'#e02b52');
+      ctx.fillStyle = eg; ctx.beginPath(); ctx.arc(e.x,e.y,e.r,0,7); ctx.fill();
+    }
+
+    for (const p of particles){
+      ctx.globalAlpha = Math.max(0, p.life);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(p.x-2, p.y-2, 4, 4);
+    }
+    ctx.globalAlpha = 1;
+
+    if (player && (invuln <= 0 || Math.floor(invuln/6) % 2 === 0)){
+      ctx.fillStyle = 'rgba(93,190,255,.25)';
+      ctx.beginPath(); ctx.arc(player.x, player.y, player.r*1.8, 0, 7); ctx.fill();
+      const pg = ctx.createRadialGradient(player.x-5, player.y-5, 1, player.x, player.y, player.r);
+      pg.addColorStop(0,'#c9f0ff'); pg.addColorStop(1,'#2f9de0');
+      ctx.fillStyle = pg; ctx.beginPath(); ctx.arc(player.x, player.y, player.r, 0, 7); ctx.fill();
+    }
+  }
+
+  reset();
+  showOverlay('공 피하기 게임', '빨간 적을 피하고 노란 아이템을 모으세요!', '게임 시작');
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>XR 면접 시뮬레이터</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  .screen[hidden]{ display:none; }
+
+  /* 회사 선택 */
+  .co-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin-top:18px; }
+  .co{
+    text-align:left; padding:18px; border-radius:16px; cursor:pointer; font-family:inherit;
+    border:2px solid var(--border); background:#faf9ff; transition:all .18s;
+  }
+  .co:hover{ border-color:var(--violet-light); transform:translateY(-4px);
+    box-shadow:0 10px 24px rgba(124,92,255,.22); }
+  .co .em{ font-size:32px; }
+  .co h3{ margin:8px 0 6px; font-size:16px; font-weight:900; color:var(--text); }
+  .co p{ margin:0 0 10px; font-size:12.5px; line-height:1.65; color:var(--text-muted); word-break:keep-all; }
+  .co .want{ font-size:11.5px; font-weight:800; color:var(--violet); }
+  .intro-title{ text-align:center; }
+  .intro-title h2{ margin:0 0 8px; font-size:22px; font-weight:900; }
+  .intro-title p{ margin:0; font-size:13.5px; color:var(--text-muted); line-height:1.7; }
+  .name-row{ display:flex; gap:10px; justify-content:center; margin-top:18px; }
+  .name-row input{
+    padding:11px 16px; border:1px solid var(--border); border-radius:12px;
+    font-family:inherit; font-size:14px; background:#fbfaff; color:var(--text); width:220px;
+  }
+  .name-row input:focus{ outline:2px solid var(--violet-light); border-color:transparent; }
+
+  /* 면접 진행 */
+  .bars{ display:flex; flex-direction:column; gap:9px; margin-bottom:20px; }
+  .bar-row{ display:flex; align-items:center; gap:11px; }
+  .bar-row .nm{ flex:0 0 78px; font-size:12px; font-weight:800; color:var(--text-muted); }
+  .bar{ flex:1; height:13px; border-radius:999px; background:#eceafa; overflow:hidden; }
+  .bar span{ display:block; height:100%; border-radius:999px; transition:width .5s cubic-bezier(.2,.8,.3,1); }
+  .bar-row .pt{ flex:0 0 42px; text-align:right; font-size:12.5px; font-weight:900; color:var(--text); }
+
+  .progress{ display:flex; gap:6px; justify-content:center; margin-bottom:18px; }
+  .pip{ width:26px; height:5px; border-radius:999px; background:#e6e3f6; transition:background .3s; }
+  .pip.on{ background:linear-gradient(90deg,var(--violet-light),var(--violet)); }
+
+  .dialog{
+    display:flex; gap:14px; padding:18px; border-radius:16px; margin-bottom:18px;
+    background:linear-gradient(135deg,#f3f0ff,#eef7ff); border:1px solid #ddd6f7;
+  }
+  .dialog .avatar{
+    flex:0 0 54px; height:54px; border-radius:16px; display:grid; place-items:center;
+    font-size:28px; background:#fff; box-shadow:0 4px 12px rgba(90,60,196,.18);
+  }
+  .dialog .who{ font-size:11.5px; font-weight:800; color:var(--violet); letter-spacing:.04em; margin-bottom:4px; }
+  .dialog .q{ font-size:15.5px; font-weight:800; line-height:1.6; color:var(--text); word-break:keep-all; }
+
+  .answers{ display:flex; flex-direction:column; gap:10px; }
+  .ans{
+    text-align:left; padding:14px 17px; border-radius:14px; cursor:pointer; font-family:inherit;
+    border:2px solid var(--border); background:#fff; font-size:14px; font-weight:700;
+    color:var(--text); line-height:1.55; transition:all .16s; word-break:keep-all;
+  }
+  .ans:hover:not(:disabled){ border-color:var(--violet-light); background:#faf8ff; transform:translateX(4px); }
+  .ans:disabled{ cursor:default; opacity:.5; }
+  .ans.picked{ border-color:var(--violet); background:#f2effe; opacity:1; }
+
+  .fb{
+    margin-top:16px; padding:14px 18px; border-radius:14px; font-size:13.5px; line-height:1.75;
+    background:#f6fff9; border:1px solid #bdf0d0; color:#166534; word-break:keep-all;
+  }
+  .fb[hidden]{ display:none; }
+  .fb .delta{ display:inline-block; font-weight:900; margin-right:8px; }
+  .next-row{ display:flex; justify-content:center; margin-top:16px; }
+
+  /* 결과 */
+  .result-head{ text-align:center; margin-bottom:20px; }
+  .grade{
+    display:inline-grid; place-items:center; width:96px; height:96px; border-radius:28px;
+    font-size:44px; font-weight:900; color:#fff; margin-bottom:12px;
+  }
+  .result-head h2{ margin:0 0 6px; font-size:23px; font-weight:900; }
+  .result-head .sub{ margin:0; font-size:14px; color:var(--text-muted); font-weight:700; }
+  .offer{
+    background:linear-gradient(140deg,#1b1140,#2d1f63); color:#fff; border-radius:18px;
+    padding:22px; margin:20px 0; box-shadow:0 14px 34px rgba(30,14,80,.4);
+  }
+  .offer h3{ margin:0 0 4px; font-size:12px; font-weight:800; letter-spacing:.12em; color:#a688ff; }
+  .offer .role{ font-size:21px; font-weight:900; margin-bottom:10px; }
+  .offer p{ margin:0; font-size:13.5px; line-height:1.75; color:#cfc8f5; word-break:keep-all; }
+  .advice{ display:flex; flex-direction:column; gap:9px; margin-bottom:18px; }
+  .advice .item{
+    display:flex; gap:10px; padding:12px 15px; border-radius:13px;
+    background:#faf9ff; border:1px solid var(--border); font-size:13px; line-height:1.7;
+    color:#3b3b52; word-break:keep-all;
+  }
+  .advice .item b{ color:var(--violet); }
+  .row-btns{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:6px; }
+</style>
+</head>
+<body>
+<div class="game-wrap">
+  <div class="game-top">
+    <a class="back" href="../index.html">← 게임 허브</a>
+    <h1 class="game-title">💼 XR 면접 시뮬레이터</h1>
+  </div>
+
+  <div class="panel">
+
+    <!-- ── 1. 인트로 ── -->
+    <section class="screen" id="scIntro">
+      <div class="intro-title">
+        <h2>🥽 XR 회사 면접에 오신 걸 환영합니다</h2>
+        <p>
+          당신은 고등학교를 졸업하고 XR 회사에 지원한 신입 지원자입니다.<br>
+          8개의 질문에 답하며 <b>기술력 · 포트폴리오 · 소통력</b>을 쌓아 합격을 노려보세요!
+        </p>
+      </div>
+
+      <div class="name-row">
+        <input type="text" id="who" maxlength="10" placeholder="이름을 입력하세요">
+      </div>
+
+      <div class="co-grid" id="coGrid"></div>
+
+      <p class="hint">회사마다 중요하게 보는 능력이 달라요. 같은 대답도 회사에 따라 평가가 달라집니다!</p>
+    </section>
+
+    <!-- ── 2. 면접 진행 ── -->
+    <section class="screen" id="scPlay" hidden>
+      <div class="progress" id="pips"></div>
+
+      <div class="bars">
+        <div class="bar-row">
+          <span class="nm">🛠️ 기술력</span>
+          <span class="bar"><span id="barTech" style="width:20%;background:linear-gradient(90deg,#5b8dff,#00e5ff)"></span></span>
+          <span class="pt" id="ptTech">20</span>
+        </div>
+        <div class="bar-row">
+          <span class="nm">🎨 포트폴리오</span>
+          <span class="bar"><span id="barPort" style="width:20%;background:linear-gradient(90deg,#a688ff,#ff2e88)"></span></span>
+          <span class="pt" id="ptPort">20</span>
+        </div>
+        <div class="bar-row">
+          <span class="nm">💬 소통력</span>
+          <span class="bar"><span id="barComm" style="width:20%;background:linear-gradient(90deg,#39ff88,#ffd24a)"></span></span>
+          <span class="pt" id="ptComm">20</span>
+        </div>
+      </div>
+
+      <div class="dialog">
+        <div class="avatar" id="avatar">🧑‍💼</div>
+        <div>
+          <div class="who" id="who2">면접관</div>
+          <div class="q" id="qText">질문</div>
+        </div>
+      </div>
+
+      <div class="answers" id="answers"></div>
+      <div class="fb" id="fb" hidden></div>
+      <div class="next-row"><button class="btn" id="nextBtn" hidden>다음 질문 →</button></div>
+    </section>
+
+    <!-- ── 3. 결과 ── -->
+    <section class="screen" id="scResult" hidden>
+      <div class="result-head">
+        <div class="grade" id="gradeBox">A</div>
+        <h2 id="resultTitle">결과</h2>
+        <p class="sub" id="resultSub"></p>
+      </div>
+
+      <div class="offer" id="offer">
+        <h3>OFFER LETTER</h3>
+        <div class="role" id="offerRole"></div>
+        <p id="offerText"></p>
+      </div>
+
+      <div class="advice" id="advice"></div>
+
+      <div class="row-btns">
+        <button class="btn" id="againBtn">다시 면접 보기</button>
+        <a class="btn ghost" href="vr-job-quest.html" style="text-decoration:none; line-height:1.4">🥽 VR 진로 전시관 가기</a>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<script>
+(function(){
+  // ══════════════════════════════════════
+  //  회사 — 회사마다 중시하는 능력의 가중치가 다르다
+  // ══════════════════════════════════════
+  const COMPANIES = [
+    {
+      id:'game', em:'🎮', name:'VR 게임 스튜디오',
+      desc:'몰입감 높은 VR 액션 게임을 만드는 20명 규모의 스튜디오.',
+      want:'기술력을 가장 중요하게 봐요',
+      w:{ tech:1.4, port:1.1, comm:0.7 },
+      roles:['주니어 VR 게임 개발자', 'VR 게임플레이 인턴']
+    },
+    {
+      id:'edu', em:'📚', name:'XR 교육 콘텐츠 기업',
+      desc:'학교와 함께 안전교육·과학실험 VR 콘텐츠를 제작합니다.',
+      want:'소통력을 가장 중요하게 봐요',
+      w:{ tech:0.8, port:1.1, comm:1.4 },
+      roles:['XR 교육 콘텐츠 기획자', 'XR 콘텐츠 제작 인턴']
+    },
+    {
+      id:'twin', em:'🏭', name:'산업 디지털트윈 회사',
+      desc:'공장과 건물을 3D로 똑같이 복제해 시뮬레이션하는 B2B 회사.',
+      want:'포트폴리오를 가장 중요하게 봐요',
+      w:{ tech:1.1, port:1.4, comm:0.8 },
+      roles:['3D 디지털트윈 모델러', '3D 데이터 어시스턴트']
+    }
+  ];
+
+  // ══════════════════════════════════════
+  //  질문 8개 — 각 선택지가 능력치를 바꾼다
+  // ══════════════════════════════════════
+  const Q = [
+    {
+      em:'🧑‍💼', who:'면접관 (팀장)',
+      q:'반갑습니다! 먼저, 왜 XR 분야에 지원했는지 말씀해 주시겠어요?',
+      a:[
+        { t:'“VR 게임을 하다가 직접 만들어보고 싶어서, 유튜브 강의를 보며 Unity로 작은 방 탈출 씬을 만들어봤습니다.”',
+          d:{tech:8, port:10, comm:6},
+          f:'구체적인 경험 + 실제로 만들어본 결과물. 면접에서 가장 강력한 답변 형태예요.' },
+        { t:'“XR이 앞으로 유망하다고 들어서 지원했습니다.”',
+          d:{tech:2, port:0, comm:2},
+          f:'솔직하지만 “나만의 이유”가 없어요. 유망하다는 말은 누구나 할 수 있거든요.' },
+        { t:'“평소 그림 그리는 걸 좋아했는데, 3D는 내가 만든 걸 안에 들어가서 볼 수 있다는 게 신기했습니다.”',
+          d:{tech:3, port:7, comm:9},
+          f:'자신의 관심사와 XR을 연결한 좋은 답변! 이야기가 기억에 남습니다.' }
+      ]
+    },
+    {
+      em:'🛠️', who:'면접관 (테크니컬 아티스트)',
+      q:'다뤄본 프로그램이 있나요? 잘 못 다뤄도 괜찮으니 솔직하게 말해주세요.',
+      a:[
+        { t:'“Blender로 모델링을 해봤고, 텍스처는 아직 서툴러서 지금 배우는 중입니다.”',
+          d:{tech:9, port:6, comm:8},
+          f:'할 수 있는 것과 배우는 중인 것을 구분해서 말하는 건 신입에게 최고의 태도예요.' },
+        { t:'“Unity, Unreal, Blender, Maya, ZBrush 전부 다룰 수 있습니다.”',
+          d:{tech:4, port:2, comm:-4},
+          f:'과장은 위험해요. 바로 이어지는 심화 질문에서 들통나면 신뢰를 잃습니다.' },
+        { t:'“아직 없지만, 합격하면 바로 배우겠습니다.”',
+          d:{tech:0, port:0, comm:3},
+          f:'열정은 좋지만 “지금 배우고 있다”가 훨씬 강해요. 면접 전에 하나라도 시작해보세요.' }
+      ]
+    },
+    {
+      em:'🎨', who:'면접관 (아트 디렉터)',
+      q:'포트폴리오를 봤습니다. 이 중 가장 아쉬운 작업은 무엇이고, 왜 그런가요?',
+      a:[
+        { t:'“두 번째 작업이요. 폴리곤 수를 신경 안 써서 VR에서 프레임이 떨어졌습니다. 지금은 최적화를 공부하고 있습니다.”',
+          d:{tech:12, port:10, comm:8},
+          f:'자기 작업의 문제를 기술적으로 진단할 줄 아는 지원자! 아주 높은 평가를 받습니다.' },
+        { t:'“다 마음에 들어서 아쉬운 건 없습니다.”',
+          d:{tech:0, port:-3, comm:-2},
+          f:'성장 가능성을 보여줄 기회를 놓쳤어요. 면접관은 “스스로 발전할 수 있는가”를 봅니다.' },
+        { t:'“시간이 부족해서 다 급하게 만들었습니다.”',
+          d:{tech:1, port:-1, comm:2},
+          f:'변명처럼 들려요. 같은 상황이라도 “무엇을 배웠는지”로 마무리하는 게 좋습니다.' }
+      ]
+    },
+    {
+      em:'🕹️', who:'면접관 (VR 개발자)',
+      q:'VR 콘텐츠에서 “멀미”가 왜 생기는지 아시나요?',
+      a:[
+        { t:'“눈으로 보는 움직임과 몸이 느끼는 움직임이 달라서요. 프레임이 낮거나 카메라를 강제로 움직이면 심해집니다.”',
+          d:{tech:14, port:4, comm:7},
+          f:'정확합니다! 감각 불일치 + 낮은 프레임이 주원인이에요. 순간이동 이동 방식이 그래서 많이 쓰입니다.' },
+        { t:'“화면이 너무 밝아서 그런 것 같습니다.”',
+          d:{tech:2, port:0, comm:3},
+          f:'밝기도 피로에 영향은 주지만 핵심은 아니에요. 핵심은 감각의 불일치입니다.' },
+        { t:'“정확히는 모르지만, 제가 써봤을 때 빠르게 움직이는 장면에서 어지러웠습니다.”',
+          d:{tech:6, port:2, comm:9},
+          f:'모르는 걸 인정하고 자기 경험으로 설명한 좋은 답변. 방향은 정확히 맞았어요!' }
+      ]
+    },
+    {
+      em:'🤝', who:'면접관 (팀장)',
+      q:'팀 작업 중에 동료가 마감을 계속 놓친다면 어떻게 하시겠어요?',
+      a:[
+        { t:'“먼저 왜 늦어지는지 물어보고, 제가 도울 수 있는 부분을 나눠 받은 뒤 그래도 어려우면 팀장님께 공유하겠습니다.”',
+          d:{tech:2, port:2, comm:15},
+          f:'대화 → 협력 → 필요 시 보고. 실무에서 가장 바람직한 순서예요.' },
+        { t:'“바로 팀장님께 보고하겠습니다.”',
+          d:{tech:1, port:0, comm:5},
+          f:'보고 자체는 필요하지만, 먼저 동료와 이야기해보는 단계가 빠졌어요.' },
+        { t:'“제가 그 사람 몫까지 대신 하겠습니다.”',
+          d:{tech:3, port:3, comm:1},
+          f:'헌신적이지만 지속 가능하지 않아요. 문제가 감춰져서 나중에 더 커집니다.' }
+      ]
+    },
+    {
+      em:'📐', who:'면접관 (기획자)',
+      q:'우리 회사에서 VR로 만들면 좋을 콘텐츠를 하나 제안해 보세요.',
+      a:[
+        { t:'“학교 화재 대피 훈련이요. 실제로는 위험해서 반복이 어려운데, VR이면 여러 번 연습할 수 있습니다.”',
+          d:{tech:5, port:8, comm:13},
+          f:'“왜 하필 VR이어야 하는가”에 답한 훌륭한 제안이에요. 기획의 핵심입니다.' },
+        { t:'“멋진 오픈월드 RPG요. 스케일이 크면 화제가 될 것 같습니다.”',
+          d:{tech:4, port:4, comm:2},
+          f:'신입 팀이 감당하기엔 규모가 너무 커요. 현실적인 범위도 함께 봐야 합니다.' },
+        { t:'“교과서를 그대로 VR에 옮기면 좋겠습니다.”',
+          d:{tech:2, port:1, comm:1},
+          f:'그건 책으로 충분한 일이에요. VR은 “직접 해봐야 아는 것”에 강합니다.' }
+      ]
+    },
+    {
+      em:'📈', who:'면접관 (인사담당)',
+      q:'5년 뒤 어떤 모습이 되고 싶은가요?',
+      a:[
+        { t:'“3D 모델링과 간단한 셰이더까지 다루는 테크니컬 아티스트가 되어, 팀의 최적화를 책임지고 싶습니다.”',
+          d:{tech:10, port:7, comm:9},
+          f:'직무 이름과 도달 방법이 구체적이에요. 성장 계획이 있는 사람으로 보입니다.' },
+        { t:'“팀장이 되어 있고 싶습니다.”',
+          d:{tech:2, port:2, comm:4},
+          f:'직급 목표만 있고 실력 목표가 없어요. “무엇을 잘하는 사람”인지로 답해보세요.' },
+        { t:'“아직 잘 모르겠지만 열심히 하겠습니다.”',
+          d:{tech:1, port:1, comm:3},
+          f:'솔직하지만 아쉬워요. 관심 직무 하나만 정해도 답변이 훨씬 단단해집니다.' }
+      ]
+    },
+    {
+      em:'❓', who:'면접관 (팀장)',
+      q:'마지막으로, 저희에게 궁금한 점 있으신가요?',
+      a:[
+        { t:'“신입이 처음 3개월 동안 주로 어떤 작업을 맡게 되나요?”',
+          d:{tech:6, port:5, comm:14},
+          f:'회사와 직무를 진지하게 생각했다는 신호! 역질문은 면접의 마지막 득점 기회예요.' },
+        { t:'“없습니다.”',
+          d:{tech:0, port:0, comm:-3},
+          f:'가장 흔한 실수예요. 질문 2~3개는 미리 준비해 가세요.' },
+        { t:'“연봉이 얼마인가요?”',
+          d:{tech:0, port:0, comm:2},
+          f:'물어봐도 되는 질문이지만, 직무 관련 질문을 먼저 한 뒤에 묻는 게 좋아요.' }
+      ]
+    }
+  ];
+
+  // ══════════════════════════════════════
+  //  DOM & 상태
+  // ══════════════════════════════════════
+  const el = {
+    scIntro: document.getElementById('scIntro'), scPlay: document.getElementById('scPlay'),
+    scResult: document.getElementById('scResult'),
+    who: document.getElementById('who'), coGrid: document.getElementById('coGrid'),
+    pips: document.getElementById('pips'), avatar: document.getElementById('avatar'),
+    who2: document.getElementById('who2'), qText: document.getElementById('qText'),
+    answers: document.getElementById('answers'), fb: document.getElementById('fb'),
+    nextBtn: document.getElementById('nextBtn'),
+    barTech: document.getElementById('barTech'), barPort: document.getElementById('barPort'),
+    barComm: document.getElementById('barComm'),
+    ptTech: document.getElementById('ptTech'), ptPort: document.getElementById('ptPort'),
+    ptComm: document.getElementById('ptComm'),
+    gradeBox: document.getElementById('gradeBox'), resultTitle: document.getElementById('resultTitle'),
+    resultSub: document.getElementById('resultSub'), offerRole: document.getElementById('offerRole'),
+    offerText: document.getElementById('offerText'), advice: document.getElementById('advice'),
+    againBtn: document.getElementById('againBtn')
+  };
+  const BEST_KEY = 'xrinterview.best';
+  const MAXSTAT = 100;
+
+  let co = null, name = '지원자', qi = 0;
+  let stat = { tech:20, port:20, comm:20 };
+  let picks = [];
+
+  // ── 회사 카드 ─────────────────────────
+  COMPANIES.forEach(c => {
+    const b = document.createElement('button');
+    b.className = 'co'; b.type = 'button';
+    b.innerHTML = '<div class="em">' + c.em + '</div><h3>' + c.name + '</h3>' +
+                  '<p>' + c.desc + '</p><div class="want">⭐ ' + c.want + '</div>';
+    b.addEventListener('click', () => startInterview(c));
+    el.coGrid.appendChild(b);
+  });
+
+  // ── 진행 ──────────────────────────────
+  function show(which){
+    el.scIntro.hidden  = which !== 'intro';
+    el.scPlay.hidden   = which !== 'play';
+    el.scResult.hidden = which !== 'result';
+  }
+
+  function startInterview(company){
+    co = company;
+    name = (el.who.value || '').trim() || '지원자';
+    qi = 0; picks = [];
+    stat = { tech:20, port:20, comm:20 };
+
+    el.pips.innerHTML = '';
+    for (let i = 0; i < Q.length; i++){
+      const p = document.createElement('span');
+      p.className = 'pip'; el.pips.appendChild(p);
+    }
+    show('play');
+    syncBars();
+    renderQ();
+  }
+
+  function syncBars(){
+    const set = (bar, pt, v) => {
+      bar.style.width = Math.max(0, Math.min(100, v)) + '%';
+      pt.textContent = Math.round(v);
+    };
+    set(el.barTech, el.ptTech, stat.tech);
+    set(el.barPort, el.ptPort, stat.port);
+    set(el.barComm, el.ptComm, stat.comm);
+    [...el.pips.children].forEach((p, i) => p.classList.toggle('on', i < qi));
+  }
+
+  function renderQ(){
+    const q = Q[qi];
+    el.avatar.textContent = q.em;
+    el.who2.textContent = q.who + ' · ' + co.name;
+    el.qText.textContent = (qi === 0 ? name + '님, ' : '') + q.q;
+    el.fb.hidden = true;
+    el.nextBtn.hidden = true;
+    el.answers.innerHTML = '';
+
+    q.a.forEach((a, i) => {
+      const b = document.createElement('button');
+      b.className = 'ans'; b.type = 'button'; b.textContent = a.t;
+      b.addEventListener('click', () => pick(i, b));
+      el.answers.appendChild(b);
+    });
+  }
+
+  function pick(i, btn){
+    const a = Q[qi].a[i];
+    [...el.answers.children].forEach(b => b.disabled = true);
+    btn.classList.add('picked');
+
+    // 회사 가중치를 곱해서 반영
+    const gain = {
+      tech: a.d.tech * co.w.tech,
+      port: a.d.port * co.w.port,
+      comm: a.d.comm * co.w.comm
+    };
+    stat.tech = Math.max(0, Math.min(MAXSTAT, stat.tech + gain.tech));
+    stat.port = Math.max(0, Math.min(MAXSTAT, stat.port + gain.port));
+    stat.comm = Math.max(0, Math.min(MAXSTAT, stat.comm + gain.comm));
+    picks.push({ qi, i, score: a.d.tech + a.d.port + a.d.comm, f: a.f, q: Q[qi].q });
+
+    const fmt = (k, v) => {
+      const r = Math.round(v);
+      if (r === 0) return '';
+      return '<span class="delta" style="color:' + (r > 0 ? '#16a34a' : '#dc2626') + '">' +
+             k + ' ' + (r > 0 ? '+' : '') + r + '</span>';
+    };
+    el.fb.innerHTML = fmt('🛠️', gain.tech) + fmt('🎨', gain.port) + fmt('💬', gain.comm) +
+                      '<br>' + a.f;
+    el.fb.hidden = false;
+    el.nextBtn.hidden = false;
+    qi++;
+    syncBars();
+  }
+
+  el.nextBtn.addEventListener('click', () => {
+    if (qi >= Q.length) finish();
+    else renderQ();
+  });
+
+  // ── 결과 ──────────────────────────────
+  function finish(){
+    // 회사가 중시하는 능력에 가중치를 둔 최종 평점
+    const total = (stat.tech * co.w.tech + stat.port * co.w.port + stat.comm * co.w.comm);
+    const maxTotal = MAXSTAT * (co.w.tech + co.w.port + co.w.comm);
+    const rating = Math.round(total / maxTotal * 100);
+
+    let grade, bg, title, sub, role, text;
+    if (rating >= 78){
+      grade = 'S'; bg = 'linear-gradient(135deg,#ffd24a,#ff8a3d)';
+      title = '🎉 최종 합격!'; sub = '면접관 전원이 만장일치로 추천했습니다';
+      role = co.roles[0];
+      text = name + '님의 답변은 구체적이고 솔직했습니다. 특히 자신의 부족한 점을 알고 이미 보완하고 있다는 점이 인상적이었습니다. 함께 일하게 되어 기쁩니다!';
+    } else if (rating >= 62){
+      grade = 'A'; bg = 'linear-gradient(135deg,#a688ff,#7c5cff)';
+      title = '✅ 합격!'; sub = '성장 가능성을 높게 평가받았습니다';
+      role = co.roles[0];
+      text = name + '님은 아직 배울 것이 많지만, 배우는 방법을 아는 지원자였습니다. 입사 후 3개월 온보딩 과정에서 빠르게 성장할 것으로 기대합니다.';
+    } else if (rating >= 46){
+      grade = 'B'; bg = 'linear-gradient(135deg,#39ff88,#00b894)';
+      title = '📩 인턴십 제안'; sub = '정규직은 아쉽지만 가능성을 봤습니다';
+      role = co.roles[1];
+      text = '기본기를 더 쌓으면 충분히 좋은 팀원이 될 수 있습니다. 3개월 인턴으로 함께해 보시겠어요? 작은 결과물이라도 끝까지 완성해 보는 경험이 가장 큰 도움이 될 거예요.';
+    } else {
+      grade = 'C'; bg = 'linear-gradient(135deg,#94a3b8,#64748b)';
+      title = '💌 다음 기회에'; sub = '조금 더 준비한 뒤 다시 만나요';
+      role = '재도전 추천';
+      text = '아쉽지만 이번엔 함께하기 어렵겠습니다. 대신 확실한 조언을 드릴게요 — 작은 프로젝트 하나를 끝까지 완성해서 포트폴리오로 만들어 오세요. 그것만으로 평가가 크게 달라집니다.';
+    }
+
+    el.gradeBox.textContent = grade;
+    el.gradeBox.style.background = bg;
+    el.resultTitle.textContent = title;
+    el.resultSub.textContent = co.em + ' ' + co.name + ' · 최종 평점 ' + rating + '점 — ' + sub;
+    el.offerRole.textContent = role;
+    el.offerText.textContent = text;
+
+    // 조언: 가장 낮은 능력치 + 가장 아쉬웠던 답변
+    const order = [
+      { k:'🛠️ 기술력', v:stat.tech, tip:'관심 있는 툴 하나(Blender·Unity 중 택 1)를 정해 튜토리얼을 끝까지 따라 해보세요. 하나를 깊게 아는 게 여러 개를 얕게 아는 것보다 강합니다.' },
+      { k:'🎨 포트폴리오', v:stat.port, tip:'완성도보다 “완성”이 중요해요. 작은 방 하나, 소품 하나라도 끝까지 만들어 스크린샷과 함께 정리해 두세요.' },
+      { k:'💬 소통력', v:stat.comm, tip:'답변은 [경험 → 배운 점 → 앞으로] 순서로 말해보세요. 모르는 건 인정하고 지금 무엇을 하고 있는지 덧붙이면 신뢰가 올라갑니다.' }
+    ].sort((a, b) => a.v - b.v);
+
+    const worst = picks.slice().sort((a, b) => a.score - b.score)[0];
+
+    el.advice.innerHTML = '';
+    const add = html => {
+      const d = document.createElement('div');
+      d.className = 'item'; d.innerHTML = html;
+      el.advice.appendChild(d);
+    };
+    add('📌 <span><b>가장 보완할 부분: ' + order[0].k + ' (' + Math.round(order[0].v) + '점)</b><br>' + order[0].tip + '</span>');
+    add('💪 <span><b>가장 강한 부분: ' + order[2].k + ' (' + Math.round(order[2].v) + '점)</b><br>면접에서 이 강점을 먼저 꺼내면 인상이 훨씬 좋아집니다.</span>');
+    if (worst) add('🔁 <span><b>다시 답해보면 좋을 질문</b><br>“' + worst.q + '”<br>' + worst.f + '</span>');
+    add('🏫 <span><b>지금 고등학생이라면?</b><br>정보·미술 과목 수행평가를 XR 주제로 잡아보세요. 그 결과물이 그대로 첫 포트폴리오가 됩니다.</span>');
+
+    let best = 0;
+    try { best = parseInt(localStorage.getItem(BEST_KEY) || '0', 10) || 0; } catch(e){}
+    if (rating > best){
+      try { localStorage.setItem(BEST_KEY, String(rating)); } catch(e){}
+    }
+
+    show('result');
+    window.scrollTo({ top:0, behavior:'smooth' });
+  }
+
+  el.againBtn.addEventListener('click', () => show('intro'));
+
+  show('intro');
+})();
+</script>
+</body>
+</html>

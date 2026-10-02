@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>두더지 잡기</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  .board{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:16px;
+    max-width:520px; margin:0 auto; position:relative;
+  }
+  .hole{
+    position:relative; aspect-ratio:1/1; border-radius:50% 50% 46% 46%;
+    background:radial-gradient(ellipse at 50% 88%, #3b2a17 0%, #5a4023 55%, #6d4f2c 100%);
+    overflow:hidden; cursor:pointer; box-shadow:inset 0 8px 18px rgba(0,0,0,.45);
+    border:0; padding:0;
+  }
+  .hole::after{
+    content:""; position:absolute; left:6%; right:6%; bottom:0; height:34%;
+    background:linear-gradient(180deg,#6d4f2c,#4a341c);
+    border-radius:50% 50% 0 0 / 70% 70% 0 0;
+    z-index:3; pointer-events:none;
+  }
+  .mole{
+    position:absolute; left:14%; width:72%; bottom:-100%; z-index:2;
+    transition:bottom .13s cubic-bezier(.3,1.5,.5,1), transform .1s;
+  }
+  .hole.up .mole{ bottom:16%; }
+  .hole.hit .mole{ transform:scale(.86) rotate(-8deg); filter:saturate(.6) brightness(.8); }
+  .board.frozen .hole{ cursor:default; }
+  .float{
+    position:absolute; font-weight:800; font-size:22px; pointer-events:none; z-index:6;
+    animation:rise .8s ease-out forwards; text-shadow:0 2px 6px rgba(0,0,0,.35);
+  }
+  @keyframes rise{ to{ transform:translateY(-52px); opacity:0; } }
+  .wrap-board{ position:relative; }
+  .row-btns{ display:flex; gap:10px; justify-content:center; margin-top:22px; }
+</style>
+</head>
+<body>
+<div class="game-wrap">
+  <div class="game-top">
+    <a class="back" href="../index.html">← 게임 허브</a>
+    <h1 class="game-title">🔨 두더지 잡기</h1>
+  </div>
+
+  <div class="panel">
+    <div class="stats">
+      <div class="stat"><div class="label">점수</div><div class="value" id="score">0</div></div>
+      <div class="stat"><div class="label">남은 시간</div><div class="value" id="time">30</div></div>
+      <div class="stat"><div class="label">콤보</div><div class="value" id="combo">0</div></div>
+      <div class="stat"><div class="label">최고 점수</div><div class="value" id="best">0</div></div>
+    </div>
+
+    <div class="wrap-board">
+      <div class="board" id="board"></div>
+    </div>
+
+    <div class="row-btns">
+      <button class="btn" id="startBtn">게임 시작</button>
+      <button class="btn ghost" id="resetBtn">기록 초기화</button>
+    </div>
+
+    <p class="hint">
+      🐹 두더지 <b>+10점</b> · 🌟 황금 두더지 <b>+30점</b> · 💣 폭탄은 <b>-20점</b>이니 피하세요!<br>
+      연속으로 잡으면 콤보 보너스가 붙고, 시간이 지날수록 두더지가 빨라집니다.
+    </p>
+  </div>
+</div>
+
+<script>
+(function(){
+  const board = document.getElementById('board');
+  const el = {
+    score: document.getElementById('score'), time: document.getElementById('time'),
+    combo: document.getElementById('combo'), best: document.getElementById('best'),
+    startBtn: document.getElementById('startBtn'), resetBtn: document.getElementById('resetBtn')
+  };
+  const BEST_KEY = 'whackamole.best';
+  const HOLES = 9, GAME_TIME = 30;
+
+  let best = 0;
+  try { best = parseInt(localStorage.getItem(BEST_KEY) || '0', 10) || 0; } catch(e){}
+  el.best.textContent = best;
+
+  const svg = {
+    mole: '<svg class="mole" viewBox="0 0 100 100"><ellipse cx="26" cy="30" rx="13" ry="13" fill="#6b4629"/><ellipse cx="74" cy="30" rx="13" ry="13" fill="#6b4629"/><ellipse cx="50" cy="55" rx="34" ry="33" fill="#8b5e3c"/><ellipse cx="50" cy="70" rx="20" ry="16" fill="#dcae86"/><ellipse cx="38" cy="48" rx="5" ry="6" fill="#241710"/><ellipse cx="62" cy="48" rx="5" ry="6" fill="#241710"/><ellipse cx="39" cy="46" rx="1.8" ry="2" fill="#fff"/><ellipse cx="63" cy="46" rx="1.8" ry="2" fill="#fff"/><ellipse cx="50" cy="64" rx="6" ry="4.5" fill="#42271a"/><rect x="45" y="74" width="4" height="9" rx="1.6" fill="#fff"/><rect x="51" y="74" width="4" height="9" rx="1.6" fill="#fff"/></svg>',
+    gold: '<svg class="mole" viewBox="0 0 100 100"><ellipse cx="26" cy="30" rx="13" ry="13" fill="#c99a15"/><ellipse cx="74" cy="30" rx="13" ry="13" fill="#c99a15"/><ellipse cx="50" cy="55" rx="34" ry="33" fill="#f5c231"/><ellipse cx="50" cy="70" rx="20" ry="16" fill="#fff0c2"/><ellipse cx="38" cy="48" rx="5" ry="6" fill="#3a2a05"/><ellipse cx="62" cy="48" rx="5" ry="6" fill="#3a2a05"/><ellipse cx="50" cy="64" rx="6" ry="4.5" fill="#8a6608"/><path d="M50 6l5 10 11 1.6-8 7.7 2 11L50 31l-10 5.3 2-11-8-7.7L45 16z" fill="#fff3b0"/></svg>',
+    bomb: '<svg class="mole" viewBox="0 0 100 100"><circle cx="50" cy="60" r="30" fill="#2c2c38"/><circle cx="40" cy="50" r="8" fill="#4d4d5e"/><rect x="44" y="24" width="12" height="10" rx="3" fill="#4a4a58"/><path d="M56 26c9-6 14 2 10 8" stroke="#c9762a" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="68" cy="32" r="5" fill="#ffb03a"/><circle cx="68" cy="32" r="2.4" fill="#fff2c0"/></svg>'
+  };
+
+  const holes = [];
+  for (let i = 0; i < HOLES; i++){
+    const b = document.createElement('button');
+    b.className = 'hole'; b.type = 'button'; b.setAttribute('aria-label', '구멍 ' + (i+1));
+    b.addEventListener('click', () => hit(i));
+    board.appendChild(b);
+    holes.push({ node:b, kind:null, timer:null });
+  }
+
+  let running = false, score = 0, combo = 0, timeLeft = GAME_TIME;
+  let tickTimer = null, popTimer = null, elapsed = 0;
+
+  function sync(){
+    el.score.textContent = score;
+    el.time.textContent = timeLeft;
+    el.combo.textContent = combo > 1 ? combo + 'x' : combo;
+  }
+
+  function clearHole(h){
+    if (h.timer){ clearTimeout(h.timer); h.timer = null; }
+    h.node.classList.remove('up','hit');
+    h.kind = null;
+    // 내려가는 애니메이션이 끝난 뒤에만 비운다 (그 사이 새 두더지가 올라왔으면 유지)
+    setTimeout(() => { if (!h.kind) h.node.innerHTML = ''; }, 180);
+  }
+
+  function popUp(){
+    const free = holes.filter(h => !h.kind);
+    if (!free.length) return;
+    const h = free[Math.floor(Math.random()*free.length)];
+    const r = Math.random();
+    const kind = r < 0.14 ? 'bomb' : r < 0.26 ? 'gold' : 'mole';
+    h.kind = kind;
+    h.node.innerHTML = svg[kind];
+    // 진행할수록 머무는 시간이 짧아짐
+    const stay = Math.max(430, 1150 - elapsed * 26) + Math.random()*260;
+    requestAnimationFrame(() => h.node.classList.add('up'));
+    h.timer = setTimeout(() => {
+      if (h.kind === 'mole' || h.kind === 'gold'){ combo = 0; sync(); }
+      clearHole(h);
+    }, stay);
+  }
+
+  function floatText(node, text, color){
+    const f = document.createElement('div');
+    f.className = 'float'; f.textContent = text; f.style.color = color;
+    const r = node.getBoundingClientRect(), pr = board.getBoundingClientRect();
+    f.style.left = (r.left - pr.left + r.width/2 - 20) + 'px';
+    f.style.top  = (r.top  - pr.top  + 10) + 'px';
+    board.appendChild(f);
+    setTimeout(() => f.remove(), 800);
+  }
+
+  function hit(i){
+    if (!running) return;
+    const h = holes[i];
+    if (!h.kind || h.node.classList.contains('hit')) return;
+
+    if (h.kind === 'bomb'){
+      score = Math.max(0, score - 20); combo = 0;
+      floatText(h.node, '-20', '#ff6b6b');
+    } else {
+      const base = h.kind === 'gold' ? 30 : 10;
+      combo++;
+      const bonus = combo >= 3 ? (combo - 2) * 2 : 0;
+      score += base + bonus;
+      floatText(h.node, '+' + (base + bonus), h.kind === 'gold' ? '#ffd24a' : '#8ef0a8');
+    }
+    h.node.classList.add('hit');
+    sync();
+    clearHole(h);
+  }
+
+  function schedulePop(){
+    const gap = Math.max(280, 900 - elapsed * 22);
+    popTimer = setTimeout(() => {
+      if (!running) return;
+      popUp();
+      if (elapsed > 8 && Math.random() < 0.35) popUp();
+      schedulePop();
+    }, gap + Math.random()*180);
+  }
+
+  function start(){
+    stop(false);
+    running = true; score = 0; combo = 0; timeLeft = GAME_TIME; elapsed = 0;
+    board.classList.remove('frozen');
+    el.startBtn.textContent = '진행 중...'; el.startBtn.disabled = true;
+    sync();
+    schedulePop();
+    tickTimer = setInterval(() => {
+      timeLeft--; elapsed++;
+      sync();
+      if (timeLeft <= 0) finish();
+    }, 1000);
+  }
+
+  function stop(freeze){
+    running = false;
+    clearInterval(tickTimer); clearTimeout(popTimer);
+    holes.forEach(clearHole);
+    if (freeze) board.classList.add('frozen');
+  }
+
+  function finish(){
+    stop(true);
+    el.startBtn.textContent = '다시 하기'; el.startBtn.disabled = false;
+    const isRecord = score > best;
+    if (isRecord){
+      best = score;
+      try { localStorage.setItem(BEST_KEY, String(best)); } catch(e){}
+      el.best.textContent = best;
+    }
+    setTimeout(() => {
+      alert(isRecord
+        ? '🎉 신기록! ' + score + '점을 기록했어요!'
+        : '시간 종료! ' + score + '점 (최고 ' + best + '점)');
+    }, 120);
+  }
+
+  el.startBtn.addEventListener('click', start);
+  el.resetBtn.addEventListener('click', () => {
+    best = 0;
+    try { localStorage.removeItem(BEST_KEY); } catch(e){}
+    el.best.textContent = 0;
+  });
+
+  sync();
+})();
+</script>
+</body>
+</html>
