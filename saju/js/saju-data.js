@@ -63,12 +63,51 @@ export const SOLAR_TERMS = [
 ];
 
 // 한국 표준시 변천. from(포함)부터 다음 줄 from 전까지 utcOffset(시간)을 쓴다.
-// 서머타임은 2단계에서 따로 다룬다.
 export const KOREA_STANDARD_TIME = [
   { from: "1908-04-01", utcOffset: 8.5 },
   { from: "1912-01-01", utcOffset: 9 },
   { from: "1954-03-21", utcOffset: 8.5 },
   { from: "1961-08-10", utcOffset: 9 },
+];
+
+// 한국 서머타임(일광절약시간) 기간. 이 기간의 시계는 1시간 빨랐으므로 계산할 때 1시간을 뺀다.
+// start(포함) ~ end(미포함)는 당시 시계(서머타임 적용된 시각) 기준. 출처: tz database Asia/Seoul
+export const KOREA_DST = [
+  { start: "1948-06-01 00:00", end: "1948-09-13 00:00" },
+  { start: "1949-04-03 00:00", end: "1949-09-11 00:00" },
+  { start: "1950-04-01 00:00", end: "1950-09-10 00:00" },
+  { start: "1951-05-06 00:00", end: "1951-09-09 00:00" },
+  { start: "1955-05-05 00:00", end: "1955-09-09 00:00" },
+  { start: "1956-05-20 00:00", end: "1956-09-30 00:00" },
+  { start: "1957-05-05 00:00", end: "1957-09-22 00:00" },
+  { start: "1958-05-04 00:00", end: "1958-09-21 00:00" },
+  { start: "1959-05-03 00:00", end: "1959-09-20 00:00" },
+  { start: "1960-05-01 00:00", end: "1960-09-18 00:00" },
+  { start: "1987-05-10 03:00", end: "1987-10-11 03:00" },
+  { start: "1988-05-08 03:00", end: "1988-10-09 03:00" },
+];
+
+// 출생지 선택 목록. lon = 동경(도). 시주를 정하는 지방시 보정에만 쓴다.
+export const CITIES = [
+  { name: "서울", lon: 126.98 },
+  { name: "인천", lon: 126.7 },
+  { name: "수원", lon: 127.03 },
+  { name: "춘천", lon: 127.73 },
+  { name: "강릉", lon: 128.9 },
+  { name: "청주", lon: 127.49 },
+  { name: "대전", lon: 127.38 },
+  { name: "세종", lon: 127.29 },
+  { name: "전주", lon: 127.15 },
+  { name: "광주", lon: 126.85 },
+  { name: "목포", lon: 126.39 },
+  { name: "대구", lon: 128.6 },
+  { name: "안동", lon: 128.73 },
+  { name: "포항", lon: 129.37 },
+  { name: "울산", lon: 129.31 },
+  { name: "부산", lon: 129.08 },
+  { name: "창원", lon: 128.68 },
+  { name: "제주", lon: 126.53 },
+  { name: "평양", lon: 125.75 },
 ];
 
 export const SETTINGS = {
@@ -77,4 +116,7 @@ export const SETTINGS = {
   // 대운수 = (출생 ~ 절입까지 날수) / 3. 소수점은 반올림하고 최소 1로 둔다.
   daeunRound: (years) => Math.max(1, Math.round(years)),
   daeunCount: 8,
+  // 결과가 갈릴 수 있어 안내를 띄우는 기준
+  jieBoundaryHours: 2, // 절입 시각과 이 시간 안이면 안내
+  hourBoundaryMinutes: 10, // 시주가 바뀌는 시각과 이 분 안이면 안내
 };

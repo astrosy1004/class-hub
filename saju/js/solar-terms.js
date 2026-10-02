@@ -21,7 +21,7 @@ function normalizeDeg(deg) {
 }
 
 // 세계시와 역학시의 차이(초). 1860~2150년 범위.
-function deltaT(year) {
+export function deltaT(year) {
   if (year < 1900) {
     const t = year - 1860;
     return 7.62 + 0.5737 * t - 0.251754 * t ** 2 + 0.01680668 * t ** 3 - 0.0004473624 * t ** 4 + t ** 5 / 233174;

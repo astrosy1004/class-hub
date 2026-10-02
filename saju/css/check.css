@@ -45,7 +45,7 @@ code { background: var(--accent-soft); padding: 1px 5px; border-radius: 4px; fon
 .form.inline { grid-template-columns: 140px auto; justify-content: start; }
 .form label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; font-weight: 600; }
 .form label.check { flex-direction: row; align-items: center; gap: 6px; font-weight: 500; }
-.form input[type="date"], .form input[type="time"], .form input[type="number"] {
+.form input[type="date"], .form input[type="time"], .form input[type="number"], .form select {
   font: inherit; padding: 9px 10px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); color: var(--text);
 }
 .seg { border: 0; margin: 0; padding: 0; display: flex; gap: 12px; align-items: center; font-size: 14px; }
@@ -86,3 +86,11 @@ td.left, th.left { text-align: left; }
 .daeun strong { display: block; font-size: 18px; }
 
 .notice { margin-top: 16px; font-size: 12px; color: var(--muted); }
+
+/* 보정 안내 · 오류 */
+.notices { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 6px; font-size: 14px; }
+.notices li { border-radius: 10px; padding: 8px 10px; background: var(--accent-soft); }
+.notices li.warn { background: var(--now-bg); }
+.notices li.warn::before { content: "확인 · "; font-weight: 700; color: var(--now); }
+.notices li.info::before { content: "보정 · "; font-weight: 700; color: var(--accent); }
+.error { margin-top: 16px; padding: 10px 12px; border-radius: 10px; background: var(--ng-bg); color: var(--ng); font-weight: 600; }

@@ -6,9 +6,12 @@
 // - 일주: 출생지 지방시(경도 보정한 시각)로 날짜를 정하고, 23시(자시 시작)부터 다음 날로 본다.
 //   nightZi(야자시) 옵션을 켜면 23~24시는 일주를 그날로 두고, 시주만 다음 날 자시로 계산한다.
 // - 시주: 지방시 기준 2시간 단위(자시 23~01시 …).
+// - 음력 입력은 lunar.js로 양력으로 바꾼 뒤 계산한다. 서머타임 기간이면 1시간을 빼고 계산한다.
+// - 절기 경계 · 시주 경계 · 서머타임 · 표준시 변경처럼 결과가 갈릴 수 있는 경우는 notices로 안내한다.
 
-import { STEMS, BRANCHES, TEN_GODS, TWELVE_STAGES, CHANGSAENG, KOREA_STANDARD_TIME, SETTINGS } from "./saju-data.js";
+import { STEMS, BRANCHES, TEN_GODS, TWELVE_STAGES, CHANGSAENG, KOREA_STANDARD_TIME, KOREA_DST, SETTINGS } from "./saju-data.js";
 import { jdFromMs, msFromJd, sunLongitude, surroundingJie } from "./solar-terms.js";
+import { lunarToSolar, solarToLunar } from "./lunar.js";
 
 const HOUR_MS = 3600000;
 
@@ -69,26 +72,86 @@ export function formatClock(ms) {
   return `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())} ${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}`;
 }
 
+// 당시 시계 "YYYY-MM-DD HH:mm"이 서머타임 기간인지
+function isDst(clockText) {
+  return KOREA_DST.some((p) => clockText >= p.start && clockText < p.end);
+}
+
+function minutesText(min) {
+  const m = Math.round(Math.abs(min));
+  return m >= 60 ? `${Math.floor(m / 60)}시간 ${m % 60}분` : `${m}분`;
+}
+
 /**
  * 사주 계산
  * @param {object} input
- *   date: "YYYY-MM-DD" (양력), time: "HH:mm" 또는 null(시간 모름), gender: "M" | "F",
- *   longitude: 출생지 경도(기본 서울), nightZi: 야자시 사용 여부(기본 false), today: 기준일 Date(기본 지금)
+ *   calendar: "solar" | "lunar" (기본 solar), date: "YYYY-MM-DD" (calendar 기준), leap: 음력 윤달 여부,
+ *   time: "HH:mm" 또는 null(시간 모름), gender: "M" | "F", longitude: 출생지 경도(기본 서울),
+ *   nightZi: 야자시 사용 여부(기본 false), applyDst: 서머타임 기간이면 1시간 빼기(기본 true), today: 기준일 Date(기본 지금)
+ * @returns 계산 결과, 또는 없는 날짜(윤달이 없는 해 등)이면 { error }
  */
 export function calculateSaju(input) {
-  const { date, time = null, gender, longitude = SETTINGS.defaultLongitude, nightZi = false, today = new Date() } = input;
+  const {
+    calendar = "solar",
+    leap = false,
+    time = null,
+    gender,
+    longitude = SETTINGS.defaultLongitude,
+    nightZi = false,
+    applyDst = true,
+    today = new Date(),
+  } = input;
+  const notices = []; // { level: "info" | "warn", text }
+
+  // 0) 음력이면 양력으로 바꾼다
+  let date = input.date;
+  if (calendar === "lunar") {
+    const [ly, lm, ld] = input.date.split("-").map(Number);
+    const s = lunarToSolar(ly, lm, ld, leap);
+    if (!s) return { error: leap ? `음력 ${ly}년에는 윤${lm}월 ${ld}일이 없습니다.` : `음력 ${ly}년 ${lm}월 ${ld}일은 없는 날짜입니다.` };
+    date = `${s.year}-${pad(s.month)}-${pad(s.day)}`;
+  }
   const [year, month, day] = date.split("-").map(Number);
+  const lunar = solarToLunar(year, month, day);
   const hasTime = Boolean(time);
   const [hour, minute] = hasTime ? time.split(":").map(Number) : [12, 0]; // 시간 모름이면 정오로 연·월주를 정한다
 
-  // 1) 출생 순간(UTC)과 지방시
-  const utcOffset = koreaUtcOffset(date);
+  // 1) 출생 순간(UTC)과 지방시. 서머타임이면 시계가 1시간 빨랐으므로 UTC 차이를 1시간 늘린다
+  const standardOffset = koreaUtcOffset(date);
+  const dst = hasTime && isDst(`${date} ${time}`);
+  const dstApplied = dst && applyDst;
+  const utcOffset = standardOffset + (dstApplied ? 1 : 0);
   const clockMs = Date.UTC(year, month - 1, day, hour, minute);
   const instantMs = clockMs - utcOffset * HOUR_MS;
   const jd = jdFromMs(instantMs);
   const localMeanMs = instantMs + (longitude / 15) * HOUR_MS; // 경도 15°당 1시간
   const lmt = new Date(localMeanMs);
   const lmtHour = lmt.getUTCHours();
+
+  if (dst) {
+    notices.push(
+      dstApplied
+        ? { level: "warn", text: "서머타임 기간에 태어나 당시 시계가 1시간 빨랐습니다. 1시간을 빼고 계산했습니다." }
+        : { level: "warn", text: "서머타임 기간에 태어났지만 보정하지 않았습니다. 당시 시계 기준이라면 보정을 켜세요." },
+    );
+  }
+  if (standardOffset !== 9) {
+    notices.push({ level: "info", text: "이 시기 한국 표준시는 지금보다 30분 늦은 UTC+8:30(동경 127.5°)이었고, 그대로 반영했습니다." });
+  }
+  if (hasTime) {
+    const shift = (longitude / 15 - utcOffset) * 60;
+    notices.push({
+      level: "info",
+      text: `출생지(동경 ${longitude}°) 지방시는 시계보다 ${minutesText(shift)} ${shift < 0 ? "늦어" : "빨라"} ${formatClock(localMeanMs).slice(11)}로 시주를 정했습니다.`,
+    });
+    // 시주가 바뀌는 홀수 시 정각(지방시)과의 거리
+    const lmtMinutes = lmtHour * 60 + lmt.getUTCMinutes();
+    const r = (((lmtMinutes - 60) % 120) + 120) % 120;
+    const toBoundary = Math.min(r, 120 - r);
+    if (toBoundary <= SETTINGS.hourBoundaryMinutes) {
+      notices.push({ level: "warn", text: `시주가 바뀌는 시각과 ${toBoundary}분 차이입니다. 출생 시각이 몇 분만 달라도 시주가 바뀔 수 있습니다.` });
+    }
+  }
 
   // 2) 연주 · 월주: 태양 황경으로 몇 번째 절기 달인지 정한다 (0=寅월 … 11=丑월)
   const lon = sunLongitude(jd);
@@ -104,6 +167,13 @@ export function calculateSaju(input) {
   const isLateZi = hasTime && lmtHour >= 23;
   const dayJdn = isLateZi && !nightZi ? lmtDateJdn + 1 : lmtDateJdn;
   const dayPillar = ganzhi(dayJdn + 49); // 2000-01-01(JDN 2451545) = 戊午
+  if (isLateZi) {
+    notices.push(
+      nightZi
+        ? { level: "warn", text: "23시대(야자시) 출생: 일주는 그날로 두고 시주만 다음 날 기준으로 계산했습니다." }
+        : { level: "warn", text: "23시대(자시 앞부분) 출생: 일주를 다음 날로 봤습니다. 야자시를 쓰는 앱에서는 일주가 다르게 나옵니다." },
+    );
+  }
 
   // 4) 시주: 甲己일 → 甲子시 시작. 야자시는 다음 날 일간으로 시간을 정한다
   let hourPillar = null;
@@ -129,6 +199,14 @@ export function calculateSaju(input) {
   // 6) 대운: 양남음녀 순행, 음남양녀 역행. 대운수 = 절입까지 날수 / 3
   const forward = STEMS[yearPillar.stem].yang === (gender === "M");
   const jie = surroundingJie(jd);
+  const nearest = jd - jie.prev.jd < jie.next.jd - jd ? jie.prev : jie.next;
+  const gapHours = Math.abs(jd - nearest.jd) * 24;
+  const nearestKst = formatClock(msFromJd(nearest.jd) + 9 * HOUR_MS);
+  if (!hasTime && nearestKst.slice(0, 10) === date) {
+    notices.push({ level: "warn", text: `절입일(${nearest.name} ${nearestKst})에 태어났는데 시간을 모릅니다. 태어난 시각에 따라 월주${nearest.name === "입춘" ? "·연주" : ""}가 달라집니다.` });
+  } else if (hasTime && gapHours < SETTINGS.jieBoundaryHours) {
+    notices.push({ level: "warn", text: `${nearest.name} 절입(${nearestKst})과 ${minutesText(gapHours * 60)} 차이입니다. 월주${nearest.name === "입춘" ? "·연주" : ""}가 바뀌는 경계라 출생 시각을 확인하세요.` });
+  }
   const days = forward ? jie.next.jd - jd : jd - jie.prev.jd;
   const exactYears = days / 3;
   const daeunNumber = SETTINGS.daeunRound(exactYears);
@@ -155,7 +233,11 @@ export function calculateSaju(input) {
   const seunPillar = ganzhi(thisYear - 4);
 
   return {
-    input: { date, time, gender, longitude, nightZi },
+    input: { calendar, date: input.date, leap, time, gender, longitude, nightZi, applyDst },
+    solarDate: date,
+    lunar,
+    dst: dstApplied,
+    notices,
     utcOffset,
     birthClock: formatClock(clockMs),
     localMeanTime: hasTime ? formatClock(localMeanMs) : null,
