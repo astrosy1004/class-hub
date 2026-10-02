@@ -7,7 +7,7 @@
 순수 HTML·CSS·바닐라 JS(`<script type="module">`, 빌드 도구 없음), Firebase Auth(구글 로그인), Firestore, Firebase Hosting.
 
 - Firebase 프로젝트: `saju-app-sykim` (표시 이름 `saju-app`, `saju-app` ID는 이미 다른 사람이 써서 사용 불가)
-- 배포 주소(7단계 이후): https://saju-app-sykim.web.app
+- 배포 주소: https://saju-app-sykim.web.app
 
 ## 단계별 진행
 
@@ -19,7 +19,7 @@
 | 4 | 결과(아이콘 보기): 일간 본질 카드, 오행 균형, 십성 5그룹, 띠, 기질 키워드 | ✅ 완료 |
 | 5 | 점수 엔진(용신·기신) + 인생 그래프 + 월별 흐름 + 한 줄 풀이 + 지금 할 일 카드 | ✅ 초안 (전문가 검수 전) |
 | 6 | 구글 로그인 + 명식 저장(가족·지인 목록, Firestore) | ✅ 코드 완료 (콘솔 설정 필요) |
-| 7 | Firebase Hosting 배포 + Firestore 보안 규칙 | |
+| 7 | Firebase Hosting 배포 + Firestore 보안 규칙 | ✅ 배포 완료 |
 
 ## 실행 방법
 
@@ -88,6 +88,17 @@ firebase deploy --only firestore:rules
 
 웹 앱 등록(`saju-app`, appId `1:642552513638:web:60e11a4a3ade417f0019a7`)은 CLI로 이미 했고 설정값은 `js/firebase.js`에 있습니다.
 
+## 배포 (Firebase Hosting)
+
+```bash
+firebase deploy --only hosting,firestore:rules   # 이 폴더(saju/)에서 실행
+```
+
+- 이 폴더 자체(`.`)를 올리고, 아래 파일은 `firebase.json`의 `ignore`로 **공개하지 않습니다**:
+  기획서·README(`*.md`), 목업 PDF(`*.pdf`), 엔진 검증 페이지(`check.html`, `css/check.css`, `js/check.js`, `js/test-cases.js`), 설정 파일, 점(.)으로 시작하는 파일
+- 모든 파일에 `Cache-Control: no-cache`를 붙여, 다시 배포하면 휴대폰에서도 예전 CSS·JS가 섞이지 않습니다 (날씨 앱에서 겪은 문제).
+- `saju-app-sykim.web.app` · `saju-app-sykim.firebaseapp.com`은 Authentication 승인된 도메인에 기본으로 들어 있어 배포 주소에서도 구글 로그인이 됩니다.
+
 ## 점수 엔진 (`js/score.js`, 규칙은 `js/score-rules.js`)
 
 기획서 "해석 엔진 로직" 그대로: **용신에 가까울수록 높고, 기신에 가까울수록 낮다**. 같은 명식이면 항상 같은 점수.
@@ -136,7 +147,7 @@ saju/
 │  ├─ test-cases.js    검증 사례(CASES) · 음력 변환(LUNAR_CHECKS) · 절기 기준 시각(TERM_CHECKS)
 │  └─ check.js         검증 페이지 그리기
 ├─ firestore.rules     본인만 읽고 쓰는 보안 규칙
-├─ firebase.json       Firestore 규칙 배포 설정 (Hosting은 7단계)
+├─ firebase.json       Firestore 규칙 · Hosting 배포 설정
 ├─ .firebaserc         Firebase 프로젝트 saju-app-sykim
 └─ README.md
 ```
