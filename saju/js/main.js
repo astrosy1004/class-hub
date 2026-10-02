@@ -13,8 +13,8 @@ import {
 } from "./ui.js";
 import { icon } from "./icons.js";
 
-// 저장된 명식이 없을 때 보여주는 예시 (기획서 예시 명식: 병진·신축·계유·신유)
-const SAMPLE = { sample: true, id: "sample", name: "홍길동", relation: "예시", gender: "F", calendar: "solar", leap: false, date: "1990-03-15", time: "18:30", city: "서울", longitude: 126.98, applyDst: true, nightZi: false };
+// 저장된 명식이 없을 때 보여주는 가상의 예시 (실제 인물 아님: 경오·기묘·기묘·기사)
+const SAMPLE = { sample: true, id: "sample", name: "홍길동", relation: "예시", gender: "M", calendar: "solar", leap: false, date: "1990-03-15", time: "10:30", city: "서울", longitude: 126.98, applyDst: true, nightZi: false };
 
 const TAB_OF = { home: "home", fortune: "fortune", monthly: "fortune", life: "home", job: "home", me: "me", chart: "chart", charts: "chart", manse: "chart" };
 const views = Object.fromEntries([...document.querySelectorAll("[data-view]")].map((el) => [el.dataset.view, el]));

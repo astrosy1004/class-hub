@@ -15,9 +15,9 @@ export const CASES = [
   { label: "2024 입춘(17:27) 직전", date: "2024-02-04", time: "17:00", gender: "M", expect: "癸卯 乙丑 戊戌 庚申", source: "손계산(절기 경계)" },
   { label: "2024 입춘(17:27) 직후", date: "2024-02-04", time: "18:00", gender: "M", expect: "甲辰 丙寅 戊戌 辛酉", source: "손계산(절기 경계)" },
   { label: "자시(23:40) → 다음 날 일주", date: "2024-02-04", time: "23:40", gender: "M", expect: "甲辰 丙寅 己亥 甲子", source: "손계산(자시 경계)" },
-  { label: "기획서 예시 명식", date: "1990-03-15", time: "18:30", gender: "F", expect: "丙辰 辛丑 癸酉 辛酉", source: "기획서(병진·신축·계유·신유)" },
+  { label: "앱 예시 명식(홍길동, 가상)", date: "1990-03-15", time: "10:30", gender: "M", expect: "庚午 己卯 己卯 己巳", source: "손계산(경칩 뒤 卯월, 지방시 09:57 巳시)" },
   { label: "시간 모름", date: "1985-07-15", time: null, gender: "F", expect: "乙丑 癸未 乙卯", source: "손계산" },
-  { label: "음력 입력(기획서 예시와 같은 날)", calendar: "lunar", date: "1990-02-19", time: "18:30", gender: "F", expect: "丙辰 辛丑 癸酉 辛酉", source: "손계산(음력 1990-02-19 = 양력 1990-03-15, 음력 12/1 = 1/19, 설날 2/18과 일치)" },
+  { label: "음력 입력(홍길동과 같은 날)", calendar: "lunar", date: "1990-02-19", time: "10:30", gender: "M", expect: "庚午 己卯 己卯 己巳", source: "음력 1990-02-19 = 양력 1990-03-15 (1990 설날 1/27 기준)" },
   { label: "서머타임(1시간 보정)", date: "1988-07-01", time: "10:00", gender: "M", expect: "戊辰 戊午 丁巳 甲辰", source: "손계산(10:00 → 09:00 → 지방시 08:28 辰시)" },
   // ↓ 기존 만세력 앱에서 확인한 명식을 여기에 추가하세요. 예)
   // { label: "본인", date: "1970-05-05", time: "07:30", gender: "M", expect: "○○ ○○ ○○ ○○", daeun: 5, source: "앱: ○○만세력" },
