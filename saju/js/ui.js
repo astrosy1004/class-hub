@@ -3,7 +3,7 @@
 
 import { STEMS, BRANCHES, ELEMENTS, CITIES } from "./saju-data.js";
 import { solarTermsOfYear, msFromJd } from "./solar-terms.js";
-import { pillarKo } from "./manse.js";
+import { pillarKo, calculateSaju, fourPillarsText } from "./manse.js";
 import {
   bandOf, elementLabel, josa, scorePillar, dayScore, godGroups, jobFit, certificates, mindFactors, workplaceFit, dateKey,
 } from "./score.js";
@@ -12,6 +12,7 @@ import { lineChart, barChart, radarChart, donutChart, gaugeChart, hBars, compare
 import { icon, ELEMENT_ICONS } from "./icons.js";
 
 const DOW = ["일", "월", "화", "수", "목", "금", "토"];
+const RELATIONS = ["본인", "배우자", "자녀", "부모", "형제자매", "지인"];
 const COLOR_WORD = ["푸른", "붉은", "누런", "흰", "검은"];
 const PILLAR_ROLE = { year: "연주 · 뿌리, 어린 시절", month: "월주 · 사회, 부모", day: "일주 · 나 자신, 배우자", hour: "시주 · 자녀, 말년" };
 const DOMAIN_CARE = { total: "지키기", wealth: "아껴 쓰기", love: "천천히 가기", spouse: "말 아끼기", children: "지켜보기", career: "준비하기", mind: "쉬어 가기" };
@@ -32,7 +33,7 @@ const elementGroupId = (natal, e) => Object.keys(natal.rel).find((k) => natal.re
 
 function sampleBanner(model) {
   return model.profile.sample
-    ? `<div class="empty-banner"><span>예시 명식(${esc(model.profile.name)})으로 보고 있어요</span><a href="#manse">내 명식 넣기</a></div>`
+    ? `<div class="empty-banner"><span>예시 명식(${esc(model.profile.name)})으로 보고 있어요</span><a href="#manse/new">내 명식 넣기</a></div>`
     : "";
 }
 
@@ -101,7 +102,8 @@ export function renderHome(model) {
   return `
     <header class="greet">
       <div><small>${cm}월 ${today.getDate()}일 ${DOW[today.getDay()]}요일 · ${todayScore.ko}일</small>
-      <h1>${esc(profile.name || "나")}님, ${greet}</h1></div>
+      <h1>${esc(profile.name || "나")}님, ${greet}</h1>
+      <a class="switch" href="#charts">${profile.sample ? "예시 명식" : esc(profile.relation || "본인")} · 명식 바꾸기 ${icon("next")}</a></div>
       <button class="icon-btn" data-action="theme" aria-label="화면 테마">${icon("palette")}</button>
     </header>
     ${sampleBanner(model)}
@@ -378,7 +380,7 @@ export function renderJob(model) {
 }
 
 // ── 6. 나의 기질 리포트 ─────────────────────────────
-export function renderMe(model, theme) {
+export function renderMe(model, theme, account) {
   const { natal, life, saju } = model;
   const dmInfo = DAY_MASTER[natal.dm];
   const cur = life.points[life.currentIndex] || life.points[0];
@@ -440,7 +442,8 @@ export function renderMe(model, theme) {
       <div class="card-head"><h2>화면 테마</h2><span class="sub">그래프 색이 함께 바뀌어요</span></div>
       <div class="themes">${themeButtons(theme)}</div>
     </section>
-    <a class="btn soft" href="#manse">${icon("edit", 'style="width:18px;height:18px"')}명식 바꾸기</a>
+    ${accountCard(account)}
+    <a class="btn soft" href="#charts">${icon("list", 'style="width:18px;height:18px"')}명식 목록 · 가족 명식 관리</a>
     ${disclaimer()}`;
 }
 
@@ -468,7 +471,8 @@ export function renderChart(model, mode = "table") {
     <header class="profile">
       <button class="icon-btn" data-action="back" aria-label="뒤로">${icon("back")}</button>
       <div class="grow"><h1><span class="age">${saju.koreanAge}세</span> ${esc(profile.name || "이름 없음")}</h1><small>${dateLine}</small></div>
-      <a class="icon-btn" href="#manse" aria-label="명식 바꾸기">${icon("edit")}</a>
+      <a class="icon-btn" href="#manse/edit" aria-label="이 명식 수정">${icon("edit")}</a>
+      <a class="icon-btn" href="#charts" aria-label="명식 목록">${icon("list")}</a>
     </header>
     ${sampleBanner(model)}
     <div class="toggle" role="tablist">
@@ -568,16 +572,20 @@ function renderChartIcons(model) {
 }
 
 // ── 8. 만세력 입력 ─────────────────────────────
-export function renderManse(profile, error = "") {
-  const p = profile && !profile.sample ? profile : { gender: "F", calendar: "solar", date: "", time: "", city: "서울", longitude: 126.98, applyDst: true };
+export function renderManse(chart, error = "") {
+  const p = chart || { relation: "본인", gender: "F", calendar: "solar", date: "", time: "", city: "서울", longitude: 126.98, applyDst: true };
   const calValue = p.calendar === "lunar" ? (p.leap ? "leap" : "lunar") : "solar";
   const radio = (name, value, label, checked) => `<label><input type="radio" name="${name}" value="${value}" ${checked ? "checked" : ""}><span>${label}</span></label>`;
   return `
-    ${topbar("만세력 조회")}
+    ${topbar(chart ? "명식 수정" : "새 명식 추가")}
     <p class="headline">태어난 날을 알려주세요</p>
     <p class="lead" style="margin-top:-12px!important">시간을 몰라도 연·월·일 세 기둥으로 풀어드려요</p>
     <form class="form" id="manseForm" novalidate>
-      <label class="field"><span>이름 (선택)</span><input class="input" name="name" maxlength="20" value="${esc(p.name || "")}" placeholder="이름 또는 별명"></label>
+      <div class="two">
+        <label class="field"><span>이름 (선택)</span><input class="input" name="name" maxlength="20" value="${esc(p.name || "")}" placeholder="이름 또는 별명"></label>
+        <label class="field"><span>나와의 관계</span><select class="input" name="relation">${RELATIONS.map((r) => `<option ${r === (p.relation || "본인") ? "selected" : ""}>${r}</option>`).join("")}</select></label>
+      </div>
+      <label class="check consent" data-consent ${(p.relation || "본인") === "본인" ? "hidden" : ""}><input type="checkbox" name="consent" ${p.consent ? "checked" : ""}> 이 명식의 주인에게 생년월일시 저장 동의를 받았어요</label>
       <fieldset class="field"><legend>성별</legend><div class="seg">${radio("gender", "M", "남자", p.gender === "M")}${radio("gender", "F", "여자", p.gender !== "M")}</div></fieldset>
       <fieldset class="field"><legend>달력</legend><div class="seg">${radio("calendar", "solar", "양력", calValue === "solar")}${radio("calendar", "lunar", "음력", calValue === "lunar")}${radio("calendar", "leap", "음력 윤달", calValue === "leap")}</div></fieldset>
       <div class="two">
@@ -601,3 +609,58 @@ export function renderManse(profile, error = "") {
     </form>
     ${disclaimer()}`;
 }
+
+// ── 9. 로그인 카드 · 명식 목록 ─────────────────────────────
+export function accountCard(account) {
+  if (!account.ready) return `<section class="card account"><p class="sub">로그인 상태를 확인하는 중…</p></section>`;
+  if (account.error) return `<section class="card account"><p class="sub">${esc(account.error)}</p></section>`;
+  if (!account.user) {
+    return `<section class="card account">
+      <div class="card-head"><h2>내 계정에 저장하기</h2></div>
+      <p class="sub" style="margin-bottom:12px">로그인하면 명식 목록이 계정에 저장돼 다른 기기에서도 볼 수 있어요. 지금은 이 기기에만 저장돼요.</p>
+      <button class="btn google" data-action="login">${GOOGLE_LOGO}Google로 로그인</button>
+    </section>`;
+  }
+  const u = account.user;
+  const photo = u.photoURL
+    ? `<img class="avatar" src="${esc(u.photoURL)}" alt="" referrerpolicy="no-referrer">`
+    : `<span class="avatar">${esc((u.displayName || "?").slice(0, 1))}</span>`;
+  return `<section class="card account">
+    <div class="me-row">${photo}<span class="grow"><b>${esc(u.displayName || "이름 없음")}</b><small>${esc(u.email || "")} · 명식이 계정에 저장돼요</small></span>
+    <button class="btn small soft" data-action="logout">로그아웃</button></div>
+  </section>`;
+}
+
+export function renderCharts(list, currentId, account) {
+  const where = account.user ? "내 계정 (다른 기기에서도 보여요)" : "이 기기";
+  const loading = account.user && account.charts === null;
+  const rows = list.map((c) => {
+    const r = calculateSaju({ ...c, today: new Date() });
+    const e = r.error ? 3 : STEMS[r.pillars.day.stem].element;
+    const pillars = r.error ? r.error : fourPillarsText(r);
+    const date = `${c.calendar === "lunar" ? `음력${c.leap ? "(윤)" : ""} ` : ""}${c.date.replaceAll("-", ".")} · ${c.time || "시간 모름"} · ${c.gender === "M" ? "남" : "여"}`;
+    return `<article class="chart-item ${c.id === currentId ? "on" : ""}">
+      <button class="pick" data-action="select-chart" data-id="${esc(c.id)}">
+        <span class="orb bg-${e} el-${e}">${r.error ? "?" : STEMS[r.pillars.day.stem].han}</span>
+        <span class="grow"><b>${esc(c.name || "이름 없음")} <span class="chip">${esc(c.relation || "본인")}</span>${c.id === currentId ? ' <span class="chip now">보는 중</span>' : ""}</b>
+        <small>${date}</small><small class="pillars">${pillars}</small></span>
+      </button>
+      <div class="item-actions">
+        <button class="icon-btn" data-action="edit-chart" data-id="${esc(c.id)}" aria-label="수정">${icon("edit")}</button>
+        <button class="icon-btn" data-action="delete-chart" data-id="${esc(c.id)}" aria-label="삭제">${icon("trash")}</button>
+      </div>
+    </article>`;
+  }).join("");
+
+  return `
+    ${topbar("명식 목록")}
+    ${accountCard(account)}
+    <p class="eyebrow" style="margin:6px 0 10px">저장 위치 · ${where}</p>
+    ${loading ? `<section class="card"><p class="sub">계정 명식을 불러오는 중…</p></section>` : ""}
+    ${!loading && !list.length ? `<section class="card"><p style="font-size:15px">아직 저장한 명식이 없어요. 지금은 예시 명식(홍길동)을 보여주고 있어요.</p></section>` : ""}
+    <div class="chart-list">${rows}</div>
+    <a class="btn" href="#manse/new">${icon("plus", 'style="width:18px;height:18px"')}새 명식 추가</a>
+    <p class="disclaimer">가족·지인 명식은 본인 동의를 받은 뒤 저장해 주세요. 생년월일시는 로그인한 본인만 읽을 수 있게 저장돼요.</p>`;
+}
+
+const GOOGLE_LOGO = `<svg viewBox="0 0 48 48" width="18" height="18" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>`;

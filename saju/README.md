@@ -18,7 +18,7 @@
 | 3 | 화면 뼈대(`#주소` 화면 전환, 하단 탭 4개) + 입력 화면 + 결과(표 보기) | ✅ 완료 |
 | 4 | 결과(아이콘 보기): 일간 본질 카드, 오행 균형, 십성 5그룹, 띠, 기질 키워드 | ✅ 완료 |
 | 5 | 점수 엔진(용신·기신) + 인생 그래프 + 월별 흐름 + 한 줄 풀이 + 지금 할 일 카드 | ✅ 초안 (전문가 검수 전) |
-| 6 | 구글 로그인 + 명식 저장(가족·지인 목록, Firestore) | |
+| 6 | 구글 로그인 + 명식 저장(가족·지인 목록, Firestore) | ✅ 코드 완료 (콘솔 설정 필요) |
 | 7 | Firebase Hosting 배포 + Firestore 보안 규칙 | |
 
 ## 실행 방법
@@ -53,6 +53,41 @@ py -m http.server 5510 --bind 127.0.0.1
 
 그래프는 라이브러리 없이 `js/charts.js`가 SVG로 직접 그립니다 (꺾은선 · 막대 · 레이더 · 도넛 · 게이지 · 가로 막대 · 비교 막대).
 
+## 로그인 · 명식 목록 (6단계)
+
+| 상태 | 명식 목록 저장 위치 |
+|---|---|
+| 로그아웃 | 이 기기 localStorage `saju:charts` (지금 보는 명식 id는 `saju:currentId`) |
+| 로그인 | Firestore `users/{uid}/charts/{명식 id}` — 다른 기기에서도 보임 |
+
+- 명식 목록 화면 `#charts`: 만세력 결과 화면 오른쪽 위 목록 버튼, 홈 인사말 아래 "명식 바꾸기", 나의 기질 화면 아래에서 들어갑니다.
+  누르면 그 명식으로 모든 화면이 바뀌고, 연필 버튼은 수정, 휴지통 버튼은 삭제(확인 창)입니다.
+- 새 명식 `#manse/new`, 지금 명식 수정 `#manse/edit`. 관계(본인·배우자·자녀·부모·형제자매·지인)를 고르고,
+  본인이 아니면 "저장 동의를 받았어요" 체크가 있어야 저장됩니다 (기획서 개인정보 원칙).
+- 처음 로그인하면 이 기기에만 있던 명식을 계정으로 올립니다. 명식 id가 같으면 덮어쓰므로 여러 번 로그인해도 늘어나지 않습니다.
+- 5단계까지 쓰던 `saju:profile`(명식 1개)은 처음 열 때 목록(관계 "본인")으로 옮기고 지웁니다.
+- Firebase SDK를 못 불러오면 "로그인을 불러오지 못했어요"만 보이고, 나머지는 이 기기 저장으로 그대로 동작합니다.
+
+파일: `js/firebase.js`(SDK CDN · 설정값, SDK를 부르는 유일한 파일) · `js/auth.js`(로그인) · `js/cloud.js`(Firestore 명식 목록) · `firestore.rules`
+
+**보안 규칙** (`firestore.rules`): `users/{uid}` 아래 전부를 그 uid 본인만 읽고 쓸 수 있습니다 (날씨 앱과 같은 규칙).
+생년월일시는 Firestore가 저장할 때 암호화하고(Google 기본), 규칙으로 본인 외 접근을 막습니다. 별도 앱 암호화는 하지 않습니다.
+
+### Firebase 콘솔 설정 (최초 1회)
+
+`gcloud`가 없어서 CLI로 켤 수 없는 두 가지는 콘솔에서 직접 켭니다.
+
+1. [Firestore](https://console.firebase.google.com/project/saju-app-sykim/firestore) → **데이터베이스 만들기** → 위치 `asia-northeast3 (서울)` → **프로덕션 모드**로 시작
+2. [Authentication](https://console.firebase.google.com/project/saju-app-sykim/authentication) → 시작하기 → **로그인 방법** → **Google** 사용 설정 → 지원 이메일 선택 → 저장
+3. Authentication → 설정 → **승인된 도메인**에 `localhost`가 있는지 확인 (없으면 `localhost`, `127.0.0.1` 추가)
+4. 보안 규칙 배포: 이 폴더에서
+
+```bash
+firebase deploy --only firestore:rules
+```
+
+웹 앱 등록(`saju-app`, appId `1:642552513638:web:60e11a4a3ade417f0019a7`)은 CLI로 이미 했고 설정값은 `js/firebase.js`에 있습니다.
+
 ## 점수 엔진 (`js/score.js`, 규칙은 `js/score-rules.js`)
 
 기획서 "해석 엔진 로직" 그대로: **용신에 가까울수록 높고, 기신에 가까울수록 낮다**. 같은 명식이면 항상 같은 점수.
@@ -79,7 +114,7 @@ py -m http.server 5510 --bind 127.0.0.1
 
 ```
 saju/
-├─ index.html          앱 화면 8개의 뼈대 (section data-view="...") + 하단 탭 + 테마 시트
+├─ index.html          앱 화면 9개의 뼈대 (section data-view="...") + 하단 탭 + 테마 시트
 ├─ check.html          엔진 검증 페이지 (직접 조회 · 검증 사례 · 음력 변환 · 절기 시각표)
 ├─ css/style.css       앱 스타일 (테마 4종 CSS 변수, 오행 색 --wood/--fire/--earth/--metal/--water)
 ├─ css/check.css       검증 페이지 스타일
@@ -88,7 +123,10 @@ saju/
 │  ├─ ui.js            화면 8개 그리기 (HTML 문자열)
 │  ├─ charts.js        SVG 그래프 7종
 │  ├─ icons.js         선 아이콘 + 오행 아이콘
-│  ├─ store.js         localStorage (saju:profile, saju:chartMode, sajuTheme)
+│  ├─ store.js         localStorage (saju:charts, saju:currentId, saju:chartMode, sajuTheme)
+│  ├─ firebase.js      Firebase SDK(CDN) import + 설정값
+│  ├─ auth.js          구글 로그인 · 로그아웃 · 상태 구독
+│  ├─ cloud.js         Firestore 명식 목록 (users/{uid}/charts)
 │  ├─ score.js         점수 엔진 (원국 분석 · 기간별 영역 점수 · 직종 · 자격증 · 마음 요인)
 │  ├─ score-rules.js   점수 규칙표 · 풀이 문구 · 일간 본질 · 직종 · 자격증 · 실천 가이드 (문구 수정은 여기만)
 │  ├─ saju-data.js     천간·지지·오행·십신·지장간·12운성·24절기·한국 표준시·서머타임·출생지 표 + 설정값(SETTINGS)
@@ -97,6 +135,8 @@ saju/
 │  ├─ manse.js         만세력 엔진 calculateSaju() — 양력/음력 → 네 기둥 · 대운 · 세운 · 보정 안내
 │  ├─ test-cases.js    검증 사례(CASES) · 음력 변환(LUNAR_CHECKS) · 절기 기준 시각(TERM_CHECKS)
 │  └─ check.js         검증 페이지 그리기
+├─ firestore.rules     본인만 읽고 쓰는 보안 규칙
+├─ firebase.json       Firestore 규칙 배포 설정 (Hosting은 7단계)
 ├─ .firebaserc         Firebase 프로젝트 saju-app-sykim
 └─ README.md
 ```
@@ -168,4 +208,4 @@ saju/
 - 출생지는 국내 주요 도시 19곳 + 경도 직접 입력입니다. 해외 출생은 경도를 직접 넣어도 표준시가 한국 기준이라 맞지 않습니다.
 - 대운수는 날수 ÷ 3을 반올림합니다. 목업 6장(목업 예시 명식)은 대운수 6, 이 앱은 5(15.4일 ÷ 3 = 5.13)라 기존 앱 대조가 필요합니다.
 - 점수 · 풀이 규칙은 초안입니다. 형 · 파 · 해, 신살(도화 제외)은 아직 반영하지 않았습니다.
-- 명식은 이 기기에 1개만 저장됩니다. 가족 · 지인 목록과 계정 저장은 6단계에서 붙입니다.
+- 로그인 후 로그아웃하면 이 기기 목록(로그인 전 것)만 보입니다. 로그인 중에 추가·수정한 명식은 계정에만 있습니다.

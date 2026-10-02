@@ -419,6 +419,31 @@ details.more-opt .form { margin-top: 12px; }
 .sheet { background: var(--bg); border-radius: 24px 24px 0 0; padding: 20px 16px 28px; max-width: 480px; width: 100%; margin: 0 auto; }
 .sheet h2 { margin: 0 0 14px; font-size: 17px; }
 
+/* 계정 · 명식 목록 */
+.switch { display: inline-flex; align-items: center; gap: 2px; font-size: 12px; font-weight: 600; color: var(--accent); margin-top: 4px; }
+.switch svg { width: 14px; height: 14px; }
+.btn.google { background: var(--surface); color: var(--text); border: 1px solid var(--line); }
+.me-row { display: flex; align-items: center; gap: 12px; }
+.me-row .grow { flex: 1; min-width: 0; }
+.me-row b { display: block; font-size: 15px; }
+.me-row small { display: block; color: var(--muted); font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.avatar { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; flex: none; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); font-weight: 800; }
+.chart-list { display: grid; gap: 10px; margin-bottom: 14px; }
+.chart-item { display: flex; align-items: center; gap: 6px; background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); padding: 12px 10px 12px 14px; border: 2px solid transparent; }
+.chart-item.on { border-color: var(--accent); }
+.chart-item .pick { flex: 1; min-width: 0; display: flex; gap: 12px; align-items: center; background: none; border: 0; padding: 0; text-align: left; }
+.chart-item .orb { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; font-size: 22px; font-weight: 800; flex: none; }
+.chart-item .grow { min-width: 0; }
+.chart-item b { display: block; font-size: 15px; }
+.chart-item b .chip { font-size: 11px; padding: 2px 8px; vertical-align: 1px; }
+.chart-item small { display: block; color: var(--muted); font-size: 12px; }
+.chart-item .pillars { color: var(--text); font-weight: 600; letter-spacing: 0.04em; }
+.item-actions { display: flex; flex-direction: column; gap: 6px; }
+.item-actions .icon-btn { width: 34px; height: 34px; box-shadow: none; background: var(--surface-2); }
+.item-actions .icon-btn svg { width: 16px; height: 16px; }
+.consent { background: var(--warn-soft); padding: 10px 12px; border-radius: var(--radius-sm); }
+.btn:disabled { opacity: 0.6; }
+
 .toast { position: fixed; left: 50%; bottom: calc(var(--tabbar-h) + 28px); transform: translateX(-50%); background: var(--text); color: var(--bg); padding: 10px 16px; border-radius: 999px; font-size: 14px; z-index: 30; }
 
 @media (max-width: 360px) {
