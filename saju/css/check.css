@@ -1,0 +1,88 @@
+/* 엔진 검증 페이지(check.html) 전용 스타일. 사용자 화면 스타일은 3단계에서 style.css로 만든다. */
+:root {
+  --bg: #f7f7f8;
+  --surface: #ffffff;
+  --text: #171719;
+  --muted: #70737c;
+  --accent: #3366ff;
+  --accent-soft: #eaf0ff;
+  --border: #e1e2e4;
+  --ok: #00a86b;
+  --ok-bg: #e9f9f1;
+  --ng: #e5263c;
+  --ng-bg: #ffecee;
+  --now: #ff8a3d; /* 현재 위치 강조(기획서: 주황) */
+  --now-bg: #fff3ea;
+
+  /* 오행 색 */
+  --wood: #2e9d5b;
+  --fire: #e5483c;
+  --earth: #c08a2b;
+  --metal: #8a8f99;
+  --water: #2f6fd6;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Malgun Gothic", sans-serif;
+  line-height: 1.5;
+}
+
+.page { max-width: 760px; margin: 0 auto; padding: 24px 16px 48px; }
+.page-head h1 { margin: 4px 0 8px; font-size: 26px; }
+.eyebrow { margin: 0; color: var(--accent); font-weight: 700; font-size: 13px; }
+.muted { color: var(--muted); font-size: 14px; }
+code { background: var(--accent-soft); padding: 1px 5px; border-radius: 4px; font-size: 13px; }
+
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px 16px; margin-top: 16px; }
+.card h2 { margin: 0 0 12px; font-size: 18px; display: flex; align-items: center; gap: 8px; }
+
+.form { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; align-items: end; }
+.form.inline { grid-template-columns: 140px auto; justify-content: start; }
+.form label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; font-weight: 600; }
+.form label.check { flex-direction: row; align-items: center; gap: 6px; font-weight: 500; }
+.form input[type="date"], .form input[type="time"], .form input[type="number"] {
+  font: inherit; padding: 9px 10px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); color: var(--text);
+}
+.seg { border: 0; margin: 0; padding: 0; display: flex; gap: 12px; align-items: center; font-size: 14px; }
+.seg legend { font-size: 13px; font-weight: 600; padding: 0; margin-bottom: 4px; }
+.seg label { flex-direction: row; align-items: center; gap: 4px; font-weight: 500; }
+
+.btn { font: inherit; font-weight: 700; border: 0; border-radius: 10px; padding: 10px 16px; background: var(--accent); color: #fff; cursor: pointer; }
+.btn.ghost { background: var(--accent-soft); color: var(--accent); }
+
+.badge { font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.ok { color: var(--ok); font-weight: 700; }
+.ng { color: var(--ng); font-weight: 700; }
+tr.row-ng { background: var(--ng-bg); }
+
+.table-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { border-bottom: 1px solid var(--border); padding: 8px 6px; text-align: center; white-space: nowrap; }
+th { color: var(--muted); font-weight: 600; font-size: 12px; }
+td.left, th.left { text-align: left; }
+
+/* 네 기둥 표 */
+.pillars { margin-top: 20px; }
+.pillars td.big { font-size: 28px; font-weight: 800; }
+.pillars .god { font-size: 12px; color: var(--muted); }
+.el-wood { color: var(--wood); }
+.el-fire { color: var(--fire); }
+.el-earth { color: var(--earth); }
+.el-metal { color: var(--metal); }
+.el-water { color: var(--water); }
+
+.meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; margin: 16px 0 0; font-size: 14px; }
+.meta div { background: var(--bg); border-radius: 10px; padding: 8px 10px; }
+.meta b { display: block; font-size: 12px; color: var(--muted); font-weight: 600; }
+
+.daeun { display: grid; grid-template-columns: repeat(8, minmax(64px, 1fr)); gap: 6px; margin-top: 16px; overflow-x: auto; }
+.daeun div { border: 1px solid var(--border); border-radius: 10px; padding: 6px 4px; text-align: center; font-size: 12px; }
+.daeun div.now { border-color: var(--now); background: var(--now-bg); }
+.daeun strong { display: block; font-size: 18px; }
+
+.notice { margin-top: 16px; font-size: 12px; color: var(--muted); }

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>만세력 엔진 검증 · 나의 기질 그래프</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="./css/check.css">
+</head>
+<body>
+<main class="page">
+  <header class="page-head">
+    <p class="eyebrow">1단계 · 개발용 페이지</p>
+    <h1>만세력 엔진 검증</h1>
+    <p class="muted">기존 만세력 앱과 네 기둥·대운이 같은지 확인하는 화면입니다. 사용자 화면은 3단계에서 만듭니다.</p>
+  </header>
+
+  <section class="card">
+    <h2>직접 조회</h2>
+    <form id="form" class="form">
+      <label>생년월일(양력)<input type="date" name="date" value="1990-03-15" min="1900-01-01" max="2100-12-31" required></label>
+      <label>태어난 시각<input type="time" name="time" value="18:30"></label>
+      <label class="check"><input type="checkbox" name="unknownTime"> 시간 모름</label>
+      <fieldset class="seg">
+        <legend>성별</legend>
+        <label><input type="radio" name="gender" value="F" checked> 여</label>
+        <label><input type="radio" name="gender" value="M"> 남</label>
+      </fieldset>
+      <label>출생지 경도(동경)<input type="number" name="longitude" step="0.01" value="126.98"></label>
+      <label class="check"><input type="checkbox" name="nightZi"> 야자시 사용 (23~24시 일주를 그날로)</label>
+      <button type="submit" class="btn">계산하기</button>
+    </form>
+    <div id="result"></div>
+  </section>
+
+  <section class="card">
+    <h2>검증 사례 <span id="caseSummary" class="badge"></span></h2>
+    <p class="muted">기대값은 <code>js/test-cases.js</code>의 CASES에 적습니다. 출처가 "앱:"으로 시작하는 사례만 관문(기존 앱과 30건 일치)에 셉니다.</p>
+    <div class="table-wrap"><table id="caseTable"></table></div>
+  </section>
+
+  <section class="card">
+    <h2>절기 시각</h2>
+    <form id="termForm" class="form inline">
+      <label>연도<input type="number" name="year" value="2026" min="1900" max="2100"></label>
+      <button type="submit" class="btn ghost">보기</button>
+    </form>
+    <p class="muted">공개 절입 시각과의 비교: <span id="termCheck"></span></p>
+    <div class="table-wrap"><table id="termTable"></table></div>
+  </section>
+</main>
+<script type="module" src="./js/check.js"></script>
+</body>
+</html>
