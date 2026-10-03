@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-10-02T20:14:14.869Z",
+  "updatedAt": "2026-10-03T00:48:55.132Z",
   "categories": [
     {
       "id": "job",
@@ -114,19 +114,19 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "포스코인재창조원, 한국퓨얼셀과 함께 지역 초등생 코딩교육 위한 ‘JUMP 코딩’ 프로그램 실시 - 한국인포맥스",
+          "title": "포스코인재창조원, 한국퓨얼셀과 함께 지역 초등생 코딩교육 위한 ‘JUMP 코딩’ 프로그램 실시 - hinfomax.co.kr",
           "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE05MDdyZjdUUVhkMmxQaTYybHBrejd0LXdueE1jRDhTcXotTzMzcTBEZjZWcDE1ZlpXVnZmLVlscTJnTXQ4ZXBjXzFHOFByVk9JQzZBYkVrS2dmS2c1Mm9pQ1hXMXc1Q0FWcl94LQ?oc=5",
           "date": "2023-07-12T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTE05MDdyZjdUUVhkMmxQaTYybHBrejd0LXdueE1jRDhTcXotTzMzcTBEZjZWcDE1ZlpXVnZmLVlscTJnTXQ4ZXBjXzFHOFByVk9JQzZBYkVrS2dmS2c1Mm9pQ1",
-          "source": "한국인포맥스",
+          "source": "hinfomax.co.kr",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "[인터뷰] 오지 마을의 코딩 전도사 ‘숲속엄마’ 송미선 강사 - kukinews.com",
+          "title": "[인터뷰] 오지 마을의 코딩 전도사 ‘숲속엄마’ 송미선 강사 - 쿠키뉴스",
           "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5xblVYb0s1LUNYTTZYLUNVdXVhZVYxemtxRW9icWsxd0ZESUt6bXdvazlMd05oeWVBcUVoTExQekZaV1RpWDE3RTB4YWhUazdlQ3I5NDF3MEZfY2VxTG5HMTNQMA?oc=5",
           "date": "2021-11-29T08:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiY0FVX3lxTE5xblVYb0s1LUNYTTZYLUNVdXVhZVYxemtxRW9icWsxd0ZESUt6bXdvazlMd05oeWVBcUVoTExQekZaV1RpWDE3RTB4YWhUazdlQ3I5NDF3MEZfY2VxTG5HMT",
-          "source": "kukinews.com",
+          "source": "쿠키뉴스",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -135,14 +135,6 @@ window.MYNEWS_DATA = {
           "date": "2021-05-28T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiaEFVX3lxTE1VMnRwdTdZRkE4aU4yUzZ2MjVzQmJJRTQxYUlRaGx6WmltY056cjFfMEtHX21ob0ZkM1F3UGZNZmg5Um54MmhTd09DMXNEZTNUSzE4WEZuYjdTdk5scWhuYS",
           "source": "테크월드",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
-          "title": "서울시중부기술교육원, ‘AI CODE 기술을 활용한 코딩 강사 양성과정’ 교육생 모집 - 뉴스와이어",
-          "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9EQjVVSExPeHhvNWVDUXdOV2dVOTRUN2lobHJoelhzTUtiSUJZZ2RlbFhsM1BjWGV0TnB6dDNnS1cwQ2lmZ2FWcXU1YTlRLWNZSkxBM3hDRDJTMWk2ZUE?oc=5",
-          "date": "2021-04-29T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiXkFVX3lxTE9EQjVVSExPeHhvNWVDUXdOV2dVOTRUN2lobHJoelhzTUtiSUJZZ2RlbFhsM1BjWGV0TnB6dDNnS1cwQ2lmZ2FWcXU1YTlRLWNZSkxBM3hDRDJTMWk2ZUE?oc",
-          "source": "뉴스와이어",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -186,11 +178,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "광명시, 'SW정보화교육강사 양성과정' 수료식 개최 - 뉴스웍스",
+          "title": "광명시, 'SW정보화교육강사 양성과정' 수료식 개최 - newsworks.co.kr",
           "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9ZWHJxZGE4LU9yeTBTSXFJSXZiSGF6d29aTmphdkpfTGhQdHdKVURtU1RxelBsVlBXc1JqODYtWU5JNjN4ZUNaRzdjSFRBblQtQW12TXpOeDgwTzRka2ZkMk9CbXlEbUhMSGhteUFPd9IBc0FVX3lxTE9oM0EweWFvR1RUNDBxd3NpOEM5YmxGOG14NFlHNnFTQy0tdnBzcWdpX0FRdjNlV0VaT21kSS1RMWNSMGhfeTZnODExR2JManNlSGhTeGd5TWFkYzVoU3lKeHU4a2w3V3RuQldUR0w1bzBvaTg?oc=5",
           "date": "2019-07-10T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMib0FVX3lxTE9ZWHJxZGE4LU9yeTBTSXFJSXZiSGF6d29aTmphdkpfTGhQdHdKVURtU1RxelBsVlBXc1JqODYtWU5JNjN4ZUNaRzdjSFRBblQtQW12TXpOeDgwTzRka2ZkMk",
-          "source": "뉴스웍스",
+          "source": "newsworks.co.kr",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -207,6 +199,14 @@ window.MYNEWS_DATA = {
           "date": "2019-03-26T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiX0FVX3lxTE5SeS04S3BHcWs4LVl4TzRZcU05Z3BscHJabXVUTUNyeDhSMS1HSWxxVThUOUpJWXdDZkwtUFRjbTFmU2MxeDVkQVk3cklXa3lCSHNJWnVBa3FkZjZyWWpJ?o",
           "source": "cwn.kr",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "안랩, SW 코딩강사 양성 프로그램 수료식 개최 - 지디넷코리아",
+          "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1rbm9DZzEzc2lIamJSRVVmWWdUMVBOMndqQkZGcTJUdzQzUFE3VDZ3aEd3RmQzXzZNenAtbnVlbTBlcy1WYU05Z1JhWi1zcEJQSTduTXh3?oc=5",
+          "date": "2018-12-13T08:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiVkFVX3lxTE1rbm9DZzEzc2lIamJSRVVmWWdUMVBOMndqQkZGcTJUdzQzUFE3VDZ3aEd3RmQzXzZNenAtbnVlbTBlcy1WYU05Z1JhWi1zcEJQSTduTXh3?oc=5\" target=",
+          "source": "지디넷코리아",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
