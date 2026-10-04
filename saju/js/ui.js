@@ -5,9 +5,10 @@ import { STEMS, BRANCHES, ELEMENTS, CITIES } from "./saju-data.js";
 import { solarTermsOfYear, msFromJd } from "./solar-terms.js";
 import { pillarKo, calculateSaju, fourPillarsText } from "./manse.js";
 import {
-  bandOf, elementLabel, josa, scorePillar, dayScore, godGroups, jobFit, certificates, mindFactors, workplaceFit, dateKey,
+  bandOf, elementLabel, josa, scorePillar, dayScore, godGroups, jobFit, certificates, healthCheck, workplaceFit, dateKey,
 } from "./score.js";
-import { DOMAINS, ACTIONS, GUIDES, DISCLAIMER, DAY_MASTER, GOD_THEME, JOHU } from "./score-rules.js";
+import { DOMAINS, ACTIONS, GUIDES, DISCLAIMER, DAY_MASTER, GOD_THEME, JOHU, HEALTH_NOTICE } from "./score-rules.js";
+import { lunarMonthDays, leapMonthOf, solarToLunar, lunarToSolar } from "./lunar.js";
 import { lineChart, barChart, radarChart, donutChart, gaugeChart, hBars, compareBars } from "./charts.js";
 import { icon, ELEMENT_ICONS } from "./icons.js";
 
@@ -15,7 +16,8 @@ const DOW = ["일", "월", "화", "수", "목", "금", "토"];
 const RELATIONS = ["본인", "배우자", "자녀", "부모", "형제자매", "지인"];
 const COLOR_WORD = ["푸른", "붉은", "누런", "흰", "검은"];
 const PILLAR_ROLE = { year: "연주 · 뿌리, 어린 시절", month: "월주 · 사회, 부모", day: "일주 · 나 자신, 배우자", hour: "시주 · 자녀, 말년" };
-const DOMAIN_CARE = { total: "지키기", wealth: "아껴 쓰기", love: "천천히 가기", spouse: "말 아끼기", children: "지켜보기", career: "준비하기", mind: "쉬어 가기" };
+const DOMAIN_CARE = { total: "지키기", wealth: "아껴 쓰기", love: "천천히 가기", spouse: "말 아끼기", children: "지켜보기", career: "준비하기", health: "몸 챙기기" };
+const STRONG_WORD = { wealth: "재물이 들어오는", love: "인연이 닿는", career: "자리가 서는", health: "몸이 가벼운" };
 // 오행 → 일간 기준 십성 그룹의 짧은 뜻 (도넛 범례)
 const GROUP_WORD = { self: "나", output: "표현", wealth: "재물", power: "책임", resource: "생각" };
 
@@ -62,6 +64,36 @@ function sajuMonth(today) {
   return today.getDate() < start.day && m > 1 ? m - 1 : m;
 }
 
+// 보는 해가 올해와 얼마나 떨어졌는지
+function yearLabel(y, thisYear) {
+  const d = y - thisYear;
+  return d === 0 ? "올해" : d === -1 ? "작년" : d === 1 ? "내년" : d < 0 ? `${-d}년 전` : `${d}년 뒤`;
+}
+
+const birthYearOf = (model) => Number(model.saju.solarDate.slice(0, 4));
+
+// ‹ 2025 · 2026 · 2027 › 연도 넘기기. base는 "#fortune" · "#monthly/wealth" 처럼 연도를 뺀 주소
+function yearNav(base, yf, model) {
+  const thisYear = model.today.getFullYear();
+  const birth = birthYearOf(model);
+  const min = Math.max(1900, birth);
+  const link = (y, dir, label) =>
+    y < min || y > 2100
+      ? `<span class="icon-btn disabled" aria-hidden="true">${icon(dir)}</span>`
+      : `<a class="icon-btn" href="${y === thisYear ? base : `${base}/${y}`}" aria-label="${label} ${y}년 보기">${icon(dir)}</a>`;
+  return `<div class="year-nav">
+      ${link(yf.year - 1, "chevronLeft", "이전 해")}
+      <div class="yn-mid"><b>${yf.year} ${yf.ko}년</b><small>${yearLabel(yf.year, thisYear)} · ${yf.year - birth + 1}세</small></div>
+      ${link(yf.year + 1, "chevronRight", "다음 해")}
+    </div>
+    ${yf.year !== thisYear ? `<p class="yn-back"><a href="${base}">올해(${thisYear}년)로 돌아가기</a></p>` : ""}`;
+}
+
+// 그해에 걸린 인생 주요 포인트 [{ ev, item }]
+function eventsInYear(model, y) {
+  return model.events.flatMap((ev) => ev.items.filter((it) => it.year === y).map((item) => ({ ev, item })));
+}
+
 function bestWorst(months, from, domainId) {
   const rest = months.filter((m) => m.month >= from);
   const best = rest.reduce((a, b) => (b.scores[domainId] > a.scores[domainId] ? b : a), rest[0]);
@@ -82,6 +114,10 @@ export function renderHome(model) {
   const { best, worst } = bestWorst(year.months, m, "total");
   const bestStart = jieStart(year.year, best.month);
   const cur = life.points[life.currentIndex];
+  const nextEvent = model.events
+    .filter((ev) => ev.id !== "health")
+    .flatMap((ev) => ev.items.filter((it) => it.year >= today.getFullYear()).map((it) => ({ ev, it })))
+    .sort((a, b) => a.it.year - b.it.year)[0];
 
   // 다음 주 월~일
   const monday = new Date(today);
@@ -96,7 +132,7 @@ export function renderHome(model) {
     { href: "#monthly/love", name: "연애·배우자", icon: "heart", cls: "fill-1", sub: `${bestWorst(year.months, m, "love").best.month}월 최고` },
     { href: "#job", name: "직업·자격증", icon: "briefcase", cls: "fill-dark", sub: `추천 ${certificates(natal).length}개` },
     { href: "#monthly/children", name: "자식운", icon: "sprout", cls: "fill-0", sub: `올해 ${year.scores.children}점` },
-    { href: "#me", name: "마음 처방", icon: "compass", cls: "fill-4", sub: `올해 ${year.scores.mind}점` },
+    { href: "#monthly/health", name: "건강운", icon: "pulse", cls: "fill-4", sub: `올해 ${year.scores.health}점` },
   ];
 
   return `
@@ -127,6 +163,12 @@ export function renderHome(model) {
         <div class="big text">${cur ? cur.ko : "-"} 대운</div>
         <span class="delta" style="color:var(--accent)">${cur ? `${cur.score}점 · ${cur.band.name}` : ""}</span></div>
       </a>
+      ${nextEvent ? `<a class="card score-card" href="#fortune/${nextEvent.it.year}">
+        <span class="ico fill-${nextEvent.ev.color === "fire" ? 1 : nextEvent.ev.color === "water" ? 4 : 2}" style="color:#fff">${icon(nextEvent.ev.icon)}</span>
+        <div><p class="sub">다가오는 인생 포인트 · ${nextEvent.it.year}년 (${nextEvent.it.age}세)</p>
+        <div class="big text">${nextEvent.ev.name}</div>
+        <span class="delta" style="color:var(--accent)">${nextEvent.it.score}점 · 그해 운세 보기</span></div>
+      </a>` : ""}
     </div>
 
     <h2 class="section-title">나를 위한 리포트 <a href="#me">전체 보기</a></h2>
@@ -152,21 +194,26 @@ export function renderHome(model) {
     ${disclaimer()}`;
 }
 
-// ── 2. 운세 (올해 한눈에) ─────────────────────────────
-export function renderFortune(model) {
-  const { today, natal, year } = model;
-  const m = sajuMonth(today); // 절기 월
-  const cm = today.getMonth() + 1; // 달력 월 (일진 달력 · 추천 일정)
-  const { best, worst } = bestWorst(year.months, m, "total");
-  const peakMonth = year.months.reduce((a, b) => (b.scores.total > a.scores.total ? b : a));
-  const strongest = ["wealth", "love", "career", "mind"].reduce((a, b) => (year.scores[b] > year.scores[a] ? b : a));
-  const strongWord = { wealth: "재물이 들어오는", love: "인연이 닿는", career: "자리가 서는", mind: "마음이 풀리는" }[strongest];
-  const remain = 12 - m + 1;
+// ── 2. 운세 (한 해 한눈에) — 지난해 · 다음해도 볼 수 있다 ─────────────────────────────
+export function renderFortune(model, yf) {
+  const { today, natal } = model;
+  const thisYear = today.getFullYear();
+  const isCur = yf.year === thisYear;
+  const isPast = yf.year < thisYear;
+  const m = isCur ? sajuMonth(today) : isPast ? 13 : 0; // 이 달보다 앞은 "지난 달"
+  const { best, worst } = bestWorst(yf.months, isCur ? m : 1, "total");
+  const peakMonth = yf.months.reduce((a, b) => (b.scores.total > a.scores.total ? b : a));
+  const strongest = ["wealth", "love", "career", "health"].reduce((a, b) => (yf.scores[b] > yf.scores[a] ? b : a));
+  const stateOf = (mo) => (isCur ? (mo.month < m ? "past" : mo.month === m ? "now" : "future") : isPast ? "past" : "future");
+  const [line1, line2] = isCur
+    ? [`${STRONG_WORD[strongest]} 해, 남은 ${13 - m}달은`, `${best.month}월에 거두고 ${worst.month}월은 ${DOMAIN_CARE.total}`]
+    : isPast
+      ? [`${STRONG_WORD[strongest]} 해였어요`, `${best.month}월이 가장 좋았고 ${worst.month}월이 힘들었어요`]
+      : [`${STRONG_WORD[strongest]} 해가 될 거예요`, `${best.month}월에 거두고 ${worst.month}월은 ${DOMAIN_CARE.total}`];
 
-  // 10년(올해~9년 뒤) 중 재물 최고인지
+  // 그해부터 10년 중 재물 최고인지
   const decade = Array.from({ length: 10 }, (_, i) => {
-    const y = year.year + i;
-    const idx = (((y - 4) % 60) + 60) % 60;
+    const idx = (((yf.year + i - 4) % 60) + 60) % 60;
     return scorePillar(natal, { stem: idx % 10, branch: idx % 12 }, "wealth").score;
   });
   const miniNote = (id, v) => {
@@ -174,26 +221,28 @@ export function renderFortune(model) {
     if (v >= 75) return `<span class="up">아주 좋음</span>`;
     if (v >= 60) return `<span class="good">좋음</span>`;
     if (v >= 45) return `<span>보통</span>`;
-    return `<span class="down">${id === "mind" ? "휴식 필요" : "관리 필요"}</span>`;
+    return `<span class="down">${id === "health" ? "검진 챙기기" : "관리 필요"}</span>`;
   };
 
-  // 이번 달 일진 달력
-  const first = new Date(today.getFullYear(), today.getMonth(), 1);
-  const last = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
-  const days = Array.from({ length: last }, (_, i) => dayScore(natal, new Date(today.getFullYear(), today.getMonth(), i + 1)));
+  // 일진 달력: 올해면 이번 달, 다른 해면 그해 가장 좋은 달
+  const calMonth = isCur ? today.getMonth() + 1 : best.month;
+  const first = new Date(yf.year, calMonth - 1, 1);
+  const last = new Date(yf.year, calMonth, 0).getDate();
+  const days = Array.from({ length: last }, (_, i) => dayScore(natal, new Date(yf.year, calMonth - 1, i + 1)));
   const lv = (s) => (s >= 68 ? 4 : s >= 56 ? 3 : s >= 45 ? 2 : 1);
   const bestDays = [...days].sort((a, b) => b.score - a.score).slice(0, 4).sort((a, b) => a.date - b.date);
   const careDays = days.filter((d) => d.score < 40).slice(0, 3);
   const bestGods = [...new Set(bestDays.map((d) => d.stemGod))].slice(0, 2);
+  const startDay = isCur ? new Date(today.getFullYear(), today.getMonth(), today.getDate()) : first;
 
-  // 이번 달 추천 일정: 오늘 이후 직업 · 배우자 점수가 가장 높은 날
+  // 추천 일정: 직업 · 배우자 · 재물 점수가 가장 높은 날 (서로 다른 날)
   const used = new Set();
   const upcoming = (domain) => {
     const pick = days
-      .filter((d) => d.date >= new Date(today.getFullYear(), today.getMonth(), today.getDate()) && !used.has(d.date.getDate()))
+      .filter((d) => d.date >= startDay && !used.has(d.date.getDate()))
       .map((d) => ({ ...d, s: dayScore(natal, d.date, domain) }))
       .sort((a, b) => b.s.score - a.s.score)[0];
-    if (pick) used.add(pick.date.getDate()); // 일정끼리 같은 날이 겹치지 않게
+    if (pick) used.add(pick.date.getDate());
     return pick;
   };
   const plans = [
@@ -202,92 +251,115 @@ export function renderFortune(model) {
     { d: upcoming("wealth"), title: "가계부·지출 점검", why: (d) => `${d.s.stemGod}일 · 돈 흐름이 보이는 날` },
   ].filter((p) => p.d);
 
+  // 그해의 인생 주요 포인트
+  const hits = eventsInYear(model, yf.year);
+  const eventCard = hits.length
+    ? `<section class="card event-card">
+        <div class="card-head"><h2>${yearLabel(yf.year, thisYear)}의 인생 포인트</h2><a class="sub" href="#life" style="color:var(--accent)">전체 보기</a></div>
+        ${hits.map(({ ev, item }) => `<div class="event-hit"><span class="badge mkbg-${ev.id}">${icon(ev.icon)}</span><span><b>${ev.name} ${ev.pick === "low" ? "주의" : "가능성이 높은 해"}</b><small>${ev.phrase} · ${item.reason}</small></span><span class="score">${item.score}</span></div>`).join("")}
+        ${hits.some((h) => h.ev.id === "health") ? `<p class="note">${HEALTH_NOTICE}</p>` : ""}
+      </section>`
+    : "";
+
   return `
-    ${topbar(`${year.year} ${year.ko}년 한눈에`)}
+    ${topbar("한 해 운세 한눈에")}
     ${sampleBanner(model)}
+    ${yearNav("#fortune", yf, model)}
     <section class="card" style="text-align:center">
-      ${gaugeChart({ value: year.scores.total, caption: "올해 종합운" })}
-      <p style="font-weight:700;margin-top:4px">${strongWord} 해, 남은 ${remain}달은</p>
-      <p style="font-weight:800;color:var(--accent)">${best.month}월에 거두고 ${worst.month}월은 ${DOMAIN_CARE.total}</p>
+      ${gaugeChart({ value: yf.scores.total, caption: `${yf.year}년 종합운` })}
+      <p style="font-weight:700;margin-top:4px">${line1}</p>
+      <p style="font-weight:800;color:var(--accent)">${line2}</p>
       <div class="mini3">
-        ${["wealth", "love", "mind"].map((id) => `<div>${domainOf(id).short}<b>${year.scores[id]}</b>${miniNote(id, year.scores[id])}</div>`).join("")}
+        ${["wealth", "love", "health"].map((id) => `<div>${domainOf(id).short}<b>${yf.scores[id]}</b>${miniNote(id, yf.scores[id])}</div>`).join("")}
       </div>
     </section>
+    ${eventCard}
 
     <section class="card">
       <div class="card-head"><h2>월별 종합운</h2><span class="sub">절기 기준</span></div>
-      <p class="lead">${peakMonth.month}월 정점, 남은 기회는 <b>${best.month}월 ${best.scores.total}점</b></p>
-      ${barChart({ bars: year.months.map((mo) => ({ label: mo.month, value: mo.scores.total, state: mo.month < m ? "past" : mo.month === m ? "now" : "future", show: mo.month === m || mo === peakMonth || mo === best })), caption: "월별 종합운" })}
-      <div class="legend"><span><i class="past"></i>지난 달</span><span><i class="now"></i>지금 (${year.months[m - 1].ko}월)</span><span><i class="future"></i>남은 달</span></div>
-      <a class="more" href="#monthly/total">영역별 월 흐름 보기</a>
+      <p class="lead">${isCur ? `${peakMonth.month}월 정점, 남은 기회는 <b>${best.month}월 ${best.scores.total}점</b>` : `<b>${best.month}월 ${best.scores.total}점</b>이 가장 높고 ${worst.month}월이 가장 낮아요`}</p>
+      ${barChart({ bars: yf.months.map((mo) => ({ label: mo.month, value: mo.scores.total, state: stateOf(mo), show: mo.month === m || mo === peakMonth || mo === best })), caption: `${yf.year}년 월별 종합운` })}
+      <div class="legend">${isCur ? `<span><i class="past"></i>지난 달</span><span><i class="now"></i>지금 (${yf.months[m - 1].ko}월)</span><span><i class="future"></i>남은 달</span>` : `<span><i class="${isPast ? "past" : "future"}"></i>${isPast ? "지난 해" : "다가올 해"} 월별 점수</span>`}</div>
+      <a class="more" href="#monthly/total${isCur ? "" : `/${yf.year}`}">영역별 월 흐름 보기</a>
     </section>
 
     <section class="card">
-      <div class="card-head"><h2>${cm}월 일진 달력</h2><span class="sub">진할수록 좋은 날</span></div>
+      <div class="card-head"><h2>${isCur ? "" : `${yf.year}년 `}${calMonth}월 일진 달력</h2><span class="sub">${isCur ? "진할수록 좋은 날" : "그해 가장 좋은 달"}</span></div>
       <div class="cal">
         ${DOW.map((d) => `<span class="dow">${d}</span>`).join("")}
         ${"<span></span>".repeat(first.getDay())}
-        ${days.map((d) => `<span class="d lv${lv(d.score)} ${dateKey(d.date) === dateKey(today) ? "today" : ""}" title="${d.ko}일 ${d.score}점">${d.date.getDate()}<small>${d.ko}</small></span>`).join("")}
+        ${days.map((d) => `<span class="d lv${lv(d.score)} ${isCur && dateKey(d.date) === dateKey(today) ? "today" : ""}" title="${d.ko}일 ${d.score}점">${d.date.getDate()}<small>${d.ko}</small></span>`).join("")}
       </div>
-      <div class="cal-legend"><span>주의 <i class="lv1" style="background:var(--surface-2)"></i><i style="background:var(--bar)"></i><i style="background:var(--bar-strong)"></i><i style="background:var(--accent)"></i> 최고</span><span><i class="ring" style="width:10px;height:10px;border-radius:50%;border:2px solid var(--now)"></i> 오늘</span></div>
+      <div class="cal-legend"><span>주의 <i style="background:var(--surface-2)"></i><i style="background:var(--bar)"></i><i style="background:var(--bar-strong)"></i><i style="background:var(--accent)"></i> 최고</span>${isCur ? `<span><i style="width:10px;height:10px;border-radius:50%;border:2px solid var(--now)"></i> 오늘</span>` : ""}</div>
       <p class="note">${bestGods.join("·")} 날이 가장 좋아요. ${bestDays.map((d) => `${d.date.getDate()}일`).join(", ")}에 중요한 약속을 잡으세요.${careDays.length ? ` ${careDays.map((d) => `${d.date.getDate()}일`).join(", ")}은 큰 결정을 미루세요.` : ""}</p>
     </section>
 
-    <h2 class="section-title">이번 달 추천 일정</h2>
-    ${plans.map((p) => `<section class="card plan"><span class="date"><span><small>${cm}월</small><b>${p.d.date.getDate()}</b></span></span><div><p>${p.title}</p><small>${p.d.ko}일 · ${p.why(p.d)}</small></div></section>`).join("")}
+    ${plans.length ? `<h2 class="section-title">${isCur ? "이번 달" : `${yf.year}년 ${calMonth}월`} 추천 일정</h2>
+    ${plans.map((p) => `<section class="card plan"><span class="date"><span><small>${calMonth}월</small><b>${p.d.date.getDate()}</b></span></span><div><p>${p.title}</p><small>${p.d.ko}일 · ${p.why(p.d)}</small></div></section>`).join("")}` : ""}
     ${disclaimer()}`;
 }
 
-// ── 3. 월별 흐름 (영역 탭) ─────────────────────────────
-export function renderMonthly(model, domainId = "total") {
-  const { today, year } = model;
+// ── 3. 월별 흐름 (영역 탭) — 연도 선택 ─────────────────────────────
+export function renderMonthly(model, domainId = "total", yf) {
+  const { today } = model;
+  const thisYear = today.getFullYear();
+  const isCur = yf.year === thisYear;
+  const isPast = yf.year < thisYear;
   const domain = domainOf(domainId) || domainOf("total");
   const id = domain.id;
-  const m = sajuMonth(today);
-  const now = year.months[m - 1];
-  const { best, worst } = bestWorst(year.months, m, id);
-  const peak = year.months.reduce((a, b) => (b.scores[id] > a.scores[id] ? b : a));
-  const bs = jieStart(year.year, best.month);
-  const ws = jieStart(year.year, worst.month);
-  const tabs = DOMAINS.map((d) => `<a href="#monthly/${d.id}" class="${d.id === id ? "on" : ""}">${d.short}</a>`).join("");
+  const m = isCur ? sajuMonth(today) : isPast ? 13 : 0;
+  const now = isCur ? yf.months[m - 1] : null;
+  const { best, worst } = bestWorst(yf.months, isCur ? m : 1, id);
+  const peak = yf.months.reduce((a, b) => (b.scores[id] > a.scores[id] ? b : a));
+  const bs = jieStart(yf.year, best.month);
+  const ws = jieStart(yf.year, worst.month);
+  const ySuffix = isCur ? "" : `/${yf.year}`;
+  const tabs = DOMAINS.map((d) => `<a href="#monthly/${d.id}${ySuffix}" class="${d.id === id ? "on" : ""}">${d.short}</a>`).join("");
+  const stateOf = (mo) => (isCur ? (mo.month < m ? "past" : mo.month === m ? "now" : "future") : isPast ? "past" : "future");
 
   const tagOf = (mo) => {
-    if (mo.month === m) return `<span class="chip now">지금</span>`;
-    if (mo === peak) return `<span class="chip up">올해 정점</span>`;
+    if (isCur && mo.month === m) return `<span class="chip now">지금</span>`;
+    if (mo === peak) return `<span class="chip up">${isPast ? "가장 좋았던 달" : "그해 정점"}</span>`;
     if (mo === best) return `<span class="chip up">적극적으로</span>`;
-    if (mo === worst) return `<span class="chip warn">${DOMAIN_CARE[id]}</span>`;
+    if (mo === worst) return `<span class="chip warn">${isPast ? "힘들었던 달" : DOMAIN_CARE[id]}</span>`;
     return `<span class="chip">${mo.scores[id]}점</span>`;
   };
+  const headline = isCur
+    ? `${best.month === m ? "지금이 남은 해의 최고점," : `한 번 더 오르는 ${best.month}월,`}<br>${worst.month}월은 <em>${DOMAIN_CARE[id]}</em>`
+    : isPast
+      ? `${best.month}월이 가장 좋았고,<br>${worst.month}월은 <em>힘들었어요</em>`
+      : `${best.month}월에 힘을 싣고,<br>${worst.month}월은 <em>${DOMAIN_CARE[id]}</em>`;
 
   return `
-    ${topbar(`${year.year} ${year.ko}년 월별 흐름`)}
+    ${topbar("월별 흐름")}
+    ${yearNav(`#monthly/${id}`, yf, model)}
     <nav class="tabs">${tabs}</nav>
-    <p class="eyebrow">지금 ${m}월 ${now.ko}월 · ${domain.short} ${now.scores[id]}점</p>
-    <p class="headline">${best.month === m ? "지금이 남은 해의 최고점," : `한 번 더 오르는 ${best.month}월,`}<br>${worst.month}월은 <em>${DOMAIN_CARE[id]}</em></p>
+    <p class="eyebrow">${isCur ? `지금 ${m}월 ${now.ko}월 · ${domain.short} ${now.scores[id]}점` : `${yf.year} ${yf.ko}년 · ${domain.short} ${yf.scores[id]}점`}</p>
+    <p class="headline">${headline}</p>
     <section class="card">
-      ${barChart({ bars: year.months.map((mo) => ({ label: mo.month, value: mo.scores[id], state: mo.month < m ? "past" : mo.month === m ? "now" : "future", show: mo.month === m || mo === peak || mo === best })), caption: `${domain.name} 월별 점수` })}
-      <div class="legend"><span><i class="past"></i>지난 달</span><span><i class="now"></i>지금</span><span><i class="future"></i>남은 달</span></div>
+      ${barChart({ bars: yf.months.map((mo) => ({ label: mo.month, value: mo.scores[id], state: stateOf(mo), show: mo.month === m || mo === peak || mo === best })), caption: `${yf.year}년 ${domain.name} 월별 점수` })}
+      <div class="legend">${isCur ? `<span><i class="past"></i>지난 달</span><span><i class="now"></i>지금</span><span><i class="future"></i>남은 달</span>` : `<span><i class="${isPast ? "past" : "future"}"></i>${yf.year}년 월별 점수</span>`}</div>
     </section>
     <div class="pair">
-      <section class="card"><span class="sub">상승 기회</span><b>${best.month}월 ${best.ko}월</b><span class="sub">${bs.month}월 ${bs.day}일부터 · ${best.scores[id]}점</span></section>
-      <section class="card"><span class="sub">조심할 때</span><b>${worst.month}월 ${worst.ko}월</b><span class="sub">${ws.month}월 ${ws.day}일부터 · ${worst.scores[id]}점</span></section>
+      <section class="card"><span class="sub">${isPast ? "좋았던 달" : "상승 기회"}</span><b>${best.month}월 ${best.ko}월</b><span class="sub">${bs.month}월 ${bs.day}일부터 · ${best.scores[id]}점</span></section>
+      <section class="card"><span class="sub">${isPast ? "힘들었던 달" : "조심할 때"}</span><b>${worst.month}월 ${worst.ko}월</b><span class="sub">${ws.month}월 ${ws.day}일부터 · ${worst.scores[id]}점</span></section>
     </div>
-    <h2 class="section-title">달마다 이렇게 보내세요</h2>
-    ${year.months.filter((mo) => mo.month >= m).map((mo) => `
-      <article class="month-card ${mo.month === m ? "now" : ""}">
-        <div class="top"><b>${mo.month}월 · ${mo.ko}${mo.month === m ? " (지금)" : ""}</b>${tagOf(mo)}</div>
-        <p>${mo.reason}. ${actionText(id, mo.scores[id])}</p>
+    <h2 class="section-title">${isPast ? "달마다 이랬어요" : "달마다 이렇게 보내세요"}</h2>
+    ${yf.months.filter((mo) => !isCur || mo.month >= m).map((mo) => `
+      <article class="month-card ${isCur && mo.month === m ? "now" : ""}">
+        <div class="top"><b>${mo.month}월 · ${mo.ko}${isCur && mo.month === m ? " (지금)" : ""}</b>${tagOf(mo)}</div>
+        <p>${mo.reason}.${isPast ? "" : ` ${actionText(id, mo.scores[id])}`}</p>
       </article>`).join("")}
-    ${actionCard(id, now.scores[id])}
+    ${isPast ? "" : actionCard(id, isCur ? now.scores[id] : yf.scores[id], isCur ? "지금 할 일" : `${yf.year}년에 할 일`)}
     ${id === "career" ? guideCard(GUIDES.career, "실천 가이드") : ""}
-    ${id === "mind" ? guideCard(GUIDES.mind, "도움받을 곳") : ""}
+    ${id === "health" ? `<p class="note">${HEALTH_NOTICE}</p>${guideCard(GUIDES.health, "건강 챙기기")}` : ""}
     ${id === "wealth" ? `<section class="card"><div class="card-head"><h2>스스로 점검할 것</h2></div><p style="font-size:14px">특정 종목·매수·매도를 추천하지 않아요. 돈이 움직이는 달에는 <b>투자 이유</b>, <b>세금</b>, <b>자금 용도</b>를 먼저 적어 보세요.</p></section>` : ""}
     ${disclaimer()}`;
 }
 
-// ── 4. 인생 그래프 ─────────────────────────────
+// ── 4. 인생 그래프 + 인생 주요 포인트 ─────────────────────────────
 export function renderLife(model, selected = -1) {
-  const { life, natal } = model;
+  const { life, natal, events, today } = model;
   const pts = life.points;
   const ci = life.currentIndex;
   const cur = pts[ci] || pts[0];
@@ -299,6 +371,22 @@ export function renderLife(model, selected = -1) {
   const summary = natal.summary
     .replace(elementLabel(natal.yong), `<b class="el-${natal.yong}">${elementLabel(natal.yong)}</b>`)
     .replace(elementLabel(natal.hee), `<b class="el-${natal.hee}">${elementLabel(natal.hee)}</b>`);
+
+  // 그래프 아래 줄마다 이벤트 표시 (대운 시작 나이 → 그래프 가로 위치)
+  const first = pts[0].startAge;
+  const markers = events.flatMap((ev, lane) =>
+    ev.items.map((it) => ({
+      pos: Math.min(pts.length - 1, Math.max(0, (it.age - first) / 10)),
+      lane,
+      cls: `mk-${ev.id}`,
+      label: ev.short.slice(0, 1),
+      past: it.past,
+      title: `${it.year}년 ${it.age}세 · ${ev.name} ${it.score}점`,
+    })),
+  );
+  const upcoming = events
+    .flatMap((ev) => ev.items.filter((it) => !it.past).map((it) => ({ ev, it })))
+    .sort((a, b) => a.it.year - b.it.year);
 
   return `
     ${topbar("인생 그래프")}
@@ -315,12 +403,27 @@ export function renderLife(model, selected = -1) {
         selected,
         futureFrom: ci > 0 ? ci : null,
         band: peakIndex !== ci ? [peakIndex, peakIndex, "가장 좋은 10년"] : null,
+        markers,
         height: 200,
-        caption: "대운별 인생 점수",
+        caption: "대운별 인생 점수와 인생 주요 포인트",
       })}</div>
-      <p class="sub" style="text-align:center">대운 시작 나이(세는 나이)</p>
+      <div class="legend mk-legend">${events.map((ev) => `<span><i class="mkbg-${ev.id}"></i>${ev.name}</span>`).join("")}<span class="muted-past">흐린 점 = 지난 해</span></div>
       <div class="chart-tip"><b>${ageRange(sel)} ${sel.ko}</b> · ${sel.score}점 · ${sel.band.name}<br>${sel.reason}</div>
     </section>
+
+    <h2 class="section-title">인생 주요 포인트</h2>
+    ${upcoming.length ? `<p class="lead" style="margin:-4px 0 10px!important">다음 포인트는 <b>${upcoming[0].it.year}년(${upcoming[0].it.age}세) ${upcoming[0].ev.name}</b>이에요</p>` : ""}
+    <section class="card">
+      ${events.map((ev) => `
+        <div class="event-row">
+          <span class="badge mkbg-${ev.id}">${icon(ev.icon)}</span>
+          <div class="grow"><b>${ev.name}</b><small>${ev.phrase}</small>
+            <div class="chips">${ev.items.map((it) => `<a class="chip ${it.past ? "past" : it.now ? "now" : ev.pick === "low" ? "warn" : "up"}" href="#fortune${it.year === today.getFullYear() ? "" : `/${it.year}`}">${it.year}년 · ${it.age}세 · ${it.score}점${it.past ? " (지남)" : it.now ? " (올해)" : ""}</a>`).join("")}</div>
+          </div>
+        </div>`).join("")}
+      <p class="note">해마다 대운(40%)과 그해 세운(60%)의 영역 점수에 그해 십신·일지 합·도화를 더해 고른 해예요. 누르면 그해 운세로 가요. ${HEALTH_NOTICE}</p>
+    </section>
+
     <section class="card" style="background:var(--accent-soft)">
       <p class="sub" style="margin-bottom:6px">한 줄 요약</p>
       <p style="font-size:15px;font-weight:600">${summary}</p>
@@ -385,7 +488,7 @@ export function renderMe(model, theme, account) {
   const dmInfo = DAY_MASTER[natal.dm];
   const cur = life.points[life.currentIndex] || life.points[0];
   const next = life.points[life.currentIndex + 1];
-  const radarIds = ["wealth", "career", "spouse", "children", "love", "mind"];
+  const radarIds = ["wealth", "career", "spouse", "children", "love", "health"];
   const axes = radarIds.map((id) => ({ label: domainOf(id).short, value: cur.domains[id] }));
   const low = axes.reduce((a, b) => (b.value < a.value ? b : a));
   const high = axes.reduce((a, b) => (b.value > a.value ? b : a));
@@ -395,7 +498,8 @@ export function renderMe(model, theme, account) {
   const zeros = order.filter((e) => natal.elementCount[e] === 0);
   const monthBranch = BRANCHES[saju.pillars.month.branch];
   const season = Object.values(JOHU).find((j) => j.branches.includes(saju.pillars.month.branch));
-  const factors = mindFactors(natal, cur);
+  const health = healthCheck(natal);
+  const watch = [...health].sort((a, b) => b.value - a.value).slice(0, 2);
 
   return `
     ${topbar("나의 기질 리포트", `<button class="icon-btn" data-action="theme" aria-label="화면 테마">${icon("palette")}</button>`)}
@@ -407,7 +511,7 @@ export function renderMe(model, theme, account) {
       <div class="card-head"><h2>지금 대운의 영역별 운</h2></div>
       <p class="lead">${cur.ko} 대운 ${ageRange(cur)} · 100점 기준</p>
       ${radarChart({ axes })}
-      <p class="note">${josa(high.label, "은/는")} 잘 풀리는데 <b>${low.label === "마음" ? "마음 에너지" : low.label}</b>${josa(low.label === "마음" ? "에너지" : low.label, "이/가").slice(-1)} 가장 낮아요. ${actionText(radarIds[axes.indexOf(low)], low.value)}</p>
+      <p class="note">${josa(high.label, "은/는")} 잘 풀리는데 <b>${low.label}</b>${josa(low.label, "이/가").slice(-1)} 가장 낮아요. ${actionText(radarIds[axes.indexOf(low)], low.value)}</p>
     </section>
 
     <section class="card">
@@ -431,12 +535,13 @@ export function renderMe(model, theme, account) {
       ${compareBars(["wealth", "career", "children", "spouse"].map((id) => ({ label: domainOf(id).short, a: cur.domains[id], b: next.domains[id] })))}
     </section>` : ""}
 
-    <section class="card" id="mind">
-      <div class="card-head"><h2>외로움·무기력 요인</h2><span class="sub">높을수록 영향이 커요</span></div>
-      ${hBars(factors.map((f) => ({ label: f.label, value: f.value, fillClass: f.kind === "now" ? "now" : f.value >= 60 ? "" : "weak" })))}
-      <p class="note">${natal.johu ? `${natal.johu.label}에 태어나 ${josa(natal.johu.need, "이/가")} 부족하면 쉽게 가라앉아요. ` : ""}${actionText("mind", cur.domains.mind)}</p>
+    <section class="card" id="health">
+      <div class="card-head"><h2>타고난 건강 체크</h2><span class="sub">높을수록 신경 쓸 곳</span></div>
+      ${hBars(health.map((h) => ({ label: `${h.label}`, value: h.value, right: `${h.state} · ${h.value}`, fillClass: h.value >= 60 ? "now" : h.value >= 40 ? "" : "weak" })))}
+      <p class="note">${watch.map((h) => `<b>${ELEMENTS[h.element].ko}(${h.state})</b> ${h.tip}.`).join(" ")} 지금 대운 건강운은 ${cur.domains.health}점이에요. ${actionText("health", cur.domains.health)}</p>
+      <p class="note">${HEALTH_NOTICE}</p>
     </section>
-    ${guideCard(GUIDES.mind, "혼자 견디기 힘들 때")}
+    ${guideCard(GUIDES.health, "건강 챙기기")}
 
     <section class="card">
       <div class="card-head"><h2>화면 테마</h2><span class="sub">그래프 색이 함께 바뀌어요</span></div>
@@ -575,6 +680,9 @@ function renderChartIcons(model) {
 export function renderManse(chart, error = "") {
   const p = chart || { relation: "본인", gender: "F", calendar: "solar", date: "", time: "", city: "서울", longitude: 126.98, applyDst: true };
   const calValue = p.calendar === "lunar" ? (p.leap ? "leap" : "lunar") : "solar";
+  const [y, mo, d] = p.date ? p.date.split("-").map(Number) : [0, 0, 0];
+  const unknown = p.time === null && Boolean(p.date);
+  const [hh, mm] = p.time ? p.time.split(":").map(Number) : [-1, 0];
   const radio = (name, value, label, checked) => `<label><input type="radio" name="${name}" value="${value}" ${checked ? "checked" : ""}><span>${label}</span></label>`;
   return `
     ${topbar(chart ? "명식 수정" : "새 명식 추가")}
@@ -588,11 +696,22 @@ export function renderManse(chart, error = "") {
       <label class="check consent" data-consent ${(p.relation || "본인") === "본인" ? "hidden" : ""}><input type="checkbox" name="consent" ${p.consent ? "checked" : ""}> 이 명식의 주인에게 생년월일시 저장 동의를 받았어요</label>
       <fieldset class="field"><legend>성별</legend><div class="seg">${radio("gender", "M", "남자", p.gender === "M")}${radio("gender", "F", "여자", p.gender !== "M")}</div></fieldset>
       <fieldset class="field"><legend>달력</legend><div class="seg">${radio("calendar", "solar", "양력", calValue === "solar")}${radio("calendar", "lunar", "음력", calValue === "lunar")}${radio("calendar", "leap", "음력 윤달", calValue === "leap")}</div></fieldset>
-      <div class="two">
-        <label class="field"><span>생년월일</span><input class="input" type="date" name="date" min="1900-01-01" max="2100-12-31" value="${esc(p.date)}" required></label>
-        <label class="field"><span>태어난 시각</span><input class="input" type="time" name="time" value="${esc(p.time || "")}" ${p.time === null && p.date ? "disabled" : ""}></label>
-      </div>
-      <label class="check"><input type="checkbox" name="unknownTime" ${p.time === null && p.date ? "checked" : ""}> 태어난 시간을 몰라요</label>
+      <fieldset class="field"><legend>생년월일</legend>
+        <div class="ymd">
+          <select class="input" name="year" aria-label="태어난 해">${yearOptions(y)}</select>
+          <select class="input" name="month" aria-label="태어난 달"><option value="">월</option>${Array.from({ length: 12 }, (_, i) => `<option value="${i + 1}" ${i + 1 === mo ? "selected" : ""}>${i + 1}월</option>`).join("")}</select>
+          <select class="input" name="day" aria-label="태어난 날">${dayOptions(calValue, y, mo, d)}</select>
+        </div>
+        <p class="date-hint" data-date-hint>${dateHint(calValue, y, mo, d)}</p>
+      </fieldset>
+      <fieldset class="field"><legend>태어난 시각</legend>
+        <div class="two">
+          <select class="input" name="hour" aria-label="시" ${unknown ? "disabled" : ""}><option value="">시</option>${Array.from({ length: 24 }, (_, h) => `<option value="${h}" ${h === hh ? "selected" : ""}>${h < 12 ? "오전" : "오후"} ${h % 12 === 0 ? 12 : h % 12}시 (${String(h).padStart(2, "0")}시)</option>`).join("")}</select>
+          <select class="input" name="minute" aria-label="분" ${unknown ? "disabled" : ""}>${Array.from({ length: 60 }, (_, mi) => `<option value="${mi}" ${mi === mm ? "selected" : ""}>${String(mi).padStart(2, "0")}분</option>`).join("")}</select>
+        </div>
+        <p class="date-hint" data-time-hint>${unknown ? "" : timeHint(hh, mm, p.longitude ?? 126.98)}</p>
+      </fieldset>
+      <label class="check"><input type="checkbox" name="unknownTime" ${unknown ? "checked" : ""}> 태어난 시간을 몰라요</label>
       <label class="field"><span>출생지 (시주 경도 보정)</span>
         <select class="input" name="city">${CITIES.map((c) => `<option value="${c.name}" ${c.name === p.city ? "selected" : ""}>${c.name}</option>`).join("")}<option value="" ${p.city ? "" : "selected"}>직접 입력 (경도)</option></select>
       </label>
@@ -608,6 +727,60 @@ export function renderManse(chart, error = "") {
       <button class="btn" type="submit">만세력 보기</button>
     </form>
     ${disclaimer()}`;
+}
+
+// ── 만세력 입력 도우미 (main.js가 값이 바뀔 때마다 다시 부른다) ─────────────────────────────
+// 연도 목록: 올해부터 1900년까지, 10년 단위로 묶고 띠를 함께 보여준다 (띠는 입춘 기준이라 1~2월생은 다를 수 있음)
+export function yearOptions(selected) {
+  const thisYear = new Date().getFullYear();
+  let html = `<option value="">연도</option>`;
+  for (let decade = Math.floor(thisYear / 10) * 10; decade >= 1900; decade -= 10) {
+    html += `<optgroup label="${decade}년대">`;
+    for (let yy = Math.min(thisYear, decade + 9); yy >= decade; yy--) {
+      html += `<option value="${yy}" ${yy === selected ? "selected" : ""}>${yy}년 (${BRANCHES[(((yy - 4) % 12) + 12) % 12].animal}띠)</option>`;
+    }
+    html += `</optgroup>`;
+  }
+  return html;
+}
+
+// 그 달의 날짜 목록: 양력은 실제 날수, 음력은 그 음력 달의 날수(29·30일)
+export function dayOptions(cal, year, month, selected) {
+  let days = 31;
+  if (year && month) {
+    days = cal === "solar" ? new Date(year, month, 0).getDate() : lunarMonthDays(year, month, cal === "leap") || 30;
+  }
+  let html = `<option value="">일</option>`;
+  for (let dd = 1; dd <= days; dd++) {
+    const dow = cal === "solar" && year && month ? ` (${DOW[new Date(year, month - 1, dd).getDay()]})` : "";
+    html += `<option value="${dd}" ${dd === selected ? "selected" : ""}>${dd}일${dow}</option>`;
+  }
+  return html;
+}
+
+// 고른 날짜 확인 문구: 양력이면 요일 · 음력, 음력이면 양력으로 바꾼 날짜
+export function dateHint(cal, year, month, day) {
+  if (!year) return "연도 · 월 · 일을 차례로 골라 주세요";
+  const leap = leapMonthOf(year);
+  const leapText = leap ? `이 해 음력 윤달은 윤${leap}월이에요` : "이 해 음력에는 윤달이 없어요";
+  if (!month || !day) return cal === "solar" ? "" : leapText;
+  if (cal === "solar") {
+    const l = solarToLunar(year, month, day);
+    return `${year}년 ${month}월 ${day}일 ${DOW[new Date(year, month - 1, day).getDay()]}요일 · 음력 ${l.leap ? "윤" : ""}${l.month}월 ${l.day}일`;
+  }
+  if (cal === "leap" && leap !== month) return `<b class="warn-text">${year}년에는 윤${month}월이 없어요.</b> ${leapText}`;
+  const s = lunarToSolar(year, month, day, cal === "leap");
+  if (!s) return `<b class="warn-text">음력 ${year}년 ${month}월에는 ${day}일이 없어요.</b>`;
+  return `양력으로 ${s.year}년 ${s.month}월 ${s.day}일 ${DOW[new Date(s.year, s.month - 1, s.day).getDay()]}요일이에요`;
+}
+
+// 고른 시각이 대략 어느 시(時)인지 (출생지 경도로 지방시를 맞춘 값, 서머타임·옛 표준시는 결과 화면에서 보정)
+export function timeHint(hour, minute, longitude) {
+  if (hour == null || hour < 0 || Number.isNaN(hour)) return "";
+  const lmt = (hour * 60 + minute + Math.round((longitude / 15 - 9) * 60) + 1440) % 1440;
+  const branch = Math.floor((lmt / 60 + 1) / 2) % 12;
+  const shift = Math.round((9 - longitude / 15) * 60);
+  return `${BRANCHES[branch].ko}시(${BRANCHES[branch].han}時) · 출생지 시차 ${shift}분을 뺀 지방시 ${String(Math.floor(lmt / 60)).padStart(2, "0")}:${String(lmt % 60).padStart(2, "0")} 기준`;
 }
 
 // ── 9. 로그인 카드 · 명식 목록 ─────────────────────────────

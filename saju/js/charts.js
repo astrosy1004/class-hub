@@ -24,18 +24,21 @@ function smoothPath(pts) {
 /**
  * 꺾은선(면) 그래프
  * values: 점수 배열, labels: x축 글자, current: 현재 위치 순번, peak: 강조할 최고점 순번,
- * futureFrom: 이 순번부터 점선, band: [from, to, "라벨"] 배경 강조 구간, selected: 선택한 점
+ * futureFrom: 이 순번부터 점선, band: [from, to, "라벨"] 배경 강조 구간, selected: 선택한 점,
+ * markers: x축 아래 줄(lane)마다 찍는 표시 [{ pos: 소수 순번, lane, cls, label: 글자 1개, title, past }]
  */
-export function lineChart({ values, labels, current = -1, peak = -1, futureFrom = null, band = null, selected = -1, height = 180, caption = "" }) {
-  const H = height;
+export function lineChart({ values, labels, current = -1, peak = -1, futureFrom = null, band = null, selected = -1, markers = [], height = 180, caption = "" }) {
   const padX = 16;
   const top = 30;
   const bottom = 26;
+  const laneH = 16;
+  const lanes = markers.length ? Math.max(...markers.map((m) => m.lane)) + 1 : 0;
+  const base = height - bottom;
+  const H = lanes ? base + 30 + lanes * laneH : height;
   const n = values.length;
   const x = (i) => padX + ((W - padX * 2) * i) / Math.max(1, n - 1);
-  const y = (v) => top + (H - top - bottom) * (1 - v / 100);
+  const y = (v) => top + (base - top) * (1 - v / 100);
   const pts = values.map((v, i) => [x(i), y(v)]);
-  const base = H - bottom;
 
   let svg = `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="${caption}">`;
   for (const v of [25, 50, 75]) svg += `<line class="chart-grid" x1="${padX}" x2="${W - padX}" y1="${y(v)}" y2="${y(v)}"/>`;
@@ -58,9 +61,19 @@ export function lineChart({ values, labels, current = -1, peak = -1, futureFrom 
     svg += `<circle class="chart-dot ${cls}" cx="${px}" cy="${py}" r="${i === current ? 6 : 3.5}"/>`;
     if (i === current) svg += `<text class="chart-value now" x="${px}" y="${py - 11}" text-anchor="middle">지금 ${values[i]}</text>`;
     else if (i === peak || i === selected) svg += `<text class="chart-value" x="${px}" y="${py - 10}" text-anchor="middle">${values[i]}</text>`;
-    svg += `<text class="chart-axis ${i === current ? "now" : ""}" x="${px}" y="${H - 8}" text-anchor="middle">${labels[i]}</text>`;
-    svg += `<rect class="chart-hit" data-i="${i}" x="${px - 18}" y="0" width="36" height="${H}"><title>${labels[i]} ${values[i]}점</title></rect>`;
+    svg += `<text class="chart-axis ${i === current ? "now" : ""}" x="${px}" y="${base + 18}" text-anchor="middle">${labels[i]}</text>`;
+    svg += `<rect class="chart-hit" data-i="${i}" x="${px - 18}" y="0" width="36" height="${base + 22}"><title>${labels[i]} ${values[i]}점</title></rect>`;
   });
+  // 아래 줄 표시 (인생 주요 포인트)
+  for (let l = 0; l < lanes; l++) {
+    const ly = base + 34 + l * laneH;
+    svg += `<line class="chart-lane" x1="${padX}" x2="${W - padX}" y1="${ly}" y2="${ly}"/>`;
+  }
+  for (const m of markers) {
+    const mx = round(x(m.pos));
+    const my = base + 34 + m.lane * laneH;
+    svg += `<g class="mk ${m.cls}${m.past ? " past" : ""}"><circle cx="${mx}" cy="${my}" r="7"/><text x="${mx}" y="${my + 3.5}" text-anchor="middle">${m.label}</text><title>${m.title}</title></g>`;
+  }
   return svg + "</svg>";
 }
 

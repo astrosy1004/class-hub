@@ -82,9 +82,50 @@ export const DOMAINS = [
     dayHarmony: 2, dayClash: -3,
   },
   {
-    id: "mind", name: "마음", short: "마음", color: "accent",
-    plus: { 식신: 0.8, 상관: 0.5, 정인: 0.2 }, minus: { 편인: 0.8, 비견: 0.3 },
-    johu: 8, dayHarmony: 2, dayClash: -4,
+    // 건강: 식신(수명·활력)·정인(보호)은 가점, 편관(칠살: 사고·질병)·상관은 감점.
+    // 조후가 채워지면 가점, 원국에 없는 오행이 들어오면 가점 · 이미 넘치는 오행이 더 들어오면 감점(balance)
+    id: "health", name: "건강운", short: "건강", color: "wood",
+    plus: { 식신: 0.8, 정인: 0.7, 비견: 0.3 }, minus: { 편관: 1, 상관: 0.4, 겁재: 0.3 },
+    johu: 6, balance: 5, dayHarmony: 2, dayClash: -7,
+  },
+];
+
+// 오행별로 살펴볼 몸 (건강 체크). 의학적 진단이 아니라 명리의 전통적 대응이다
+export const ORGANS = [
+  { organs: "간·담·눈·근육", tip: "스트레칭과 충분한 잠으로 근육과 눈을 쉬게 하세요" },
+  { organs: "심장·혈압·소장", tip: "무리한 운동보다 꾸준한 걷기, 혈압을 정기적으로 재 보세요" },
+  { organs: "위장·비장·소화", tip: "규칙적인 식사, 늦은 밤 과식을 줄이세요" },
+  { organs: "폐·기관지·대장·피부", tip: "환기와 호흡 운동, 미세먼지 많은 날 마스크를 챙기세요" },
+  { organs: "신장·방광·허리·뼈", tip: "물을 자주 마시고 허리·하체 근력을 기르세요" },
+];
+
+// 인생 주요 포인트: 해(세운)마다 영역 점수를 매겨 가능성이 높은 해를 고른다.
+// domains 평균 점수 + bonusGods(그해 천간 십신) 가점 + 일지와 육합·도화 가점. ages는 찾는 나이(세는 나이) 범위.
+// pick: "high"면 점수 높은 해, "low"면 점수 낮은 해(주의). spacing: 고른 해끼리 최소 간격(년)
+export const LIFE_EVENTS = [
+  {
+    id: "marriage", name: "결혼·인연", short: "결혼", icon: "heart", color: "fire",
+    domains: ["love", "spouse"], ages: [22, 60], pick: "high", count: 3, spacing: 4,
+    bonusGodsF: { 정관: 6, 편관: 3 }, bonusGodsM: { 정재: 6, 편재: 3 }, dayHarmony: 8, peach: 5,
+    agePrime: [26, 38, 5], // 흔히 결혼하는 나이대 가점 [시작, 끝, 점수]
+    phrase: "인연이 닿거나 관계가 깊어지기 쉬운 해",
+  },
+  {
+    id: "career", name: "취업·승진", short: "취업", icon: "briefcase", color: "water",
+    domains: ["career"], ages: [20, 67], pick: "high", count: 3, spacing: 4,
+    bonusGods: { 정관: 6, 편관: 4, 정인: 4 },
+    phrase: "자리를 얻거나 인정받기 쉬운 해",
+  },
+  {
+    id: "wealth", name: "경제적 성취", short: "재물", icon: "coin", color: "earth",
+    domains: ["wealth"], ages: [25, 80], pick: "high", count: 3, spacing: 4,
+    bonusGods: { 정재: 6, 편재: 6, 식신: 3 },
+    phrase: "돈이 모이거나 성과가 결실을 맺기 쉬운 해",
+  },
+  {
+    id: "health", name: "건강 주의", short: "건강", icon: "pulse", color: "metal",
+    domains: ["health"], ages: [30, 85], pick: "low", count: 2, spacing: 5,
+    phrase: "검진을 챙기고 무리를 줄여야 하는 해",
   },
 ];
 
@@ -198,10 +239,10 @@ export const ACTIONS = {
     mid: "배우고 준비하는 시간으로 쓰세요. 경력을 정리해 두면 좋아요.",
     low: "지금 자리를 지키며 다음 기회를 위한 공부를 하세요.",
   },
-  mind: {
-    high: "새로운 모임·취미를 시작하기 좋은 때예요.",
-    mid: "햇볕 아래 걷기, 가벼운 운동으로 기운을 밖으로 내보내세요.",
-    low: "혼자 버티지 마세요. 가까운 사람이나 상담 기관에 이야기해 보세요.",
+  health: {
+    high: "몸이 가벼운 때예요. 새 운동 습관을 시작하기 좋아요.",
+    mid: "잠·식사·걷기 리듬을 꾸준히 지키세요. 미뤄 둔 검진이 있으면 잡아 두세요.",
+    low: "무리한 일정과 과음을 줄이고, 건강검진과 몸의 작은 신호를 챙기세요.",
   },
 };
 
@@ -212,10 +253,12 @@ export const GUIDES = {
     { name: "중장년내일센터", desc: "40세 이상 재취업 · 전직 상담", url: "https://www.work24.go.kr" },
     { name: "큐넷", desc: "국가자격증 시험 일정 · 접수", url: "https://www.q-net.or.kr" },
   ],
-  mind: [
-    { name: "정신건강 위기상담 1577-0199", desc: "24시간 전화 상담", url: "tel:15770199" },
-    { name: "자살예방 상담전화 109", desc: "24시간, 혼자 견디기 힘들 때", url: "tel:109" },
+  health: [
+    { name: "국민건강보험공단", desc: "국가 건강검진 대상 · 결과 조회", url: "https://www.nhis.or.kr" },
+    { name: "국가건강정보포털 (질병관리청)", desc: "증상·질환별 믿을 수 있는 건강 정보", url: "https://health.kdca.go.kr" },
   ],
 };
+
+export const HEALTH_NOTICE = "건강 풀이는 의학적 진단이 아니에요. 몸에 이상이 있으면 꼭 의료기관에서 진료를 받으세요.";
 
 export const DISCLAIMER = "명리 해석을 단순화한 참고용입니다. 중요한 결정은 전문가와 상의하세요.";

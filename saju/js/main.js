@@ -1,15 +1,16 @@
 // 화면 전환(#주소) · 명식 목록/계산 묶음(model) · 로그인 · 이벤트 연결 전담.
-// 주소: #home · #fortune · #monthly/<영역> · #life · #job · #me · #chart · #charts · #manse/<new|edit>
+// 주소: #home · #fortune[/연도] · #monthly/<영역>[/연도] · #life · #job · #me · #chart · #charts · #manse/<new|edit>
 
 import { calculateSaju } from "./manse.js";
 import { CITIES } from "./saju-data.js";
-import { analyzeNatal, lifeGraph, yearFlow } from "./score.js";
+import { analyzeNatal, lifeGraph, yearFlow, lifeEvents } from "./score.js";
 import {
   loadLocalCharts, saveLocalChart, deleteLocalChart, newChartId, loadCurrentId, saveCurrentId,
   loadChartMode, saveChartMode, loadTheme, saveTheme,
 } from "./store.js";
 import {
   renderHome, renderFortune, renderMonthly, renderLife, renderJob, renderMe, renderChart, renderManse, renderCharts, themeButtons,
+  dayOptions, dateHint, timeHint,
 } from "./ui.js";
 import { icon } from "./icons.js";
 
@@ -51,7 +52,21 @@ function buildModel(chart) {
   const saju = calculateSaju({ ...chart, today });
   if (saju.error) return { error: saju.error };
   const natal = analyzeNatal(saju);
-  return { profile: chart, today, saju, natal, life: lifeGraph(saju, natal), year: yearFlow(natal, today.getFullYear()) };
+  return {
+    profile: chart, today, saju, natal,
+    life: lifeGraph(saju, natal),
+    year: yearFlow(natal, today.getFullYear()),
+    events: lifeEvents(saju, natal, today),
+    yearCache: new Map(), // 다른 해 운세 (연도 → yearFlow)
+  };
+}
+
+// 운세 · 월별 흐름에서 볼 해. 주소에 연도가 없으면 올해
+function yearFlowOf(m, y) {
+  const year = Number(y);
+  if (!year || year === m.year.year || year < 1900 || year > 2100) return m.year;
+  if (!m.yearCache.has(year)) m.yearCache.set(year, yearFlow(m.natal, year));
+  return m.yearCache.get(year);
 }
 
 function currentModel() {
@@ -78,17 +93,17 @@ async function removeChart(id) {
 
 // ── 화면 그리기 ─────────────────────────────
 function parseRoute() {
-  const [name, arg] = (location.hash.slice(1) || "home").split("/");
-  return { name: views[name] ? name : "home", arg };
+  const [name, arg, arg2] = (location.hash.slice(1) || "home").split("/");
+  return { name: views[name] ? name : "home", arg, arg2 };
 }
 
 function render() {
-  const { name, arg } = parseRoute();
+  const { name, arg, arg2 } = parseRoute();
   const m = currentModel();
   const html = {
     home: () => renderHome(m),
-    fortune: () => renderFortune(m),
-    monthly: () => renderMonthly(m, arg || "total"),
+    fortune: () => renderFortune(m, yearFlowOf(m, arg)),
+    monthly: () => renderMonthly(m, arg || "total", yearFlowOf(m, arg2)),
     life: () => renderLife(m, lifeSelected),
     job: () => renderJob(m),
     me: () => renderMe(m, loadTheme(), account),
@@ -130,13 +145,37 @@ function wireManseForm(editing) {
   const f = form.elements;
   const lonField = form.querySelector("[data-lon]");
   const consentField = form.querySelector("[data-consent]");
+  const dateHintEl = form.querySelector("[data-date-hint]");
+  const timeHintEl = form.querySelector("[data-time-hint]");
+  const num = (el) => (el.value === "" ? 0 : Number(el.value));
+
+  // 달력 · 연도 · 월이 바뀌면 그 달 날수에 맞게 날짜 목록을 다시 만든다 (고른 날은 유지, 넘치면 마지막 날로)
+  const refreshDays = () => {
+    const cal = f.calendar.value;
+    const keep = num(f.day);
+    f.day.innerHTML = dayOptions(cal, num(f.year), num(f.month), keep);
+    if (keep && !f.day.value) f.day.value = f.day.options[f.day.options.length - 1].value;
+    refreshDateHint();
+  };
+  const refreshDateHint = () => {
+    dateHintEl.innerHTML = dateHint(f.calendar.value, num(f.year), num(f.month), num(f.day));
+  };
+  const refreshTimeHint = () => {
+    timeHintEl.textContent = f.unknownTime.checked || f.hour.value === "" ? "" : timeHint(num(f.hour), num(f.minute), Number(f.longitude.value) || 126.98);
+  };
+  for (const el of [f.year, f.month, ...f.calendar]) el.addEventListener("change", refreshDays);
+  f.day.addEventListener("change", refreshDateHint);
+  for (const el of [f.hour, f.minute, f.longitude]) el.addEventListener("change", refreshTimeHint);
   f.unknownTime.addEventListener("change", (e) => {
-    f.time.disabled = e.target.checked;
+    f.hour.disabled = e.target.checked;
+    f.minute.disabled = e.target.checked;
+    refreshTimeHint();
   });
   f.city.addEventListener("change", (e) => {
     const city = CITIES.find((c) => c.name === e.target.value);
     lonField.hidden = Boolean(city);
     if (city) f.longitude.value = city.lon;
+    refreshTimeHint();
   });
   f.relation.addEventListener("change", (e) => {
     consentField.hidden = e.target.value === "본인";
@@ -145,6 +184,9 @@ function wireManseForm(editing) {
     e.preventDefault();
     const cal = f.calendar.value;
     const city = CITIES.find((c) => c.name === f.city.value);
+    const two = (n) => String(n).padStart(2, "0");
+    if (!f.year.value || !f.month.value || !f.day.value) return showFormError("태어난 연도 · 월 · 일을 모두 골라 주세요.");
+    if (!f.unknownTime.checked && f.hour.value === "") return showFormError("태어난 시를 고르거나 '시간을 몰라요'를 체크해 주세요.");
     const chart = {
       id: editing ? editing.id : newChartId(),
       name: f.name.value.trim(),
@@ -152,8 +194,8 @@ function wireManseForm(editing) {
       gender: f.gender.value,
       calendar: cal === "solar" ? "solar" : "lunar",
       leap: cal === "leap",
-      date: f.date.value,
-      time: f.unknownTime.checked ? null : f.time.value || null,
+      date: `${f.year.value}-${two(f.month.value)}-${two(f.day.value)}`,
+      time: f.unknownTime.checked ? null : `${two(f.hour.value)}:${two(f.minute.value)}`,
       city: city ? city.name : "",
       longitude: city ? city.lon : Number(f.longitude.value) || 126.98,
       applyDst: f.applyDst.checked,
@@ -163,7 +205,6 @@ function wireManseForm(editing) {
     if (!/^\d{4}-\d{2}-\d{2}$/.test(chart.date) || chart.date < "1900-01-01" || chart.date > "2100-12-31") {
       return showFormError("생년월일을 1900~2100년 사이로 입력해 주세요.");
     }
-    if (!f.unknownTime.checked && !chart.time) return showFormError("태어난 시각을 넣거나 '시간을 몰라요'를 체크해 주세요.");
     if (chart.relation !== "본인" && !f.consent.checked) return showFormError("가족·지인 명식은 본인 동의를 받았는지 체크해 주세요.");
     const check = buildModel(chart);
     if (check.error) return showFormError(check.error);

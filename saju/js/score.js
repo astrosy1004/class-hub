@@ -5,7 +5,7 @@ import { STEMS, BRANCHES, ELEMENTS } from "./saju-data.js";
 import { calculateSaju, tenGod, pillarText, pillarKo } from "./manse.js";
 import {
   ROLE_VALUE, SCORE, HIDDEN_WEIGHT, STRENGTH_WEIGHT, JOHU, BRANCH_HARMONY, BRANCH_CLASH, STEM_COMBINE, PEACH,
-  DOMAINS, BANDS, GOD_THEME, GOD_GROUPS, JOBS, CERTIFICATES, ELEMENT_DESC, WORKPLACES,
+  DOMAINS, BANDS, GOD_THEME, GOD_GROUPS, JOBS, CERTIFICATES, ELEMENT_DESC, WORKPLACES, ORGANS, LIFE_EVENTS,
 } from "./score-rules.js";
 
 const clamp = (v) => Math.round(Math.min(SCORE.max, Math.max(SCORE.min, v)));
@@ -166,6 +166,18 @@ export function scorePillar(natal, p, domainId = "total") {
     score += domain.johu;
     reasons.push("조후 충족");
   }
+  // 오행 균형: 원국에 없는 오행이 들어오면 가점, 이미 3개 이상인 오행이 더 들어오면 감점
+  if (domain.balance) {
+    for (const e of new Set([stemEl, branchEl])) {
+      if (natal.elementCount[e] === 0) {
+        score += domain.balance;
+        reasons.push(`비어 있던 ${ELEMENTS[e].ko}(${ELEMENTS[e].han}) 채움`);
+      } else if (natal.elementCount[e] >= 3) {
+        score -= domain.balance;
+        reasons.push(`넘치는 ${ELEMENTS[e].ko}(${ELEMENTS[e].han}) 더해짐`);
+      }
+    }
+  }
 
   // 대표 근거: 용신·기신 여부를 맨 앞에
   const lead = natal.roles[stemEl] === "yong" || natal.roles[branchEl] === "yong"
@@ -284,19 +296,68 @@ export function workplaceFit(natal, pillar) {
   });
 }
 
-/** 마음(외로움·무기력) 요인: 0~100, 높을수록 그 요인이 강함 */
-export function mindFactors(natal, currentDaeun) {
-  const g = natal.godCount;
-  const resource = (g.정인 || 0) + (g.편인 || 0);
-  const output = (g.식신 || 0) + (g.상관 || 0);
-  const self = (g.비견 || 0) + (g.겁재 || 0);
-  const coldOrHot = natal.johu ? natal.elementCount[natal.johu.element] === 0 ? 80 : 55 : 25;
-  const nowGod = currentDaeun ? currentDaeun.stemGod : "";
-  return [
-    { label: "생각이 많아 머무름 (인성 많음)", value: Math.min(95, 20 + resource * 18), kind: "natal" },
-    { label: "표현할 통로가 적음 (식상 부족)", value: output === 0 ? 80 : output === 1 ? 55 : 25, kind: "natal" },
-    { label: "기댈 동료가 적음 (비겁 부족)", value: self === 0 ? 75 : self === 1 ? 50 : 25, kind: "natal" },
-    { label: `${natal.johu ? natal.johu.label + "생 " : ""}온도 균형 (조후)`, value: coldOrHot, kind: "natal" },
-    { label: `지금 대운의 영향 (${nowGod || "-"})`, value: ["편인", "겁재", "편관"].includes(nowGod) ? 70 : ["식신", "정재", "정인"].includes(nowGod) ? 30 : 45, kind: "now" },
-  ];
+/**
+ * 타고난 건강 체크: 오행마다 "살펴볼 정도" 0~100 (높을수록 신경 쓸 곳).
+ * 없거나(0개) 넘치는(3개 이상) 오행, 기신 오행일수록 높다. 의학적 진단이 아니다.
+ */
+export function healthCheck(natal) {
+  return ELEMENTS.map((el, e) => {
+    const n = natal.elementCount[e];
+    let value = n === 0 ? 70 : n >= 3 ? 60 + (n - 3) * 10 : n === 2 ? 35 : 25;
+    if (natal.roles[e] === "gi") value += 12;
+    if (natal.johu && natal.johu.element === e && n === 0) value += 10; // 조후가 비면 더 살핀다
+    const state = n === 0 ? "부족" : n >= 3 ? "많음" : "보통";
+    return { element: e, label: `${el.ko} · ${ORGANS[e].organs}`, value: Math.min(95, value), state, tip: ORGANS[e].tip };
+  });
+}
+
+/**
+ * 인생 주요 포인트: 해마다 (대운 40% + 세운 60%) 영역 점수에 그해 십신·일지 합·도화 가점을 더해
+ * 결혼·취업·재물은 점수가 높은 해, 건강은 낮은 해를 고른다. 같은 명식이면 항상 같은 결과.
+ * @returns [{ ...이벤트 정의, items: [{ year, age, score, ko, reason, past }] }]
+ */
+export function lifeEvents(saju, natal, today = new Date()) {
+  const birthYear = Number(saju.solarDate.slice(0, 4));
+  const thisYear = today.getFullYear();
+  const daeunScores = new Map(); // 대운별 영역 점수 캐시
+  const daeunOf = (age) => saju.daeun.list.find((d) => age >= d.startAge && age < d.startAge + 10) || saju.pillars.month;
+
+  return LIFE_EVENTS.map((ev) => {
+    const candidates = [];
+    for (let age = ev.ages[0]; age <= ev.ages[1]; age++) {
+      const year = birthYear + age - 1;
+      if (year > 2100) break;
+      const idx = (((year - 4) % 60) + 60) % 60;
+      const seun = { stem: idx % 10, branch: idx % 12 };
+      const daeun = daeunOf(age);
+      const key = `${daeun.stem}-${daeun.branch}`;
+      if (!daeunScores.has(key)) daeunScores.set(key, scoreAll(natal, daeun));
+      const ds = daeunScores.get(key);
+      const ss = scoreAll(natal, seun);
+      let score = ev.domains.reduce((acc, id) => acc + 0.4 * ds[id] + 0.6 * ss[id], 0) / ev.domains.length;
+      const god = tenGod(natal.dm, seun.stem);
+      const reasons = [`${pillarKo(seun)}년 · ${god}`];
+      const bonus = (ev[`bonusGods${natal.gender}`] || ev.bonusGods || {})[god];
+      if (bonus) score += bonus;
+      if (ev.dayHarmony && pairIn(BRANCH_HARMONY, seun.branch, natal.dayBranch)) {
+        score += ev.dayHarmony;
+        reasons.push("일지(배우자궁)와 합");
+      }
+      if (ev.peach && PEACH[natal.dayBranch] === seun.branch) {
+        score += ev.peach;
+        reasons.push("도화");
+      }
+      if (ev.agePrime && age >= ev.agePrime[0] && age <= ev.agePrime[1]) score += ev.agePrime[2];
+      candidates.push({ year, age, score: clamp(score), ko: pillarKo(seun), reason: reasons.join(" · "), past: year < thisYear, now: year === thisYear });
+    }
+    candidates.sort((a, b) => (ev.pick === "low" ? a.score - b.score : b.score - a.score));
+    const items = [];
+    for (const c of candidates) {
+      if (items.length >= ev.count) break;
+      if (items.some((x) => Math.abs(x.year - c.year) < ev.spacing)) continue;
+      items.push(c);
+    }
+    items.sort((a, b) => a.year - b.year);
+    return { ...ev, items };
+  });
 }
