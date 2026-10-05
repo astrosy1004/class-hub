@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-10-04T20:38:02.623Z",
+  "updatedAt": "2026-10-05T00:18:40.877Z",
   "categories": [
     {
       "id": "job",
@@ -138,19 +138,27 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "[인터뷰] 오지 마을의 코딩 전도사 ‘숲속엄마’ 송미선 강사 - 쿠키뉴스",
-          "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5xblVYb0s1LUNYTTZYLUNVdXVhZVYxemtxRW9icWsxd0ZESUt6bXdvazlMd05oeWVBcUVoTExQekZaV1RpWDE3RTB4YWhUazdlQ3I5NDF3MEZfY2VxTG5HMTNQMA?oc=5",
-          "date": "2021-11-29T08:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiY0FVX3lxTE5xblVYb0s1LUNYTTZYLUNVdXVhZVYxemtxRW9icWsxd0ZESUt6bXdvazlMd05oeWVBcUVoTExQekZaV1RpWDE3RTB4YWhUazdlQ3I5NDF3MEZfY2VxTG5HMT",
-          "source": "쿠키뉴스",
+          "title": "동부새일센터, 25일까지 '교과융합SW콘텐츠활용강사양성과정' 교육생 모집 - 서울경제",
+          "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE85UVlPVTluUm5nVUw5VzlpY1pXSTU2aUd3ZkVLSFVwc0FqWVBNUUR4NGl4ZE9GWnJtWUdLMGE1eFV3QmZRU2hWS1hLaFN2X2hwWXfSAVNBVV95cUxNZzBsSnBFUG5FV1BHSmVJZEFNVEpQcHk5U3pMckM5WDl1d2lSeldzd2ItYURXNVBJakxOa3R6NjBGb3pIR011VnUxejZDTTNDdEdjbw?oc=5",
+          "date": "2022-03-24T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiUkFVX3lxTE85UVlPVTluUm5nVUw5VzlpY1pXSTU2aUd3ZkVLSFVwc0FqWVBNUUR4NGl4ZE9GWnJtWUdLMGE1eFV3QmZRU2hWS1hLaFN2X2hwWXfSAVNBVV95cUxNZzBsSn",
+          "source": "서울경제",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "서울시중부기술교육원, 'AI CODE 기술을 활용한 코딩 강사 양성과정' 교육생 모집 - vtimes.kr",
+          "title": "[인터뷰] 오지 마을의 코딩 전도사 ‘숲속엄마’ 송미선 강사 - kukinews.com",
+          "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5xblVYb0s1LUNYTTZYLUNVdXVhZVYxemtxRW9icWsxd0ZESUt6bXdvazlMd05oeWVBcUVoTExQekZaV1RpWDE3RTB4YWhUazdlQ3I5NDF3MEZfY2VxTG5HMTNQMA?oc=5",
+          "date": "2021-11-29T08:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiY0FVX3lxTE5xblVYb0s1LUNYTTZYLUNVdXVhZVYxemtxRW9icWsxd0ZESUt6bXdvazlMd05oeWVBcUVoTExQekZaV1RpWDE3RTB4YWhUazdlQ3I5NDF3MEZfY2VxTG5HMT",
+          "source": "kukinews.com",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "서울시중부기술교육원, 'AI CODE 기술을 활용한 코딩 강사 양성과정' 교육생 모집 - 벤처타임즈",
           "link": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE9qNW9NLWpPRnZCeUx0cFdpdE5lTno0bVNVQ2VfOHE3NHloSXpFOTJQeE5KRFRpSjFtWjZTRHdzd1FHaTd5T2M1ajAxQUs2S0liZUJDSTZvakVoUXhYbXp2cmo0QjVldw?oc=5",
           "date": "2021-04-28T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiZkFVX3lxTE9qNW9NLWpPRnZCeUx0cFdpdE5lTno0bVNVQ2VfOHE3NHloSXpFOTJQeE5KRFRpSjFtWjZTRHdzd1FHaTd5T2M1ajAxQUs2S0liZUJDSTZvakVoUXhYbXp2cm",
-          "source": "vtimes.kr",
+          "source": "벤처타임즈",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -199,14 +207,6 @@ window.MYNEWS_DATA = {
           "date": "2019-03-26T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiX0FVX3lxTE5SeS04S3BHcWs4LVl4TzRZcU05Z3BscHJabXVUTUNyeDhSMS1HSWxxVThUOUpJWXdDZkwtUFRjbTFmU2MxeDVkQVk3cklXa3lCSHNJWnVBa3FkZjZyWWpJ?o",
           "source": "cwn.kr",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
-          "title": "2018 코딩강사 양성과정 '시원하게 코딩' - 브런치",
-          "link": "https://news.google.com/rss/articles/CBMiTEFVX3lxTE11Smh5R3BLNHNFODRFd2E1M2Y0UTBXT2dBM2k0UERGN053ZlJveVJEc096OUtmX3F0TkdGenRFcTFZOWVJWVJ4Z0VqaTE?oc=5",
-          "date": "2018-10-30T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiTEFVX3lxTE11Smh5R3BLNHNFODRFd2E1M2Y0UTBXT2dBM2k0UERGN053ZlJveVJEc096OUtmX3F0TkdGenRFcTFZOWVJWVJ4Z0VqaTE?oc=5\" target=\"_blank\">2018",
-          "source": "브런치",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
