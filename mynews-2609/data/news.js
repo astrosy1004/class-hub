@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-10-06T03:48:00.809Z",
+  "updatedAt": "2026-10-06T10:53:47.729Z",
   "categories": [
     {
       "id": "job",
@@ -66,11 +66,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "인제대, 로봇·코딩 강사양성교육 3기 수료식 개최 - gimhaenews.co.kr",
+          "title": "인제대, 로봇·코딩 강사양성교육 3기 수료식 개최 - 김해뉴스",
           "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE5uTWRCYlZ2M2drYjVyM1hQZkZ3anl5MF9CTVBmMDYxOGhXX0J3V1JZMDFNOGdpR3lUbkdGdlFoS1JuV09mc0xRRDlxYjlNU2pKY01kQ1d4VjhZTVl6aUVaeDlfVnAzVUFHRmltcUtn?oc=5",
           "date": "2026-07-08T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMibkFVX3lxTE5uTWRCYlZ2M2drYjVyM1hQZkZ3anl5MF9CTVBmMDYxOGhXX0J3V1JZMDFNOGdpR3lUbkdGdlFoS1JuV09mc0xRRDlxYjlNU2pKY01kQ1d4VjhZTVl6aUVaeD",
-          "source": "gimhaenews.co.kr",
+          "source": "김해뉴스",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -122,11 +122,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "한신대, ‘2024 여름방학 디지털새싹 캠프 AI 아트 코딩 강사 워크숍’ 진행 - usline.kr",
-          "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTFBBN0pMMkcyUzRpVmNFSTF6T29Dc09hZ2k0OUZiWk96TjRTc09aREdReU93VmNHenhfb1V0UDBVNElYZEVJRGI5bW5Gd1BZX3kwWXNJMTBFc1p2ZGNVWUVEbWZaTzjSAWhBVV95cUxQalZsZEZCTDk4R2g4NW51d0R6b250aFJfcEg5cnZzcTRjWFFyNFpacEpQOVN0LWgySHRyenJlVGtqb05WSGU5Q2c3Uk1JeGxZNm9uSmRjM0FHQUt5MHNPd2ZJYWhTU01xYQ?oc=5",
+          "title": "한신대, ‘2024 여름방학 디지털새싹 캠프 AI 아트 코딩 강사 워크숍’ - 대학저널",
+          "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTFBZeDdhQzJwTGMtVEdLLTdWd0VZX2tHeTZwWE56aFVPLWVwOTgzTUpwTnBBTHBmNVA1eURwSUhEbXVac3owc3BxOVZJdjM2Qmx5RzluTlMwRUg5cUpLU3fSAWpBVV95cUxPWS00XzZUSmF2Z1ZEYlVlckZjUDVvc19HamR6VGVLcXlHeDZzOW1rcmdlX0gyZ0JYUkdOdmQ5bU1EMFpyVVpJWHUyQzdib0ZSOVh6Z3lKMmRqRUZmdEUzY2JUODMyVl9Nc1VR?oc=5",
           "date": "2024-07-25T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiZEFVX3lxTFBBN0pMMkcyUzRpVmNFSTF6T29Dc09hZ2k0OUZiWk96TjRTc09aREdReU93VmNHenhfb1V0UDBVNElYZEVJRGI5bW5Gd1BZX3kwWXNJMTBFc1p2ZGNVWUVEbW",
-          "source": "usline.kr",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiXkFVX3lxTFBZeDdhQzJwTGMtVEdLLTdWd0VZX2tHeTZwWE56aFVPLWVwOTgzTUpwTnBBTHBmNVA1eURwSUhEbXVac3owc3BxOVZJdjM2Qmx5RzluTlMwRUg5cUpLU3fSAW",
+          "source": "대학저널",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -170,11 +170,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "안랩, SW코딩강사 무료 교육 프로그램 ‘안랩샘’ 10기 개강 - 디지털투데이",
+          "title": "안랩, SW코딩강사 무료 교육 프로그램 ‘안랩샘’ 10기 개강 - digitaltoday.co.kr",
           "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5IR1AyRWlsWFd0d2JQZmFMbnNRVXhnckN1eUFFTzIxRkU4Z1dYcDNRbkNua0xqUk1OMVEzd1Z1d28yY0p4Z1h3ek5aOUswZVZrRDlHM21uenVzUHp0Y1pacGRVdUlKSmRJTHExRm1sWnpTa1U?oc=5",
           "date": "2020-03-19T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMic0FVX3lxTE5IR1AyRWlsWFd0d2JQZmFMbnNRVXhnckN1eUFFTzIxRkU4Z1dYcDNRbkNua0xqUk1OMVEzd1Z1d28yY0p4Z1h3ek5aOUswZVZrRDlHM21uenVzUHp0Y1pacG",
-          "source": "디지털투데이",
+          "source": "digitaltoday.co.kr",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -202,11 +202,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "2018 코딩강사 양성과정 '시원하게 코딩' - 브런치",
+          "title": "2018 코딩강사 양성과정 '시원하게 코딩' - brunch.co.kr",
           "link": "https://news.google.com/rss/articles/CBMiTEFVX3lxTE11Smh5R3BLNHNFODRFd2E1M2Y0UTBXT2dBM2k0UERGN053ZlJveVJEc096OUtmX3F0TkdGenRFcTFZOWVJWVJ4Z0VqaTE?oc=5",
           "date": "2018-10-30T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiTEFVX3lxTE11Smh5R3BLNHNFODRFd2E1M2Y0UTBXT2dBM2k0UERGN053ZlJveVJEc096OUtmX3F0TkdGenRFcTFZOWVJWVJ4Z0VqaTE?oc=5\" target=\"_blank\">2018",
-          "source": "브런치",
+          "source": "brunch.co.kr",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
