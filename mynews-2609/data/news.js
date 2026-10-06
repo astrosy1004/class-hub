@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-10-05T23:27:51.525Z",
+  "updatedAt": "2026-10-06T03:48:00.809Z",
   "categories": [
     {
       "id": "job",
@@ -66,11 +66,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "인제대, 로봇·코딩 강사양성교육 3기 수료식 개최 - 김해뉴스",
+          "title": "인제대, 로봇·코딩 강사양성교육 3기 수료식 개최 - gimhaenews.co.kr",
           "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE5uTWRCYlZ2M2drYjVyM1hQZkZ3anl5MF9CTVBmMDYxOGhXX0J3V1JZMDFNOGdpR3lUbkdGdlFoS1JuV09mc0xRRDlxYjlNU2pKY01kQ1d4VjhZTVl6aUVaeDlfVnAzVUFHRmltcUtn?oc=5",
           "date": "2026-07-08T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMibkFVX3lxTE5uTWRCYlZ2M2drYjVyM1hQZkZ3anl5MF9CTVBmMDYxOGhXX0J3V1JZMDFNOGdpR3lUbkdGdlFoS1JuV09mc0xRRDlxYjlNU2pKY01kQ1d4VjhZTVl6aUVaeD",
-          "source": "김해뉴스",
+          "source": "gimhaenews.co.kr",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -186,14 +186,6 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "관악여성새일센터 SW코딩교육전문가과정 수료생들 ‘방과 후 코딩강사’ 활동 준비 마쳐 - 헤럴드경제",
-          "link": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFAwNlZ1VXNpVnZ2WV9BZ3p2NkZsLW1BNUZBOWZCUmtvVEFvUTllS2FzWVhyWkw0MXNGQjFXc1NGQk9zOUR4akF2Zm9CZERINFBBXzhmOQ?oc=5",
-          "date": "2019-06-27T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiVEFVX3lxTFAwNlZ1VXNpVnZ2WV9BZ3p2NkZsLW1BNUZBOWZCUmtvVEFvUTllS2FzWVhyWkw0MXNGQjFXc1NGQk9zOUR4akF2Zm9CZERINFBBXzhmOQ?oc=5\" target=\"_",
-          "source": "헤럴드경제",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
           "title": "김포여성새로일하기센터, 코딩강사 양성과정 개강 - cwn.kr",
           "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE5SeS04S3BHcWs4LVl4TzRZcU05Z3BscHJabXVUTUNyeDhSMS1HSWxxVThUOUpJWXdDZkwtUFRjbTFmU2MxeDVkQVk3cklXa3lCSHNJWnVBa3FkZjZyWWpJ?oc=5",
           "date": "2019-03-26T07:00:00.000Z",
@@ -202,11 +194,19 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "한국교육능력진흥원㈜, ㈜소리보따리와 유아코딩지도사 코딩교육 콘텐츠제휴계약 체결 - 한국금융경제신문",
+          "title": "한국교육능력진흥원㈜, ㈜소리보따리와 유아코딩지도사 코딩교육 콘텐츠제휴계약 체결 - 소년한국일보",
           "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTFB6RzVpTnJsVmxZWkVTTGlOSlM2Y0lXUmZPY1docEhnSEEwUzFpTEl5TURNOEowVHU0MjNQamczZW9tXzV0UEw5cTBHUTJnV1BYaGFIQ2hMa3NwdEZwVUp3WXN6dUdPb3dLZUpPQ9IBcEFVX3lxTE1NMU9zZnh6TEFNNGlfdkVHLVhNMU0tSWthcjljMXkwYmJvMEpNVXZyVG14WFpHUkNIOW85N0RpeHU5Tk9nUGhxV3ZPQThjZjF6NUZiUWN2X1RsZzNlWUQyd01CT1ZrcXZMVTlCVUhxcHE?oc=5",
           "date": "2018-12-06T08:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTFB6RzVpTnJsVmxZWkVTTGlOSlM2Y0lXUmZPY1docEhnSEEwUzFpTEl5TURNOEowVHU0MjNQamczZW9tXzV0UEw5cTBHUTJnV1BYaGFIQ2hMa3NwdEZwVUp3WX",
-          "source": "한국금융경제신문",
+          "source": "소년한국일보",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "2018 코딩강사 양성과정 '시원하게 코딩' - 브런치",
+          "link": "https://news.google.com/rss/articles/CBMiTEFVX3lxTE11Smh5R3BLNHNFODRFd2E1M2Y0UTBXT2dBM2k0UERGN053ZlJveVJEc096OUtmX3F0TkdGenRFcTFZOWVJWVJ4Z0VqaTE?oc=5",
+          "date": "2018-10-30T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiTEFVX3lxTE11Smh5R3BLNHNFODRFd2E1M2Y0UTBXT2dBM2k0UERGN053ZlJveVJEc096OUtmX3F0TkdGenRFcTFZOWVJWVJ4Z0VqaTE?oc=5\" target=\"_blank\">2018",
+          "source": "브런치",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
