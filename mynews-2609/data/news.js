@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-10-08T01:26:17.826Z",
+  "updatedAt": "2026-10-08T08:09:35.606Z",
   "categories": [
     {
       "id": "job",
@@ -162,6 +162,14 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
+          "title": "안랩, SW 코딩강사 양성 무료교육 프로그램 ‘안랩샘 8기’ 수료식 - 보안뉴스",
+          "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTFBzaDJTQS0wZi01d0t1ZktvZHI3VDVrYWtUd05CMjBjV3k1ZzZpUnItcjhxdERhbVhBRkhaMkhpa0ZmTWRZTUptdTRtUTJIZVF4MzJLSmFxOWdzY3FCMDZkSFc5c0t1b2stZ0E?oc=5",
+          "date": "2019-05-17T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTFBzaDJTQS0wZi01d0t1ZktvZHI3VDVrYWtUd05CMjBjV3k1ZzZpUnItcjhxdERhbVhBRkhaMkhpa0ZmTWRZTUptdTRtUTJIZVF4MzJLSmFxOWdzY3FCMDZkSF",
+          "source": "보안뉴스",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
           "title": "김포여성새로일하기센터, 코딩강사 양성과정 개강 - www.cwn.kr",
           "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE5SeS04S3BHcWs4LVl4TzRZcU05Z3BscHJabXVUTUNyeDhSMS1HSWxxVThUOUpJWXdDZkwtUFRjbTFmU2MxeDVkQVk3cklXa3lCSHNJWnVBa3FkZjZyWWpJ?oc=5",
           "date": "2019-03-26T07:00:00.000Z",
@@ -194,19 +202,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "학교 코딩 강사, 강아지 산책시키는 ‘도그 워커’ 등 이색 노인일자리 주목받아 - 백세시대",
-          "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTFBDSV9iQlQxNTlWQWliLTZXeWlTbm1BV29MdUVQT1R0QURWc0haWHZpdTRRUHJlVVh0MkdLQkpZRlVVd1Q2Y1RPRWZKWmhzM2xLUUhpRjFja1NmSmpvZFlLem5iOHEteGJSLUE?oc=5",
-          "date": "2018-03-23T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTFBDSV9iQlQxNTlWQWliLTZXeWlTbm1BV29MdUVQT1R0QURWc0haWHZpdTRRUHJlVVh0MkdLQkpZRlVVd1Q2Y1RPRWZKWmhzM2xLUUhpRjFja1NmSmpvZFlLem",
-          "source": "백세시대",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
-          "title": "\"나는 이렇게 코딩강사가 됐다\"...코딩강사 성공기 - PRESS9",
-          "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTFB4dDFIR0drUUE3ZjZOeW9iRzhTaFhnak5tSkVDaE9fRU51ZHhlTnVfb3luQU83T0pDOWg0TEJhMmV3eWxrUmxxeWl3RkkxWXZqNTktREE4ZXVsNHFhR3ZUWVNfVzQ?oc=5",
-          "date": "2018-03-20T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiZEFVX3lxTFB4dDFIR0drUUE3ZjZOeW9iRzhTaFhnak5tSkVDaE9fRU51ZHhlTnVfb3luQU83T0pDOWg0TEJhMmV3eWxrUmxxeWl3RkkxWXZqNTktREE4ZXVsNHFhR3ZUWV",
-          "source": "PRESS9",
+          "title": "코딩강사되기 캠프로 방과후 학교 코딩강사의 'SW교육' 역량을 강화 - gukjenews.com",
+          "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE16cjJUaHJZR1ZQNkozQTkxNUhFSm5ZMGJubG1fQVplRlBCSFlNUHo4d3g4RjQwUEl2MEh1WU11S1RZOXlWZXhWb1ZiWXpnYWtQemd5RHM2MTdzVG5hdkhlUkIycXVDMWE5ZVZ1WQ?oc=5",
+          "date": "2018-03-30T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTE16cjJUaHJZR1ZQNkozQTkxNUhFSm5ZMGJubG1fQVplRlBCSFlNUHo4d3g4RjQwUEl2MEh1WU11S1RZOXlWZXhWb1ZiWXpnYWtQemd5RHM2MTdzVG5hdkhlUk",
+          "source": "gukjenews.com",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
