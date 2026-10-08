@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-10-08T17:04:32.644Z",
+  "updatedAt": "2026-10-08T22:38:31.006Z",
   "categories": [
     {
       "id": "job",
@@ -49,6 +49,22 @@ window.MYNEWS_DATA = {
       ],
       "error": null,
       "items": [
+        {
+          "title": "국립공주대, ‘AI·코딩 강사 14명’ 집중 양성 - 공뉴스",
+          "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBUSHYxWEt2S3JIbXhGNUlyeVp4bG1HYVdrTEZRVnA3MzBsXzNVNW5RU05qQ29HRFVyaTRzeEt5QVEtOGZ6Q2MtMzJlRmNhUEhGQmJpSWRvYzVpSWMwMW5tTXJpN2NyclZTV2ZVVA?oc=5",
+          "date": "2026-09-01T09:28:19.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTFBUSHYxWEt2S3JIbXhGNUlyeVp4bG1HYVdrTEZRVnA3MzBsXzNVNW5RU05qQ29HRFVyaTRzeEt5QVEtOGZ6Q2MtMzJlRmNhUEhGQmJpSWRvYzVpSWMwMW5tTX",
+          "source": "공뉴스",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "류석문 현대오토에버 대표 ‘코딩 강사’ 변신…“AI 맹신 안돼, 최소 비용·최대 효율 중요” - 헤럴드경제",
+          "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE43ZVpyQ2NadU5yR0tMRXR1Q0JHbnd0OVVDNkhJNDNqV2hYQm9DZE9zSTE4MFFucGVub0Y2RkJnR3NHb1BXSVM5eFdOeXdaWnNPSC11WFdB?oc=5",
+          "date": "2026-08-12T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiVkFVX3lxTE43ZVpyQ2NadU5yR0tMRXR1Q0JHbnd0OVVDNkhJNDNqV2hYQm9DZE9zSTE4MFFucGVub0Y2RkJnR3NHb1BXSVM5eFdOeXdaWnNPSC11WFdB?oc=5\" target=",
+          "source": "헤럴드경제",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
         {
           "title": "인제대, 로봇·코딩 강사양성교육 3기 수료식 개최 - 김해뉴스",
           "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE5uTWRCYlZ2M2drYjVyM1hQZkZ3anl5MF9CTVBmMDYxOGhXX0J3V1JZMDFNOGdpR3lUbkdGdlFoS1JuV09mc0xRRDlxYjlNU2pKY01kQ1d4VjhZTVl6aUVaeDlfVnAzVUFHRmltcUtn?oc=5",
@@ -191,22 +207,6 @@ window.MYNEWS_DATA = {
           "date": "2018-10-30T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiTEFVX3lxTE11Smh5R3BLNHNFODRFd2E1M2Y0UTBXT2dBM2k0UERGN053ZlJveVJEc096OUtmX3F0TkdGenRFcTFZOWVJWVJ4Z0VqaTE?oc=5\" target=\"_blank\">2018",
           "source": "브런치",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
-          "title": "김포새일센터 '코딩강사 양성과정' 수료식 - 일간경기",
-          "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTFA4d3pPR1ZfSWNIZDdUclc3Ylh5ODV6TGpmQ2RCUlVPbDdDS29CTjRxVDhIUGprNWExTUJ3cTN5Rl9rNVlkTjZnNmczeXY3OUdZbWJCN3d2cVBWTWNvYnZhcm80RjFINm1v?oc=5",
-          "date": "2018-06-13T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiaEFVX3lxTFA4d3pPR1ZfSWNIZDdUclc3Ylh5ODV6TGpmQ2RCUlVPbDdDS29CTjRxVDhIUGprNWExTUJ3cTN5Rl9rNVlkTjZnNmczeXY3OUdZbWJCN3d2cVBWTWNvYnZhcm",
-          "source": "일간경기",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
-          "title": "코딩강사되기 캠프로 방과후 학교 코딩강사의 'SW교육' 역량을 강화 - gukjenews.com",
-          "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE16cjJUaHJZR1ZQNkozQTkxNUhFSm5ZMGJubG1fQVplRlBCSFlNUHo4d3g4RjQwUEl2MEh1WU11S1RZOXlWZXhWb1ZiWXpnYWtQemd5RHM2MTdzVG5hdkhlUkIycXVDMWE5ZVZ1WQ?oc=5",
-          "date": "2018-03-30T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTE16cjJUaHJZR1ZQNkozQTkxNUhFSm5ZMGJubG1fQVplRlBCSFlNUHo4d3g4RjQwUEl2MEh1WU11S1RZOXlWZXhWb1ZiWXpnYWtQemd5RHM2MTdzVG5hdkhlUk",
-          "source": "gukjenews.com",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
