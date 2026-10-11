@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-10-11T10:25:25.081Z",
+  "updatedAt": "2026-10-11T16:59:28.958Z",
   "categories": [
     {
       "id": "job",
@@ -138,14 +138,6 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "안랩, SW코딩강사 무료 교육 프로그램 ‘안랩샘’ 10기 개강 - 디지털투데이",
-          "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5IR1AyRWlsWFd0d2JQZmFMbnNRVXhnckN1eUFFTzIxRkU4Z1dYcDNRbkNua0xqUk1OMVEzd1Z1d28yY0p4Z1h3ek5aOUswZVZrRDlHM21uenVzUHp0Y1pacGRVdUlKSmRJTHExRm1sWnpTa1U?oc=5",
-          "date": "2020-03-19T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMic0FVX3lxTE5IR1AyRWlsWFd0d2JQZmFMbnNRVXhnckN1eUFFTzIxRkU4Z1dYcDNRbkNua0xqUk1OMVEzd1Z1d28yY0p4Z1h3ek5aOUswZVZrRDlHM21uenVzUHp0Y1pacG",
-          "source": "디지털투데이",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
           "title": "광명시, 'SW정보화교육강사 양성과정' 수료식 개최 - 뉴스웍스",
           "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9ZWHJxZGE4LU9yeTBTSXFJSXZiSGF6d29aTmphdkpfTGhQdHdKVURtU1RxelBsVlBXc1JqODYtWU5JNjN4ZUNaRzdjSFRBblQtQW12TXpOeDgwTzRka2ZkMk9CbXlEbUhMSGhteUFPd9IBc0FVX3lxTE9oM0EweWFvR1RUNDBxd3NpOEM5YmxGOG14NFlHNnFTQy0tdnBzcWdpX0FRdjNlV0VaT21kSS1RMWNSMGhfeTZnODExR2JManNlSGhTeGd5TWFkYzVoU3lKeHU4a2w3V3RuQldUR0w1bzBvaTg?oc=5",
           "date": "2019-07-10T07:00:00.000Z",
@@ -207,6 +199,14 @@ window.MYNEWS_DATA = {
           "date": "2018-03-30T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTE16cjJUaHJZR1ZQNkozQTkxNUhFSm5ZMGJubG1fQVplRlBCSFlNUHo4d3g4RjQwUEl2MEh1WU11S1RZOXlWZXhWb1ZiWXpnYWtQemd5RHM2MTdzVG5hdkhlUk",
           "source": "gukjenews.com",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "학교 코딩 강사, 강아지 산책시키는 ‘도그 워커’ 등 이색 노인일자리 주목받아 - 백세시대",
+          "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTFBDSV9iQlQxNTlWQWliLTZXeWlTbm1BV29MdUVQT1R0QURWc0haWHZpdTRRUHJlVVh0MkdLQkpZRlVVd1Q2Y1RPRWZKWmhzM2xLUUhpRjFja1NmSmpvZFlLem5iOHEteGJSLUE?oc=5",
+          "date": "2018-03-23T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTFBDSV9iQlQxNTlWQWliLTZXeWlTbm1BV29MdUVQT1R0QURWc0haWHZpdTRRUHJlVVh0MkdLQkpZRlVVd1Q2Y1RPRWZKWmhzM2xLUUhpRjFja1NmSmpvZFlLem",
+          "source": "백세시대",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
