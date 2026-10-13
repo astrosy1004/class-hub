@@ -1,0 +1,18 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 사용자 데이터(후보지 · 검색 기록)는 그 uid 본인만 읽고 쓴다
+    match /users/{uid}/{document=**} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+    // 동별 생활인구 요약: 누구나 읽을 수 있는 통계 (개인정보 없음). 쓰기는 수집기(관리자 권한)만 한다.
+    match /livingPop/{dong} {
+      allow get: if true;
+      allow list, write: if false;
+    }
+    // 수집기 전용 (일별 원자료 · 수집 상태): 클라이언트 접근 불가
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

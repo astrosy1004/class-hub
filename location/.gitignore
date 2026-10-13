@@ -1,0 +1,14 @@
+.firebase/
+.claude/
+node_modules/
+functions/.env*
+.env*
+# 원본 CSV · 기획서 · 목업은 저장소에 올리지 않는다
+*.csv
+*.pdf
+*기획서*.md
+
+# 서비스 계정 키 · 비밀 값은 절대 올리지 않는다
+*firebase-adminsdk*.json
+*serviceAccount*.json
+*service-account*.json
