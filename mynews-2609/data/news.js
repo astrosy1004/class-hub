@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-10-13T08:41:44.430Z",
+  "updatedAt": "2026-10-13T17:14:05.622Z",
   "categories": [
     {
       "id": "job",
@@ -82,14 +82,6 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "지역 주민이 AI·코딩 강사로…양구군 전문인력 양성 - 강원일보",
-          "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBQSWV3QWd4bUNVd2FXVFN1OHNpeHUzX1YyeFFhOXJtWFFKVURQTlBRanlzRFJJT0ZvelI3ZW5ma0pBQk8tZ1ZKdEhkcXUyODNHQWg5RENIbEpxT1k?oc=5",
-          "date": "2026-05-17T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiW0FVX3lxTFBQSWV3QWd4bUNVd2FXVFN1OHNpeHUzX1YyeFFhOXJtWFFKVURQTlBRanlzRFJJT0ZvelI3ZW5ma0pBQk8tZ1ZKdEhkcXUyODNHQWg5RENIbEpxT1k?oc=5\" ",
-          "source": "강원일보",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
           "title": "율목초, ‘찾아가는 코딩교실’ 디지털 교육 강화 - 화성 투데이",
           "link": "https://news.google.com/rss/articles/CBMiREFVX3lxTE5nRkxJbDZJb1lnLUcyUFh3MnU0c2ZVb3o0b3hGN0UyMFBLLUpOeTdYbmg4eVV1aVZfSmlQTlcwLV9CVlhB?oc=5",
           "date": "2026-04-15T07:00:00.000Z",
@@ -119,6 +111,14 @@ window.MYNEWS_DATA = {
           "date": "2024-07-25T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiXkFVX3lxTFBZeDdhQzJwTGMtVEdLLTdWd0VZX2tHeTZwWE56aFVPLWVwOTgzTUpwTnBBTHBmNVA1eURwSUhEbXVac3owc3BxOVZJdjM2Qmx5RzluTlMwRUg5cUpLU3fSAW",
           "source": "대학저널",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "경기도, 미취업 여성 대상 '3C 코딩 강사양성과정' 수강생 모집 - 뉴시스",
+          "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE5Ca2lsbnBkTEZMd0lYRFJJZXRkTFVQWTBuVGF6Y29PQndtajBsYVotN281bUNkM21EZ2ZLY2ZLdFo1bmh1ZWFEOG1pRDdjV2Y0U3RkcDF0LTJwQXBnRmFNMtIBeEFVX3lxTE0zZVJsczNsN2xWOExCbFM2VXk5OElrTDk2TzRuYnV6X0p5VzdrWmlzYnZwaWE3RF9NQVFObmdXeGdfc2Y4VEJKTHI2SjVOcGRGTlBWNXdpbDRMU0dTc1loMXNObjgyeEx6b2dCTGFIM0Y2UEVrMkRJeA?oc=5",
+          "date": "2022-07-07T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiYEFVX3lxTE5Ca2lsbnBkTEZMd0lYRFJJZXRkTFVQWTBuVGF6Y29PQndtajBsYVotN281bUNkM21EZ2ZLY2ZLdFo1bmh1ZWFEOG1pRDdjV2Y0U3RkcDF0LTJwQXBnRmFNMt",
+          "source": "뉴시스",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
