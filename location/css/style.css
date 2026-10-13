@@ -195,3 +195,9 @@ svg .rad.r1 { fill: var(--c2); stroke: var(--c2); } svg .rad.r2 { fill: var(--c3
 .more-panel .mgroup + .mgroup { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--line); }
 .mini-input { flex: 1; min-width: 0; border: 1.5px solid var(--line); background: var(--surface-2); border-radius: 12px; padding: 10px 12px; font: inherit; font-size: 14px; color: var(--text); outline: none; }
 .mini-input:focus { border-color: var(--accent); }
+
+/* 계정 */
+.acct { display: flex; align-items: center; gap: 12px; margin-top: 10px; }
+.avatar { width: 46px; height: 46px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; font-weight: 800; font-size: 18px; overflow: hidden; flex: none; }
+.avatar img { width: 100%; height: 100%; object-fit: cover; }
+.acct-t b { display: block; font-size: 15px; } .acct-t small { color: var(--muted); font-size: 12.5px; word-break: break-all; }

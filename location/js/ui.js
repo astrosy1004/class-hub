@@ -210,9 +210,27 @@ export function compareHtml(list) {
 }
 
 // ── 내 분석 ──────────────────────────────────────
-export function meHtml({ saved, theme, autoLocate = true }) {
+// 계정 카드: 로그아웃 상태 / 로그인 상태 / 로그인 기능을 못 불러온 상태
+function accountHtml({ user, authOk, syncing }) {
+  if (user) {
+    const initial = esc((user.name || user.email || "?").trim().charAt(0).toUpperCase());
+    return `<div class="card"><h3>계정 <span class="chip up">로그인됨</span></h3>
+      <div class="acct"><div class="avatar">${user.photo ? `<img src="${esc(user.photo)}" alt="" referrerpolicy="no-referrer">` : initial}</div>
+        <div class="acct-t"><b>${esc(user.name || "사용자")}</b><small>${esc(user.email)}</small></div></div>
+      <div class="cap" style="margin-top:8px">${syncing ? "후보지 · 최근 검색을 동기화하는 중…" : "후보지와 최근 검색이 계정에 저장돼 다른 기기에서도 보여요."}</div>
+      <button type="button" class="btn ghost" data-signout>로그아웃</button></div>`;
+  }
+  if (!authOk) return `<div class="card"><h3>계정</h3><div class="cap" style="margin-top:6px;line-height:1.5">로그인 기능을 불러오지 못했어요. 네트워크를 확인하고 새로고침해 주세요. 로그인 없이도 이 기기에서는 모든 기능을 쓸 수 있어요.</div></div>`;
+  return `<div class="card"><h3>계정</h3>
+    <div class="cap" style="margin-top:6px;line-height:1.5">구글로 로그인하면 후보지와 최근 검색이 계정에 저장돼 다른 기기에서도 볼 수 있어요. 로그인하지 않아도 이 기기에서는 그대로 쓸 수 있어요.</div>
+    <button type="button" class="btn" data-signin>G 구글로 로그인</button>
+    <div class="cap" style="margin-top:8px;line-height:1.5">저장되는 것은 후보지 · 최근 검색(지역 이름, 업종, 점수)뿐이고, 현재 위치의 정확한 좌표는 올리지 않아요.</div></div>`;
+}
+
+export function meHtml({ saved, theme, autoLocate = true, user = null, authOk = true, syncing = false }) {
   return `
   ${head("내 분석", { back: false })}
+  ${accountHtml({ user, authOk, syncing })}
   <div class="card"><h3>담아 둔 후보지 <span class="cap">${saved.length}/3</span></h3>${saved.length ? saved.map((s) => `
     <a class="li" href="#map/${encodeURIComponent(s.place.name)}/${s.industryKey}"><div class="score-dot">${s.total ?? "-"}</div><b>${esc(s.place.name)} ${esc(s.industryName)}<small>${esc(s.grade || "")}</small></b>›</a>`).join("") : `<div class="empty">담아 둔 후보지가 없어요</div>`}
     ${saved.length ? `<a class="btn" href="#compare">후보지 비교하기</a>` : ""}</div>

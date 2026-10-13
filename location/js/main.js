@@ -5,13 +5,16 @@ import { parseQuery, resolvePlace, resolveCurrent } from "./place.js";
 import { analyze } from "./analysis.js";
 import { drawMap } from "./kmap.js";
 import { CONFIG } from "./config.js";
-import { getRecent, addRecent, getSaved, toggleSaved, isSaved, getTheme, setTheme, getIndustryKey, setIndustryKey, getAutoLocate, setAutoLocate } from "./store.js";
+import { getRecent, addRecent, getSaved, toggleSaved, isSaved, getTheme, setTheme, getIndustryKey, setIndustryKey, getAutoLocate, setAutoLocate, setSavedList, setRecentList, clearUserLists } from "./store.js";
+import { initAuth, signIn, signOutUser, authErrorMessage } from "./auth.js";
+import * as cloud from "./cloud.js";
+import { mergeLists } from "./sync.js";
 import * as ui from "./ui.js";
 import { explainHtml } from "./explain.js";
 
 const $ = (s, el = document) => el.querySelector(s);
 const views = Object.fromEntries([...document.querySelectorAll(".view")].map((v) => [v.dataset.view, v]));
-const state = { industryKey: industryByKey(getIndustryKey()).key, hourMode: "weekday", range: 0, current: null, error: "", moreOpen: false, autoTried: false, locating: false };
+const state = { industryKey: industryByKey(getIndustryKey()).key, hourMode: "weekday", range: 0, current: null, error: "", moreOpen: false, autoTried: false, locating: false, user: null, authOk: true, syncing: false };
 
 function toast(msg) {
   const t = $("#toast");
@@ -32,6 +35,48 @@ function show(name, html) {
   const tab = name === "home" ? "home" : name === "compare" ? "compare" : name === "me" ? "me" : "map";
   document.querySelectorAll("#tabbar a").forEach((a) => a.classList.toggle("on", a.dataset.tab === tab));
   window.scrollTo(0, 0);
+}
+
+// ── 로그인 · 계정 동기화 ─────────────────────────
+const meHtml = () => ui.meHtml({ saved: getSaved(), theme: getTheme(), autoLocate: getAutoLocate(), user: state.user, authOk: state.authOk, syncing: state.syncing });
+const refreshMe = () => { if (views.me.classList.contains("on")) show("me", meHtml()); };
+
+// 이 기기 목록을 계정에 맞춘다 (로그인 중일 때만, 실패해도 앱은 계속 동작)
+function pushToCloud(kind) {
+  if (!state.user) return;
+  const list = kind === "saved" ? getSaved() : getRecent();
+  cloud.replaceKind(state.user.uid, kind, list).catch(() => toast("계정에 저장하지 못했어요 (이 기기에는 저장됨)"));
+}
+
+// 로그인 직후: 계정 목록과 이 기기 목록을 합쳐 양쪽을 같게 맞춘다
+async function syncOnLogin(user) {
+  state.syncing = true;
+  refreshMe();
+  try {
+    const remote = await cloud.fetchAll(user.uid);
+    const savedM = mergeLists(getSaved(), remote.saved, 3);
+    const recentM = mergeLists(getRecent(), remote.recent, 8);
+    setSavedList(savedM.merged);
+    setRecentList(recentM.merged);
+    await Promise.all([cloud.replaceKind(user.uid, "saved", savedM.merged), cloud.replaceKind(user.uid, "recent", recentM.merged)]);
+    toast("로그인했어요 · 후보지를 동기화했어요");
+  } catch (e) {
+    toast("계정과 동기화하지 못했어요. 이 기기 목록은 그대로예요.");
+  } finally {
+    state.syncing = false;
+    refreshMe();
+    if (views.home.classList.contains("on")) renderHome();
+  }
+}
+
+function startAuth() {
+  initAuth((user, ok) => {
+    const wasLoggedIn = !!state.user;
+    state.authOk = ok;
+    state.user = user;
+    if (user && !wasLoggedIn) syncOnLogin(user);
+    else refreshMe();
+  });
 }
 
 const summary = (a) => ({ key: a.key, place: a.place, industryKey: a.industry.key, industryName: a.industry.name, total: a.score.total, grade: a.score.grade?.name || "" });
@@ -61,6 +106,7 @@ async function startFlow(resolver, ind, firstLabel) {
     setStep(3, "done");
     state.current = a;
     addRecent({ ...summary(a) });
+    pushToCloud("recent");
     location.hash = `#map/${encodeURIComponent(place.name)}/${ind.key}`;
   } catch (e) {
     const cur = steps.findIndex((s) => s.state === "run");
@@ -108,10 +154,17 @@ async function ensureAnalysis(name, indKey) {
   const ind = industryByKey(indKey);
   if (state.current && state.current.place.name === name && state.current.industry.key === ind.key) return state.current;
   const known = getRecent().find((r) => r.place.name === name && r.industryKey === ind.key) || getSaved().find((r) => r.place.name === name && r.industryKey === ind.key);
-  const place = known ? known.place : await resolvePlace(name);
+  const place = known ? await placeFor(known) : await resolvePlace(name);
   if (!place) return null;
   state.current = await analyze(place, ind);
   return state.current;
+}
+
+// 저장된 항목의 장소: 좌표가 있으면 그대로, 없으면(계정에서 온 현재 위치 항목 등) 구 + 행정동 이름으로 다시 찾는다
+async function placeFor(item) {
+  const p = item.place;
+  if (p && p.lat != null && p.lng != null) return p;
+  return (await resolvePlace(`${p.guName || ""} ${p.name}`.trim())) || null;
 }
 
 // ── 라우터 ───────────────────────────────────────
@@ -121,7 +174,7 @@ async function route() {
   try {
     if (view === "home" || !views[view]) { renderHome(); if (!location.hash || location.hash === "#home") autoLocateOnce(); return; }
     if (view === "compare") return renderCompare();
-    if (view === "me") return show("me", ui.meHtml({ saved: getSaved(), theme: getTheme(), autoLocate: getAutoLocate() }));
+    if (view === "me") return show("me", meHtml());
     // 결과 화면
     let a = null;
     if (name) a = await ensureAnalysis(name, indKey);
@@ -154,7 +207,7 @@ async function renderCompare() {
   if (!saved.length) return;
   const list = [];
   for (const s of saved) {
-    try { list.push(await analyze(s.place, industryByKey(s.industryKey))); } catch (e) { /* 한 곳 실패해도 나머지는 비교 */ }
+    try { const place = await placeFor(s); if (place) list.push(await analyze(place, industryByKey(s.industryKey))); } catch (e) { /* 한 곳 실패해도 나머지는 비교 */ }
   }
   show("compare", ui.compareHtml(list));
 }
@@ -192,7 +245,7 @@ document.addEventListener("click", (e) => {
     runLocate();
   } else if (t.dataset.auto !== undefined && t.closest("#autoChips")) {
     setAutoLocate(t.dataset.auto === "1");
-    show("me", ui.meHtml({ saved: getSaved(), theme: getTheme(), autoLocate: getAutoLocate() }));
+    show("me", meHtml());
   } else if (t.dataset.suggest) {
     $("#q").value = t.dataset.suggest;
     runSearch(t.dataset.suggest);
@@ -202,6 +255,17 @@ document.addEventListener("click", (e) => {
   } else if (t.dataset.r !== undefined) {
     state.range = Number(t.dataset.r);
     renderResult("trend", state.current);
+  } else if (t.dataset.signin !== undefined) {
+    // 팝업은 클릭 처리 안에서 바로 열어야 하므로 이 호출 앞에 await 를 두지 않는다
+    signIn().catch((err) => { const m = authErrorMessage(err); if (m) toast(m); });
+  } else if (t.dataset.signout !== undefined) {
+    signOutUser().then(() => {
+      // 공용 기기에서 다음 사람에게 보이지 않도록 이 기기의 후보지 · 최근 검색을 비운다 (계정에는 남아 있음)
+      clearUserLists();
+      state.user = null;
+      toast("로그아웃했어요 · 이 기기의 목록을 비웠어요");
+      refreshMe();
+    }).catch(() => toast("로그아웃하지 못했어요"));
   } else if (t.dataset.explain) {
     // 점수 항목 · 종합 점수: 산출 근거 펼치기 / 접기
     const box = document.getElementById(`d-${t.dataset.explain}`);
@@ -215,19 +279,21 @@ document.addEventListener("click", (e) => {
     const r = toggleSaved(summary(state.current));
     if (!r.ok) return toast(r.msg);
     t.textContent = r.saved ? "★" : "☆";
+    pushToCloud("saved");
     toast(r.saved ? "후보지에 담았어요" : "후보지에서 뺐어요");
   } else if (t.id === "printBtn") {
     window.print();
   } else if (t.dataset.theme !== undefined && t.closest("#themeChips")) {
     setTheme(t.dataset.theme);
     applyTheme(t.dataset.theme);
-    show("me", ui.meHtml({ saved: getSaved(), theme: t.dataset.theme, autoLocate: getAutoLocate() }));
+    show("me", meHtml());
   }
 });
 
 window.addEventListener("hashchange", route);
 applyTheme(getTheme());
 route();
+startAuth();
 
 // 개발 편의: 콘솔에서 상태를 볼 수 있게
 window.__loc = { state, INDUSTRIES };

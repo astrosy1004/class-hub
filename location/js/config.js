@@ -5,7 +5,11 @@ export const CONFIG = {
   KAKAO_JS_KEY: "970ae30d16ffcda61e57991d8958886a", // 예: "abcd1234..." (Kakao Developers > 앱 > JavaScript 키)
   // 생활인구는 Firestore 의 livingPop/{행정동8자리} 요약 문서를 읽는다 (매일 GitHub Actions 수집기가 갱신). projectId 가 비어 있으면 개발용 예시 표본 모드.
   // Firebase 웹 API 키는 공개용 값이다 (접근은 firestore.rules 로 제한).
-  FIREBASE: { projectId: "location-app-sykim", apiKey: "AIzaSyD1l3o2Dib_hCUHLUzxtmSWfIgQjRO8pZM" },
+  FIREBASE: {
+    projectId: "location-app-sykim", apiKey: "AIzaSyD1l3o2Dib_hCUHLUzxtmSWfIgQjRO8pZM",
+    authDomain: "location-app-sykim.firebaseapp.com", appId: "1:239789094383:web:2f48bbeed643391fe4f21a",
+    storageBucket: "location-app-sykim.firebasestorage.app", messagingSenderId: "239789094383",
+  },
   LIVE_POP: true, // 수집기를 한 번 실행해 Firestore 에 요약이 생기면 true 로 바꾼다 (false 면 개발용 예시 표본)
   RADIUS_M: 500, // 경쟁 점포 분석 반경
   SAMPLE_URL: "./data/sample-gu.json",

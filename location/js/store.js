@@ -31,7 +31,7 @@ export function toggleSaved(item) {
   if (list.some((s) => s.key === item.key)) list = list.filter((s) => s.key !== item.key);
   else {
     if (list.length >= 3) return { ok: false, msg: "후보지는 최대 3곳까지 담을 수 있어요" };
-    list.push(item);
+    list.push({ ...item, at: Date.now() });
   }
   write(K.saved, list);
   return { ok: true, saved: list.some((s) => s.key === item.key) };
@@ -45,3 +45,11 @@ export const getIndustryKey = () => read(K.industry, "cafe");
 export const setIndustryKey = (k) => write(K.industry, k);
 export const getAutoLocate = () => read(K.autoLocate, true);
 export const setAutoLocate = (v) => write(K.autoLocate, !!v);
+
+// 로그인 동기화용: 목록을 통째로 바꾸기 · 로그아웃할 때 이 기기의 목록 지우기
+export const setSavedList = (list) => write(K.saved, list);
+export const setRecentList = (list) => write(K.recent, list);
+export function clearUserLists() {
+  write(K.saved, []);
+  write(K.recent, []);
+}

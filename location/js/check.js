@@ -9,6 +9,9 @@ import { buildReport, reportLines } from "./report.js";
 import { searchSplit, distanceM } from "./split-search.js";
 import { buildBaselines } from "../collector/baseline.js";
 import { explainHtml } from "./explain.js";
+import { toCloudItem, mergeLists, docId } from "./sync.js";
+import { authErrorMessage } from "./auth.js";
+import { meHtml as meView } from "./ui.js";
 
 const out = document.getElementById("out");
 const results = [];
@@ -149,6 +152,23 @@ async function run() {
   check("직접 입력", "점수 · 리포트 생성 (금지어 없음, 문장마다 근거)", cS.total != null && !reportLines(cR).some((l) => FORBIDDEN.some((w) => l.includes(w))) && [...cR.strengths, ...cR.risks, ...cR.strategies].every((x) => x.ev), `${cS.total}점`);
   check("현재 위치", "가장 가까운 예시 행정동(5km 안) · 먼 곳은 없음", nearestDemo(37.5640, 126.9225)?.name === "연남동" && nearestDemo(35.1, 129.0) === null);
   check("현재 위치", "내 위치 분석은 같은 동 검색과 캐시 키가 다름", placeKey({ name: "연남동", isCurrent: true }, ind) !== placeKey({ name: "연남동" }, ind));
+  // 11. 로그인 · 계정 동기화 (네트워크 없이 계산 부분만)
+  const itemA = { key: "연남동|cafe", place: { name: "연남동", gu: "11440", guName: "마포구", dongCode: "1144071000", lat: 37.56, lng: 126.92, source: "kakao" }, industryKey: "cafe", industryName: "카페", total: 58, grade: "신중 검토", at: 100 };
+  const itemMe = { key: "자양4동|cafe|me", place: { name: "자양4동", gu: "11215", guName: "광진구", dongCode: "1121571000", lat: 37.540412, lng: 127.069233, isCurrent: true, source: "kakao" }, industryKey: "cafe", industryName: "카페", total: 51, grade: "재검토", at: 300 };
+  const cloudMe = toCloudItem(itemMe);
+  check("계정 동기화", "현재 위치 항목은 정확한 좌표 · 현재위치 표시를 계정에 올리지 않음", cloudMe.place.lat === undefined && cloudMe.place.lng === undefined && cloudMe.place.isCurrent === undefined && cloudMe.place.name === "자양4동" && !JSON.stringify(cloudMe).includes("37.54"));
+  check("계정 동기화", "일반 검색 항목은 좌표 유지 · 필요한 필드만 올림", toCloudItem(itemA).place.lat === 37.56 && Object.keys(toCloudItem({ ...itemA, extra: "x", secret: "y" })).sort().join() === "at,grade,industryKey,industryName,key,place,total");
+  const mg = mergeLists([{ key: "a", at: 5 }, { key: "b", at: 1 }], [{ key: "a", at: 9 }, { key: "c", at: 3 }], 2);
+  check("계정 동기화", "합치기: 같은 key 는 더 최근 것, 최근순 · 개수 제한", mg.merged.map((i) => i.key + i.at).join() === "a9,c3" && mg.dropped.join() === "b");
+  check("계정 동기화", "합치기: 한쪽이 비어도 동작", mergeLists([], [{ key: "x", at: 1 }], 3).merged.length === 1 && mergeLists([{ key: "y", at: 1 }], [], 3).merged.length === 1 && mergeLists([], [], 3).merged.length === 0);
+  check("계정 동기화", "문서 id 에 '/' 없음", !docId("a/b|c").includes("/"));
+  check("로그인 오류", "팝업 닫기는 조용히, 나머지는 안내 문장", authErrorMessage({ code: "auth/popup-closed-by-user" }) === null && ["auth/popup-blocked", "auth/operation-not-allowed", "auth/unauthorized-domain", "auth/network-request-failed", "x"].every((c) => (authErrorMessage({ code: c }) || "").length > 5));
+  const meOut = meView({ saved: [], theme: "", autoLocate: true, user: null, authOk: true });
+  const meIn = meView({ saved: [], theme: "", autoLocate: true, user: { uid: "u", name: "홍길동", email: "a@b.c", photo: "" }, authOk: true });
+  const meOff = meView({ saved: [], theme: "", autoLocate: true, user: null, authOk: false });
+  check("로그인 화면", "내 분석: 로그아웃 상태엔 로그인 버튼, 로그인 상태엔 이름 · 로그아웃 버튼", meOut.includes("data-signin") && !meOut.includes("data-signout") && meIn.includes("data-signout") && meIn.includes("홍길동") && !meIn.includes("data-signin"));
+  check("로그인 화면", "SDK 를 못 불러온 상태: 안내만 (버튼 없음) · undefined 없음", !meOff.includes("data-signin") && meOff.includes("불러오지 못했어요") && ![meOut, meIn, meOff].some((h) => /undefined|NaN|\[object/.test(h)));
+  check("로그인 화면", "표시 이름의 HTML 은 이스케이프됨", !meView({ saved: [], user: { uid: "u", name: "<img src=x onerror=alert(1)>", email: "e", photo: "" }, authOk: true }).includes("<img src=x"));
 }
 
 run().then(() => {

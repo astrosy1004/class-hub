@@ -13,7 +13,7 @@
 | 3 | 화면 뼈대 (#주소 전환, 하단 탭 4개) | ✅ |
 | 4 | 지도 · 그래프 (분석 · 추이 · 비교) | ✅ (Kakao 지도는 키 필요, 키 없으면 예시 지도) |
 | 5 | 점수 엔진 · AI 컨설턴트 문장 | ✅ 초안 (규칙 숫자는 상담사 검수 전) |
-| 6 | 구글 로그인 · 후보지 계정 저장 | ⏳ 지금은 이 기기(localStorage)에만 저장 |
+| 6 | 구글 로그인 · 후보지 계정 저장 | ✅ 코드 완료 · **Firebase 콘솔에서 Authentication(구글) 켜기 필요** |
 | 7 | Firebase 배포 · 보안 규칙 | ⏳ 프로젝트 생성 후 |
 
 ## 실행
@@ -94,6 +94,23 @@ location/
 ├─ firebase.json · firestore.rules
 └─ check.html
 ```
+
+## 로그인 · 계정 저장 (6단계)
+
+| 상태 | 후보지 · 최근 검색 저장 위치 |
+|---|---|
+| 로그아웃 | 이 기기 localStorage (`loc:saved`, `loc:recent`) |
+| 로그인 | 이 기기 + Firestore `users/{uid}/saved|recent/{문서 id}` (다른 기기에서도 보임) |
+
+- 로그인(내 분석 → "구글로 로그인")하면 이 기기 목록과 계정 목록을 **합쳐** 양쪽을 같게 맞춥니다 (같은 항목은 더 최근 것, 후보지 최대 3 · 최근 검색 최대 8).
+- 로그아웃하면 공용 기기를 위해 **이 기기의 후보지 · 최근 검색을 비웁니다** (계정에는 남아 있고 다시 로그인하면 돌아옴).
+- **현재 위치로 찾은 항목은 정확한 좌표를 계정에 올리지 않습니다** (구 + 행정동 이름만). 다시 열 때 이름으로 위치를 찾습니다.
+- Firebase SDK 는 CDN 에서 비동기로 불러오며(`js/firebase.js`), 못 불러와도 로그인 없이 모든 기능이 그대로 동작합니다.
+- 보안 규칙(`firestore.rules`): `users/{uid}` 아래는 그 uid 본인만 읽고 쓸 수 있습니다.
+
+### Firebase 콘솔 설정 (최초 1회)
+1. [Authentication](https://console.firebase.google.com/project/location-app-sykim/authentication) → **시작하기** → 로그인 방법 → **Google** 사용 설정 → 지원 이메일 선택 → 저장
+2. Authentication → 설정 → **승인된 도메인**에 `localhost`, `location-app-sykim.web.app`, `location-app-sykim.firebaseapp.com` 이 있는지 확인 (기본 포함)
 
 ## 현재 위치 · 세부 업종
 
