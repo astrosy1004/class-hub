@@ -47,9 +47,11 @@ export function fromFs(v) {
 async function popFromFirestore(place) {
   const code = String(place.dongCode || "").trim().slice(0, 8);
   if (!/^\d{8}$/.test(code)) throw new Error("이 지역의 행정동 코드를 알 수 없어요 (Kakao 검색으로 찾은 지역만 동 단위 자료를 볼 수 있습니다)");
+  // 서울 열린데이터광장 생활인구는 서울(행정동 코드 11…)만 제공한다
+  if (!code.startsWith("11")) throw new Error("서울 밖 지역은 생활인구 자료가 제공되지 않아요 (서울 열린데이터광장은 서울만 제공)");
   const { projectId, apiKey } = CONFIG.FIREBASE;
   const r = await fetch(`https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/livingPop/${code}?key=${apiKey}`);
-  if (r.status === 404) throw new Error(`행정동 ${code} 의 생활인구 요약이 아직 없어요. 수집기가 한 번 실행돼야 합니다.`);
+  if (r.status === 404) throw new Error(`행정동 ${code} 의 생활인구 요약이 없어요 (서울 자료에 없는 행정동이거나 아직 수집되지 않았습니다).`);
   if (!r.ok) throw new Error(`생활인구 자료를 불러오지 못했습니다 (${r.status}) — Firestore 데이터베이스와 보안 규칙을 확인하세요`);
   const doc = await r.json();
   const pop = fromFs({ mapValue: { fields: doc.fields || {} } });

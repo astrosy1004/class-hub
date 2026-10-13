@@ -108,6 +108,15 @@ async function run() {
   check("기준 분포", "동 기준 분포 + 동 자료 → 규모 항목 포함(4개 항목)", dScore.used === 4 && dScore.items.find((i) => i.key === "size").score != null, `${dScore.used}개`);
   const gScore = computeScore(computeMetrics(dPop, ind, comp), ind, base, dPop, null);
   check("기준 분포", "자치구 기준 분포 + 동 자료 → 규모 제외(3개 항목)", gScore.used === 3 && gScore.items.find((i) => i.key === "size").score == null, `${gScore.used}개`);
+  // 8. 생활인구 자료가 없는 동네: 지도 · 경쟁 점포는 보여주고 점수는 내지 않는다
+  const mNo = computeMetrics(null, ind, comp);
+  const sNo = computeScore(mNo, ind, null, null, null);
+  check("자료 없는 동네", "지표는 경쟁 점포만 계산", mNo.noPop === true && mNo.compCount === comp.count);
+  check("자료 없는 동네", "항목 1개뿐이면 종합 점수 없음 (경쟁만 점수)", sNo.total === null && sNo.used === 1 && sNo.items.find((i) => i.key === "competition").score != null, `${sNo.used}개 항목`);
+  const rNo = buildReport({ place: DEMO_PLACES[0], industry: ind, pop: null, popError: "행정동 99999999 의 요약이 없어요", comp, metrics: mNo, score: sNo, baseline: null });
+  const linesNo = reportLines(rNo);
+  check("자료 없는 동네", "리포트: 금지어 없음 · 고지 포함 · 근거 포함", !linesNo.some((l) => FORBIDDEN.some((w) => l.includes(w))) && rNo.overall.includes("보장하지 않") && [...rNo.strengths, ...rNo.risks, ...rNo.strategies].every((x) => x.ev));
+  check("자료 없는 동네", "한계에 사유와 '점수 미계산' 안내", rNo.limits.some((l) => l.includes("99999999")) && rNo.limits.some((l) => l.includes("점수는 계산하지 않았습니다")));
 }
 
 run().then(() => {

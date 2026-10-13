@@ -38,16 +38,17 @@ export const gradeOf = (score) => GRADES.find((g) => score >= g.min);
 
 export function computeScore(metrics, ind, baseline, pop, rent = null) {
   const raw = {
-    customer: baseline ? percentile(baseline.customer, metrics.customerMatch) : null,
-    size: baseline && baseline.level === pop.level ? percentile(baseline.size, metrics.sizeHours) : null, // 규모는 자료 단위(자치구/동)와 기준 분포 단위가 같을 때만
+    customer: pop && baseline ? percentile(baseline.customer, metrics.customerMatch) : null,
+    size: pop && baseline && baseline.level === pop.level ? percentile(baseline.size, metrics.sizeHours) : null, // 규모는 자료 단위(자치구/동)와 기준 분포 단위가 같을 때만
     competition: metrics.compCount == null ? null : competitionScore(metrics.compCount, ind.bands),
     rent: rent == null ? null : rent,
-    growth: baseline ? percentile(baseline.growth, metrics.growth) : null,
+    growth: pop && baseline ? percentile(baseline.growth, metrics.growth) : null,
   };
   const items = ITEMS.map((it) => ({ ...it, score: raw[it.key] }));
   const usable = items.filter((i) => i.score != null);
   const wsum = usable.reduce((s, i) => s + i.weight, 0);
-  const total = wsum ? Math.round(usable.reduce((s, i) => s + i.score * i.weight, 0) / wsum) : null;
+  // 항목이 하나뿐이면 종합 점수를 내지 않는다 (한 가지 지표로 입지를 평가하면 오해를 부른다)
+  const total = usable.length >= 2 && wsum ? Math.round(usable.reduce((s, i) => s + i.score * i.weight, 0) / wsum) : null;
   usable.forEach((i) => (i.effWeight = i.weight / wsum));
   return { items, total, used: usable.length, grade: total == null ? null : gradeOf(total) };
 }

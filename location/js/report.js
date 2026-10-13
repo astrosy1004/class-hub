@@ -7,7 +7,33 @@ import { fmtPct, fmtAgePct } from "./metrics.js";
 const ageName = (k) => AGE_GROUPS.find((g) => g.key === k).name;
 const sc = (score, key) => score.items.find((i) => i.key === key)?.score;
 
+// 생활인구 자료가 없는 동네: 경쟁 점포 정보만으로 만든 짧은 리포트 (점수 · 고객층 분석은 하지 않는다)
+function buildReportNoPop(a) {
+  const { score, industry: ind, comp, place, popError } = a;
+  const strengths = [], risks = [], strategies = [];
+  const c = score.items.find((i) => i.key === "competition")?.score;
+  const cnt = comp ? `${comp.count}${comp.capped ? "곳 이상" : "곳"}` : "";
+  if (comp && c != null && c >= R.strongScore) strengths.push({ text: "반경 내 동종 점포가 많지 않아 경쟁 부담이 낮은 편입니다.", ev: `반경 500m ${ind.name} ${cnt}` });
+  if (comp && c != null && c <= R.weakScore) {
+    risks.push({ text: "반경 내 동종 점포가 많아 경쟁이 치열합니다.", ev: `반경 500m ${ind.name} ${cnt}` });
+    strategies.push({ text: "경쟁 점포와 겹치지 않는 대표 메뉴 · 서비스로 차별화하세요.", ev: "경쟁 강도" });
+  }
+  if (!strengths.length) strengths.push({ text: "생활인구 자료가 없어 강점을 판단할 지표가 부족합니다.", ev: "생활인구 자료 없음" });
+  if (!risks.length) risks.push({ text: "경쟁 점포 외의 위험 요소는 자료가 없어 판단하지 못했습니다.", ev: "생활인구 자료 없음" });
+  strategies.push({ text: "현장 답사로 시간대별 유동 인구와 주요 고객층을 직접 확인하세요.", ev: "자료 부족" });
+  const limits = [popError || "이 지역의 생활인구 자료가 없습니다.", "자료가 부족해 입지 적합도 점수는 계산하지 않았습니다."];
+  if (comp && !comp.live) limits.push("경쟁 점포는 예시 값입니다 (Kakao 키 설정 전).");
+  if (comp && comp.capped) limits.push("경쟁 점포 수가 조회 한도에 닿아 실제는 더 많을 수 있습니다.");
+  return {
+    summary: "생활인구 자료가 없어 지도와 경쟁 점포 정보만 보여드려요.",
+    strengths, risks, strategies,
+    overall: `${place.name} ${ind.name}은(는) 생활인구 자료가 없어 입지 적합도 점수를 내지 못했습니다. ${DISCLAIMER}`,
+    limits, asOf: "", disclaimer: DISCLAIMER,
+  };
+}
+
 export function buildReport(a) {
+  if (!a.pop) return buildReportNoPop(a);
   const { metrics: m, score, industry: ind, pop, comp } = a;
   const asOf = pop.asOf;
   const strengths = [];

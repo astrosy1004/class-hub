@@ -18,6 +18,7 @@ const itemColor = ["var(--c2)", "var(--c3)", "var(--warn)", "var(--now)", "var(-
 // 기준일 · 출처 · 단위 표기 (모든 결과 화면 하단)
 function sourceFoot(a) {
   const { pop, comp } = a;
+  if (!pop) return `<div class="foot">생활인구: 자료 없음<br>경쟁 점포: ${esc(comp.source)}</div>`;
   const unit = pop.level === "gu" ? "자치구 단위" : "행정동 단위";
   return `<div class="foot">생활인구: ${esc(pop.source || "서울 열린데이터광장")} · ${unit} · 기준일 ${esc(pop.asOf)}<br>경쟁 점포: ${esc(comp.source)}<br>생활인구는 방문객 · 구매자 · 매출과 다른 개념입니다</div>`;
 }
@@ -53,10 +54,10 @@ export function homeHtml({ recent, industryKey, error }) {
 }
 
 export function progressHtml(steps) {
-  const done = steps.filter((s) => s.state === "done").length;
+  const done = steps.filter((s) => s.state === "done" || s.state === "skip").length;
   return `<div class="card"><h3>분석 진행 <span class="chip ${steps.some((s) => s.state === "err") ? "now" : ""}">${done}/${steps.length}</span></h3>
   <div class="prog"><i style="width:${(done / steps.length) * 100}%"></i></div>
-  <div class="steps">${steps.map((s) => `<div class="${s.state}">${s.state === "done" ? "✔" : s.state === "err" ? "✖" : s.state === "run" ? "◔" : "○"} ${esc(s.name)}</div>`).join("")}</div></div>`;
+  <div class="steps">${steps.map((s) => `<div class="${s.state}">${s.state === "done" ? "✔" : s.state === "skip" ? "–" : s.state === "err" ? "✖" : s.state === "run" ? "◔" : "○"} ${esc(s.name)}${s.state === "skip" ? " (자료 없음 · 지도는 계속 보여드려요)" : ""}</div>`).join("")}</div></div>`;
 }
 
 // ── 상권 지도 · 적합도 ─────────────────────────────
@@ -67,11 +68,12 @@ export function mapHtml(a, saved) {
   ${head(`${esc(a.place.name)} · ${esc(a.industry.name)}`, { right: `<button class="ib" id="saveBtn" aria-label="후보지 담기">${saved ? "★" : "☆"}</button>` })}
   ${subnav(a, "map")}
   ${modeBanner()}
+  ${a.pop ? "" : `<div class="banner">이 지역은 생활인구 자료가 없어 지도와 경쟁 점포만 보여드려요.${a.popError ? `<br><span style="font-weight:500">${esc(a.popError)}</span>` : ""}</div>`}
   <div class="map" id="mapBox" aria-label="상권 지도"></div>
   <div class="sheet"><div class="grab"></div>
     <div class="row" style="align-items:center">
-      <div style="flex:1"><div class="cap">입지 적합도 (${score.used}개 항목 기준)</div><div class="big">${score.total ?? "-"}<small>점</small></div></div>
-      ${grade ? `<span class="chip ${grade.cls}" style="font-size:14px;padding:9px 14px">${grade.icon} ${grade.name}</span>` : ""}
+      <div style="flex:1"><div class="cap">입지 적합도 ${score.total == null ? "· 자료 부족" : `(${score.used}개 항목 기준)`}</div><div class="big">${score.total ?? "-"}<small>점</small></div></div>
+      ${grade ? `<span class="chip ${grade.cls}" style="font-size:14px;padding:9px 14px">${grade.icon} ${grade.name}</span>` : `<span class="chip warn" style="font-size:13px;padding:8px 12px">점수 없음</span>`}
     </div>
     ${score.items.map((it, i) => it.score == null
       ? `<div class="mini na"><span>${it.short}</span><span class="cap">자료 없음 · 점수에서 제외</span><b>-</b></div>`
@@ -83,7 +85,18 @@ export function mapHtml(a, saved) {
 }
 
 // ── 상권 데이터 분석 ──────────────────────────────
+// 생활인구 자료가 없는 동네의 분석 · 추이 화면
+function noPopHtml(a, view, title) {
+  return `
+  ${head(title)}
+  ${subnav(a, view)}
+  <div class="card"><div class="empty" style="line-height:1.7">📭 이 지역은 생활인구 자료가 없어<br>시간대 · 연령 · 추이 그래프를 그릴 수 없어요.${a.popError ? `<br><span class="cap">${esc(a.popError)}</span>` : ""}</div>
+    <a class="btn ghost" href="${hashOf("map", a)}">지도와 경쟁 점포 보기</a></div>
+  ${sourceFoot(a)}`;
+}
+
 export function analysisHtml(a, state) {
+  if (!a.pop) return noPopHtml(a, "analysis", "상권 데이터 분석");
   const m = a.metrics, pop = a.pop;
   const day = state.hourMode || "weekday";
   const values = day === "weekend" ? pop.weekend : pop.weekday;
@@ -107,6 +120,7 @@ export function analysisHtml(a, state) {
 
 // ── 추이 통계 ────────────────────────────────────
 export function trendHtml(a, state) {
+  if (!a.pop) return noPopHtml(a, "trend", "추이 통계");
   const m = a.metrics, pop = a.pop;
   const all = pop.monthly.length;
   const range = state.range === 3 || state.range === 6 ? Math.min(state.range, all) : all;

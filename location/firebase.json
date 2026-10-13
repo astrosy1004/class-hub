@@ -12,7 +12,12 @@
       "check.html",
       "js/check.js",
       "scripts/**",
-      "collector/**"
+      "collector/**",
+      "**/*adminsdk*",
+      "**/*service-account*",
+      "**/*serviceAccount*",
+      "**/*.pem",
+      "**/.env*"
     ],
     "headers": [
       {

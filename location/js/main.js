@@ -56,6 +56,7 @@ async function runSearch(text) {
     setStep(1, "run"); setStep(2, "run");
     const a = await analyze(place, ind, (e) => {
       if (e === "pop-done") setStep(1, "done");
+      if (e === "pop-missing") setStep(1, "skip");
       if (e === "comp-done") setStep(2, "done");
       if (e === "score") setStep(3, "run");
     });

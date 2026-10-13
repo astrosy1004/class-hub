@@ -6,6 +6,8 @@ const avg = (a) => (a.length ? sum(a) / a.length : 0);
 const pct = (x) => Math.round(x * 1000) / 10;
 
 export function computeMetrics(pop, ind, comp) {
+  // 생활인구 자료가 없는 동네: 경쟁 점포 지표만 계산한다
+  if (!pop) return { noPop: true, compCount: comp ? comp.count : null, compCapped: comp ? comp.capped : false };
   const hoursAvg = (arr) => avg(ind.hours.map((h) => arr[h % 24]));
   const dayTotal = sum(pop.weekday);
   const endTotal = sum(pop.weekend);
