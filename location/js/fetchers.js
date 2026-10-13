@@ -58,20 +58,22 @@ async function popFromFirestore(place) {
   return { ...pop, live: true };
 }
 
-// 동 단위 기준 분포(수집기가 매일 갱신, 업종별 지표를 정렬해 둔 배열). 못 읽으면 null → 자치구 표본 분포로 대체하고 화면에 알린다
-let dongBasePromise = null;
-export async function getDongBaseline(industryKey) {
-  if (popMode() !== "live") return null;
-  if (!dongBasePromise) {
+// 동 단위 기준 분포(수집기가 매일 갱신, 업종 프로필별 문서 livingPopBaseline/{키}에 지표를 정렬해 둔 배열). 못 읽으면 null → 자치구 표본 분포로 대체하고 화면에 알린다
+const dongBasePromises = new Map();
+export function getDongBaseline(industryKey) {
+  if (popMode() !== "live") return Promise.resolve(null);
+  if (!dongBasePromises.has(industryKey)) {
     const { projectId, apiKey } = CONFIG.FIREBASE;
-    dongBasePromise = fetch(`https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/livingPopBaseline/all?key=${apiKey}`)
+    dongBasePromises.set(industryKey, fetch(`https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/livingPopBaseline/${encodeURIComponent(industryKey)}?key=${apiKey}`)
       .then((r) => (r.ok ? r.json() : null))
-      .then((d) => (d ? fromFs({ mapValue: { fields: d.fields || {} } }) : null))
-      .catch(() => null);
+      .then((d) => {
+        if (!d) return null;
+        const b = fromFs({ mapValue: { fields: d.fields || {} } });
+        return b?.customer ? { level: "dong", n: b.n, asOf: b.asOf, customer: b.customer, size: b.size, growth: b.growth } : null;
+      })
+      .catch(() => null));
   }
-  const b = await dongBasePromise;
-  const x = b?.industries?.[industryKey];
-  return x ? { level: "dong", n: b.n, asOf: b.asOf, customer: x.customer, size: x.size, growth: x.growth } : null;
+  return dongBasePromises.get(industryKey);
 }
 
 export async function getPop(place) {

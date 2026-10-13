@@ -5,7 +5,7 @@
 //   2. 동별 "일별 요약"을 livingPopDays/{행정동8} 문서(날짜 → 요약 맵)에 합친다. (읽기 427건 · 쓰기 427건 안팎, 과거 채우기도 한 번에)
 //   3. 동별 화면용 요약(buildPop)을 livingPop/{행정동8} 에 쓴다. 브라우저는 이 문서 1건만 읽는다.
 //   4. 수집한 날짜는 livingPopMeta/state 에 기록해 다음 실행에서 건너뛴다.
-//   5. 모든 동의 지표 분포(점수의 백분위 눈금)를 livingPopBaseline/all 에 쓴다. 브라우저 점수 엔진이 읽는다.
+//   5. 모든 동의 지표 분포(점수의 백분위 눈금)를 livingPopBaseline/{프로필} 에 쓴다. 브라우저 점수 엔진이 읽는다.
 //
 // 사용 (환경변수: SEOUL_API_KEY, FIREBASE_SERVICE_ACCOUNT = 서비스 계정 JSON 전체 문자열)
 //   node collector/collect.js              최신 2일치
@@ -142,12 +142,19 @@ async function main() {
   await writeBaseline(db, pops, pops.map((p) => p?.asOf).filter(Boolean).sort().pop());
 }
 
-// 모든 동의 지표 분포 → livingPopBaseline/all
+// 모든 동의 지표 분포 → livingPopBaseline/{프로필 키}  (프로필마다 문서 1개: 한 문서에 배열을 모두 넣으면 Firestore 색인 항목 한도를 넘는다)
 async function writeBaseline(db, pops, asOf) {
   const base = buildBaselines(pops.filter(Boolean), asOf);
-  await db.doc("livingPopBaseline/all").set(base);
+  const keys = Object.keys(base.industries);
+  let batch = db.batch(), n = 0;
+  for (const key of keys) {
+    batch.set(db.doc(`livingPopBaseline/${key}`), { level: base.level, n: base.n, asOf: base.asOf, updatedAt: base.updatedAt, ...base.industries[key] });
+    if (++n % 10 === 0) { await batch.commit(); batch = db.batch(); }
+  }
+  batch.delete(db.doc("livingPopBaseline/all")); // 예전 방식(문서 1개)의 잔재
+  await batch.commit();
   const c = base.industries.cafe;
-  console.log(`기준 분포 저장: 행정동 ${base.n}곳 · 업종 ${Object.keys(base.industries).length}개 (카페 고객일치 ${c.customer[0]}~${c.customer.at(-1)}, 규모 ${c.size[0]}~${c.size.at(-1)}, 성장률 ${c.growth[0]}~${c.growth.at(-1)})`);
+  console.log(`기준 분포 저장: 행정동 ${base.n}곳 · 프로필 ${keys.length}개 (카페 고객일치 ${c.customer[0]}~${c.customer.at(-1)}, 규모 ${c.size[0]}~${c.size.at(-1)}, 성장률 ${c.growth[0]}~${c.growth.at(-1)})`);
 }
 
 // 직접 실행했을 때만 main (다른 파일에서 import 해도 실행되지 않게)
