@@ -1,5 +1,5 @@
 // 한 번의 분석: 장소 + 업종 → 자료 조회(병렬) → 지표 → 점수 → 리포트. 같은 장소·업종은 세션 안에서 다시 계산하지 않는다.
-import { getPop, getCompetitors, getRent, loadSample } from "./fetchers.js";
+import { getPop, getCompetitors, getRent, getDongBaseline, loadSample } from "./fetchers.js";
 import { computeMetrics } from "./metrics.js";
 import { buildBaseline, computeScore } from "./score.js";
 import { buildReport } from "./report.js";
@@ -15,7 +15,8 @@ export async function analyze(place, industry, onStep = () => {}) {
   onStep("comp");
   const compP = getCompetitors(place, industry).then((v) => { onStep("comp-done"); return v; });
   const [pop, comp, rent] = await Promise.all([popP, compP, getRent(place)]);
-  const baseline = buildBaseline(await loadSample(), industry);
+  // 기준 분포: 동 단위 자료면 수집된 전 행정동 분포, 없으면 자치구 표본 분포(눈금이 달라 화면에 알림)
+  const baseline = (pop.level === "dong" && (await getDongBaseline(industry.key))) || buildBaseline(await loadSample(), industry);
   onStep("score");
   const metrics = computeMetrics(pop, industry, comp);
   const score = computeScore(metrics, industry, baseline, pop, rent);

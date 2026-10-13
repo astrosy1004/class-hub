@@ -7,6 +7,7 @@ import { percentile, competitionScore, buildBaseline, computeScore } from "./sco
 import { ITEMS, FORBIDDEN } from "./score-rules.js";
 import { buildReport, reportLines } from "./report.js";
 import { searchSplit, distanceM } from "./split-search.js";
+import { buildBaselines } from "../collector/baseline.js";
 
 const out = document.getElementById("out");
 const results = [];
@@ -94,6 +95,19 @@ async function run() {
   check("분할 검색", "아주 밀집(900곳) → 호출 한도 안에서 멈추고 capped 표시", many.capped && many.calls <= 30 && many.count > 120, `${many.count}곳 · ${many.calls}회`);
   const calls2 = await searchSplit(fake(mk(120)), 37.5, 127.0, 500, { maxCalls: 3 });
   check("분할 검색", "호출 한도(maxCalls)를 넘지 않음", calls2.calls <= 3 && calls2.capped);
+  // 7. 동 단위 기준 분포 (수집기가 만드는 baseline) — 자치구 표본을 "동"처럼 취급해 형식만 점검
+  const pops = codes.map((c) => ({ ...popFromSample(sample, c), level: "dong", days: 30 }));
+  const bl = buildBaselines(pops, "2026-10-09");
+  const cafeB = bl.industries.cafe;
+  check("기준 분포", "행정동 수 · 업종 5개", bl.n === 25 && Object.keys(bl.industries).length === 5, `n=${bl.n}`);
+  check("기준 분포", "업종별 3개 배열 · 오름차순 정렬", INDUSTRIES.every((i) => ["customer", "size", "growth"].every((k) => { const a = bl.industries[i.key][k]; return a.length === 25 && a.every((v, n) => n === 0 || a[n - 1] <= v); })));
+  check("기준 분포", "데이터가 짧은 동(14일 미만)은 제외", buildBaselines([{ ...pops[0], days: 5 }, pops[1]], "x").n === 1);
+  const dBase = { level: "dong", ...cafeB };
+  const dPop = pops[0];
+  const dScore = computeScore(computeMetrics(dPop, ind, comp), ind, dBase, dPop, null);
+  check("기준 분포", "동 기준 분포 + 동 자료 → 규모 항목 포함(4개 항목)", dScore.used === 4 && dScore.items.find((i) => i.key === "size").score != null, `${dScore.used}개`);
+  const gScore = computeScore(computeMetrics(dPop, ind, comp), ind, base, dPop, null);
+  check("기준 분포", "자치구 기준 분포 + 동 자료 → 규모 제외(3개 항목)", gScore.used === 3 && gScore.items.find((i) => i.key === "size").score == null, `${gScore.used}개`);
 }
 
 run().then(() => {

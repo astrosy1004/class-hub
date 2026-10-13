@@ -6,7 +6,7 @@ export const CONFIG = {
   // 생활인구는 Firestore 의 livingPop/{행정동8자리} 요약 문서를 읽는다 (매일 GitHub Actions 수집기가 갱신). projectId 가 비어 있으면 개발용 예시 표본 모드.
   // Firebase 웹 API 키는 공개용 값이다 (접근은 firestore.rules 로 제한).
   FIREBASE: { projectId: "location-app-sykim", apiKey: "AIzaSyD1l3o2Dib_hCUHLUzxtmSWfIgQjRO8pZM" },
-  LIVE_POP: false, // 수집기를 한 번 실행해 Firestore 에 요약이 생기면 true 로 바꾼다 (false 면 개발용 예시 표본)
+  LIVE_POP: true, // 수집기를 한 번 실행해 Firestore 에 요약이 생기면 true 로 바꾼다 (false 면 개발용 예시 표본)
   RADIUS_M: 500, // 경쟁 점포 분석 반경
   SAMPLE_URL: "./data/sample-gu.json",
 };

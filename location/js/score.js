@@ -1,6 +1,6 @@
 // 입지 적합도 점수 엔진: 지표 → 항목별 0~100 → 가중합 → 등급. 같은 입력이면 항상 같은 점수.
 // - 고객 일치 · 유동인구 규모 · 성장성: 기준 분포(지금은 서울 25개 구 표본)에서의 백분위
-//   (구성비·증감률은 동 단위에도 같은 기준을 쓰고, 규모는 동 단위 기준 분포가 준비될 때까지 제외)
+//   (동 단위 자료는 수집기가 만든 동 기준 분포를 쓴다. 기준 분포 단위가 자료와 다르면 규모는 제외)
 // - 경쟁 강도: 반경 내 동종 점포 수를 업종별 구간표로 환산 (낮을수록 높은 점수)
 // - 임대료: 자료가 없으면 점수에서 빼고 나머지 비중을 다시 나눔
 import { INDUSTRIES } from "./area-data.js";
@@ -39,7 +39,7 @@ export const gradeOf = (score) => GRADES.find((g) => score >= g.min);
 export function computeScore(metrics, ind, baseline, pop, rent = null) {
   const raw = {
     customer: baseline ? percentile(baseline.customer, metrics.customerMatch) : null,
-    size: baseline && pop.level === "gu" ? percentile(baseline.size, metrics.sizeHours) : null, // 동 단위는 동 기준 분포가 준비된 뒤에 사용
+    size: baseline && baseline.level === pop.level ? percentile(baseline.size, metrics.sizeHours) : null, // 규모는 자료 단위(자치구/동)와 기준 분포 단위가 같을 때만
     competition: metrics.compCount == null ? null : competitionScore(metrics.compCount, ind.bands),
     rent: rent == null ? null : rent,
     growth: baseline ? percentile(baseline.growth, metrics.growth) : null,

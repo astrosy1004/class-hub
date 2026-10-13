@@ -10,6 +10,11 @@ service cloud.firestore {
       allow get: if true;
       allow list, write: if false;
     }
+    // 동 단위 기준 분포(점수 눈금): 누구나 읽기, 쓰기는 수집기만
+    match /livingPopBaseline/{id} {
+      allow get: if true;
+      allow list, write: if false;
+    }
     // 수집기 전용 (일별 원자료 · 수집 상태): 클라이언트 접근 불가
     match /{document=**} {
       allow read, write: if false;

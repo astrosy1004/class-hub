@@ -59,6 +59,7 @@ export function buildReport(a) {
   const overall = `${a.place.name} ${ind.name}은(는) ${score.grade ? `'${score.grade.name}' 등급(${score.total}점)` : "점수 계산 불가"}입니다. ${score.used}개 항목 기준이며${score.used < 5 ? "(자료가 없는 항목은 제외)" : ""}, ${DISCLAIMER}`;
 
   const limits = [];
+  if (a.baseline && a.baseline.level !== pop.level) limits.push("점수의 비교 기준이 자치구 표본 분포라 동 단위 값과 눈금이 다를 수 있습니다.");
   if (pop.level === "gu") limits.push("생활인구는 동이 아니라 자치구 단위 표본입니다.");
   if (!sc(score, "rent") && sc(score, "rent") !== 0) limits.push("임대료 자료가 없어 점수에서 제외했습니다.");
   if (comp && !comp.live) limits.push("경쟁 점포는 예시 값입니다 (Kakao 키 설정 전).");

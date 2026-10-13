@@ -5,13 +5,16 @@
 //   2. 동별 "일별 요약"을 livingPopDays/{행정동8} 문서(날짜 → 요약 맵)에 합친다. (읽기 427건 · 쓰기 427건 안팎, 과거 채우기도 한 번에)
 //   3. 동별 화면용 요약(buildPop)을 livingPop/{행정동8} 에 쓴다. 브라우저는 이 문서 1건만 읽는다.
 //   4. 수집한 날짜는 livingPopMeta/state 에 기록해 다음 실행에서 건너뛴다.
+//   5. 모든 동의 지표 분포(점수의 백분위 눈금)를 livingPopBaseline/all 에 쓴다. 브라우저 점수 엔진이 읽는다.
 //
 // 사용 (환경변수: SEOUL_API_KEY, FIREBASE_SERVICE_ACCOUNT = 서비스 계정 JSON 전체 문자열)
 //   node collector/collect.js              최신 2일치
 //   node collector/collect.js --days 60    최근 60일 (과거 채우기, API 가 주는 범위 안에서)
+//   node collector/collect.js --days 0     API 호출 없이, 저장된 일별 자료로 요약 · 기준 분포만 다시 계산
 //   node collector/collect.js --dry        Firestore 에 쓰지 않고 요약만 출력 (키 확인용)
 import { fetchHourAll, pool, env } from "./seoul.js";
 import { buildPop, summarizeDay } from "./aggregate.js";
+import { buildBaselines } from "./baseline.js";
 
 const WRITE_CHUNK = 15; // 한 번에 쓰는 행정동 수 (동 하나가 날짜 맵 + 요약 2문서, 일수가 많으면 문서가 커서 묶음 용량 제한을 넘지 않게 작게)
 const MAX_KEEP_DAYS = 400; // 동 문서에 보관하는 최대 일수 (문서 1MB 제한 안)
@@ -55,9 +58,11 @@ export function mergeDays(existing, added, keep = MAX_KEEP_DAYS) {
 }
 
 async function main() {
-  if (!env().key) throw new Error("SEOUL_API_KEY 가 없습니다");
   const dry = arg("--dry", false);
-  const days = Number(arg("--days", 2)) || 2;
+  const daysArg = Number(arg("--days", 2));
+  const rebuild = daysArg === 0; // API 호출 없이 저장된 자료로 요약 · 기준 분포만 다시 계산
+  const days = rebuild ? 0 : daysArg || 2;
+  if (!rebuild && !env().key) throw new Error("SEOUL_API_KEY 가 없습니다");
 
   let db = null, state = { dates: [] };
   if (!dry) {
@@ -68,6 +73,15 @@ async function main() {
     db = getFirestore();
     const snap = await db.doc("livingPopMeta/state").get();
     if (snap.exists) state = snap.data();
+  }
+
+  if (rebuild) {
+    if (!db) throw new Error("--days 0 은 Firestore 연결이 필요합니다 (--dry 와 함께 쓸 수 없음)");
+    const snap = await db.collection("livingPopDays").get();
+    const pops = snap.docs.map((d) => buildPop(d.id, Object.entries(d.data().days || {}).map(([date, x]) => ({ date, ...x }))));
+    const asOf = pops.map((p) => p?.asOf).filter(Boolean).sort().pop();
+    await writeBaseline(db, pops, asOf);
+    return;
   }
 
   const last = await latestDate();
@@ -108,11 +122,13 @@ async function main() {
   for (let i = 0; i < refs.length; i += 300) existing.push(...(await db.getAll(...refs.slice(i, i + 300))));
   let batch = db.batch(), n = 0, ops = 0;
   const commits = [];
+  const pops = [];
   dongs.forEach((dong, i) => {
     const old = existing[i].exists ? existing[i].data().days || {} : {};
     const merged = mergeDays(old, added.get(dong));
     const list = Object.entries(merged).map(([date, d]) => ({ date, ...d }));
     const pop = buildPop(dong, list);
+    pops.push(pop);
     batch.set(refs[i], { days: merged, updatedAt: Date.now() });
     batch.set(db.doc(`livingPop/${dong}`), { ...pop, updatedAt: Date.now() });
     ops += 2;
@@ -123,6 +139,15 @@ async function main() {
   const all = [...new Set([...state.dates, ...doneDates])].sort();
   await db.doc("livingPopMeta/state").set({ dates: all, updatedAt: Date.now() });
   console.log(`저장 완료: 행정동 ${dongs.length}곳 · 문서 ${ops}건 · 누적 ${all.length}일`);
+  await writeBaseline(db, pops, pops.map((p) => p?.asOf).filter(Boolean).sort().pop());
+}
+
+// 모든 동의 지표 분포 → livingPopBaseline/all
+async function writeBaseline(db, pops, asOf) {
+  const base = buildBaselines(pops.filter(Boolean), asOf);
+  await db.doc("livingPopBaseline/all").set(base);
+  const c = base.industries.cafe;
+  console.log(`기준 분포 저장: 행정동 ${base.n}곳 · 업종 ${Object.keys(base.industries).length}개 (카페 고객일치 ${c.customer[0]}~${c.customer.at(-1)}, 규모 ${c.size[0]}~${c.size.at(-1)}, 성장률 ${c.growth[0]}~${c.growth.at(-1)})`);
 }
 
 // 직접 실행했을 때만 main (다른 파일에서 import 해도 실행되지 않게)
