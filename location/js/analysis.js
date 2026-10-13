@@ -19,7 +19,7 @@ export async function analyze(place, industry, onStep = () => {}) {
   const pop = popRes.missing ? null : popRes;
   const popError = popRes.missing ? popRes.reason : "";
   // 기준 분포: 동 단위 자료면 수집된 전 행정동 분포, 없으면 자치구 표본 분포(눈금이 달라 화면에 알림)
-  const baseline = !pop ? null : (pop.level === "dong" && (await getDongBaseline(industry.key))) || buildBaseline(await loadSample(), industry);
+  const baseline = !pop ? null : (pop.level === "dong" && (await getDongBaseline(industry.baseKey || industry.key))) || buildBaseline(await loadSample(), industry);
   onStep("score");
   const metrics = computeMetrics(pop, industry, comp);
   const score = computeScore(metrics, industry, baseline, pop, rent);

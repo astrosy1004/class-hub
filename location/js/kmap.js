@@ -74,6 +74,19 @@ export function findPlace(text) {
   }));
 }
 
+// 좌표 → 행정동 (현재 위치 검색용)
+export function placeFromCoords(lat, lng) {
+  const { maps } = window.kakao;
+  const geo = new maps.services.Geocoder();
+  return new Promise((resolve) => {
+    geo.coord2RegionCode(lng, lat, (res, st) => {
+      if (st !== maps.services.Status.OK) return resolve(null);
+      const h = res.find((r) => r.region_type === "H") || res[0];
+      resolve({ name: h.region_3depth_name, guName: h.region_2depth_name, gu: String(h.code).slice(0, 5), dongCode: h.code, lat, lng, label: "현재 위치" });
+    });
+  });
+}
+
 // ── 지도 그리기 ───────────────────────────────────────
 // 진짜 지도(Kakao) 또는 예시 지도. 둘 다 같은 모양으로 돌려준다.
 export async function drawMap(el, place, comps, radius, industryIcon) {
@@ -84,7 +97,7 @@ export async function drawMap(el, place, comps, radius, industryIcon) {
     const center = new maps.LatLng(place.lat, place.lng);
     const map = new maps.Map(el, { center, level: 4 });
     new maps.Circle({ center, radius, strokeWeight: 2, strokeColor: "#2563eb", strokeStyle: "dashed", fillColor: "#2563eb", fillOpacity: 0.07 }).setMap(map);
-    new maps.CustomOverlay({ position: center, yAnchor: 1.6, content: `<div class="pin-label">${place.name}</div>` }).setMap(map);
+    new maps.CustomOverlay({ position: center, yAnchor: 1.6, content: `<div class="pin-label">${place.isCurrent ? "📍 현재 위치" : place.name}</div>` }).setMap(map);
     new maps.Marker({ position: center, map });
     comps.items.slice(0, 80).forEach((c) => new maps.CustomOverlay({ position: new maps.LatLng(c.lat, c.lng), content: `<div class="pin">${industryIcon}</div>`, map }));
     return "kakao";
@@ -109,6 +122,6 @@ function demoMapSvg(place, comps, icon) {
   <circle cx="${cx}" cy="${cy}" r="${Math.round((CONFIG.RADIUS_M / 111000) * scale)}" class="radius"/>
   ${pts}
   <circle cx="${cx}" cy="${cy}" r="9" class="me"/>
-  <rect x="${cx - 34}" y="${cy - 48}" width="68" height="21" rx="10" class="lab"/><text x="${cx}" y="${cy - 34}" text-anchor="middle" class="lab-t">${place.name}</text>
+  <rect x="${cx - 34}" y="${cy - 48}" width="68" height="21" rx="10" class="lab"/><text x="${cx}" y="${cy - 34}" text-anchor="middle" class="lab-t">${place.isCurrent ? "현재 위치" : place.name}</text>
   <text x="12" y="322" class="demo-t">예시 지도 · Kakao 키를 설정하면 실제 지도가 표시됩니다</text></svg>`;
 }

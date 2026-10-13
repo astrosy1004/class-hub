@@ -1,5 +1,5 @@
 // 화면 그리기: 분석 결과 · 상태를 받아 HTML 문자열을 돌려준다 (이벤트 처리는 main.js).
-import { AGE_GROUPS, INDUSTRIES, SUGGESTIONS } from "./area-data.js";
+import { AGE_GROUPS, INDUSTRIES, EXTRA_INDUSTRIES, EXTRA_GROUPS, SUGGESTIONS, industryByKey } from "./area-data.js";
 import { ITEMS, DISCLAIMER } from "./score-rules.js";
 import { fmtPct, fmtAgePct, fmtMan, monthLabel } from "./metrics.js";
 import { lineChart, hourBars, stackBars, heatmap, donut, radar } from "./charts.js";
@@ -36,15 +36,30 @@ export function subnav(a, active) {
 }
 
 // ── 홈 ──────────────────────────────────────────
-export function homeHtml({ recent, industryKey, error }) {
+// 세부 업종 메뉴 (칩 아래에 펼쳐짐): 묶음별 칩 + 직접 입력
+function morePanelHtml(industryKey) {
+  const byKey = Object.fromEntries(EXTRA_INDUSTRIES.map((i) => [i.key, i]));
+  return `<div class="card more-panel" id="morePanel">
+    ${EXTRA_GROUPS.map((g) => `<div class="mgroup"><div class="cap">${g.title}</div><div class="chips flat" style="margin:6px 0 0">${g.keys.map((k) => `<button type="button" class="c ${k === industryKey ? "on" : ""}" data-ind="${k}">${byKey[k].icon} ${byKey[k].name}</button>`).join("")}</div></div>`).join("")}
+    <form class="mgroup" id="customForm" autocomplete="off"><div class="cap">직접 입력 <span style="font-weight:500">(예: 마라탕, 수제버거, 필라테스)</span></div>
+      <div class="row" style="margin-top:6px"><input id="customInd" class="mini-input" type="text" placeholder="업종 · 가게 종류" maxlength="20" aria-label="업종 직접 입력"><button type="submit" class="btn" style="margin:0;width:auto;padding:10px 16px">적용</button></div>
+      <div class="cap" style="margin-top:6px">직접 입력한 업종은 이름으로 점포를 검색하고, 일반적인 고객 구성으로 점수를 계산해요.</div></form>
+  </div>`;
+}
+
+export function homeHtml({ recent, industryKey, error, moreOpen = false, q = "", locating = false }) {
+  const cur = industryByKey(industryKey);
+  const isMain = INDUSTRIES.some((i) => i.key === industryKey);
   return `
   <div class="head"><h1>📍 우리 동네 <em>AI 입지 분석</em></h1></div>
   ${modeBanner()}
   <form class="search" id="searchForm" autocomplete="off">
-    <input id="q" type="search" placeholder="지역 + 업종 (예: 연남동 카페)" aria-label="지역과 업종 검색" enterkeyhint="search">
+    <input id="q" type="search" placeholder="지역 + 업종 (예: 연남동 카페)" aria-label="지역과 업종 검색" enterkeyhint="search" value="${esc(q)}">
     <button type="submit">분석</button>
   </form>
-  <div class="chips" id="indChips">${INDUSTRIES.map((i) => `<button type="button" class="c ${i.key === industryKey ? "on" : ""}" data-ind="${i.key}">${i.icon} ${i.name}</button>`).join("")}</div>
+  <button type="button" class="locate" data-locate ${locating ? "disabled" : ""}>📍 현재 위치에서 찾기 <small>${esc(cur.icon)} ${esc(cur.name)}</small></button>
+  <div class="chips" id="indChips">${INDUSTRIES.map((i) => `<button type="button" class="c ${i.key === industryKey ? "on" : ""}" data-ind="${i.key}">${i.icon} ${i.name}</button>`).join("")}<button type="button" class="c more ${!isMain ? "on" : ""}" data-more aria-expanded="${moreOpen}">${!isMain ? `${esc(cur.icon)} ${esc(cur.name)}` : "＋ 세부 업종"} ${moreOpen ? "▴" : "▾"}</button></div>
+  ${moreOpen ? morePanelHtml(industryKey) : ""}
   <div id="progress"></div>
   ${error ? `<div class="err-box">${esc(error)}</div>` : ""}
   <div class="card"><h3>추천 검색어</h3><div class="chips flat" style="margin:8px 0 0">${SUGGESTIONS.map((s) => `<button type="button" class="c" data-suggest="${esc(s)}">${esc(s)}</button>`).join("")}</div></div>
@@ -72,12 +87,16 @@ export function mapHtml(a, saved) {
   <div class="map" id="mapBox" aria-label="상권 지도"></div>
   <div class="sheet"><div class="grab"></div>
     <div class="row" style="align-items:center">
-      <div style="flex:1"><div class="cap">입지 적합도 ${score.total == null ? "· 자료 부족" : `(${score.used}개 항목 기준)`}</div><div class="big">${score.total ?? "-"}<small>점</small></div></div>
+      <div style="flex:1"><div class="cap">입지 적합도 ${score.total == null ? "· 자료 부족" : `(${score.used}개 항목 기준)`}</div><div class="big">${score.total ?? "-"}<small>점</small></div>
+        <button type="button" class="explain-link" data-explain="total" aria-expanded="false">점수는 어떻게 계산했나요? ›</button></div>
       ${grade ? `<span class="chip ${grade.cls}" style="font-size:14px;padding:9px 14px">${grade.icon} ${grade.name}</span>` : `<span class="chip warn" style="font-size:13px;padding:8px 12px">점수 없음</span>`}
     </div>
-    ${score.items.map((it, i) => it.score == null
-      ? `<div class="mini na"><span>${it.short}</span><span class="cap">자료 없음 · 점수에서 제외</span><b>-</b></div>`
-      : `<div class="mini"><span>${it.short}</span><div class="t"><i style="width:${it.score}%;background:${itemColor[i]}"></i></div><b>${it.score}</b></div>`).join("")}
+    <div class="detail total" id="d-total" hidden></div>
+    <div class="cap" style="margin-top:10px">항목을 누르면 산출 근거를 볼 수 있어요</div>
+    ${score.items.map((it, i) => `${it.score == null
+      ? `<button type="button" class="mini na" data-explain="${it.key}" aria-expanded="false" aria-controls="d-${it.key}"><span>${it.short}</span><span class="cap">자료 없음 · 점수에서 제외</span><b>-</b><em class="caret">›</em></button>`
+      : `<button type="button" class="mini" data-explain="${it.key}" aria-expanded="false" aria-controls="d-${it.key}"><span>${it.short}</span><div class="t"><i style="width:${it.score}%;background:${itemColor[i]}"></i></div><b>${it.score}</b><em class="caret">›</em></button>`}
+    <div class="detail" id="d-${it.key}" hidden></div>`).join("")}
     <div class="cap" style="margin-top:8px">반경 ${CONFIG.RADIUS_M}m ${esc(a.industry.name)} ${a.comp.count}${a.comp.capped ? "곳 이상" : "곳"}</div>
     <div class="foot" style="margin-top:6px">${DISCLAIMER}</div>
     <a class="btn" href="${hashOf("report", a)}">AI 컨설턴트 의견 보기</a>
@@ -191,13 +210,15 @@ export function compareHtml(list) {
 }
 
 // ── 내 분석 ──────────────────────────────────────
-export function meHtml({ saved, theme }) {
+export function meHtml({ saved, theme, autoLocate = true }) {
   return `
   ${head("내 분석", { back: false })}
   <div class="card"><h3>담아 둔 후보지 <span class="cap">${saved.length}/3</span></h3>${saved.length ? saved.map((s) => `
     <a class="li" href="#map/${encodeURIComponent(s.place.name)}/${s.industryKey}"><div class="score-dot">${s.total ?? "-"}</div><b>${esc(s.place.name)} ${esc(s.industryName)}<small>${esc(s.grade || "")}</small></b>›</a>`).join("") : `<div class="empty">담아 둔 후보지가 없어요</div>`}
     ${saved.length ? `<a class="btn" href="#compare">후보지 비교하기</a>` : ""}</div>
   <div class="card"><h3>화면 테마</h3><div class="chips flat" id="themeChips" style="margin-bottom:0"><button class="c ${theme !== "dark" ? "on" : ""}" data-theme="">블루</button><button class="c ${theme === "dark" ? "on" : ""}" data-theme="dark">다크</button></div></div>
+  <div class="card"><h3>시작할 때 현재 위치로 검색</h3><div class="chips flat" id="autoChips" style="margin-bottom:0"><button class="c ${autoLocate ? "on" : ""}" data-auto="1">켜기</button><button class="c ${!autoLocate ? "on" : ""}" data-auto="0">끄기</button></div>
+    <div class="cap" style="margin-top:8px;line-height:1.5">앱을 열면 브라우저의 위치 권한을 요청하고, 지금 있는 동네를 바로 분석해요. 위치는 이 기기에서만 쓰고 저장하지 않으며, 행정동 확인을 위해 좌표가 Kakao 지도 서비스에 전달돼요.</div></div>
   <div class="card"><h3>연결 상태</h3><div style="font-size:13px;line-height:1.7;margin-top:6px">
     생활인구: ${popMode() === "live" ? "API 연결됨" : "<span class='down'>미연결 (개발용 예시)</span>"}<br>
     Kakao 지도: ${CONFIG.KAKAO_JS_KEY ? "키 설정됨" : "<span class='down'>키 없음 (예시 지도)</span>"}<br>

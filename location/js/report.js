@@ -71,6 +71,7 @@ export function buildReport(a) {
   // 전략: 업종 × 가장 큰 연령층
   const tip = ind.tips[focus];
   if (tip) strategies.push({ text: `${ageName(focus)} 방문층을 고려해 ${tip}을(를) 검토하세요.`, ev: `${ageName(focus)} ${fmtAgePct(m.age[focus])}` });
+  else strategies.push({ text: `${ageName(focus)} 방문층이 많으니 이 연령층이 선호하는 서비스 · 가격 구성을 검토하세요.`, ev: `${ageName(focus)} ${fmtAgePct(m.age[focus])}` });
   if (m.weekendRatio >= R.weekendHeavy) strategies.push({ text: "주말 방문객을 위한 테이크아웃 · 예약 프로모션을 검토하세요.", ev: `주말/평일 ${m.weekendRatio.toFixed(2)}배` });
   if (risks.some((r) => r.text.includes("경쟁"))) strategies.push({ text: "경쟁 점포와 겹치지 않는 대표 메뉴 · 서비스로 차별화하세요.", ev: "경쟁 강도" });
   strategies.push({ text: `생활인구가 가장 많은 ${m.peakHour}시 전후에 인력 · 재고를 맞추는 운영을 검토하세요.`, ev: `평일 피크 ${m.peakHour}시` });

@@ -1,6 +1,6 @@
 // 엔진 검증 페이지: 자료 형식 · 점수 · 문장 규칙을 한 번에 점검한다. (개발용, 배포 제외)
-import { INDUSTRIES, DEMO_PLACES, GU, AGE_GROUPS } from "./area-data.js";
-import { parseQuery } from "./place.js";
+import { INDUSTRIES, EXTRA_INDUSTRIES, EXTRA_GROUPS, BASELINE_PROFILES, industryByKey, makeCustomIndustry, DEMO_PLACES, GU, AGE_GROUPS } from "./area-data.js";
+import { parseQuery, nearestDemo, placeKey } from "./place.js";
 import { loadSample, demoCompetitors, popFromSample } from "./fetchers.js";
 import { computeMetrics } from "./metrics.js";
 import { percentile, competitionScore, buildBaseline, computeScore } from "./score.js";
@@ -8,6 +8,7 @@ import { ITEMS, FORBIDDEN } from "./score-rules.js";
 import { buildReport, reportLines } from "./report.js";
 import { searchSplit, distanceM } from "./split-search.js";
 import { buildBaselines } from "../collector/baseline.js";
+import { explainHtml } from "./explain.js";
 
 const out = document.getElementById("out");
 const results = [];
@@ -99,8 +100,8 @@ async function run() {
   const pops = codes.map((c) => ({ ...popFromSample(sample, c), level: "dong", days: 30 }));
   const bl = buildBaselines(pops, "2026-10-09");
   const cafeB = bl.industries.cafe;
-  check("기준 분포", "행정동 수 · 업종 5개", bl.n === 25 && Object.keys(bl.industries).length === 5, `n=${bl.n}`);
-  check("기준 분포", "업종별 3개 배열 · 오름차순 정렬", INDUSTRIES.every((i) => ["customer", "size", "growth"].every((k) => { const a = bl.industries[i.key][k]; return a.length === 25 && a.every((v, n) => n === 0 || a[n - 1] <= v); })));
+  check("기준 분포", "행정동 수 · 업종(세부·직접입력 포함) 프로필별 분포", bl.n === 25 && Object.keys(bl.industries).length === BASELINE_PROFILES.length, `n=${bl.n}, 프로필 ${Object.keys(bl.industries).length}개`);
+  check("기준 분포", "업종별 3개 배열 · 오름차순 정렬", BASELINE_PROFILES.every((i) => ["customer", "size", "growth"].every((k) => { const a = bl.industries[i.key][k]; return a.length === 25 && a.every((v, n) => n === 0 || a[n - 1] <= v); })));
   check("기준 분포", "데이터가 짧은 동(14일 미만)은 제외", buildBaselines([{ ...pops[0], days: 5 }, pops[1]], "x").n === 1);
   const dBase = { level: "dong", ...cafeB };
   const dPop = pops[0];
@@ -117,6 +118,37 @@ async function run() {
   const linesNo = reportLines(rNo);
   check("자료 없는 동네", "리포트: 금지어 없음 · 고지 포함 · 근거 포함", !linesNo.some((l) => FORBIDDEN.some((w) => l.includes(w))) && rNo.overall.includes("보장하지 않") && [...rNo.strengths, ...rNo.risks, ...rNo.strategies].every((x) => x.ev));
   check("자료 없는 동네", "한계에 사유와 '점수 미계산' 안내", rNo.limits.some((l) => l.includes("99999999")) && rNo.limits.some((l) => l.includes("점수는 계산하지 않았습니다")));
+  // 9. 점수 산출 근거 설명: 모든 항목 · 종합이 깨지지 않고, 새 숫자를 만들어 내지 않는다
+  const full = { place: DEMO_PLACES[0], industry: ind, pop: dPop, comp, metrics: computeMetrics(dPop, ind, comp), score: dScore, baseline: dBase };
+  const keys = ["customer", "size", "competition", "rent", "growth", "total"];
+  const htmls = keys.map((k) => explainHtml(full, k));
+  check("점수 설명", "자료 있는 동네: 6개 설명 모두 생성 · undefined/NaN 없음", htmls.every((h) => h.length > 40 && !/undefined|NaN|\[object/.test(h)), htmls.map((h) => h.length).join("/"));
+  check("점수 설명", "종합 설명에 각 항목의 기여 점수 합이 종합과 일치", (() => { const sum = dScore.items.filter((i) => i.score != null).reduce((a, i) => a + i.score * i.effWeight, 0); return Math.abs(sum - dScore.total) <= 0.5; })(), `${dScore.total}점`);
+  check("점수 설명", "경쟁 설명에 현재 구간이 강조됨(on)", explainHtml(full, "competition").includes("band on"));
+  check("점수 설명", "임대료: 자료 없음 이유와 비중 재배분 설명", explainHtml(full, "rent").includes("제외") && explainHtml(full, "rent").includes("다시 나뉘"));
+  const noPopFull = { place: DEMO_PLACES[0], industry: ind, pop: null, comp, metrics: mNo, score: sNo, baseline: null };
+  const noPopHtmls = keys.map((k) => explainHtml(noPopFull, k));
+  check("점수 설명", "자료 없는 동네: 6개 설명도 오류 없이 생성", noPopHtmls.every((h) => h.length > 20 && !/undefined|NaN|\[object/.test(h)));
+  // 10. 세부 업종 · 직접 입력 · 현재 위치
+  const all = [...INDUSTRIES, ...EXTRA_INDUSTRIES];
+  check("세부 업종", `업종 키 중복 없음 (${all.length}개)`, new Set(all.map((i) => i.key)).size === all.length);
+  check("세부 업종", "목표 고객 비중 합 = 1 · 영업 시간 있음", EXTRA_INDUSTRIES.every((i) => Math.abs(Object.values(i.target).reduce((a, b) => a + b, 0) - 1) < 1e-9 && i.hours.length > 0));
+  check("세부 업종", "경쟁 구간표: 점수 내림차순 · 경계 오름차순", EXTRA_INDUSTRIES.every((i) => i.bands.every((b, k) => k === 0 || (b[1] <= i.bands[k - 1][1] && b[0] > i.bands[k - 1][0]))));
+  check("세부 업종", "검색 방식(카테고리/키워드) 지정", EXTRA_INDUSTRIES.every((i) => i.kakao.category || i.kakao.keyword));
+  check("세부 업종", "메뉴 묶음의 모든 키가 존재", EXTRA_GROUPS.every((g) => g.keys.every((k) => EXTRA_INDUSTRIES.some((i) => i.key === k))));
+  check("세부 업종", "모든 세부 업종에 기준 분포 프로필 있음 (+ 직접 입력용 custom)", EXTRA_INDUSTRIES.every((i) => BASELINE_PROFILES.some((p) => p.key === i.key)) && BASELINE_PROFILES.some((p) => p.key === "custom"));
+  const q2 = [["연남동 한식", "korean"], ["합정동 약국", "pharmacy"], ["성수동 빵집", "bakery"], ["망원동 피트니스", "gym"]];
+  check("세부 업종", "검색어로 세부 업종 인식", q2.every(([t, k]) => parseQuery(t).industry?.key === k), q2.map(([t]) => parseQuery(t).industry?.key).join(","));
+  const cu = makeCustomIndustry("마라탕");
+  check("직접 입력", "키 왕복(인코딩) · 검색 키워드 · 일반 프로필", industryByKey(cu.key).name === "마라탕" && industryByKey(cu.key).kakao.keyword === "마라탕" && cu.baseKey === "custom" && industryByKey("custom:%EB%A7%88%EB%9D%BC%ED%83%95").name === "마라탕");
+  check("직접 입력", "키에 '/' 가 없어 주소(#)로 안전", !industryByKey("custom:" + encodeURIComponent("a/b")).key.includes("/"));
+  // 직접 입력 업종도 점수 · 리포트가 깨지지 않는다
+  const cPop = pops[0], cComp = demoCompetitors(DEMO_PLACES[0], cu), cM = computeMetrics(cPop, cu, cComp);
+  const cS = computeScore(cM, cu, { level: "dong", ...bl.industries.custom }, cPop, null);
+  const cR = buildReport({ place: DEMO_PLACES[0], industry: cu, pop: cPop, comp: cComp, metrics: cM, score: cS, baseline: { level: "dong" } });
+  check("직접 입력", "점수 · 리포트 생성 (금지어 없음, 문장마다 근거)", cS.total != null && !reportLines(cR).some((l) => FORBIDDEN.some((w) => l.includes(w))) && [...cR.strengths, ...cR.risks, ...cR.strategies].every((x) => x.ev), `${cS.total}점`);
+  check("현재 위치", "가장 가까운 예시 행정동(5km 안) · 먼 곳은 없음", nearestDemo(37.5640, 126.9225)?.name === "연남동" && nearestDemo(35.1, 129.0) === null);
+  check("현재 위치", "내 위치 분석은 같은 동 검색과 캐시 키가 다름", placeKey({ name: "연남동", isCurrent: true }, ind) !== placeKey({ name: "연남동" }, ind));
 }
 
 run().then(() => {

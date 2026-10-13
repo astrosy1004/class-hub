@@ -1,5 +1,5 @@
 // 이 기기 저장 (localStorage). 접근이 막혀도 앱이 멈추지 않게 모든 읽기/쓰기를 감쌌다.
-const K = { recent: "loc:recent", saved: "loc:saved", theme: "locTheme" };
+const K = { recent: "loc:recent", saved: "loc:saved", theme: "locTheme", industry: "loc:industry", autoLocate: "loc:autoLocate" };
 
 function read(key, fallback) {
   try {
@@ -39,3 +39,9 @@ export function toggleSaved(item) {
 
 export const getTheme = () => read(K.theme, "");
 export const setTheme = (t) => write(K.theme, t);
+
+// 마지막으로 고른 업종 · 시작할 때 현재 위치로 검색할지 (기본 켜짐)
+export const getIndustryKey = () => read(K.industry, "cafe");
+export const setIndustryKey = (k) => write(K.industry, k);
+export const getAutoLocate = () => read(K.autoLocate, true);
+export const setAutoLocate = (v) => write(K.autoLocate, !!v);

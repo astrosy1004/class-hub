@@ -25,7 +25,7 @@ export const INDUSTRIES = [
     hours: range(8, 22), target: { g10m: 0.05, g20: 0.4, g30: 0.3, g40: 0.15, g50p: 0.1 },
     bands: [[20, 100], [50, 85], [100, 65], [150, 50], [200, 35], [300, 25], [Infinity, 15]], // 서울 번화가 10곳 표본(반경 500m 71~360곳) 기준 초안
     tips: { g20: "디저트 중심의 차별화된 메뉴", g30: "원두 · 스페셜티 메뉴와 좌석 편의", g40: "조용한 좌석과 브런치 메뉴", g50p: "편안한 좌석과 전통 차 메뉴", g10m: "소액 메뉴와 학생 할인" } },
-  { key: "restaurant", name: "음식점", icon: "🍽", alias: ["식당", "맛집", "한식", "레스토랑"], kakao: { category: "FD6" },
+  { key: "restaurant", name: "음식점", icon: "🍽", alias: ["식당", "맛집", "레스토랑"], kakao: { category: "FD6" },
     hours: range(11, 22), target: { g10m: 0.05, g20: 0.25, g30: 0.3, g40: 0.25, g50p: 0.15 },
     bands: [[40, 100], [110, 85], [220, 65], [330, 50], [440, 35], [660, 25], [Infinity, 15]], // 카페 표본에서 비율로 추정한 초안 (표본 조사 필요)
     tips: { g20: "SNS 인증 메뉴와 1~2인 세트", g30: "점심 직장인 세트와 예약 서비스", g40: "가족 단위 세트 메뉴", g50p: "정갈한 한상 차림", g10m: "분식형 소액 메뉴" } },
@@ -65,4 +65,61 @@ function range(a, b) {
   return r;
 }
 
-export const industryByKey = (k) => INDUSTRIES.find((i) => i.key === k) || INDUSTRIES[0];
+// ── 세부 업종 ──────────────────────────────────────
+// 기본 5개 업종 외의 세부 업종. 모든 숫자(목표 고객 · 영업 시간 · 경쟁 구간)는 초안이며 상담사 검수 전이다 (draft: true).
+// kakao.category = Kakao 카테고리 코드(약국 PM9 · 학원 AC5 · 중개업소 AG2), 나머지는 키워드 검색이라 이름이 비슷한 다른 장소가 섞일 수 있다.
+const RESTAURANT_BANDS = [[40, 100], [110, 85], [220, 65], [330, 50], [440, 35], [660, 25], [Infinity, 15]]; // 음식점 전체 기준(초안)
+// 구간표를 점포가 더 적은 업종에 맞게 줄인다 (f = 음식점 대비 대략적인 점포 수 비율)
+const scaleBands = (bands, f) => bands.map(([max, sc]) => [max === Infinity ? Infinity : Math.max(1, Math.round(max * f)), sc]);
+const mk = (key, name, icon, alias, kakao, hours, t, f, tips = {}) => ({
+  key, name, icon, alias, kakao, hours, draft: true,
+  target: { g10m: t[0], g20: t[1], g30: t[2], g40: t[3], g50p: t[4] },
+  bands: scaleBands(RESTAURANT_BANDS, f), tips,
+});
+
+export const EXTRA_INDUSTRIES = [
+  // 음식
+  mk("korean", "한식", "🍚", ["한식당", "백반"], { keyword: "한식" }, range(11, 21), [0.05, 0.15, 0.25, 0.25, 0.3], 0.6),
+  mk("chinese", "중식", "🥟", ["중국집", "중화요리", "마라탕"], { keyword: "중식" }, range(11, 21), [0.05, 0.2, 0.3, 0.25, 0.2], 0.15),
+  mk("japanese", "일식", "🍣", ["일식당", "초밥", "돈카츠"], { keyword: "일식" }, range(11, 22), [0, 0.25, 0.35, 0.25, 0.15], 0.2),
+  mk("western", "양식", "🍝", ["파스타", "브런치"], { keyword: "양식" }, range(11, 22), [0.02, 0.3, 0.35, 0.2, 0.13], 0.2),
+  mk("snack", "분식", "🍢", ["떡볶이", "김밥"], { keyword: "분식" }, range(10, 21), [0.15, 0.35, 0.25, 0.15, 0.1], 0.15),
+  mk("chicken", "치킨", "🍗", ["치킨집"], { keyword: "치킨" }, range(16, 23), [0.1, 0.3, 0.3, 0.2, 0.1], 0.15),
+  mk("bakery", "베이커리", "🥐", ["빵집", "제과점"], { keyword: "베이커리" }, range(8, 20), [0.1, 0.3, 0.25, 0.2, 0.15], 0.15),
+  // 생활 · 서비스
+  mk("salon", "미용실", "💇", ["헤어샵", "헤어"], { keyword: "미용실" }, range(10, 20), [0.05, 0.25, 0.3, 0.25, 0.15], 0.4),
+  mk("gym", "헬스장", "🏋", ["피트니스", "헬스", "짐"], { keyword: "헬스장" }, range(6, 22), [0, 0.3, 0.35, 0.2, 0.15], 0.1),
+  mk("pharmacy", "약국", "💊", [], { category: "PM9" }, range(9, 19), [0.1, 0.1, 0.2, 0.25, 0.35], 0.1),
+  mk("laundry", "세탁소", "🧺", ["빨래방", "세탁"], { keyword: "세탁소" }, range(8, 20), [0.02, 0.1, 0.25, 0.3, 0.33], 0.1),
+  mk("academy", "학원", "📚", ["교습소", "공부방"], { category: "AC5" }, range(14, 21), [0.45, 0.05, 0.15, 0.3, 0.05], 0.4),
+  mk("realty", "부동산", "🏠", ["공인중개사", "중개업소"], { category: "AG2" }, range(9, 18), [0, 0.1, 0.25, 0.3, 0.35], 0.3),
+  mk("karaoke", "노래방", "🎤", ["코인노래방"], { keyword: "노래방" }, [18, 19, 20, 21, 22, 23, 0], [0.05, 0.4, 0.3, 0.15, 0.1], 0.1),
+  mk("pcroom", "PC방", "🖥", ["피씨방", "게임방"], { keyword: "PC방" }, [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 0], [0.1, 0.5, 0.25, 0.1, 0.05], 0.1),
+];
+
+// 화면의 "세부 업종" 메뉴 묶음 (key 목록)
+export const EXTRA_GROUPS = [
+  { title: "음식", keys: ["korean", "chinese", "japanese", "western", "snack", "chicken", "bakery"] },
+  { title: "생활 · 서비스", keys: ["salon", "gym", "pharmacy", "laundry", "academy", "realty", "karaoke", "pcroom"] },
+];
+
+// 직접 입력한 업종(예: "마라탕"): 이름만 알 수 있어 일반적인 고객 구성 · 영업 시간으로 계산한다 (키워드 검색)
+export const CUSTOM_PROFILE = {
+  baseKey: "custom", icon: "🔎", alias: [], hours: range(9, 21), draft: true, custom: true,
+  target: { g10m: 0.08, g20: 0.22, g30: 0.25, g40: 0.22, g50p: 0.23 },
+  bands: scaleBands(RESTAURANT_BANDS, 0.2), tips: {},
+};
+export const makeCustomIndustry = (keyword) => ({ ...CUSTOM_PROFILE, key: `custom:${encodeURIComponent(keyword)}`, name: keyword, kakao: { keyword } });
+
+// 기준 분포(백분위 눈금)를 만들어 둘 프로필: 기본 + 세부 업종 + 직접 입력용 일반 프로필 ("custom")
+export const BASELINE_PROFILES = [...INDUSTRIES, ...EXTRA_INDUSTRIES, { ...CUSTOM_PROFILE, key: "custom", name: "직접 입력" }];
+
+export const allIndustries = () => [...INDUSTRIES, ...EXTRA_INDUSTRIES];
+export function industryByKey(k) {
+  if (typeof k === "string" && k.startsWith("custom:")) {
+    let kw = k.slice(7);
+    try { kw = decodeURIComponent(kw); } catch (e) { /* 그대로 */ }
+    return makeCustomIndustry(kw || "직접 입력");
+  }
+  return allIndustries().find((i) => i.key === k) || INDUSTRIES[0];
+}
