@@ -13,6 +13,7 @@
 import { fetchHourAll, pool, env } from "./seoul.js";
 import { buildPop, summarizeDay } from "./aggregate.js";
 
+const WRITE_CHUNK = 15; // 한 번에 쓰는 행정동 수 (동 하나가 날짜 맵 + 요약 2문서, 일수가 많으면 문서가 커서 묶음 용량 제한을 넘지 않게 작게)
 const MAX_KEEP_DAYS = 400; // 동 문서에 보관하는 최대 일수 (문서 1MB 제한 안)
 const arg = (name, fallback) => {
   const i = process.argv.indexOf(name);
@@ -115,7 +116,7 @@ async function main() {
     batch.set(refs[i], { days: merged, updatedAt: Date.now() });
     batch.set(db.doc(`livingPop/${dong}`), { ...pop, updatedAt: Date.now() });
     ops += 2;
-    if (++n % 200 === 0) { commits.push(batch.commit()); batch = db.batch(); }
+    if (++n % WRITE_CHUNK === 0) { commits.push(batch.commit()); batch = db.batch(); }
   });
   commits.push(batch.commit());
   await Promise.all(commits);
