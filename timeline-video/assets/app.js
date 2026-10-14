@@ -20,18 +20,19 @@ const SETTINGS = {
 };
 
 /* ===== 상태 ===== */
+let uid = 0;
+function makeSlide(s = {}) {
+  return { id: ++uid, year: "", age: "", title: "", desc: "", source: "", img: null, ...s };
+}
+
 const state = {
   person: DEFAULT_PROJECT.person,
   subtitle: DEFAULT_PROJECT.subtitle,
   ratio: "16:9",
   transition: "fade",
   slideSec: 4,
-  slides: DEFAULT_PROJECT.slides.map(makeSlide),
+  slides: DEFAULT_PROJECT.slides.map((s) => makeSlide(s)),
 };
-let uid = 0;
-function makeSlide(s = {}) {
-  return { id: ++uid, year: "", age: "", title: "", desc: "", source: "", img: null, ...s };
-}
 
 const $ = (id) => document.getElementById(id);
 const canvas = $("stage");
@@ -125,8 +126,9 @@ function drawSegment(c, seg, local, W, H) {
 
   // 상단 라벨
   c.textBaseline = "top"; c.textAlign = "left";
-  c.fillStyle = "rgba(0,0,0,.45)"; c.fillRect(m - 14 * s, 36 * s, c.measureText(state.person).width + 28 * s + 10, 44 * s);
-  c.font = font(26); c.fillStyle = "#fff"; c.fillText(state.person, m, 44 * s);
+  c.font = font(26);
+  c.fillStyle = "rgba(0,0,0,.45)"; c.fillRect(m - 14 * s, 36 * s, c.measureText(state.person).width + 28 * s, 44 * s);
+  c.fillStyle = "#fff"; c.fillText(state.person, m, 44 * s);
   const idx = state.slides.indexOf(sl) + 1;
   c.textAlign = "right"; c.font = font(24, 600); c.fillStyle = "#e5e7eb";
   c.fillText(`${idx} / ${state.slides.length}`, W - m, 46 * s);
@@ -193,14 +195,14 @@ function render(t) {
 }
 
 /* ===== 재생 / 녹화 ===== */
-let curT = 0, playing = false, wallStart = 0, raf = 0;
+// requestAnimationFrame 은 탭이 가려지면 멈추므로, 실제 경과 시간 기준 타이머로 재생
+let curT = 0, playing = false, wallStart = 0, timer = 0;
 let recording = false, recorder = null, chunks = [];
 
-function tick(now) {
-  curT = (now - wallStart) / 1000;
+function tick() {
+  curT = (performance.now() - wallStart) / 1000;
   if (curT >= total) { curT = total; render(curT); updateSeek(); finishPlayback(); return; }
   render(curT); updateSeek();
-  raf = requestAnimationFrame(tick);
 }
 function play() {
   if (playing) return;
@@ -209,10 +211,10 @@ function play() {
   wallStart = performance.now() - curT * 1000;
   $("playBtn").textContent = "⏸ 일시정지";
   startAudio(curT);
-  raf = requestAnimationFrame(tick);
+  timer = setInterval(tick, 1000 / SETTINGS.fps);
 }
 function pause() {
-  playing = false; cancelAnimationFrame(raf);
+  playing = false; clearInterval(timer);
   $("playBtn").textContent = "▶ 미리보기";
   stopAudio();
 }
@@ -286,11 +288,21 @@ function loadImage(file) {
   return new Promise((res) => {
     const img = new Image();
     img.onload = () => res(img);
+    img.onerror = () => res(null);
     img.src = URL.createObjectURL(file);
   });
 }
 
 function refresh() { buildTimeline(); render(curT); }
+
+// 해당 장면이 화면에 다 나온 시점으로 미리보기를 옮김
+function showSlide(sl) {
+  const seg = timeline.find((x) => x.slide === sl);
+  if (!seg) return;
+  if (playing) pause();
+  curT = Math.min(total, seg.start + timeline.tr + 0.8);
+  render(curT); updateSeek();
+}
 
 function renderList() {
   const box = $("slideList");
@@ -326,8 +338,10 @@ function renderList() {
     fi.type = "file"; fi.accept = "image/*";
     fi.addEventListener("change", async () => {
       if (!fi.files[0]) return;
-      sl.img = await loadImage(fi.files[0]);
-      renderList(); refresh();
+      const img = await loadImage(fi.files[0]);
+      if (!img) { alert("이 사진 형식은 열 수 없습니다. JPG 또는 PNG로 바꿔서 올려 주세요. (아이폰 HEIC 등)"); fi.value = ""; return; }
+      sl.img = img;
+      renderList(); refresh(); showSlide(sl);
     });
     pic.append(fi); f.append(pic);
 
@@ -378,9 +392,18 @@ function bind() {
   $("addBtn").addEventListener("click", () => { state.slides.push(makeSlide()); renderList(); refresh(); });
   $("bulk").addEventListener("change", async (e) => {
     const files = [...e.target.files].sort((a, b) => a.name.localeCompare(b.name, "ko", { numeric: true }));
-    for (const f of files) state.slides.push(makeSlide({ img: await loadImage(f) }));
+    let first = null, failed = 0;
+    for (const f of files) {
+      const img = await loadImage(f);
+      if (!img) { failed++; continue; }
+      const sl = makeSlide({ img });
+      state.slides.push(sl);
+      first = first || sl;
+    }
     e.target.value = "";
     renderList(); refresh();
+    if (first) showSlide(first);
+    if (failed) alert(`${failed}장은 열 수 없는 형식이라 건너뛰었습니다. JPG 또는 PNG로 바꿔서 올려 주세요.`);
   });
 
   $("playBtn").addEventListener("click", () => (playing ? pause() : play()));
