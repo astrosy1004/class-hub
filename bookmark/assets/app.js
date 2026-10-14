@@ -43,15 +43,17 @@ const toneOptions = [
 
 // 기본 프로그램 목록. 화면의 "프로그램 등록" 으로 추가한 항목은 이 브라우저(localStorage)에 따로 저장됩니다.
 // url 은 https 주소 또는 이 폴더 기준 상대 경로(../폴더/index.html)를 씁니다.
+// plan 은 개발 계획서 주소(선택). 적어 두면 메뉴와 카드에 📋 개발 계획서 링크가 생깁니다.
 const programs = [
   {
     id: "saju",
     type: "webapp",
     status: "live",
-    title: "사주 시각화",
+    title: "그래프로 보는 사주",
     icon: "🔮",
     tone: "violet",
     url: "https://saju-app-sykim.web.app",
+    plan: "../saju/plan.html",
     description: "생년월일시로 사주 명식을 계산하고 인생 흐름을 그래프로 보여주는 웹앱",
     features: ["음력 · 서머타임 보정 명식 계산", "기질 점수와 인생 흐름 그래프", "구글 로그인으로 가족 · 지인 명식 저장", "파스텔 테마 4종"],
     tags: ["사주", "Firebase"],
@@ -336,7 +338,10 @@ function renderMenus() {
   const items = allPrograms()
     .map((program) => {
       const url = safeUrl(program.url);
-      return `<a class="menu-item" href="${esc(url || "#programs")}" ${url ? 'target="_blank" rel="noopener noreferrer"' : ""}><span aria-hidden="true">${esc(program.icon || "✦")}</span>${esc(program.title)}</a>`;
+      const plan = safeUrl(program.plan);
+      const main = `<a class="menu-item" href="${esc(url || "#programs")}" ${url ? 'target="_blank" rel="noopener noreferrer"' : ""}><span aria-hidden="true">${esc(program.icon || "✦")}</span>${esc(program.title)}</a>`;
+      if (!plan) return main;
+      return `<div class="menu-row">${main}<a class="plan-icon" href="${esc(plan)}" target="_blank" rel="noopener noreferrer" title="개발 계획서" aria-label="${esc(program.title)} 개발 계획서">📋</a></div>`;
     })
     .join("");
   $("#programMenu").innerHTML = `${items}<hr /><button type="button" class="menu-item menu-register" data-register>＋ 프로그램 등록</button>`;
@@ -503,6 +508,7 @@ function setupCarousels() {
 /* ---------- 내 프로그램 ---------- */
 function programCard(program) {
   const url = safeUrl(program.url);
+  const plan = safeUrl(program.plan);
   const features = program.features || [];
   const status = programStatuses.find((item) => item.id === program.status) ? program.status : "local";
   return `
@@ -516,6 +522,7 @@ function programCard(program) {
       <div class="program-body">
         <p class="program-desc">${esc(program.description || "")}</p>
         ${features.length ? `<p class="program-features">${features.slice(0, 3).map(esc).join(" · ")}${features.length > 3 ? ` 외 ${features.length - 3}개` : ""}</p>` : ""}
+        ${plan ? `<a class="plan-button" href="${esc(plan)}" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">📋</span>개발 계획서</a>` : ""}
         <div class="program-foot">
           <span class="tag-row">${(program.tags || []).map((tag) => `#${esc(tag)}`).join(" ")}</span>
           ${
@@ -657,6 +664,7 @@ function openDialog(id = null) {
   if (program) {
     fields.title.value = program.title || "";
     fields.url.value = program.url || "";
+    fields.plan.value = program.plan || "";
     fields.description.value = program.description || "";
     fields.type.value = program.type || "etc";
     fields.status.value = program.status || "local";
@@ -673,6 +681,8 @@ function submitProgram() {
   const fields = $("#programForm").elements;
   const title = fields.title.value.trim();
   const url = safeUrl(fields.url.value);
+  const planInput = fields.plan.value.trim();
+  const plan = safeUrl(planInput);
 
   if (!title) {
     $("#formError").textContent = "이름을 입력하세요.";
@@ -684,6 +694,11 @@ function submitProgram() {
     fields.url.focus();
     return;
   }
+  if (planInput && !plan) {
+    $("#formError").textContent = "개발 계획서 주소도 https:// 로 시작하거나 ../폴더/plan.html 같은 경로로 입력하세요.";
+    fields.plan.focus();
+    return;
+  }
 
   const program = {
     id: editingId || `custom-${Date.now()}`,
@@ -693,6 +708,7 @@ function submitProgram() {
     icon: fields.icon.value.trim() || "✦",
     tone: fields.tone.value,
     url,
+    plan,
     description: fields.description.value.trim(),
     features: fields.features.value.split("\n").map((line) => line.trim()).filter(Boolean),
     tags: fields.tags.value.split(",").map((tag) => tag.trim()).filter(Boolean),

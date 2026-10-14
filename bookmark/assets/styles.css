@@ -310,6 +310,53 @@ svg {
   font-style: normal;
 }
 
+/* 내 프로그램 메뉴: 오른쪽 📋 개발 계획서 아이콘 */
+.menu-row {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.menu-row .menu-item {
+  flex: 1;
+  min-width: 0;
+}
+
+.plan-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  font-size: 1rem;
+  text-decoration: none;
+}
+
+.plan-icon:hover {
+  background: var(--accent-soft);
+}
+
+/* 프로그램 카드: 개발 계획서 버튼 */
+.plan-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  justify-self: start;
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.plan-button:hover {
+  border-color: var(--accent);
+}
+
 .menu-register {
   color: var(--accent);
   font-weight: 700;
