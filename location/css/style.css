@@ -85,7 +85,8 @@ svg { display: block; width: 100%; height: auto; }
 .subnav a.on { background: var(--accent); color: var(--on-accent); }
 
 /* 지도 */
-.map { height: 320px; margin: 0 -16px; position: relative; overflow: hidden; background: #e4eefb; }
+.mapwrap { position: relative; margin: 0 -16px; }
+.map { height: 320px; margin: 0; position: relative; overflow: hidden; background: #e4eefb; }
 :root[data-theme="dark"] .map { background: #13213a; }
 .map > svg { position: absolute; inset: 0; width: 100%; height: 100%; }
 .sheet { background: var(--surface); margin: -22px -16px 0; border-radius: 26px 26px 0 0; padding: 12px 18px 16px; box-shadow: 0 -8px 24px rgba(37, 99, 235, 0.14); position: relative; z-index: 3; }
@@ -201,3 +202,18 @@ svg .rad.r1 { fill: var(--c2); stroke: var(--c2); } svg .rad.r2 { fill: var(--c3
 .avatar { width: 46px; height: 46px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; font-weight: 800; font-size: 18px; overflow: hidden; flex: none; }
 .avatar img { width: 100%; height: 100%; object-fit: cover; }
 .acct-t b { display: block; font-size: 15px; } .acct-t small { color: var(--muted); font-size: 12.5px; word-break: break-all; }
+
+/* 지도 점포 선택 · 상세 카드 · 점포 목록 */
+.pin { cursor: pointer; transition: transform .15s; }
+.pin.sel { transform: scale(1.35); background: var(--accent); border-color: #fff; box-shadow: 0 0 0 3px rgba(37, 99, 235, .35); z-index: 9; }
+.store-g { cursor: pointer; } .store-g.sel .mk { fill: var(--accent); stroke-width: 3.5; }
+.store-card { position: absolute; left: 12px; right: 12px; bottom: 34px; z-index: 6; background: var(--surface); border-radius: 18px; padding: 12px 14px; box-shadow: 0 8px 28px rgba(15, 32, 64, .25); font-size: 13px; line-height: 1.5; }
+.store-card[hidden] { display: none; }
+.sc-head { display: flex; align-items: flex-start; gap: 8px; } .sc-head b { flex: 1; font-size: 15.5px; line-height: 1.35; }
+.sc-x { width: 28px; height: 28px; border-radius: 50%; background: var(--surface-2); color: var(--muted); font-size: 13px; flex: none; }
+.sc-cats { display: flex; gap: 6px; flex-wrap: wrap; margin: 6px 0 2px; }
+.sc-rows > div { margin-top: 3px; } .sc-rows a { color: var(--accent); font-weight: 700; }
+.sc-act { display: flex; gap: 8px; margin-top: 8px; } .sc-act .btn { margin: 0; padding: 9px 10px; font-size: 13px; flex: 1; }
+.store-li { display: grid; grid-template-columns: 24px 1fr auto; gap: 8px; align-items: center; width: 100%; text-align: left; padding: 8px 4px; border-top: 1px solid var(--line); font-size: 13px; }
+.store-li:first-of-type { border-top: 0; } .store-li.on { background: var(--accent-soft); border-radius: 8px; }
+.store-li .n { color: var(--muted); font-size: 11.5px; text-align: center; } .store-li .nm b { display: block; } .store-li .nm small { color: var(--muted); font-size: 11.5px; } .store-li .ds { color: var(--muted); font-size: 12px; }

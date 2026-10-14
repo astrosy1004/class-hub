@@ -110,6 +110,7 @@ export function demoCompetitors(place, ind, radius = CONFIG.RADIUS_M) {
     const a = rand() * Math.PI * 2;
     items.push({ name: `${ind.name} ${i + 1}`, lat: place.lat + (d * Math.sin(a)) / 111000, lng: place.lng + (d * Math.cos(a)) / 88000, dist: Math.round(d) });
   }
+  items.sort((x, y) => x.dist - y.dist); // 가까운 순 (Kakao 검색 결과와 같은 순서)
   return { items, count: items.length, capped: count >= 45, live: false, source: "예시 점포 (Kakao 키 설정 전)" };
 }
 

@@ -195,10 +195,21 @@ function renderResult(view, a) {
   if (view === "map") {
     show("map", ui.mapHtml(a, isSaved(a.key)));
     const icon = a.industry.icon;
-    drawMap($("#mapBox"), a.place, a.comp, CONFIG.RADIUS_M, icon);
+    state.mapCtrl = null;
+    drawMap($("#mapBox"), a.place, a.comp, CONFIG.RADIUS_M, icon, { onSelect: showStore }).then((ctrl) => { state.mapCtrl = ctrl; });
   } else if (view === "analysis") show("analysis", ui.analysisHtml(a, state));
   else if (view === "trend") show("trend", ui.trendHtml(a, state));
   else if (view === "report") show("report", ui.reportHtml(a));
+}
+
+// 지도의 점포를 누르면 상세 카드, 빈 곳을 누르면 닫기
+function showStore(item, i) {
+  const box = document.getElementById("storeCard");
+  if (!box) return;
+  document.querySelectorAll(".store-li").forEach((b) => b.classList.toggle("on", item && Number(b.dataset.store) === i));
+  if (!item) { box.hidden = true; return; }
+  box.innerHTML = ui.storeCardHtml(item, state.current.industry);
+  box.hidden = false;
 }
 
 async function renderCompare() {
@@ -255,6 +266,18 @@ document.addEventListener("click", (e) => {
   } else if (t.dataset.r !== undefined) {
     state.range = Number(t.dataset.r);
     renderResult("trend", state.current);
+  } else if (t.dataset.storeClose !== undefined) {
+    state.mapCtrl?.clear();
+  } else if (t.dataset.stores !== undefined) {
+    const box = document.getElementById("storeList");
+    if (!box || !state.current) return;
+    const open = box.hidden;
+    if (open && !box.innerHTML) box.innerHTML = ui.storeListHtml(state.current.comp.items);
+    box.hidden = !open;
+    t.setAttribute("aria-expanded", String(open));
+  } else if (t.dataset.store !== undefined) {
+    state.mapCtrl?.select(Number(t.dataset.store));
+    window.scrollTo({ top: 0, behavior: "smooth" }); // 지도와 상세 카드가 보이도록
   } else if (t.dataset.signin !== undefined) {
     // 팝업은 클릭 처리 안에서 바로 열어야 하므로 이 호출 앞에 await 를 두지 않는다
     signIn().catch((err) => { const m = authErrorMessage(err); if (m) toast(m); });

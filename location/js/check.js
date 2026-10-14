@@ -11,7 +11,8 @@ import { buildBaselines } from "../collector/baseline.js";
 import { explainHtml } from "./explain.js";
 import { toCloudItem, mergeLists, docId } from "./sync.js";
 import { authErrorMessage } from "./auth.js";
-import { meHtml as meView } from "./ui.js";
+import { meHtml as meView, storeCardHtml, storeListHtml } from "./ui.js";
+import { toStore } from "./kmap.js";
 
 const out = document.getElementById("out");
 const results = [];
@@ -169,6 +170,21 @@ async function run() {
   check("로그인 화면", "내 분석: 로그아웃 상태엔 로그인 버튼, 로그인 상태엔 이름 · 로그아웃 버튼", meOut.includes("data-signin") && !meOut.includes("data-signout") && meIn.includes("data-signout") && meIn.includes("홍길동") && !meIn.includes("data-signin"));
   check("로그인 화면", "SDK 를 못 불러온 상태: 안내만 (버튼 없음) · undefined 없음", !meOff.includes("data-signin") && meOff.includes("불러오지 못했어요") && ![meOut, meIn, meOff].some((h) => /undefined|NaN|\[object/.test(h)));
   check("로그인 화면", "표시 이름의 HTML 은 이스케이프됨", !meView({ saved: [], user: { uid: "u", name: "<img src=x onerror=alert(1)>", email: "e", photo: "" }, authOk: true }).includes("<img src=x"));
+  // 12. 점포 상세 카드 (지도에서 점포를 눌렀을 때)
+  const kd = { id: "123", place_name: "수제버거집 <b>", category_name: "음식점 > 양식 > 햄버거", road_address_name: "서울 강남구 광평로51길 1", address_name: "수서동 1", phone: "02-123-4567", place_url: "http://place.map.kakao.com/123", x: "127.1", y: "37.4", distance: "182" };
+  const st = toStore(kd);
+  check("점포 상세", "Kakao 장소 → 점포 정보 변환 (도로명 주소 우선, 숫자형 좌표 · 거리)", st.address === "서울 강남구 광평로51길 1" && st.lat === 37.4 && st.lng === 127.1 && st.dist === 182 && st.phone === "02-123-4567" && st.url.includes("place.map.kakao.com"));
+  const card = storeCardHtml(st, ind);
+  check("점포 상세", "카드: 이름 · 업종 분류 · 주소 · 전화 · 거리 · 카카오맵/길찾기 링크", ["수제버거집", "양식", "햄버거", "광평로51길", "tel:021234567", "약 182m", "카카오맵에서 보기", "길찾기"].every((w) => card.includes(w)));
+  check("점포 상세", "점포 이름의 HTML 은 이스케이프됨", !card.includes("수제버거집 <b>") && card.includes("수제버거집 &lt;b&gt;"));
+  const evil = storeCardHtml({ ...st, url: "javascript:alert(1)", phone: "<script>x</script>" }, ind);
+  check("점포 상세", "카카오맵 주소가 아닌 링크 · 이상한 전화번호는 쓰지 않음", !evil.includes("javascript:") && !evil.includes("<script>") && !evil.includes("카카오맵에서 보기"));
+  const demoCard = storeCardHtml({ name: "카페 1", lat: 37.5, lng: 127, dist: 120 }, ind);
+  check("점포 상세", "예시 점포는 예시라고 알리고 외부 링크를 만들지 않음", demoCard.includes("예시 점포") && !demoCard.includes("href=") && demoCard.includes("120m"));
+  const list = storeListHtml(Array.from({ length: 60 }, (_, i) => ({ ...st, name: "점포" + i, dist: i * 5 })));
+  check("점포 상세", "점포 목록: 가까운 순 40곳 · 순번이 마커 순번과 일치", (list.match(/data-store="/g) || []).length === 40 && list.includes('data-store="0"') && list.includes('data-store="39"') && !list.includes('data-store="40"'));
+  const dc = demoCompetitors(DEMO_PLACES[0], ind);
+  check("점포 상세", "예시 점포는 가까운 순으로 정렬됨", dc.items.every((x, k) => k === 0 || dc.items[k - 1].dist <= x.dist));
 }
 
 run().then(() => {

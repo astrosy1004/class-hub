@@ -84,7 +84,7 @@ export function mapHtml(a, saved) {
   ${subnav(a, "map")}
   ${modeBanner()}
   ${a.pop ? "" : `<div class="banner">이 지역은 생활인구 자료가 없어 지도와 경쟁 점포만 보여드려요.${a.popError ? `<br><span style="font-weight:500">${esc(a.popError)}</span>` : ""}</div>`}
-  <div class="map" id="mapBox" aria-label="상권 지도"></div>
+  <div class="mapwrap"><div class="map" id="mapBox" aria-label="상권 지도"></div><div class="store-card" id="storeCard" hidden></div></div>
   <div class="sheet"><div class="grab"></div>
     <div class="row" style="align-items:center">
       <div style="flex:1"><div class="cap">입지 적합도 ${score.total == null ? "· 자료 부족" : `(${score.used}개 항목 기준)`}</div><div class="big">${score.total ?? "-"}<small>점</small></div>
@@ -97,10 +97,37 @@ export function mapHtml(a, saved) {
       ? `<button type="button" class="mini na" data-explain="${it.key}" aria-expanded="false" aria-controls="d-${it.key}"><span>${it.short}</span><span class="cap">자료 없음 · 점수에서 제외</span><b>-</b><em class="caret">›</em></button>`
       : `<button type="button" class="mini" data-explain="${it.key}" aria-expanded="false" aria-controls="d-${it.key}"><span>${it.short}</span><div class="t"><i style="width:${it.score}%;background:${itemColor[i]}"></i></div><b>${it.score}</b><em class="caret">›</em></button>`}
     <div class="detail" id="d-${it.key}" hidden></div>`).join("")}
-    <div class="cap" style="margin-top:8px">반경 ${CONFIG.RADIUS_M}m ${esc(a.industry.name)} ${a.comp.count}${a.comp.capped ? "곳 이상" : "곳"}</div>
+    <div class="cap" style="margin-top:8px">반경 ${CONFIG.RADIUS_M}m ${esc(a.industry.name)} ${a.comp.count}${a.comp.capped ? "곳 이상" : "곳"} · 지도의 점포를 누르면 상세 정보가 보여요</div>
+    ${a.comp.items.length ? `<button type="button" class="explain-link" data-stores aria-expanded="false">가까운 점포 목록 보기 ›</button><div class="detail" id="storeList" hidden></div>` : ""}
     <div class="foot" style="margin-top:6px">${DISCLAIMER}</div>
     <a class="btn" href="${hashOf("report", a)}">AI 컨설턴트 의견 보기</a>
   </div>`;
+}
+
+// ── 점포 상세 카드 · 점포 목록 ─────────────────────
+const safePlaceUrl = (u) => (/^https?:\/\/place\.map\.kakao\.com\//.test(u || "") ? u : "");
+const safeTel = (t) => (/^[0-9+\-\s()]{5,20}$/.test(t || "") ? t.trim() : "");
+const catTail = (c) => String(c || "").split(">").map((x) => x.trim()).filter(Boolean).slice(-2);
+
+export function storeCardHtml(item, ind) {
+  const url = safePlaceUrl(item.url), tel = safeTel(item.phone);
+  const real = !!(item.address || item.url || item.category); // Kakao 가 준 정보가 있는 점포
+  const route = Number.isFinite(item.lat) && Number.isFinite(item.lng) ? `https://map.kakao.com/link/to/${encodeURIComponent(String(item.name).replace(/[,]/g, " "))},${item.lat},${item.lng}` : "";
+  return `<div class="sc-head"><b>${esc(item.name)}</b><button type="button" class="sc-x" data-store-close aria-label="닫기">✕</button></div>
+  ${catTail(item.category).length ? `<div class="sc-cats">${catTail(item.category).map((c) => `<span class="chip">${esc(c)}</span>`).join("")}</div>` : ""}
+  <div class="sc-rows">
+    ${item.address ? `<div>📍 ${esc(item.address)}</div>` : ""}
+    ${tel ? `<div>📞 <a href="tel:${esc(tel.replace(/[^0-9+]/g, ""))}">${esc(tel)}</a></div>` : item.address ? `<div class="cap">📞 전화번호 정보가 없어요</div>` : ""}
+    <div>📏 중심에서 약 ${Math.round(item.dist) || 0}m</div>
+  </div>
+  ${real ? `<div class="sc-act">${url ? `<a class="btn" href="${esc(url)}" target="_blank" rel="noopener noreferrer">카카오맵에서 보기</a>` : ""}${route ? `<a class="btn ghost" href="${esc(route)}" target="_blank" rel="noopener noreferrer">길찾기</a>` : ""}</div>
+  <div class="cap" style="margin-top:6px">${esc(ind.name)} 검색 결과예요. 영업 여부 · 정확한 업종은 카카오맵에서 확인하세요.</div>` : `<div class="cap" style="margin-top:6px">예시 점포예요 (Kakao 키를 설정하면 실제 점포 정보가 보여요).</div>`}`;
+}
+
+// 가까운 순 점포 목록 (순번 = 지도 마커 순번과 같음)
+export function storeListHtml(items, limit = 40) {
+  const list = items.slice(0, limit);
+  return `<div class="cap" style="margin-bottom:6px">가까운 순 ${list.length}곳 · 누르면 지도에서 보여줘요</div>${list.map((it, i) => `<button type="button" class="store-li" data-store="${i}"><span class="n">${i + 1}</span><span class="nm"><b>${esc(it.name)}</b><small>${esc(catTail(it.category).pop() || "")}</small></span><span class="ds">${Math.round(it.dist) || 0}m</span></button>`).join("")}`;
 }
 
 // ── 상권 데이터 분석 ──────────────────────────────
