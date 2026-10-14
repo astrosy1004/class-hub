@@ -6,30 +6,32 @@
 <title>우리 동네 AI 입지 분석 · 개발 계획서</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <style>
-/* 발표용 개발 계획서. 슬라이드 1장 = 1280×720, 화면 크기에 맞춰 통째로 줄이고 늘린다.
+/* 개발 계획서(블루 톤). 슬라이드 1장 = 1280×720, 화면 크기에 맞춰 통째로 줄이고 늘린다.
    넘기기: ← → 키 · 화면 좌우 버튼 · 휴대폰 스와이프 · ☰ 메뉴. 주소 #3 처럼 장 번호로 바로 열 수 있다. */
 :root {
-  --bg: #efecfb;
-  --stage: #f7f5fd;
+  --bg: #e6eefa;
+  --stage: #f3f8ff;
   --surface: #ffffff;
-  --surface-2: #f3f0fc;
-  --text: #1c1930;
-  --muted: #6f6a86;
-  --line: #e6e1f5;
-  --accent: #5b3fd9;
-  --accent-2: #8c78ea;
-  --accent-soft: #ece7fd;
-  --now: #c3367a;
-  --now-soft: #fbe5ef;
-  --up: #1d9a6c;
-  --up-soft: #dff5ec;
+  --surface-2: #eef4fd;
+  --text: #0f2040;
+  --muted: #6b7f9e;
+  --line: #e1eaf6;
+  --accent: #2563eb;
+  --accent-2: #60a5fa;
+  --accent-soft: #e0ecff;
+  --now: #ef5a7a;
+  --now-soft: #fde6ec;
+  --up: #0f9d78;
+  --up-soft: #dcf6ee;
   --warn: #d9781f;
   --warn-soft: #fff1e3;
-  --wood: #2f9e6e;
-  --fire: #e2484b;
-  --earth: #f2c12e;
-  --metal: #ffffff;
-  --water: #24242c;
+  --c1: #2563eb;
+  --c2: #38bdf8;
+  --c3: #14b8a6;
+  --c4: #f5a524;
+  --bar: #bcd3f8;
+  --bar-strong: #7aa7f0;
+  --down: #d0436b;
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; height: 100%; }
@@ -47,7 +49,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .deck { width: 1280px; height: 720px; position: absolute; left: 50%; top: 50%; transform-origin: center center; transform: translate(-50%, -50%); }
 .slide {
   position: absolute; inset: 0; background: var(--stage); border-radius: 28px; overflow: hidden;
-  padding: 64px 80px 60px; box-shadow: 0 30px 80px rgba(60, 40, 140, 0.18);
+  padding: 64px 80px 60px; box-shadow: 0 30px 80px rgba(20, 60, 140, 0.18);
   opacity: 0; visibility: hidden; transform: translateX(40px); transition: opacity 0.35s, transform 0.35s, visibility 0.35s;
   display: flex; flex-direction: column;
 }
@@ -55,7 +57,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .slide.on { opacity: 1; visibility: visible; transform: none; }
 .slide::before { /* 위쪽 라벤더 그라디언트 */
   content: ""; position: absolute; inset: 0 0 auto 0; height: 260px; z-index: 0;
-  background: linear-gradient(180deg, #e3dcfa, rgba(247, 245, 253, 0));
+  background: linear-gradient(180deg, #cfe2ff, rgba(243, 248, 255, 0));
 }
 .slide > * { position: relative; z-index: 1; }
 
@@ -69,9 +71,9 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .g2 { grid-template-columns: 1fr 1fr; }
 .g3 { grid-template-columns: repeat(3, 1fr); }
 .g4 { grid-template-columns: repeat(4, 1fr); }
-.card { background: var(--surface); border-radius: 20px; padding: 22px 24px; box-shadow: 0 8px 24px rgba(91, 63, 217, 0.08); }
+.card { background: var(--surface); border-radius: 20px; padding: 22px 24px; box-shadow: 0 8px 24px rgba(37, 99, 235, 0.08); }
 .card h3 { margin: 0 0 8px; font-size: 21px; }
-.card p, .card li { font-size: 16.5px; line-height: 1.55; color: #3b3752; margin: 0; }
+.card p, .card li { font-size: 16.5px; line-height: 1.55; color: #2b3a55; margin: 0; }
 .card ul { margin: 0; padding-left: 18px; }
 .card li + li { margin-top: 4px; }
 .card .num { font-size: 40px; font-weight: 800; color: var(--accent); line-height: 1; margin-bottom: 6px; }
@@ -84,7 +86,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .chip.next { background: var(--warn-soft); color: var(--warn); }
 .chip.now { background: var(--now-soft); color: var(--now); }
 
-table { width: 100%; border-collapse: collapse; font-size: 16.5px; background: var(--surface); border-radius: 18px; overflow: hidden; box-shadow: 0 8px 24px rgba(91, 63, 217, 0.08); }
+table { width: 100%; border-collapse: collapse; font-size: 16.5px; background: var(--surface); border-radius: 18px; overflow: hidden; box-shadow: 0 8px 24px rgba(37, 99, 235, 0.08); }
 th, td { padding: 13px 18px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; line-height: 1.45; }
 th { background: var(--surface-2); font-size: 15px; color: var(--muted); font-weight: 700; }
 tr:last-child td { border-bottom: 0; }
@@ -92,24 +94,24 @@ td b { color: var(--accent); }
 
 /* ── 표지 ───────── */
 .cover { justify-content: center; }
-.cover::before { height: 100%; background: radial-gradient(1000px 600px at 85% 20%, #d9cffb, transparent 60%), linear-gradient(160deg, #e9e3fd, #f7f5fd 60%); }
+.cover::before { height: 100%; background: radial-gradient(1000px 600px at 85% 20%, #bcd6ff, transparent 60%), linear-gradient(160deg, #dbe9ff, #f3f8ff 60%); }
 .cover h1 { font-size: 76px; line-height: 1.12; margin: 6px 0 18px; letter-spacing: -0.03em; }
 .cover h1 em { font-style: normal; color: var(--accent); }
 .cover .lead { font-size: 24px; max-width: 640px; }
 .cover-meta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
-.cover-meta span { background: var(--surface); border-radius: 999px; padding: 10px 18px; font-size: 16px; font-weight: 600; box-shadow: 0 6px 18px rgba(91, 63, 217, 0.1); }
+.cover-meta span { background: var(--surface); border-radius: 999px; padding: 10px 18px; font-size: 16px; font-weight: 600; box-shadow: 0 6px 18px rgba(37, 99, 235, 0.1); }
 .cover-art { position: absolute; right: 70px; top: 130px; width: 430px; }
 
 /* ── 흐름 화살표 ───────── */
 .flow { display: flex; align-items: stretch; gap: 14px; }
-.flow .step { flex: 1; background: var(--surface); border-radius: 20px; padding: 22px; text-align: center; box-shadow: 0 8px 24px rgba(91, 63, 217, 0.08); }
+.flow .step { flex: 1; background: var(--surface); border-radius: 20px; padding: 22px; text-align: center; box-shadow: 0 8px 24px rgba(37, 99, 235, 0.08); }
 .flow .step b { display: block; font-size: 24px; margin: 6px 0; }
 .flow .step small { font-size: 15px; color: var(--muted); line-height: 1.45; display: block; }
 .flow .arrow { align-self: center; font-size: 28px; color: var(--accent-2); font-weight: 800; }
 
 /* ── 구조도 ───────── */
 .arch { display: grid; grid-template-columns: 1fr 1.35fr 1fr; gap: 22px; align-items: stretch; }
-.layer { background: var(--surface); border-radius: 20px; padding: 18px 20px; box-shadow: 0 8px 24px rgba(91, 63, 217, 0.08); }
+.layer { background: var(--surface); border-radius: 20px; padding: 18px 20px; box-shadow: 0 8px 24px rgba(37, 99, 235, 0.08); }
 .layer h3 { margin: 0 0 12px; font-size: 19px; display: flex; align-items: center; gap: 8px; }
 .mod { display: flex; justify-content: space-between; gap: 10px; padding: 9px 12px; border-radius: 12px; background: var(--surface-2); font-size: 15px; margin-top: 8px; }
 .mod code { font-family: Consolas, monospace; font-size: 14px; color: var(--accent); font-weight: 700; }
@@ -135,39 +137,38 @@ td b { color: var(--accent); }
 
 /* ── 체크리스트 ───────── */
 .checks { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
-.checks li { display: flex; gap: 12px; align-items: center; background: var(--surface); border-radius: 14px; padding: 13px 16px; font-size: 16.5px; box-shadow: 0 6px 18px rgba(91, 63, 217, 0.06); }
+.checks li { display: flex; gap: 12px; align-items: center; background: var(--surface); border-radius: 14px; padding: 13px 16px; font-size: 16.5px; box-shadow: 0 6px 18px rgba(37, 99, 235, 0.06); }
 .checks li .chip { flex: none; min-width: 64px; text-align: center; }
 .checks li span.t { flex: 1; }
 
-/* 오방색 타일 */
+/* 아이콘 타일 */
 .tiles { display: flex; gap: 10px; margin-top: 10px; }
 .tile { width: 58px; height: 58px; border-radius: 14px; display: grid; place-items: center; font-size: 28px; font-weight: 800; line-height: 1; }
 .tile small { display: block; font-size: 11px; font-weight: 600; margin-top: 3px; }
-.t0 { background: var(--wood); color: #fff; }
-.t1 { background: var(--fire); color: #fff; }
-.t2 { background: var(--earth); color: #3a2a00; }
-.t3 { background: var(--metal); color: #2b2b35; box-shadow: inset 0 0 0 2px #cfd1da; }
-.t4 { background: var(--water); color: #fff; }
+.t0 { background: var(--c1); color: #fff; }
+.t1 { background: var(--c2); color: #06304a; }
+.t2 { background: var(--c3); color: #fff; }
+.t3 { background: var(--c4); color: #3a2a00; }
 
 /* ── 조작 UI: 메뉴 · 화살표 · 진행 막대 ───────── */
 .topbar { position: fixed; top: 0; left: 0; right: 0; height: 56px; display: flex; align-items: center; gap: 12px; padding: 0 16px; z-index: 20; pointer-events: none; }
 .topbar > * { pointer-events: auto; }
-.menu-btn { width: 44px; height: 44px; border-radius: 14px; border: 0; background: var(--surface); box-shadow: 0 6px 18px rgba(60, 40, 140, 0.15); display: grid; place-items: center; }
+.menu-btn { width: 44px; height: 44px; border-radius: 14px; border: 0; background: var(--surface); box-shadow: 0 6px 18px rgba(20, 60, 140, 0.15); display: grid; place-items: center; }
 .menu-btn svg { width: 22px; height: 22px; }
-.title-pill { background: var(--surface); border-radius: 999px; padding: 9px 16px; font-size: 14px; font-weight: 700; box-shadow: 0 6px 18px rgba(60, 40, 140, 0.12); max-width: 60vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.title-pill { background: var(--surface); border-radius: 999px; padding: 9px 16px; font-size: 14px; font-weight: 700; box-shadow: 0 6px 18px rgba(20, 60, 140, 0.12); max-width: 60vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .title-pill span { color: var(--muted); font-weight: 600; margin-right: 6px; }
-.counter { margin-left: auto; background: var(--surface); border-radius: 999px; padding: 9px 14px; font-size: 14px; font-weight: 800; box-shadow: 0 6px 18px rgba(60, 40, 140, 0.12); }
-.nav-btn { position: fixed; top: 50%; transform: translateY(-50%); width: 52px; height: 52px; border-radius: 50%; border: 0; background: var(--surface); box-shadow: 0 8px 22px rgba(60, 40, 140, 0.2); display: grid; place-items: center; z-index: 20; }
+.counter { margin-left: auto; background: var(--surface); border-radius: 999px; padding: 9px 14px; font-size: 14px; font-weight: 800; box-shadow: 0 6px 18px rgba(20, 60, 140, 0.12); }
+.nav-btn { position: fixed; top: 50%; transform: translateY(-50%); width: 52px; height: 52px; border-radius: 50%; border: 0; background: var(--surface); box-shadow: 0 8px 22px rgba(20, 60, 140, 0.2); display: grid; place-items: center; z-index: 20; }
 .nav-btn svg { width: 24px; height: 24px; color: var(--accent); }
 .nav-btn:disabled { opacity: 0.3; cursor: default; }
 .nav-btn.prev { left: 14px; }
 .nav-btn.next { right: 14px; }
-.progress { position: fixed; left: 0; right: 0; bottom: 0; height: 5px; background: rgba(91, 63, 217, 0.12); z-index: 20; }
+.progress { position: fixed; left: 0; right: 0; bottom: 0; height: 5px; background: rgba(37, 99, 235, 0.12); z-index: 20; }
 .progress i { display: block; height: 100%; background: linear-gradient(90deg, var(--accent), var(--now)); transition: width 0.35s; }
 .hint { position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%); font-size: 13px; color: var(--muted); background: rgba(255, 255, 255, 0.85); padding: 6px 14px; border-radius: 999px; z-index: 20; }
 
-.drawer-back { position: fixed; inset: 0; background: rgba(20, 16, 50, 0.35); z-index: 30; opacity: 0; visibility: hidden; transition: 0.25s; }
-.drawer { position: fixed; top: 0; bottom: 0; left: 0; width: min(360px, 88vw); background: var(--surface); z-index: 31; transform: translateX(-100%); transition: transform 0.28s; display: flex; flex-direction: column; box-shadow: 10px 0 40px rgba(20, 16, 50, 0.2); }
+.drawer-back { position: fixed; inset: 0; background: rgba(10, 24, 56, 0.35); z-index: 30; opacity: 0; visibility: hidden; transition: 0.25s; }
+.drawer { position: fixed; top: 0; bottom: 0; left: 0; width: min(360px, 88vw); background: var(--surface); z-index: 31; transform: translateX(-100%); transition: transform 0.28s; display: flex; flex-direction: column; box-shadow: 10px 0 40px rgba(10, 24, 56, 0.2); }
 .drawer.open { transform: none; }
 .drawer-back.open { opacity: 1; visibility: visible; }
 .drawer header { padding: 22px 22px 12px; border-bottom: 1px solid var(--line); }
@@ -193,6 +194,140 @@ td b { color: var(--accent); }
   .slide { position: relative; opacity: 1; visibility: visible; transform: none; page-break-after: always; width: 1280px; height: 720px; margin: 0 auto 20px; box-shadow: none; }
   .topbar, .nav-btn, .progress, .hint, .drawer, .drawer-back { display: none !important; }
 }
+.mk .phone {width: 360px; border-radius: 46px; background: var(--bg); box-shadow: 0 0 0 1.5px #b4bfd0, 0 0 0 5px #f7f9fc, 0 0 0 6.5px #c3ccda, 0 30px 70px rgba(30, 70, 150, 0.28), 0 8px 18px rgba(30, 70, 150, 0.12); overflow: hidden; position: relative; display: flex; flex-direction: column; min-height: 760px;}
+.mk .status::before {content: ""; position: absolute; left: 50%; top: 9px; width: 92px; height: 26px; border-radius: 20px; background: #0b1220; transform: translateX(-50%);}
+.mk .status {height: 44px; padding: 14px 28px 0; display: flex; justify-content: space-between; font-size: 12.5px; font-weight: 700; position: relative; z-index: 2;}
+.mk .screen {flex: 1; position: relative; padding: 0 16px 14px;}
+.mk .screen::before {content: ""; position: absolute; inset: 0 0 auto 0; height: 200px; background: linear-gradient(180deg, var(--bg-top), transparent); z-index: 0;}
+.mk .screen > * {position: relative; z-index: 1;}
+.mk .head {display: flex; align-items: center; gap: 10px; padding: 8px 0 12px;}
+.mk .head h2 {margin: 0; font-size: 20px; letter-spacing: -0.02em; flex: 1;}
+.mk .head .ib {width: 38px; height: 38px; border-radius: 13px; background: var(--surface); box-shadow: var(--shadow); display: grid; place-items: center; font-size: 17px;}
+.mk .sub {font-size: 13px; color: var(--muted); margin: -6px 0 12px;}
+.mk .card {background: var(--surface); border-radius: 20px; padding: 16px; box-shadow: var(--shadow); margin-bottom: 12px;}
+.mk .card h3 {margin: 0 0 4px; font-size: 15.5px; display: flex; align-items: center; justify-content: space-between;}
+.mk .card .cap {font-size: 12px; color: var(--muted);}
+.mk .chip {display: inline-block; padding: 4px 11px; border-radius: 999px; font-size: 12px; font-weight: 700; background: var(--accent-soft); color: var(--accent); white-space: nowrap;}
+.mk .chip.up {background: var(--up-soft); color: var(--up);}
+.mk .chip.now {background: var(--now-soft); color: var(--now);}
+.mk .chip.warn {background: var(--warn-soft); color: var(--warn);}
+.mk .chip.solid {background: var(--accent); color: #fff;}
+.mk .seg {display: inline-flex; background: var(--surface-2); border-radius: 999px; padding: 3px;}
+.mk .seg span {padding: 5px 12px; border-radius: 999px; font-size: 12px; font-weight: 700; color: var(--muted);}
+.mk .seg span.on {background: var(--accent); color: #fff;}
+.mk .row3 {display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;}
+.mk .kpi {background: var(--surface-2); border-radius: 14px; padding: 11px 10px;}
+.mk .kpi small {display: block; font-size: 11px; color: var(--muted); font-weight: 600;}
+.mk .kpi b {display: block; font-size: 19px; margin: 3px 0 1px; letter-spacing: -0.02em;}
+.mk .kpi em {font-style: normal; font-size: 11px; font-weight: 700;}
+.mk .up {color: var(--up);}
+.mk .down {color: var(--down);}
+.mk svg {display: block; width: 100%; height: auto;}
+.mk svg text {font-family: inherit; fill: var(--muted); font-size: 10px;}
+.mk .foot {font-size: 11px; color: var(--muted); text-align: center; padding: 2px 6px 6px; line-height: 1.45;}
+.mk .tabbar {height: 62px; background: var(--surface); border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(4, 1fr); padding-bottom: 6px; position: relative; z-index: 2;}
+.mk .tabbar::after {content: ""; position: absolute; left: 50%; bottom: 5px; width: 112px; height: 4px; border-radius: 4px; background: var(--text); opacity: .75; transform: translateX(-50%);}
+.mk .tabbar {padding-bottom: 14px; height: 70px;}
+.mk .tabbar div {display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-size: 11px; font-weight: 700; color: var(--muted);}
+.mk .tabbar div i {font-style: normal; font-size: 19px;}
+.mk .tabbar div.on {color: var(--accent);}
+.mk .search {background: var(--surface); border-radius: 18px; box-shadow: var(--shadow); padding: 14px 16px; display: flex; gap: 10px; align-items: center; font-weight: 700; font-size: 15px;}
+.mk .search span {color: var(--muted); font-weight: 500; flex: 1;}
+.mk .chips {display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0;}
+.mk .chips .c {background: var(--surface); box-shadow: var(--shadow); padding: 8px 13px; border-radius: 999px; font-size: 13px; font-weight: 700;}
+.mk .chips .c.on {background: var(--accent); color: #fff;}
+.mk .li {display: flex; align-items: center; gap: 12px; padding: 11px 0; border-top: 1px solid var(--line); font-size: 14px;}
+.mk .li:first-of-type {border-top: 0;}
+.mk .li b {flex: 1;}
+.mk .li small {color: var(--muted); display: block; font-weight: 500; font-size: 12px; margin-top: 1px;}
+.mk .score-dot {width: 40px; height: 40px; border-radius: 13px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; font-weight: 800; font-size: 15px;}
+.mk .prog {height: 7px; border-radius: 7px; background: var(--surface-2); overflow: hidden; margin-top: 8px;}
+.mk .prog i {display: block; height: 100%; background: linear-gradient(90deg, var(--accent), var(--now));}
+.mk .map {height: 330px; margin: 0 -16px; position: relative; overflow: hidden; background: #e4eefb;}
+.mk :root[data-theme="dark"] .map {background: #13213a;}
+.mk .map svg {position: absolute; inset: 0; height: 100%; width: 100%;}
+.mk .map .layers {position: absolute; top: 10px; left: 12px; display: flex; gap: 6px; z-index: 3;}
+.mk .map .layers span {background: var(--surface); box-shadow: var(--shadow); padding: 6px 11px; border-radius: 999px; font-size: 12px; font-weight: 700;}
+.mk .map .layers span.on {background: var(--accent); color: #fff;}
+.mk .sheet {background: var(--surface); margin: -22px -16px 0; border-radius: 26px 26px 0 0; padding: 12px 18px 16px; box-shadow: 0 -8px 24px rgba(37, 99, 235, 0.14); position: relative; z-index: 3;}
+.mk .sheet .grab {width: 40px; height: 4px; border-radius: 4px; background: var(--line); margin: 0 auto 10px;}
+.mk .mini {display: grid; grid-template-columns: 74px 1fr 28px; align-items: center; gap: 8px; font-size: 12px; margin-top: 6px;}
+.mk .mini .t {height: 8px; border-radius: 8px; background: var(--surface-2); overflow: hidden;}
+.mk .mini .t i {display: block; height: 100%; border-radius: 8px;}
+.mk .mini b {text-align: right;}
+.mk .bubble {background: var(--surface); border-radius: 20px; padding: 16px; box-shadow: var(--shadow); display: flex; gap: 12px; align-items: center; margin-bottom: 12px;}
+.mk .bot {width: 52px; height: 52px; border-radius: 18px; background: var(--accent-soft); display: grid; place-items: center; font-size: 26px; flex: none;}
+.mk .bubble p {margin: 0; font-size: 15px; font-weight: 800; line-height: 1.4;}
+.mk .tone {border-radius: 20px; padding: 14px 16px; margin-bottom: 12px;}
+.mk .tone h3 {margin: 0 0 8px; font-size: 15px; display: flex; gap: 8px; align-items: center;}
+.mk .tone ul {margin: 0; padding-left: 18px; font-size: 13.5px; line-height: 1.55;}
+.mk .tone li + li {margin-top: 4px;}
+.mk .tone.good {background: var(--up-soft);}
+.mk .tone.good h3 {color: var(--up);}
+.mk .tone.bad {background: var(--now-soft);}
+.mk .tone.bad h3 {color: var(--now);}
+.mk .tone.tip {background: var(--accent-soft);}
+.mk .tone.tip h3 {color: var(--accent);}
+.mk .ev {display: inline-block; margin-top: 3px; font-size: 11px; background: var(--surface); color: var(--muted); border-radius: 999px; padding: 2px 8px; font-weight: 600; list-style: none;}
+.mk .legend {display: flex; gap: 12px; flex-wrap: wrap; font-size: 12px; font-weight: 700; margin-top: 6px;}
+.mk .legend i {display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; vertical-align: -1px;}
+.mk .cmp {width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 8px;}
+.mk .cmp th, .mk .cmp td {padding: 7px 4px; text-align: center; border-top: 1px solid var(--line);}
+.mk .cmp th {font-size: 11.5px; color: var(--muted); border-top: 0;}
+.mk .cmp td:first-child {text-align: left; color: var(--muted); font-weight: 600;}
+.mk .cmp b.best {color: var(--accent);}
+
+/* ───── 화면 목업 슬라이드 ───── */
+.mk { font-family: "Pretendard", -apple-system, "Malgun Gothic", sans-serif; color: var(--text);
+  --bg: #f3f8ff; --bg-top: #cfe2ff; --surface: #ffffff; --surface-2: #eef4fd; --text: #0f2040; --muted: #6b7f9e; --line: #e1eaf6;
+  --shadow: 0 6px 20px rgba(37, 99, 235, 0.09); --accent: #2563eb; --accent-2: #60a5fa; --accent-soft: #e0ecff; }
+.mk * { box-sizing: border-box; }
+.mkrow { display: flex; gap: 34px; justify-content: center; align-items: flex-start; margin-top: 4px; }
+.mkitem { display: flex; gap: 18px; align-items: flex-start; }
+.pf { width: 306px; height: 476px; position: relative; flex: none; }
+.mk .phone { position: absolute; left: 0; top: 0; transform: scale(0.85); transform-origin: top left; height: 560px; min-height: 0; }
+.mk .phone::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 64px; background: linear-gradient(transparent, var(--bg)); pointer-events: none; z-index: 5; }
+.mk .screen { overflow: hidden; }
+.capbox { width: 152px; padding-top: 34px; }
+.capbox h4 { margin: 0 0 8px; font-size: 18px; line-height: 1.3; color: var(--text); }
+.capbox h4 em { font-style: normal; color: var(--accent); }
+.capbox ul { margin: 0; padding-left: 17px; }
+.capbox li { font-size: 14px; line-height: 1.5; color: #2b3a55; margin-bottom: 6px; }
+.capbox .chip { margin-bottom: 8px; }
+.mk table { box-shadow: none; background: transparent; border-radius: 0; }
+.mk th { background: transparent; }
+.mk .locate { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; margin-top: 10px; padding: 12px; border-radius: 16px; background: var(--accent); color: #fff; font-weight: 800; font-size: 14px; box-shadow: var(--shadow); }
+.mk .locate small { font-weight: 600; opacity: .85; font-size: 11.5px; }
+.mk .chips .c.more { color: var(--accent); }
+.mk .mgroup + .mgroup { margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--line); }
+.mk .fakein { flex: 1; border: 1.5px solid var(--line); background: var(--surface-2); border-radius: 12px; padding: 9px 12px; font-size: 13px; color: var(--muted); }
+.mk .btn { display: block; background: var(--accent); color: #fff; border-radius: 12px; padding: 10px 14px; font-weight: 800; font-size: 13px; text-align: center; }
+.mk .btn.ghost { background: var(--accent-soft); color: var(--accent); }
+.mk .explain-link { font-size: 12px; font-weight: 700; color: var(--accent); margin-top: 4px; }
+.mk .mini.open { background: var(--surface-2); border-radius: 10px; padding: 4px 6px; }
+.mk .detail { background: var(--surface-2); border-radius: 14px; padding: 10px 12px; margin: 4px 0 6px; font-size: 12px; line-height: 1.55; }
+.mk .detail .dcalc { background: var(--surface); border-radius: 9px; padding: 7px 9px; margin: 7px 0; font-size: 11.5px; }
+.mk .drow { display: grid; grid-template-columns: 54px 1fr 66px; align-items: center; gap: 6px; margin-top: 4px; font-size: 11px; }
+.mk .drow .dnum { text-align: right; color: var(--muted); font-size: 10.5px; }
+.mk .dbar { position: relative; height: 11px; } .mk .dbar i { position: absolute; left: 0; display: block; border-radius: 6px; }
+.mk .dbar i.t { top: 0; height: 4px; background: var(--bar-strong); } .mk .dbar i.r { top: 6px; height: 4px; background: var(--accent); }
+.mk .store-card { position: absolute; left: 8px; right: 8px; bottom: 30px; z-index: 6; background: var(--surface); border-radius: 16px; padding: 10px 12px; box-shadow: 0 8px 26px rgba(15, 32, 64, .28); font-size: 12px; line-height: 1.5; }
+.mk .store-card b { font-size: 14px; }
+.mk .sc-rows div { margin-top: 2px; } .mk .sc-act { display: flex; gap: 6px; margin-top: 7px; } .mk .sc-act .btn { flex: 1; padding: 8px; font-size: 12px; }
+.mk .pin2 { position: absolute; width: 20px; height: 20px; border-radius: 50%; background: #f39b3b; border: 2px solid #fff; display: grid; place-items: center; font-size: 10px; box-shadow: 0 2px 6px rgba(0,0,0,.25); }
+.mk .pin2.sel { background: var(--accent); transform: scale(1.35); box-shadow: 0 0 0 3px rgba(37,99,235,.35); }
+.mk .acct { display: flex; align-items: center; gap: 12px; margin-top: 8px; }
+.mk .avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; font-weight: 800; font-size: 17px; flex: none; }
+.mk .acct-t b { display: block; font-size: 14px; } .mk .acct-t small { color: var(--muted); font-size: 12px; }
+
+#contentsGrid { gap: 12px; }
+#contentsGrid .card { padding: 16px 20px; }
+#contentsGrid .card h3 { font-size: 19px; margin-bottom: 6px; }
+#contentsGrid .card li { font-size: 14.5px; line-height: 1.45; }
+#contentsGrid .card.wide { grid-column: span 2; }
+#contentsGrid .card.wide ul { column-count: 2; column-gap: 28px; }
+#contentsGrid .card.wide li { break-inside: avoid; }
+
 </style>
 </head>
 <body>
@@ -229,31 +364,31 @@ td b { color: var(--accent); }
   <h1>우리 동네<br><em>AI 입지 분석</em></h1>
   <p class="lead">지역과 업종을 넣으면 유동인구 · 고객층 · 경쟁 · 임대료를 지도와 그래프로 보여주고, 입지 적합도와 AI 컨설턴트 의견까지 제안하는 웹 서비스</p>
   <div class="cover-meta">
-    <span>웹 MVP 배포됨 · location-app-sykim.web.app</span>
+    <span>웹 MVP 배포됨 · location-app-sykim.web.app</span><span>화면 목업 포함</span>
     <span>동 단위 · Kakao 지도 · 조회 시점 자료</span>
     <span>HTML · CSS · 바닐라 JS + Firebase</span>
   </div>
   <svg class="cover-art" viewBox="0 0 430 360" aria-hidden="true">
     <rect x="0" y="0" width="430" height="360" rx="28" fill="#fff"/>
-    <text x="28" y="44" font-size="18" font-weight="800" fill="#1c1930">입지 적합도</text>
-    <text x="28" y="68" font-size="13" fill="#6f6a86">생활인구 · 고객 일치 · 경쟁 · 임대료 · 성장성</text>
-    <path d="M70 250 A95 95 0 0 1 260 250" fill="none" stroke="#ece8f6" stroke-width="22" stroke-linecap="round"/>
-    <path d="M70 250 A95 95 0 0 1 233 183" fill="none" stroke="#5b3fd9" stroke-width="22" stroke-linecap="round"/>
-    <text x="165" y="238" text-anchor="middle" font-size="46" font-weight="800" fill="#5b3fd9">82</text>
-    <text x="165" y="262" text-anchor="middle" font-size="13" font-weight="800" fill="#1d9a6c">조건부 추천</text>
-    <g font-size="11" font-weight="700" fill="#6f6a86">
-      <text x="290" y="130">고객 일치</text><rect x="290" y="136" width="110" height="10" rx="5" fill="#ece8f6"/><rect x="290" y="136" width="92" height="10" rx="5" fill="#5b3fd9"/>
-      <text x="290" y="170">유동인구</text><rect x="290" y="176" width="110" height="10" rx="5" fill="#ece8f6"/><rect x="290" y="176" width="88" height="10" rx="5" fill="#8c78ea"/>
-      <text x="290" y="210">경쟁 강도</text><rect x="290" y="216" width="110" height="10" rx="5" fill="#ece8f6"/><rect x="290" y="216" width="52" height="10" rx="5" fill="#d9781f"/>
-      <text x="290" y="250">임대료</text><rect x="290" y="256" width="110" height="10" rx="5" fill="#ece8f6"/><rect x="290" y="256" width="64" height="10" rx="5" fill="#c3367a"/>
-      <text x="290" y="290">성장성</text><rect x="290" y="296" width="110" height="10" rx="5" fill="#ece8f6"/><rect x="290" y="296" width="84" height="10" rx="5" fill="#1d9a6c"/>
+    <text x="28" y="44" font-size="18" font-weight="800" fill="#0f2040">입지 적합도</text>
+    <text x="28" y="68" font-size="13" fill="#6b7f9e">생활인구 · 고객 일치 · 경쟁 · 임대료 · 성장성</text>
+    <path d="M70 250 A95 95 0 0 1 260 250" fill="none" stroke="#e1eaf6" stroke-width="22" stroke-linecap="round"/>
+    <path d="M70 250 A95 95 0 0 1 233 183" fill="none" stroke="#2563eb" stroke-width="22" stroke-linecap="round"/>
+    <text x="165" y="238" text-anchor="middle" font-size="46" font-weight="800" fill="#2563eb">82</text>
+    <text x="165" y="262" text-anchor="middle" font-size="13" font-weight="800" fill="#0f9d78">조건부 추천</text>
+    <g font-size="11" font-weight="700" fill="#6b7f9e">
+      <text x="290" y="130">고객 일치</text><rect x="290" y="136" width="110" height="10" rx="5" fill="#e1eaf6"/><rect x="290" y="136" width="92" height="10" rx="5" fill="#2563eb"/>
+      <text x="290" y="170">유동인구</text><rect x="290" y="176" width="110" height="10" rx="5" fill="#e1eaf6"/><rect x="290" y="176" width="88" height="10" rx="5" fill="#60a5fa"/>
+      <text x="290" y="210">경쟁 강도</text><rect x="290" y="216" width="110" height="10" rx="5" fill="#e1eaf6"/><rect x="290" y="216" width="52" height="10" rx="5" fill="#d9781f"/>
+      <text x="290" y="250">임대료</text><rect x="290" y="256" width="110" height="10" rx="5" fill="#e1eaf6"/><rect x="290" y="256" width="64" height="10" rx="5" fill="#ef5a7a"/>
+      <text x="290" y="290">성장성</text><rect x="290" y="296" width="110" height="10" rx="5" fill="#e1eaf6"/><rect x="290" y="296" width="84" height="10" rx="5" fill="#0f9d78"/>
     </g>
     <g font-size="10" font-weight="800" fill="#fff">
-      <circle cx="60" cy="318" r="11" fill="#5b3fd9"/><text x="60" y="322" text-anchor="middle">객</text>
-      <circle cx="92" cy="318" r="11" fill="#8c78ea"/><text x="92" y="322" text-anchor="middle">인</text>
+      <circle cx="60" cy="318" r="11" fill="#2563eb"/><text x="60" y="322" text-anchor="middle">객</text>
+      <circle cx="92" cy="318" r="11" fill="#60a5fa"/><text x="92" y="322" text-anchor="middle">인</text>
       <circle cx="124" cy="318" r="11" fill="#d9781f"/><text x="124" y="322" text-anchor="middle">경</text>
-      <circle cx="156" cy="318" r="11" fill="#c3367a"/><text x="156" y="322" text-anchor="middle">임</text>
-      <circle cx="188" cy="318" r="11" fill="#1d9a6c"/><text x="188" y="322" text-anchor="middle">성</text>
+      <circle cx="156" cy="318" r="11" fill="#ef5a7a"/><text x="156" y="322" text-anchor="middle">임</text>
+      <circle cx="188" cy="318" r="11" fill="#0f9d78"/><text x="188" y="322" text-anchor="middle">성</text>
     </g>
   </svg>
 </section>
@@ -375,6 +510,100 @@ td b { color: var(--accent); }
   </table>
 </section>
 
+<section class="slide" data-title="화면 목업 ① 홈 · 세부 업종" data-group="3. 설계">
+  <p class="kicker">3. 설계 · 화면 목업 (예시 값)</p>
+  <h2>홈 · <em>현재 위치</em>와 세부 업종</h2>
+  <div class="mkrow"><div class="mkitem"><div class="pf mk"><div class="phone"><div class="status"><span>9:41</span><span>●●● 100%</span></div><div class="screen"><div class="head"><h2>📍 우리 동네 <span style="color:var(--accent)">AI 입지 분석</span></h2></div>
+<div class="search"><b>지역 + 업종 (예: 연남동 카페)</b><span></span></div>
+<div class="locate">📍 현재 위치에서 찾기 <small>☕ 카페</small></div>
+<div class="chips"><span class="c on">☕ 카페</span><span class="c">🍽 음식점</span><span class="c">🍶 술집</span><span class="c">🏪 편의점</span><span class="c">🏥 병원</span><span class="c more">＋ 세부 업종 ▾</span></div>
+<div class="card"><h3>추천 검색어</h3><div class="chips" style="margin:8px 0 0"><span class="c" style="box-shadow:none;background:var(--surface-2)">연남동 카페</span><span class="c" style="box-shadow:none;background:var(--surface-2)">성수동 카페</span><span class="c" style="box-shadow:none;background:var(--surface-2)">합정동 음식점</span></div></div>
+<div class="card"><h3>최근 검색</h3>
+<div class="li"><div class="score-dot">43</div><b>연남동 카페<small>재검토 · 오늘</small></b>›</div>
+<div class="li"><div class="score-dot">65</div><b>성수1가1동 카페<small>신중 검토 · 오늘</small></b>›</div></div></div></div></div><div class="capbox"><span class="chip done">신규</span><h4>현재 위치에서 바로 시작</h4><ul><li>앱을 열면 <b>지금 있는 동네</b>를 바로 분석</li><li>버튼으로 언제든 다시 찾기</li><li>위치는 저장하지 않음</li><li>추천 검색어 · 최근 검색</li></ul></div></div><div class="mkitem"><div class="pf mk"><div class="phone"><div class="status"><span>9:41</span><span>●●● 100%</span></div><div class="screen"><div class="head"><h2>📍 우리 동네 <span style="color:var(--accent)">AI 입지 분석</span></h2></div>
+<div class="search"><b>합정동 </b><span></span></div>
+<div class="locate">📍 현재 위치에서 찾기 <small>🍚 한식</small></div>
+<div class="chips"><span class="c">☕ 카페</span><span class="c">🍽 음식점</span><span class="c">🍶 술집</span><span class="c">🏪 편의점</span><span class="c">🏥 병원</span><span class="c more on">🍚 한식 ▴</span></div>
+<div class="card"><div class="mgroup"><div class="cap">음식</div><div class="chips" style="margin:6px 0 0"><span class="c on">🍚 한식</span><span class="c">🥟 중식</span><span class="c">🍣 일식</span><span class="c">🍝 양식</span><span class="c">🍢 분식</span><span class="c">🍗 치킨</span><span class="c">🥐 베이커리</span></div></div>
+<div class="mgroup"><div class="cap">생활 · 서비스</div><div class="chips" style="margin:6px 0 0"><span class="c">💇 미용실</span><span class="c">🏋 헬스장</span><span class="c">💊 약국</span><span class="c">🧺 세탁소</span><span class="c">📚 학원</span><span class="c">🏠 부동산</span></div></div>
+<div class="mgroup"><div class="cap">직접 입력 (예: 마라탕, 필라테스)</div><div class="row" style="display:flex;gap:6px;margin-top:6px"><div class="fakein">업종 · 가게 종류</div><div class="btn" style="padding:9px 14px">적용</div></div></div></div></div></div></div><div class="capbox"><span class="chip done">신규</span><h4>세부 업종 · 직접 입력</h4><ul><li>칩 옆 <b>＋ 세부 업종</b> 메뉴</li><li>한식 · 약국 · 미용실 등 <b>15개</b></li><li>마라탕처럼 <b>직접 입력</b>도 가능</li><li>고른 업종은 기억</li></ul></div></div></div>
+</section>
+
+<section class="slide" data-title="화면 목업 ② 지도 · 점포 상세" data-group="3. 설계">
+  <p class="kicker">3. 설계 · 화면 목업 (예시 값)</p>
+  <h2>지도 · 입지 적합도 · <em>점포 상세</em></h2>
+  <div class="mkrow"><div class="mkitem"><div class="pf mk"><div class="phone"><div class="status"><span>9:41</span><span>●●● 100%</span></div><div class="screen"><div class="head"><div class="ib">‹</div><h2>연남동 · 카페</h2><div class="ib">☆</div></div>
+<div class="chips" style="margin:0 0 8px;flex-wrap:nowrap;overflow:hidden"><span class="c on">지도 · 적합도</span><span class="c">데이터 분석</span><span class="c">추이 통계</span></div>
+<div class="map" id="map1" style="height:210px"></div>
+<div class="sheet"><div class="grab"></div>
+<div style="display:flex;align-items:center;gap:12px"><div style="flex:1"><div class="cap">입지 적합도 (4개 항목 기준)</div><div style="font-size:42px;font-weight:800;color:var(--accent);line-height:1.05">43<span style="font-size:17px">점</span></div><div class="explain-link">점수는 어떻게 계산했나요? ›</div></div><span class="chip now" style="font-size:13px;padding:8px 12px">⚠ 재검토</span></div>
+<div class="mini"><span>고객 일치</span><div class="t"><i style="width:94%;background:var(--c1)"></i></div><b>94</b></div>
+<div class="mini"><span>유동인구</span><div class="t"><i style="width:22%;background:var(--c2)"></i></div><b>22</b></div>
+<div class="mini"><span>경쟁 강도</span><div class="t"><i style="width:25%;background:var(--warn)"></i></div><b>25</b></div>
+<div class="mini"><span>임대료</span><span class="cap">자료 없음 · 제외</span><b>-</b></div>
+<div class="mini"><span>성장성</span><div class="t"><i style="width:11%;background:var(--c3)"></i></div><b>11</b></div></div></div></div></div><div class="capbox"><h4>상권 지도 · 적합도</h4><ul><li>Kakao 지도 + 반경 500m 점포</li><li>하단 시트에 <b>5개 항목 점수</b></li><li>등급 · 기준일 · 출처 표시</li><li>생활인구가 없는 동네도 지도는 표시</li></ul></div></div><div class="mkitem"><div class="pf mk"><div class="phone"><div class="status"><span>9:41</span><span>●●● 100%</span></div><div class="screen"><div class="head"><div class="ib">‹</div><h2>연남동 · 카페</h2><div class="ib">☆</div></div>
+<div style="position:relative;margin:0 -16px"><div class="map" id="map2" style="height:380px"></div>
+<div class="pin2 sel" style="left:168px;top:128px">☕</div>
+<div class="store-card"><div style="display:flex;gap:8px"><b style="flex:1">커피리브레 파란점</b><span style="color:var(--muted)">✕</span></div>
+<div class="chips" style="margin:4px 0"><span class="chip">음식점</span><span class="chip">카페</span></div>
+<div class="sc-rows"><div>📍 서울 마포구 성미산로29길 17-8</div><div>📞 <span style="color:var(--accent);font-weight:700">02-332-7140</span></div><div>📏 중심에서 약 30m</div></div>
+<div class="sc-act"><div class="btn">카카오맵에서 보기</div><div class="btn ghost">길찾기</div></div></div></div></div></div></div><div class="capbox"><span class="chip done">신규</span><h4>점포를 눌러 상세 보기</h4><ul><li>이름 · 분류 · 주소 · 전화</li><li><b>카카오맵 · 길찾기</b> 링크</li><li>가까운 점포 목록에서도 선택</li><li>선택한 점포는 마커가 강조</li></ul></div></div></div>
+</section>
+
+<section class="slide" data-title="화면 목업 ③ 점수 근거 · 데이터 분석" data-group="3. 설계">
+  <p class="kicker">3. 설계 · 화면 목업 (예시 값)</p>
+  <h2>점수의 <em>산출 근거</em>와 데이터 분석</h2>
+  <div class="mkrow"><div class="mkitem"><div class="pf mk"><div class="phone"><div class="status"><span>9:41</span><span>●●● 100%</span></div><div class="screen"><div class="head"><div class="ib">‹</div><h2>점수 산출 근거</h2></div>
+<div class="card"><div class="mini open"><span>고객 일치</span><div class="t"><i style="width:94%;background:var(--c1)"></i></div><b>94</b></div>
+<div class="detail"><div>카페의 <b>주 고객층 구성(목표)</b>과 이 지역 <b>생활인구의 연령 구성</b>이 얼마나 겹치는지 봅니다.</div>
+<div class="drow"><span>10대 이하</span><div class="dbar"><i class="t" style="width:20%"></i><i class="r" style="width:20%"></i></div><span class="dnum">5% · 5%</span></div>
+<div class="drow"><span>20대</span><div class="dbar"><i class="t" style="width:90%"></i><i class="r" style="width:50%"></i></div><span class="dnum">40% · 21%</span></div>
+<div class="drow"><span>30대</span><div class="dbar"><i class="t" style="width:68%"></i><i class="r" style="width:52%"></i></div><span class="dnum">30% · 23%</span></div>
+<div class="drow"><span>50대 이상</span><div class="dbar"><i class="t" style="width:22%"></i><i class="r" style="width:80%"></i></div><span class="dnum">10% · 36%</span></div>
+<div class="dcalc">일치도 = 연령별 (목표 × 지역 비중) 합 = <b>21.3%</b></div>
+<div>비교 대상 <b>서울 행정동 427곳</b> 중 <b>상위 약 6%</b> 수준 (94점)</div>
+<div class="dcalc">기본 비중 25% → 이번 적용 31.3% · 종합에 <b>+29.4점</b></div></div>
+<div class="mini"><span>유동인구</span><div class="t"><i style="width:22%;background:var(--c2)"></i></div><b>22</b></div>
+<div class="mini"><span>경쟁 강도</span><div class="t"><i style="width:25%;background:var(--warn)"></i></div><b>25</b></div></div></div></div></div><div class="capbox"><span class="chip done">신규</span><h4>항목을 누르면 근거 펼침</h4><ul><li>목표 고객 vs 지역 연령 비교</li><li><b>427개 동 중 위치</b>(상위 %)</li><li>항목별 <b>기여 점수</b>까지 표시</li><li>경쟁은 구간표에서 현재 구간 강조</li></ul></div></div><div class="mkitem"><div class="pf mk"><div class="phone"><div class="status"><span>9:41</span><span>●●● 100%</span></div><div class="screen"><div class="head"><div class="ib">‹</div><h2>상권 데이터 분석</h2></div>
+<div class="card"><h3>시간대별 생활인구 <span class="seg"><span class="on">평일</span><span>주말</span></span></h3><div class="cap">명/시간 · 평일 평균</div><div id="hourBars" style="margin-top:8px"></div></div>
+<div class="card"><h3>주요 데이터 요약</h3><div class="row3">
+<div class="kpi"><small>주요 연령</small><b style="color:var(--accent);font-size:15px">50대 이상 36%</b></div>
+<div class="kpi"><small>주말 생활인구</small><b style="color:var(--accent)">1.12배</b><em style="color:var(--muted)">평일 대비</em></div>
+<div class="kpi"><small>경쟁 점포</small><b style="color:var(--accent)">249+개</b><em style="color:var(--muted)">반경 500m</em></div></div></div>
+<div class="card"><h3>연령대별 비중</h3><div style="display:flex;align-items:center;gap:14px;margin-top:8px"><div id="donut" style="width:110px;flex:none"></div>
+<div class="legend" style="flex-direction:column;gap:6px;margin:0"><span><i style="background:var(--c1)"></i>20대 <b>21%</b></span><span><i style="background:var(--c2)"></i>30대 <b>23%</b></span><span><i style="background:var(--c3)"></i>40대 <b>14%</b></span><span><i style="background:var(--c4)"></i>50대+ <b>36%</b></span></div></div></div></div></div></div><div class="capbox"><h4>시간대 · 연령 · 경쟁</h4><ul><li>평일 · 주말 시간대 막대</li><li>주요 연령 · 주말 배율 요약</li><li>연령대 비중 도넛</li><li>기준일 · 출처 고정 표기</li></ul></div></div></div>
+</section>
+
+<section class="slide" data-title="화면 목업 ④ 추이 통계 · AI 의견" data-group="3. 설계">
+  <p class="kicker">3. 설계 · 화면 목업 (예시 값)</p>
+  <h2><em>추이 통계</em>와 AI 컨설턴트 의견</h2>
+  <div class="mkrow"><div class="mkitem"><div class="pf mk"><div class="phone"><div class="status"><span>9:41</span><span>●●● 100%</span></div><div class="screen"><div class="head"><div class="ib">‹</div><h2>추이 통계</h2><div class="ib">⤓</div></div>
+<div class="sub">연남동 · 카페 · 생활인구 기준</div>
+<div class="card"><h3>월별 생활인구 추이 <span class="seg"><span>3개월</span><span>6개월</span><span class="on">전체</span></span></h3><div class="cap">월 평균 (만 명/시간) · 전월 대비 +0.1%</div><div id="trendLine" style="margin-top:6px"></div>
+<div class="row3"><div class="kpi"><small>직전 3개월 대비</small><b class="down">-1.7%</b><em style="color:var(--muted)">성장성 11점</em></div><div class="kpi"><small>가장 붐빈 달</small><b>7월</b><em style="color:var(--muted)">16.5만</em></div><div class="kpi"><small>변동성</small><b>낮음</b><em style="color:var(--muted)">±1.1%</em></div></div></div>
+<div class="card"><h3>연령대별 월 구성</h3><div id="ageStack" style="margin-top:6px"></div></div>
+<div class="card"><h3>평일 · 주말 × 시간대</h3><div id="heat" style="margin-top:6px"></div></div></div></div></div><div class="capbox"><h4>월별 생활인구 추이</h4><ul><li>꺾은선 · 연령 누적막대 · 히트맵</li><li>직전 3개월 대비 <b>성장성</b></li><li>3개월 · 6개월 · 전체 전환</li><li>매일 수집해 기간이 늘어남</li></ul></div></div><div class="mkitem"><div class="pf mk"><div class="phone"><div class="status"><span>9:41</span><span>●●● 100%</span></div><div class="screen"><div class="head"><div class="ib">‹</div><h2>AI 컨설턴트 의견</h2><div class="ib">📄</div></div>
+<div class="bubble"><div class="bot">🤖</div><p>위험 지표를 먼저 점검한 뒤 입지를 판단하는 것이 좋습니다.</p></div>
+<div class="tone good"><h3>👍 강점</h3><ul><li>카페의 목표 고객층과 이 지역 생활인구 구성이 잘 맞습니다.<br><span class="ev">근거 · 고객 일치 94점 · 50대 이상 36%</span></li></ul></div>
+<div class="tone bad"><h3>⚠ 위험 요소</h3><ul><li>반경 내 동종 점포가 많아 경쟁이 치열합니다.<br><span class="ev">근거 · 반경 500m 카페 249곳 이상</span></li><li>최근 3개월 생활인구가 직전보다 줄었습니다.<br><span class="ev">근거 · 직전 3개월 대비 -1.7%</span></li></ul></div>
+<div class="tone tip"><h3>💡 추천 전략</h3><ul><li>경쟁 점포와 겹치지 않는 대표 메뉴 · 서비스로 차별화하세요.</li><li>50대 이상 방문층에 맞춰 편안한 좌석과 전통 차 메뉴를 검토하세요.</li></ul></div></div></div></div><div class="capbox"><h4>강점 · 위험 · 전략</h4><ul><li>문장마다 <b>근거 지표 칩</b></li><li>숫자는 계산, 문장은 규칙 템플릿</li><li>'성공 보장' 같은 단정 표현 금지</li><li>분석의 한계도 함께 표시</li></ul></div></div></div>
+</section>
+
+<section class="slide" data-title="화면 목업 ⑤ 후보 비교 · 내 분석" data-group="3. 설계">
+  <p class="kicker">3. 설계 · 화면 목업 (예시 값)</p>
+  <h2>후보지 비교와 <em>로그인</em> 저장</h2>
+  <div class="mkrow"><div class="mkitem"><div class="pf mk"><div class="phone"><div class="status"><span>9:41</span><span>●●● 100%</span></div><div class="screen"><div class="head"><h2>후보지 비교</h2><div class="ib">📄</div></div>
+<div class="chips" style="margin-top:0"><span class="c on">연남동</span><span class="c on">성수1가1동</span><span class="c" style="color:var(--muted)">＋ 추가</span></div>
+<div class="card"><h3>5개 항목 레이더</h3><div id="radar" style="width:230px;margin:4px auto 0"></div><div class="legend" style="justify-content:center"><span><i style="background:var(--c1)"></i>연남동 43</span><span><i style="background:var(--c2)"></i>성수1가1동 65</span></div></div>
+<div class="card"><h3>항목별 비교</h3><table class="cmp"><tr><th></th><th>연남동</th><th>성수1가1동</th></tr>
+<tr><td>고객 일치</td><td><b class="best">94</b></td><td>81</td></tr><tr><td>유동인구</td><td>22</td><td><b class="best">51</b></td></tr>
+<tr><td>경쟁 강도</td><td>25</td><td><b class="best">85</b></td></tr><tr><td>성장성</td><td>11</td><td><b class="best">28</b></td></tr></table></div></div></div></div><div class="capbox"><h4>최대 3곳 비교</h4><ul><li>레이더 + 항목별 비교표</li><li>최고 점수 항목 강조</li><li>화면 그대로 PDF 인쇄</li></ul></div></div><div class="mkitem"><div class="pf mk"><div class="phone"><div class="status"><span>9:41</span><span>●●● 100%</span></div><div class="screen"><div class="head"><h2>내 분석</h2></div>
+<div class="card"><h3>계정 <span class="chip up">로그인됨</span></h3><div class="acct"><div class="avatar">홍</div><div class="acct-t"><b>홍길동</b><small>user@example.com</small></div></div>
+<div class="cap" style="margin-top:8px">후보지와 최근 검색이 계정에 저장돼 다른 기기에서도 보여요.</div><div class="btn ghost" style="margin-top:8px">로그아웃</div></div>
+<div class="card"><h3>담아 둔 후보지 <span class="cap">2/3</span></h3><div class="li"><div class="score-dot">43</div><b>연남동 카페<small>재검토</small></b>›</div><div class="li"><div class="score-dot">65</div><b>성수1가1동 카페<small>신중 검토</small></b>›</div><div class="btn" style="margin-top:6px">후보지 비교하기</div></div>
+<div class="card"><h3>시작할 때 현재 위치로 검색</h3><div class="chips" style="margin-bottom:0"><span class="c on">켜기</span><span class="c">끄기</span></div><div class="cap" style="margin-top:6px;line-height:1.5">위치는 이 기기에서만 쓰고 저장하지 않아요.</div></div></div></div></div><div class="capbox"><span class="chip now">설정 대기</span><h4>내 분석 · 구글 로그인</h4><ul><li>로그인하면 <b>다른 기기에서도</b> 후보지 확인</li><li>현재 위치 자동 검색 켜기/끄기</li><li>정확한 좌표는 계정에 올리지 않음</li><li>로그아웃 시 이 기기 목록 비움</li></ul></div></div></div>
+</section>
+
 <!-- 10. 기술 구성 -->
 <section class="slide" data-title="기술 구성" data-group="3. 설계">
   <p class="kicker">3. 설계</p>
@@ -416,7 +645,7 @@ td b { color: var(--accent); }
   <p class="lead">한 폴더가 사이트 하나. 폴더 안에서 상대 경로만 사용합니다.</p>
   <div class="grid g2">
     <div class="card"><h3>폴더 구조</h3>
-<pre style="margin:8px 0 0;font:13px/1.5 Consolas,monospace;color:#3b3752;white-space:pre">location/
+<pre style="margin:8px 0 0;font:13px/1.5 Consolas,monospace;color:#2b3a55;white-space:pre">location/
 ├─ index.html · css/style.css
 ├─ js/   main · ui · charts · kmap · place
 │        analysis · fetchers · metrics · score
@@ -709,7 +938,7 @@ td b { color: var(--accent); }
   const groups = [...new Set(slides.map((s) => s.dataset.group))].filter((g) => !["시작", "마무리"].includes(g));
   document.getElementById("contentsGrid").innerHTML = groups.map((g) => {
     const items = slides.map((s, i) => ({ s, i })).filter(({ s }) => s.dataset.group === g);
-    return `<a class="card" href="#${items[0].i + 1}" style="text-decoration:none;color:inherit"><h3>${g}</h3><ul>${items.map(({ s, i }) => `<li>${s.dataset.title} <span style="color:var(--muted)">· ${i + 1}</span></li>`).join("")}</ul></a>`;
+    return `<a class="card${items.length > 6 ? " wide" : ""}" href="#${items[0].i + 1}" style="text-decoration:none;color:inherit"><h3>${g}</h3><ul>${items.map(({ s, i }) => `<li>${s.dataset.title} <span style="color:var(--muted)">· ${i + 1}</span></li>`).join("")}</ul></a>`;
   }).join("");
 
   function fit() {
@@ -779,6 +1008,90 @@ td b { color: var(--accent); }
   window.addEventListener("hashchange", () => go((Number(location.hash.slice(1)) || 1) - 1, false));
   fit();
   go((Number(location.hash.slice(1)) || 1) - 1, false);
+})();
+</script>
+<script>
+// 화면 목업 그래프 (예시 값). 목업 페이지와 같은 그리기 함수를 쓴다.
+(() => {
+
+// 목업용 그래프 그리기: 값 배열만 바꾸면 그래프가 바뀐다. (실제 앱의 charts.js와 같은 방식의 SVG)
+const $ = (id) => document.getElementById(id);
+const cs = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+function lineChart(el, vals, labels, hi) {
+  const W = 300, H = 150, pl = 28, pr = 10, pt = 14, pb = 22;
+  const mn = Math.min(...vals) * 0.96, mx = Math.max(...vals) * 1.03;
+  const x = (i) => pl + (i * (W - pl - pr)) / (vals.length - 1);
+  const y = (v) => pt + (H - pt - pb) * (1 - (v - mn) / (mx - mn));
+  const pts = vals.map((v, i) => [x(i), y(v)]);
+  const d = pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
+  let g = "";
+  for (let k = 0; k < 4; k++) { const yy = pt + ((H - pt - pb) * k) / 3; g += `<line x1="${pl}" x2="${W - pr}" y1="${yy}" y2="${yy}" stroke="${cs("--line")}"/><text x="${pl - 4}" y="${yy + 3}" text-anchor="end">${(mx - ((mx - mn) * k) / 3).toFixed(0)}</text>`; }
+  const lab = labels.map((t, i) => `<text x="${x(i)}" y="${H - 6}" text-anchor="middle">${t}</text>`).join("");
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}"><defs><linearGradient id="lg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="${cs("--accent")}" stop-opacity=".3"/><stop offset="1" stop-color="${cs("--accent")}" stop-opacity="0"/></linearGradient></defs>${g}
+  <path d="${d} L${x(vals.length - 1)} ${H - pb} L${pl} ${H - pb} Z" fill="url(#lg)"/>
+  <path d="${d}" fill="none" stroke="${cs("--accent")}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  ${pts.map((p, i) => `<circle cx="${p[0]}" cy="${p[1]}" r="${i === hi ? 6 : 3}" fill="${i === hi ? cs("--now") : cs("--accent")}" stroke="${cs("--surface")}" stroke-width="2"/>`).join("")}
+  <g><rect x="${pts[hi][0] - 28}" y="${pts[hi][1] - 30}" width="56" height="20" rx="8" fill="${cs("--now")}"/><text x="${pts[hi][0]}" y="${pts[hi][1] - 16}" text-anchor="middle" style="fill:#fff;font-weight:800">${vals[hi]}만 ↑</text></g>${lab}</svg>`;
+}
+function stack(el, rows, labels) {
+  const W = 300, H = 130, pl = 6, bw = 20, gap = (W - pl * 2 - bw * rows.length) / (rows.length - 1), cols = [cs("--c1"), cs("--c2"), cs("--c3"), cs("--c4")];
+  let s = "";
+  rows.forEach((r, i) => { let yy = H - 20; r.forEach((v, k) => { const h = (v / 100) * (H - 30); yy -= h; s += `<rect x="${pl + i * (bw + gap)}" y="${yy}" width="${bw}" height="${h}" fill="${cols[k]}" rx="${k === 3 ? 5 : 0}"/>`; }); s += `<text x="${pl + i * (bw + gap) + bw / 2}" y="${H - 6}" text-anchor="middle">${labels[i]}</text>`; });
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}">${s}</svg>`;
+}
+function heat(el) {
+  const days = ["월", "화", "수", "목", "금", "토", "일"], slots = ["06~09", "09~12", "12~15", "15~18", "18~21", "21~24"];
+  const base = [[2, 4, 6, 6, 7, 5], [2, 4, 6, 6, 7, 5], [2, 4, 6, 7, 7, 5], [2, 4, 6, 7, 8, 6], [2, 5, 7, 8, 9, 8], [1, 5, 8, 9, 10, 8], [1, 4, 7, 8, 8, 5]];
+  const W = 300, lw = 24, cw = (W - lw) / 6, ch = 22; let s = "";
+  slots.forEach((t, j) => (s += `<text x="${lw + j * cw + cw / 2}" y="10" text-anchor="middle">${t}</text>`));
+  days.forEach((d, i) => { s += `<text x="${lw - 6}" y="${22 + i * (ch + 3) + 15}" text-anchor="end">${d}</text>`; base[i].forEach((v, j) => (s += `<rect x="${lw + j * cw + 1.5}" y="${18 + i * (ch + 3)}" width="${cw - 3}" height="${ch}" rx="6" fill="${cs("--accent")}" opacity="${0.1 + v * 0.09}"/>`)); });
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${22 + 7 * (ch + 3)}">${s}</svg>`;
+}
+function hourBars(el) {
+  const v = [180, 90, 60, 50, 70, 160, 420, 900, 1500, 1900, 2200, 2500, 2700, 2600, 2650, 2800, 3000, 3300, 3420, 3100, 2500, 1700, 900, 450];
+  const W = 300, H = 140, pl = 26, bw = (W - pl) / 24, mx = 4000; let s = "";
+  [0, 2000, 4000].forEach((t) => { const yy = 12 + (H - 34) * (1 - t / mx); s += `<line x1="${pl}" x2="${W}" y1="${yy}" y2="${yy}" stroke="${cs("--line")}"/><text x="${pl - 4}" y="${yy + 3}" text-anchor="end">${t}</text>`; });
+  v.forEach((x, i) => { const h = (H - 34) * (x / mx); s += `<rect x="${pl + i * bw + 1}" y="${12 + H - 34 - h}" width="${bw - 2}" height="${h}" rx="2.5" fill="${i === 18 ? cs("--accent") : cs("--bar-strong")}"/>`; });
+  [0, 6, 12, 18, 23].forEach((i) => (s += `<text x="${pl + i * bw + bw / 2}" y="${H - 6}" text-anchor="middle">${i}시</text>`));
+  s += `<rect x="${pl + 18 * bw - 22}" y="0" width="50" height="17" rx="7" fill="${cs("--accent")}"/><text x="${pl + 18 * bw + 3}" y="12" text-anchor="middle" style="fill:#fff;font-weight:800">3,420명</text>`;
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}">${s}</svg>`;
+}
+function donut(el, parts) {
+  const cols = [cs("--c1"), cs("--c2"), cs("--c3"), cs("--c4")], R = 46, C = 2 * Math.PI * R; let off = 0, s = "";
+  parts.forEach((p, i) => { const len = (p / 100) * C; s += `<circle cx="60" cy="60" r="${R}" fill="none" stroke="${cols[i]}" stroke-width="20" stroke-dasharray="${len - 2} ${C - len + 2}" stroke-dashoffset="${-off}" transform="rotate(-90 60 60)"/>`; off += len; });
+  el.innerHTML = `<svg viewBox="0 0 120 120">${s}<text x="60" y="58" text-anchor="middle" style="font-size:10px">전체</text><text x="60" y="74" text-anchor="middle" style="font-size:14px;font-weight:800;fill:${cs("--text")}">100%</text></svg>`;
+}
+function radar(el, sets) {
+  const names = ["고객 일치", "유동인구", "경쟁 강도", "임대료", "성장성"], cx = 130, cy = 120, R = 82, cols = [cs("--c1"), cs("--c2"), cs("--c4")];
+  const pt = (i, r) => { const a = -Math.PI / 2 + (i * 2 * Math.PI) / 5; return [cx + Math.cos(a) * r, cy + Math.sin(a) * r]; };
+  let s = "";
+  [0.25, 0.5, 0.75, 1].forEach((k) => (s += `<polygon points="${names.map((_, i) => pt(i, R * k).join(",")).join(" ")}" fill="none" stroke="${cs("--line")}"/>`));
+  names.forEach((n, i) => { const [x, y] = pt(i, R + 16); s += `<line x1="${cx}" y1="${cy}" x2="${pt(i, R)[0]}" y2="${pt(i, R)[1]}" stroke="${cs("--line")}"/><text x="${x}" y="${y + 3}" text-anchor="middle">${n}</text>`; });
+  sets.forEach((v, k) => (s += `<polygon points="${v.map((x, i) => pt(i, (R * x) / 100).join(",")).join(" ")}" fill="${cols[k]}" fill-opacity=".16" stroke="${cols[k]}" stroke-width="2.4"/>`));
+  el.innerHTML = `<svg viewBox="0 0 260 240">${s}</svg>`;
+}
+function mapArt(m) {
+  let s = `<defs><radialGradient id="hm"><stop offset="0" stop-color="${cs("--accent")}" stop-opacity=".55"/><stop offset="1" stop-color="${cs("--accent")}" stop-opacity="0"/></radialGradient></defs>`;
+  s += `<path d="M-10 250 C80 210 150 260 250 190 S360 150 380 140" stroke="#bfe3c8" stroke-width="26" fill="none" opacity=".7"/>`;
+  [[0, 90, 360, 70], [0, 200, 360, 215], [60, 0, 90, 330], [210, 0, 190, 330], [300, 0, 320, 330]].forEach((l) => (s += `<line x1="${l[0]}" y1="${l[1]}" x2="${l[2]}" y2="${l[3]}" stroke="#fff" stroke-width="9" opacity=".95"/>`));
+  s += `<line x1="-10" y1="300" x2="260" y2="60" stroke="#f5d878" stroke-width="7"/>`;
+  [[150, 130, 90], [235, 215, 70], [90, 235, 60], [290, 90, 50]].forEach((c) => (s += `<circle cx="${c[0]}" cy="${c[1]}" r="${c[2]}" fill="url(#hm)"/>`));
+  s += `<circle cx="180" cy="170" r="92" fill="${cs("--accent")}" fill-opacity=".07" stroke="${cs("--accent")}" stroke-dasharray="5 4"/>`;
+  [[120, 110], [210, 105], [250, 150], [140, 190], [215, 235], [95, 150], [265, 215], [165, 245], [60, 205]].forEach((p) => (s += `<circle cx="${p[0]}" cy="${p[1]}" r="11" fill="#f39b3b" stroke="#fff" stroke-width="2.5"/><text x="${p[0]}" y="${p[1] + 3.5}" text-anchor="middle" style="fill:#fff;font-size:10px">☕</text>`));
+  s += `<circle cx="180" cy="170" r="9" fill="${cs("--accent")}" stroke="#fff" stroke-width="3.5"/><rect x="146" y="122" width="68" height="21" rx="10" fill="${cs("--surface")}"/><text x="180" y="136" text-anchor="middle" style="fill:${cs("--text")};font-weight:800;font-size:11px">연남동</text>`;
+  s += `<text x="20" y="262" style="font-size:11px">망원역</text><text x="270" y="300" style="font-size:11px">홍대입구역</text>`;
+  m.insertAdjacentHTML("afterbegin", `<svg viewBox="0 0 360 330" preserveAspectRatio="xMidYMid slice">${s}</svg>`);
+}
+function draw() {
+  lineChart($("trendLine"), [10.2, 10.6, 11.0, 11.6, 12.3, 11.9, 11.7, 12.0, 12.4, 12.9], ["1월", "3월", "5월", "7월", "9월"].flatMap((t, i) => [t, ""]), 9);
+  stack($("ageStack"), [[38, 30, 18, 14], [39, 29, 18, 14], [41, 29, 17, 13], [42, 28, 17, 13], [43, 28, 16, 13], [44, 28, 16, 12], [45, 28, 15, 12], [45, 28, 16, 11], [46, 28, 15, 11], [46, 28, 15, 11]], ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"].map((t) => t + "월"));
+  heat($("heat")); hourBars($("hourBars")); donut($("donut"), [46, 28, 15, 11]);
+  radar($("radar"), [[88, 84, 48, 62, 90], [76, 80, 52, 58, 66], [64, 58, 70, 66, 55]]);
+  ["map1", "map2"].forEach((id) => { const m = $(id); if (m) { m.querySelector("svg")?.remove(); mapArt(m); } });
+}
+
+draw();
 })();
 </script>
 </body>

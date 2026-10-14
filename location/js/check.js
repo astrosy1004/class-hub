@@ -163,7 +163,7 @@ async function run() {
   check("계정 동기화", "합치기: 같은 key 는 더 최근 것, 최근순 · 개수 제한", mg.merged.map((i) => i.key + i.at).join() === "a9,c3" && mg.dropped.join() === "b");
   check("계정 동기화", "합치기: 한쪽이 비어도 동작", mergeLists([], [{ key: "x", at: 1 }], 3).merged.length === 1 && mergeLists([{ key: "y", at: 1 }], [], 3).merged.length === 1 && mergeLists([], [], 3).merged.length === 0);
   check("계정 동기화", "문서 id 에 '/' 없음", !docId("a/b|c").includes("/"));
-  check("로그인 오류", "팝업 닫기는 조용히, 나머지는 안내 문장", authErrorMessage({ code: "auth/popup-closed-by-user" }) === null && ["auth/popup-blocked", "auth/operation-not-allowed", "auth/unauthorized-domain", "auth/network-request-failed", "x"].every((c) => (authErrorMessage({ code: c }) || "").length > 5));
+  check("로그인 오류", "팝업 닫기는 조용히, 나머지는 안내 문장 (미설정 프로젝트 포함)", authErrorMessage({ code: "auth/popup-closed-by-user" }) === null && ["auth/popup-blocked", "auth/operation-not-allowed", "auth/configuration-not-found", "auth/unauthorized-domain", "auth/network-request-failed", "x"].every((c) => (authErrorMessage({ code: c }) || "").length > 5));
   const meOut = meView({ saved: [], theme: "", autoLocate: true, user: null, authOk: true });
   const meIn = meView({ saved: [], theme: "", autoLocate: true, user: { uid: "u", name: "홍길동", email: "a@b.c", photo: "" }, authOk: true });
   const meOff = meView({ saved: [], theme: "", autoLocate: true, user: null, authOk: false });

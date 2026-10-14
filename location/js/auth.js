@@ -35,6 +35,7 @@ export function authErrorMessage(e) {
     case "auth/popup-blocked":
       return "팝업이 차단되었어요. 브라우저의 팝업 허용 후 다시 눌러 주세요.";
     case "auth/operation-not-allowed":
+    case "auth/configuration-not-found": // Authentication 을 아직 시작하지 않은 프로젝트
       return "구글 로그인이 아직 켜져 있지 않아요 (Firebase 콘솔 > Authentication 설정 필요).";
     case "auth/unauthorized-domain":
       return "이 주소는 로그인이 허용되지 않았어요 (Firebase 콘솔의 승인된 도메인 확인).";
