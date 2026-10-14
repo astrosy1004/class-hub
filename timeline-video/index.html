@@ -39,10 +39,40 @@
     </section>
 
     <section class="panel editor">
+      <h2>인물 불러오기 <small class="muted">위키백과·위키데이터·위키미디어 공용</small></h2>
+      <form id="qForm" class="search-row">
+        <input id="qName" type="text" placeholder="이름 입력 (예: 이재명, 한동훈, 정의선)" autocomplete="off">
+        <button class="primary" type="submit">검색</button>
+      </form>
+      <p id="qStatus" class="muted status"></p>
+      <div id="qCands" class="cands"></div>
+
+      <div id="qResult" class="lookup" hidden>
+        <div id="profile" class="profile"></div>
+
+        <div class="row-head">
+          <h3>연혁 후보 <small class="muted">체크한 항목만 장면이 됩니다</small></h3>
+          <div class="row-btns">
+            <button id="evAll" type="button" class="ghost">전체 선택</button>
+            <button id="evNone" type="button" class="ghost">전체 해제</button>
+          </div>
+        </div>
+        <div id="evList" class="ev-list"></div>
+
+        <h3>사진 후보 <small id="photoCount" class="muted"></small></h3>
+        <p class="muted small">연도가 가까운 사진이 장면에 자동으로 들어갑니다. 장면마다 아래 편집에서 바꿀 수 있습니다.</p>
+        <div id="photoGrid" class="photo-grid"></div>
+
+        <button id="applyBtn" class="primary wide-btn" type="button">✔ 선택한 항목으로 장면 만들기</button>
+      </div>
+
+      <hr>
+
       <h2>기본 설정</h2>
       <div class="grid2">
         <label>인물 이름<input id="person" type="text"></label>
         <label>부제<input id="subtitle" type="text"></label>
+        <label class="span2">인트로 정보 줄 (생년월일 등)<input id="infoLine" type="text" placeholder="예: 1963년 12월 8일생 · 만 62세"></label>
         <label>화면 비율
           <select id="ratio">
             <option value="16:9">가로 16:9 (일반 영상)</option>
@@ -72,6 +102,7 @@
     </section>
   </main>
 
+  <script src="./assets/wiki.js"></script>
   <script src="./assets/app.js"></script>
 </body>
 </html>

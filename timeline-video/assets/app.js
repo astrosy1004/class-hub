@@ -22,16 +22,19 @@ const SETTINGS = {
 /* ===== 상태 ===== */
 let uid = 0;
 function makeSlide(s = {}) {
-  return { id: ++uid, year: "", age: "", title: "", desc: "", source: "", img: null, ...s };
+  return { id: ++uid, year: "", age: "", title: "", desc: "", source: "", img: null, photoKey: "", ...s };
 }
 
 const state = {
   person: DEFAULT_PROJECT.person,
   subtitle: DEFAULT_PROJECT.subtitle,
+  infoLine: "",
   ratio: "16:9",
   transition: "fade",
   slideSec: 4,
   slides: DEFAULT_PROJECT.slides.map((s) => makeSlide(s)),
+  isSample: true,   // 예시 장면 그대로인지 (덮어쓸 때 확인 생략)
+  lookup: null,     // 불러온 인물 정보 (WikiLookup.load 결과)
 };
 
 const $ = (id) => document.getElementById(id);
@@ -100,9 +103,15 @@ function drawSegment(c, seg, local, W, H) {
     wrap(c, state.person, W - m * 2, 2).forEach((l, i, a) => c.fillText(l, W / 2, H / 2 - (a.length - 1) * 55 * s + i * 110 * s - 20 * s));
     c.fillStyle = SETTINGS.accent; c.font = font(40, 600);
     c.fillText(state.subtitle, W / 2, H / 2 + 90 * s);
+    let ly = H / 2 + 150 * s;
+    if (state.infoLine) {
+      c.fillStyle = "#fff"; c.font = font(30, 500);
+      c.fillText(wrap(c, state.infoLine, W - m * 2, 1)[0], W / 2, ly);
+      ly += 50 * s;
+    }
     if (years.length > 1) {
       c.fillStyle = "#cbd5e1"; c.font = font(30, 500);
-      c.fillText(`${years[0]} → ${years[years.length - 1]}`, W / 2, H / 2 + 150 * s);
+      c.fillText(`${years[0]} → ${years[years.length - 1]}`, W / 2, ly);
     }
     c.globalAlpha = 1;
     return;
@@ -160,7 +169,7 @@ function drawSegment(c, seg, local, W, H) {
   descLines.forEach((l) => { c.fillText(l, m, y); y += 42 * s; });
   if (sl.source) {
     c.font = font(20, 400); c.fillStyle = "rgba(255,255,255,.65)";
-    c.fillText(`출처: ${sl.source}`, m, H - 52 * s);
+    c.fillText(wrap(c, `출처: ${sl.source}`, maxW, 1)[0], m, H - 52 * s);
   }
   c.globalAlpha = 1;
 }
@@ -293,6 +302,38 @@ function loadImage(file) {
   });
 }
 
+// 공용 사진은 녹화(captureStream)가 막히지 않도록 crossOrigin 으로 불러옴
+const urlImages = new Map();
+function loadUrlImage(url) {
+  if (!urlImages.has(url)) {
+    urlImages.set(url, new Promise((res) => {
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.onload = () => res(img);
+      img.onerror = () => { urlImages.delete(url); res(null); };
+      img.src = url;
+    }));
+  }
+  return urlImages.get(url);
+}
+
+const photoByKey = (key) => (state.lookup && key ? state.lookup.photos.find((p) => p.key === key) : null);
+const photoCredit = (p) => `사진: ${p.artist || "작자 미상"}${p.license ? ` (${p.license})` : ""}, Wikimedia Commons`;
+const composeSource = (p) => `위키백과${p ? ` · ${photoCredit(p)}` : ""}`;
+
+async function setSlidePhoto(sl, photo) {
+  sl.photoKey = photo ? photo.key : "";
+  sl.source = composeSource(photo);
+  sl.img = null;
+  if (photo) {
+    const img = await loadUrlImage(photo.thumb);
+    if (sl.photoKey !== photo.key) return; // 그 사이 다른 사진을 고른 경우
+    if (!img) alert("사진을 불러오지 못했습니다. 다른 사진을 골라 주세요.");
+    sl.img = img;
+  }
+  renderList(); refresh(); showSlide(sl);
+}
+
 function refresh() { buildTimeline(); render(curT); }
 
 // 해당 장면이 화면에 다 나온 시점으로 미리보기를 옮김
@@ -324,7 +365,7 @@ function renderList() {
       const el = document.createElement(tag);
       if (tag === "input") el.type = "text";
       el.value = sl[key];
-      el.addEventListener("input", () => { sl[key] = el.value; refresh(); });
+      el.addEventListener("input", () => { sl[key] = el.value; state.isSample = false; refresh(); });
       l.append(el);
       f.append(l);
     };
@@ -332,15 +373,30 @@ function renderList() {
     field("제목", "title", "wide"); field("설명(기사 요약)", "desc", "wide", "textarea");
     field("출처", "source", "wide");
 
+    if (state.lookup && state.lookup.photos.length) {
+      const pl = document.createElement("label");
+      pl.className = "wide"; pl.append("후보 사진에서 고르기");
+      const sel = document.createElement("select");
+      sel.add(new Option(sl.img && !sl.photoKey ? "직접 올린 사진" : "사진 없음", ""));
+      state.lookup.photos.forEach((p) => sel.add(new Option(`${p.year || "연도 미상"} · ${p.title.slice(0, 40)}`, p.key)));
+      sel.value = sl.photoKey;
+      sel.addEventListener("change", () => {
+        state.isSample = false;
+        if (!sel.value && sl.img && !sl.photoKey) return; // 직접 올린 사진 유지
+        setSlidePhoto(sl, photoByKey(sel.value));
+      });
+      pl.append(sel); f.append(pl);
+    }
+
     const pic = document.createElement("label");
-    pic.className = "wide"; pic.append("사진");
+    pic.className = "wide"; pic.append("내 사진 올리기");
     const fi = document.createElement("input");
     fi.type = "file"; fi.accept = "image/*";
     fi.addEventListener("change", async () => {
       if (!fi.files[0]) return;
       const img = await loadImage(fi.files[0]);
       if (!img) { alert("이 사진 형식은 열 수 없습니다. JPG 또는 PNG로 바꿔서 올려 주세요. (아이폰 HEIC 등)"); fi.value = ""; return; }
-      sl.img = img;
+      sl.img = img; sl.photoKey = ""; state.isSample = false;
       renderList(); refresh(); showSlide(sl);
     });
     pic.append(fi); f.append(pic);
@@ -372,6 +428,154 @@ function move(i, d) {
   renderList(); refresh();
 }
 
+/* ===== 인물 불러오기 ===== */
+function h(tag, props = {}, ...kids) {
+  const el = document.createElement(tag);
+  Object.assign(el, props);
+  kids.flat(Infinity).forEach((k) => k != null && k !== false && el.append(k));
+  return el;
+}
+function setStatus(msg, isError = false) {
+  const el = $("qStatus");
+  el.textContent = msg; el.classList.toggle("error", isError);
+}
+
+async function doSearch(e) {
+  e.preventDefault();
+  const name = $("qName").value.trim();
+  if (!name) return;
+  $("qCands").innerHTML = "";
+  setStatus("검색 중…");
+  try {
+    const list = await WikiLookup.search(name);
+    if (!list.length) { setStatus("찾는 인물이 없습니다. 이름을 정확히 입력해 보세요.", true); return; }
+    setStatus(`${list.length}명이 검색됐습니다. 맞는 인물을 고르세요.`);
+    list.forEach((c) => $("qCands").append(
+      h("button", { type: "button", className: "cand", onclick: () => pickCandidate(c) },
+        h("span", {}, h("b", { textContent: c.label }), " ", h("span", { className: "desc", textContent: c.description })),
+        c.kowiki ? null : h("span", { className: "nowiki", textContent: "위키백과 문서 없음" })),
+    ));
+  } catch (err) {
+    setStatus(`불러오지 못했습니다: ${err.message}`, true);
+  }
+}
+
+async function pickCandidate(c) {
+  $("qCands").innerHTML = "";
+  setStatus(`‘${c.label}’ 정보와 사진을 불러오는 중… (몇 초 걸립니다)`);
+  try {
+    state.lookup = await WikiLookup.load(c);
+    renderLookup();
+    setStatus("불러왔습니다. 연혁·사진을 확인하고 ‘장면 만들기’를 누르세요. 만든 뒤에도 아래에서 고칠 수 있습니다.");
+  } catch (err) {
+    setStatus(`불러오지 못했습니다: ${err.message}`, true);
+  }
+}
+
+function renderLookup() {
+  const d = state.lookup;
+  const fd = WikiLookup.fmtDate;
+  const main = d.photos.find((p) => p.key === d.mainImage) || d.photos[d.photos.length - 1];
+  const rows = [
+    ["생년월일", d.birth ? `${fd(d.birth)}${d.death ? "" : d.age != null ? ` (만 ${d.age}세)` : ""}` : "정보 없음"],
+    d.death && ["사망", `${fd(d.death)} (향년 ${d.age}세)`],
+    d.birthPlace && ["출생지", d.birthPlace],
+    d.party && ["정당", d.party],
+    d.education && ["학력", d.education],
+  ].filter(Boolean);
+  $("profile").replaceChildren(
+    main ? h("img", { src: main.thumb, alt: d.name }) : h("div", { className: "noimg" }),
+    h("div", {},
+      h("h4", { textContent: d.name }),
+      h("div", { className: "muted", textContent: d.description }),
+      h("dl", {}, rows.map(([k, v]) => [h("dt", { textContent: k }), h("dd", { textContent: v })])),
+      d.summary && h("p", { textContent: d.summary }),
+      h("div", { className: "links" },
+        d.wikiUrl && h("a", { href: d.wikiUrl, target: "_blank", rel: "noopener", textContent: "위키백과 문서" }),
+        h("a", { href: d.wikidataUrl, target: "_blank", rel: "noopener", textContent: "위키데이터" })),
+    ),
+  );
+
+  $("evList").replaceChildren(...d.events.map((ev) => {
+    const cb = h("input", { type: "checkbox", checked: ev.checked });
+    const row = h("label", { className: "ev" + (ev.checked ? "" : " off") },
+      cb,
+      h("span", { className: "y" }, String(ev.date.y), h("small", { textContent: ev.age != null ? `만 ${ev.age}세` : "" })),
+      h("span", { className: "t" },
+        h("b", {}, ev.title, h("span", { className: "tag", textContent: ev.kind })),
+        h("span", { textContent: ev.desc })),
+    );
+    cb.addEventListener("change", () => { ev.checked = cb.checked; row.classList.toggle("off", !cb.checked); });
+    return row;
+  }));
+
+  $("photoCount").textContent = `(${d.photos.length}장)`;
+  $("photoGrid").replaceChildren(...d.photos.map((p) =>
+    h("a", { href: p.page, target: "_blank", rel: "noopener", title: `${p.title}\n${photoCredit(p)}` },
+      h("img", { src: p.thumb, loading: "lazy", alt: p.title }),
+      h("span", { textContent: `${p.year || "연도?"}${p.license ? ` · ${p.license}` : ""}` })),
+  ));
+  if (!d.photos.length) $("photoGrid").append(h("p", { className: "muted small", textContent: "공용에 등록된 사진이 없습니다. 장면마다 직접 올려 주세요." }));
+  $("qResult").hidden = false;
+}
+
+// 연도가 ±3년 안이거나 재임 기간 안인 사진 중 시작 연도에 가장 가까운 것 (이미 쓴 사진은 피함)
+function pickPhoto(d, ev, used) {
+  const take = (p) => { if (p) used.add(p.key); return p || null; };
+  if (ev.kind === "현재") {
+    const main = d.photos.find((p) => p.key === d.mainImage && !used.has(p.key));
+    if (main) return take(main);
+  }
+  const y = ev.date.y;
+  const endY = ev.end ? ev.end.y : y;
+  const near = d.photos
+    .filter((p) => p.year && (Math.abs(p.year - y) <= 3 || (p.year >= y && p.year <= endY)) && !used.has(p.key))
+    .sort((a, b) => Math.abs(a.year - y) - Math.abs(b.year - y) || b.year - a.year);
+  if (near.length) return take(near[0]);
+  if (ev.kind === "현재") return take([...d.photos].reverse().find((p) => p.year && !used.has(p.key)));
+  return null;
+}
+
+async function applyLookup() {
+  const d = state.lookup;
+  const evs = d.events.filter((e) => e.checked);
+  if (!evs.length) { alert("체크한 연혁이 없습니다."); return; }
+  if (!state.isSample && state.slides.length && !confirm("지금 편집 중인 장면을 지우고 새로 만들까요?")) return;
+  const fd = WikiLookup.fmtDate;
+  state.person = d.name;
+  state.infoLine = [
+    d.birth && `${fd(d.birth)}생`,
+    d.death ? `${fd(d.death)} 별세` : d.age != null && `만 ${d.age}세`,
+    d.party,
+  ].filter(Boolean).join(" · ");
+  const used = new Set();
+  state.slides = evs.map((ev) => {
+    const ph = pickPhoto(d, ev, used);
+    return makeSlide({
+      year: String(ev.date.y), age: ev.age != null ? `만 ${ev.age}세` : "",
+      title: ev.title, desc: ev.desc, source: composeSource(ph), photoKey: ph ? ph.key : "",
+    });
+  });
+  state.isSample = false;
+  syncInputs(); renderList(); refresh();
+  $("slideList").scrollIntoView({ behavior: "smooth", block: "start" });
+
+  const withPhoto = state.slides.filter((sl) => sl.photoKey);
+  let done = 0;
+  setStatus(`장면 ${state.slides.length}개를 만들었습니다. 사진 불러오는 중… 0/${withPhoto.length}`);
+  await Promise.all(withPhoto.map(async (sl) => {
+    const img = await loadUrlImage(photoByKey(sl.photoKey).thumb);
+    if (img && sl.photoKey) sl.img = img;
+    setStatus(`장면 ${state.slides.length}개를 만들었습니다. 사진 불러오는 중… ${++done}/${withPhoto.length}`);
+  }));
+  renderList(); refresh(); showSlide(state.slides[0]);
+  setStatus(`장면 ${state.slides.length}개를 만들었습니다. 아래에서 내용과 사진을 고친 뒤 영상을 만드세요.`);
+}
+
+function syncInputs() {
+  $("person").value = state.person; $("subtitle").value = state.subtitle; $("infoLine").value = state.infoLine;
+}
+
 function setRatio() {
   const [W, H] = SETTINGS.sizes[state.ratio];
   canvas.width = W; canvas.height = H;
@@ -381,9 +585,15 @@ function setRatio() {
 function bind() {
   const sync = (id, key, conv = (v) => v, after = refresh) =>
     $(id).addEventListener("input", (e) => { state[key] = conv(e.target.value); after(); });
-  $("person").value = state.person; $("subtitle").value = state.subtitle;
+  syncInputs();
   $("ratio").value = state.ratio; $("transition").value = state.transition; $("slideSec").value = state.slideSec;
-  sync("person", "person"); sync("subtitle", "subtitle");
+  sync("person", "person"); sync("subtitle", "subtitle"); sync("infoLine", "infoLine");
+
+  $("qForm").addEventListener("submit", doSearch);
+  $("applyBtn").addEventListener("click", applyLookup);
+  const checkAll = (v) => { state.lookup.events.forEach((ev) => (ev.checked = v)); renderLookup(); };
+  $("evAll").addEventListener("click", () => checkAll(true));
+  $("evNone").addEventListener("click", () => checkAll(false));
   sync("ratio", "ratio", (v) => v, setRatio);
   sync("transition", "transition");
   sync("slideSec", "slideSec", (v) => Math.min(15, Math.max(2, Number(v) || 4)));
