@@ -12,6 +12,7 @@
       "*.md",
       "*.pdf",
       "check.html",
+      "plan.html",
       "css/check.css",
       "js/check.js",
       "js/test-cases.js",

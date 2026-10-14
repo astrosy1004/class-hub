@@ -1,9 +1,9 @@
 // 화면 그리기 전담. 각 함수는 model(명식 계산 결과 묶음)을 받아 HTML 문자열을 돌려준다.
 // 계산은 manse.js · score.js, 그래프는 charts.js, 문구는 score-rules.js에 있다.
 
-import { STEMS, BRANCHES, ELEMENTS, CITIES } from "./saju-data.js";
+import { STEMS, BRANCHES, ELEMENTS } from "./saju-data.js";
 import { solarTermsOfYear, msFromJd } from "./solar-terms.js";
-import { pillarKo, calculateSaju, fourPillarsText } from "./manse.js";
+import { pillarKo, calculateSaju, fourPillarsText, tenGod } from "./manse.js";
 import {
   bandOf, elementLabel, josa, scorePillar, dayScore, godGroups, jobFit, certificates, healthCheck, workplaceFit, dateKey,
 } from "./score.js";
@@ -29,13 +29,26 @@ const disclaimer = () => `<p class="disclaimer">${DISCLAIMER}</p>`;
 const topbar = (title, right = "") =>
   `<header class="topbar"><button class="icon-btn" data-action="back" aria-label="뒤로">${icon("back")}</button><h1>${title}</h1>${right}</header>`;
 const domainOf = (id) => DOMAINS.find((d) => d.id === id);
+
+// 지금 보고 있는 명식 요약 (제목 오른쪽). 누르면 명식 목록으로 가서 바꿀 수 있다
+function whoChip(model) {
+  const { profile, saju, natal } = model;
+  const e = STEMS[natal.dm].element;
+  const [y, m, d] = profile.date.split("-");
+  const date = `${profile.calendar === "lunar" ? "음" : ""}${y}.${m}.${d}`;
+  return `<a class="who-chip" href="#charts" aria-label="지금 보는 명식: ${esc(profile.name || "이름 없음")}, 명식 바꾸기">
+      <span class="who-orb bg-${e} el-${e}">${STEMS[natal.dm].han}</span>
+      <span class="who-text"><b>${esc(profile.name || "이름 없음")}</b><small>${profile.sample ? "예시" : esc(profile.relation || "본인")} · ${date} · ${profile.gender === "M" ? "남" : "여"} · ${saju.koreanAge}세</small></span>
+    </a>`;
+}
 const actionText = (domainId, score) => ACTIONS[domainId][score >= 65 ? "high" : score >= 45 ? "mid" : "low"];
 const ageRange = (d) => `${d.startAge}~${d.startAge + 9}세`;
 const elementGroupId = (natal, e) => Object.keys(natal.rel).find((k) => natal.rel[k] === e);
 
+// 예시 명식 안내 (홈에는 없음: 홈은 "새 명식 입력 · 명식 바꾸기" 버튼이 대신한다)
 function sampleBanner(model) {
   return model.profile.sample
-    ? `<div class="empty-banner"><span>예시 명식(${esc(model.profile.name)})으로 보고 있어요</span><a href="#manse/new">내 명식 넣기</a></div>`
+    ? `<div class="empty-banner"><span>예시 명식(${esc(model.profile.name)})으로 보고 있어요</span><a class="banner-btn" href="#manse/new">${icon("plus")}내 명식 입력</a></div>`
     : "";
 }
 
@@ -138,12 +151,13 @@ export function renderHome(model) {
   return `
     <header class="greet">
       <div><small>${cm}월 ${today.getDate()}일 ${DOW[today.getDay()]}요일 · ${todayScore.ko}일</small>
-      <h1>${esc(profile.name || "나")}님, ${greet}</h1>
-      <a class="switch" href="#charts">${profile.sample ? "예시 명식" : esc(profile.relation || "본인")} · 명식 바꾸기 ${icon("next")}</a></div>
+      <h1>${esc(profile.name || "나")}님, ${greet}</h1></div>
       <button class="icon-btn" data-action="theme" aria-label="화면 테마">${icon("palette")}</button>
     </header>
-    ${sampleBanner(model)}
-    <a class="ask" href="#fortune">${icon("search")}<span>올해 운세부터 확인해 보세요</span>${icon("plus")}</a>
+    <div class="chart-actions">
+      <a class="btn" href="#manse/new">${icon("plus")}새 명식 입력</a>
+      <a class="btn soft" href="#charts">${icon("list")}명식 바꾸기<small>${profile.sample ? "예시" : esc(profile.relation || "본인")} · ${esc(profile.name || "이름 없음")}</small></a>
+    </div>
     <div class="swipe">
       <article class="card score-card">
         <span class="ico">${icon("gem")}</span>
@@ -331,7 +345,7 @@ export function renderMonthly(model, domainId = "total", yf) {
       : `${best.month}월에 힘을 싣고,<br>${worst.month}월은 <em>${DOMAIN_CARE[id]}</em>`;
 
   return `
-    ${topbar("월별 흐름")}
+    ${topbar("월별 흐름", whoChip(model))}
     ${yearNav(`#monthly/${id}`, yf, model)}
     <nav class="tabs">${tabs}</nav>
     <p class="eyebrow">${isCur ? `지금 ${m}월 ${now.ko}월 · ${domain.short} ${now.scores[id]}점` : `${yf.year} ${yf.ko}년 · ${domain.short} ${yf.scores[id]}점`}</p>
@@ -626,10 +640,39 @@ export function renderChart(model, mode = "table") {
           <div class="cell bg-${BRANCHES[d.branch].element} el-${BRANCHES[d.branch].element}">${BRANCHES[d.branch].ko}</div></div>`).join("")}
       </div>
     </section>
+    ${seunCard(model)}
     <div class="pair">
       <section class="card"><span class="sub">지금 대운 ${cur ? ageRange(cur) : ""}</span><b>${cur ? `${cur.ko} · ${cur.stemGod}` : "-"}</b><span class="sub">${cur ? `${GOD_THEME[cur.stemGod]}이 커지는 10년` : ""}</span></section>
       <section class="card"><span class="sub">올해 ${year.year}</span><b>${saju.seun.ko} · ${saju.seun.stemGod}</b><span class="sub">${GOD_THEME[saju.seun.stemGod]} · 종합 ${year.scores.total}점</span></section>
     </div>` + links;
+}
+
+// 세운: 지금 대운 10년(대운 전이면 올해 앞뒤 10년)의 해마다 들어오는 간지. 대운 칸처럼 최근 해가 왼쪽
+function seunCard(model) {
+  const { saju, natal, today } = model;
+  const thisYear = today.getFullYear();
+  const birth = birthYearOf(model);
+  const cur = saju.daeun.list.find((d) => d.current);
+  const from = cur ? cur.startYear : thisYear - 4;
+  const years = Array.from({ length: 10 }, (_, i) => from + 9 - i).filter((y) => y >= birth && y <= 2100);
+  const cells = years.map((y) => {
+    const idx = (((y - 4) % 60) + 60) % 60;
+    const stem = idx % 10;
+    const branch = idx % 12;
+    const se = STEMS[stem].element;
+    const be = BRANCHES[branch].element;
+    return `<a class="col ${y === thisYear ? "now" : ""}" href="#fortune${y === thisYear ? "" : `/${y}`}" title="${y}년 ${STEMS[stem].ko}${BRANCHES[branch].ko} · ${tenGod(natal.dm, stem)}">
+        <div class="age">${String(y).slice(2)}년</div>
+        <div class="cell bg-${se} el-${se}">${STEMS[stem].ko}</div>
+        <div class="cell bg-${be} el-${be}">${BRANCHES[branch].ko}</div>
+        <div class="god-sm">${tenGod(natal.dm, stem)}</div>
+        <div class="age">${y - birth + 1}세</div>
+      </a>`;
+  });
+  return `<section class="card">
+      <div class="card-head"><h2>세운</h2><span class="sub">${cur ? `${cur.ko} 대운 ${from}~${from + 9}년` : `${from}~${from + 9}년`} · 누르면 그해 운세</span></div>
+      <div class="daeun-strip seun-strip">${cells.join("")}</div>
+    </section>`;
 }
 
 function renderChartIcons(model) {
@@ -685,7 +728,7 @@ export function renderManse(chart, error = "") {
   const [hh, mm] = p.time ? p.time.split(":").map(Number) : [-1, 0];
   const radio = (name, value, label, checked) => `<label><input type="radio" name="${name}" value="${value}" ${checked ? "checked" : ""}><span>${label}</span></label>`;
   return `
-    ${topbar(chart ? "명식 수정" : "새 명식 추가")}
+    ${topbar(chart ? "명식 수정" : "새 명식 입력")}
     <p class="headline">태어난 날을 알려주세요</p>
     <p class="lead" style="margin-top:-12px!important">시간을 몰라도 연·월·일 세 기둥으로 풀어드려요</p>
     <form class="form" id="manseForm" novalidate>
@@ -712,17 +755,13 @@ export function renderManse(chart, error = "") {
         <p class="date-hint" data-time-hint>${unknown ? "" : timeHint(hh, mm, p.longitude ?? 126.98)}</p>
       </fieldset>
       <label class="check"><input type="checkbox" name="unknownTime" ${unknown ? "checked" : ""}> 태어난 시간을 몰라요</label>
-      <label class="field"><span>출생지 (시주 경도 보정)</span>
-        <select class="input" name="city">${CITIES.map((c) => `<option value="${c.name}" ${c.name === p.city ? "selected" : ""}>${c.name}</option>`).join("")}<option value="" ${p.city ? "" : "selected"}>직접 입력 (경도)</option></select>
-      </label>
-      <label class="field" data-lon ${p.city ? "hidden" : ""}><span>경도 (동경, 도)</span><input class="input" type="number" name="longitude" step="0.01" min="120" max="135" value="${p.longitude ?? 126.98}"></label>
       <details class="more-opt"><summary>보정 설정</summary>
         <div class="form">
           <label class="check"><input type="checkbox" name="applyDst" ${p.applyDst !== false ? "checked" : ""}> 서머타임 기간(1948~51·55~60·87~88)이면 1시간 빼기</label>
           <label class="check"><input type="checkbox" name="nightZi" ${p.nightZi ? "checked" : ""}> 야자시 사용 (23시대 일주를 그날로)</label>
         </div>
       </details>
-      <p class="sub" style="font-size:12px;color:var(--muted)">절기 경계일·서머타임·출생지 시차는 자동으로 보정하고, 결과가 갈릴 수 있으면 안내해 드려요.</p>
+      <p class="sub" style="font-size:12px;color:var(--muted)">절기 경계일·서머타임은 자동으로 보정하고(시주는 서울 기준 지방시), 결과가 갈릴 수 있으면 안내해 드려요.</p>
       ${error ? `<p class="form-error">${esc(error)}</p>` : ""}
       <button class="btn" type="submit">만세력 보기</button>
     </form>
@@ -774,13 +813,13 @@ export function dateHint(cal, year, month, day) {
   return `양력으로 ${s.year}년 ${s.month}월 ${s.day}일 ${DOW[new Date(s.year, s.month - 1, s.day).getDay()]}요일이에요`;
 }
 
-// 고른 시각이 대략 어느 시(時)인지 (출생지 경도로 지방시를 맞춘 값, 서머타임·옛 표준시는 결과 화면에서 보정)
+// 고른 시각이 대략 어느 시(時)인지 (서울 경도로 지방시를 맞춘 값, 서머타임·옛 표준시는 결과 화면에서 보정)
 export function timeHint(hour, minute, longitude) {
   if (hour == null || hour < 0 || Number.isNaN(hour)) return "";
   const lmt = (hour * 60 + minute + Math.round((longitude / 15 - 9) * 60) + 1440) % 1440;
   const branch = Math.floor((lmt / 60 + 1) / 2) % 12;
   const shift = Math.round((9 - longitude / 15) * 60);
-  return `${BRANCHES[branch].ko}시(${BRANCHES[branch].han}時) · 출생지 시차 ${shift}분을 뺀 지방시 ${String(Math.floor(lmt / 60)).padStart(2, "0")}:${String(lmt % 60).padStart(2, "0")} 기준`;
+  return `${BRANCHES[branch].ko}시(${BRANCHES[branch].han}時) · 서울 기준 ${shift}분을 뺀 지방시 ${String(Math.floor(lmt / 60)).padStart(2, "0")}:${String(lmt % 60).padStart(2, "0")} 기준`;
 }
 
 // ── 9. 로그인 카드 · 명식 목록 ─────────────────────────────
@@ -832,7 +871,7 @@ export function renderCharts(list, currentId, account) {
     ${loading ? `<section class="card"><p class="sub">계정 명식을 불러오는 중…</p></section>` : ""}
     ${!loading && !list.length ? `<section class="card"><p style="font-size:15px">아직 저장한 명식이 없어요. 지금은 예시 명식(홍길동)을 보여주고 있어요.</p></section>` : ""}
     <div class="chart-list">${rows}</div>
-    <a class="btn" href="#manse/new">${icon("plus", 'style="width:18px;height:18px"')}새 명식 추가</a>
+    <a class="btn" href="#manse/new">${icon("plus", 'style="width:18px;height:18px"')}새 명식 입력</a>
     <p class="disclaimer">가족·지인 명식은 본인 동의를 받은 뒤 저장해 주세요. 생년월일시는 로그인한 본인만 읽을 수 있게 저장돼요.</p>`;
 }
 

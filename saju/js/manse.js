@@ -142,7 +142,7 @@ export function calculateSaju(input) {
     const shift = (longitude / 15 - utcOffset) * 60;
     notices.push({
       level: "info",
-      text: `출생지(동경 ${longitude}°) 지방시는 시계보다 ${minutesText(shift)} ${shift < 0 ? "늦어" : "빨라"} ${formatClock(localMeanMs).slice(11)}로 시주를 정했습니다.`,
+      text: `지방시 보정(동경 ${longitude}°${longitude === SETTINGS.defaultLongitude ? ", 서울 기준" : ""}): 시계보다 ${minutesText(shift)} ${shift < 0 ? "늦어" : "빨라"} ${formatClock(localMeanMs).slice(11)}로 시주를 정했습니다.`,
     });
     // 시주가 바뀌는 홀수 시 정각(지방시)과의 거리
     const lmtMinutes = lmtHour * 60 + lmt.getUTCMinutes();

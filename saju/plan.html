@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>그래프로 보는 사주 · 개발 계획서</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+/* 발표용 개발 계획서. 슬라이드 1장 = 1280×720, 화면 크기에 맞춰 통째로 줄이고 늘린다.
+   넘기기: ← → 키 · 화면 좌우 버튼 · 휴대폰 스와이프 · ☰ 메뉴. 주소 #3 처럼 장 번호로 바로 열 수 있다. */
+:root {
+  --bg: #efecfb;
+  --stage: #f7f5fd;
+  --surface: #ffffff;
+  --surface-2: #f3f0fc;
+  --text: #1c1930;
+  --muted: #6f6a86;
+  --line: #e6e1f5;
+  --accent: #5b3fd9;
+  --accent-2: #8c78ea;
+  --accent-soft: #ece7fd;
+  --now: #c3367a;
+  --now-soft: #fbe5ef;
+  --up: #1d9a6c;
+  --up-soft: #dff5ec;
+  --warn: #d9781f;
+  --warn-soft: #fff1e3;
+  --wood: #2f9e6e;
+  --fire: #e2484b;
+  --earth: #f2c12e;
+  --metal: #ffffff;
+  --water: #24242c;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Malgun Gothic", sans-serif;
+  overflow: hidden;
+  word-break: keep-all;
+}
+button { font: inherit; color: inherit; cursor: pointer; }
+
+/* ── 무대: 1280×720 슬라이드를 화면에 맞춰 축소 ───────── */
+.viewport { position: fixed; inset: 0; overflow: hidden; }
+.deck { width: 1280px; height: 720px; position: absolute; left: 50%; top: 50%; transform-origin: center center; transform: translate(-50%, -50%); }
+.slide {
+  position: absolute; inset: 0; background: var(--stage); border-radius: 28px; overflow: hidden;
+  padding: 64px 80px 60px; box-shadow: 0 30px 80px rgba(60, 40, 140, 0.18);
+  opacity: 0; visibility: hidden; transform: translateX(40px); transition: opacity 0.35s, transform 0.35s, visibility 0.35s;
+  display: flex; flex-direction: column;
+}
+.slide.prev { transform: translateX(-40px); }
+.slide.on { opacity: 1; visibility: visible; transform: none; }
+.slide::before { /* 위쪽 라벤더 그라디언트 */
+  content: ""; position: absolute; inset: 0 0 auto 0; height: 260px; z-index: 0;
+  background: linear-gradient(180deg, #e3dcfa, rgba(247, 245, 253, 0));
+}
+.slide > * { position: relative; z-index: 1; }
+
+.kicker { font-size: 18px; font-weight: 700; color: var(--accent); letter-spacing: 0.02em; margin: 0 0 10px; }
+.slide h2 { font-size: 42px; line-height: 1.25; margin: 0 0 8px; letter-spacing: -0.02em; }
+.slide h2 em { font-style: normal; color: var(--accent); }
+.lead { font-size: 20px; color: var(--muted); margin: 0 0 28px; line-height: 1.55; }
+.foot { margin-top: auto; padding-top: 18px; font-size: 14px; color: var(--muted); display: flex; justify-content: space-between; }
+
+.grid { display: grid; gap: 18px; }
+.g2 { grid-template-columns: 1fr 1fr; }
+.g3 { grid-template-columns: repeat(3, 1fr); }
+.g4 { grid-template-columns: repeat(4, 1fr); }
+.card { background: var(--surface); border-radius: 20px; padding: 22px 24px; box-shadow: 0 8px 24px rgba(91, 63, 217, 0.08); }
+.card h3 { margin: 0 0 8px; font-size: 21px; }
+.card p, .card li { font-size: 16.5px; line-height: 1.55; color: #3b3752; margin: 0; }
+.card ul { margin: 0; padding-left: 18px; }
+.card li + li { margin-top: 4px; }
+.card .num { font-size: 40px; font-weight: 800; color: var(--accent); line-height: 1; margin-bottom: 6px; }
+.card.soft { background: var(--accent-soft); box-shadow: none; }
+.card.dark { background: var(--accent); color: #fff; }
+.card.dark h3, .card.dark p, .card.dark li { color: #fff; }
+.ico { width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 12px; }
+.chip { display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: 14px; font-weight: 700; background: var(--accent-soft); color: var(--accent); }
+.chip.done { background: var(--up-soft); color: var(--up); }
+.chip.next { background: var(--warn-soft); color: var(--warn); }
+.chip.now { background: var(--now-soft); color: var(--now); }
+
+table { width: 100%; border-collapse: collapse; font-size: 16.5px; background: var(--surface); border-radius: 18px; overflow: hidden; box-shadow: 0 8px 24px rgba(91, 63, 217, 0.08); }
+th, td { padding: 13px 18px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; line-height: 1.45; }
+th { background: var(--surface-2); font-size: 15px; color: var(--muted); font-weight: 700; }
+tr:last-child td { border-bottom: 0; }
+td b { color: var(--accent); }
+
+/* ── 표지 ───────── */
+.cover { justify-content: center; }
+.cover::before { height: 100%; background: radial-gradient(1000px 600px at 85% 20%, #d9cffb, transparent 60%), linear-gradient(160deg, #e9e3fd, #f7f5fd 60%); }
+.cover h1 { font-size: 76px; line-height: 1.12; margin: 6px 0 18px; letter-spacing: -0.03em; }
+.cover h1 em { font-style: normal; color: var(--accent); }
+.cover .lead { font-size: 24px; max-width: 640px; }
+.cover-meta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+.cover-meta span { background: var(--surface); border-radius: 999px; padding: 10px 18px; font-size: 16px; font-weight: 600; box-shadow: 0 6px 18px rgba(91, 63, 217, 0.1); }
+.cover-art { position: absolute; right: 70px; top: 130px; width: 430px; }
+
+/* ── 흐름 화살표 ───────── */
+.flow { display: flex; align-items: stretch; gap: 14px; }
+.flow .step { flex: 1; background: var(--surface); border-radius: 20px; padding: 22px; text-align: center; box-shadow: 0 8px 24px rgba(91, 63, 217, 0.08); }
+.flow .step b { display: block; font-size: 24px; margin: 6px 0; }
+.flow .step small { font-size: 15px; color: var(--muted); line-height: 1.45; display: block; }
+.flow .arrow { align-self: center; font-size: 28px; color: var(--accent-2); font-weight: 800; }
+
+/* ── 구조도 ───────── */
+.arch { display: grid; grid-template-columns: 1fr 1.35fr 1fr; gap: 22px; align-items: stretch; }
+.layer { background: var(--surface); border-radius: 20px; padding: 18px 20px; box-shadow: 0 8px 24px rgba(91, 63, 217, 0.08); }
+.layer h3 { margin: 0 0 12px; font-size: 19px; display: flex; align-items: center; gap: 8px; }
+.mod { display: flex; justify-content: space-between; gap: 10px; padding: 9px 12px; border-radius: 12px; background: var(--surface-2); font-size: 15px; margin-top: 8px; }
+.mod code { font-family: Consolas, monospace; font-size: 14px; color: var(--accent); font-weight: 700; }
+.mod span { color: var(--muted); text-align: right; }
+
+/* ── 로드맵 ───────── */
+.timeline { position: relative; display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-top: 8px; }
+.timeline::before { content: ""; position: absolute; left: 4%; right: 4%; top: 25px; height: 4px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); border-radius: 4px; }
+.tl { text-align: center; position: relative; }
+.tl .dot { width: 54px; height: 54px; border-radius: 50%; margin: 0 auto 12px; display: grid; place-items: center; font-weight: 800; font-size: 20px; color: #fff; background: var(--accent); border: 5px solid var(--stage); }
+.tl b { display: block; font-size: 16px; margin-bottom: 4px; }
+.tl small { display: block; font-size: 13.5px; color: var(--muted); line-height: 1.4; }
+
+.gantt { display: grid; grid-template-columns: 250px repeat(10, 1fr); gap: 6px 4px; align-items: center; font-size: 15px; }
+.gantt .h { font-size: 13px; color: var(--muted); text-align: center; font-weight: 700; }
+.gantt .name { font-weight: 700; }
+.gantt .name small { display: block; font-weight: 500; color: var(--muted); font-size: 13px; }
+.bar { height: 30px; border-radius: 10px; background: var(--accent); color: #fff; font-size: 13px; font-weight: 700; display: flex; align-items: center; padding: 0 10px; white-space: nowrap; overflow: hidden; }
+.bar.b2 { background: var(--accent-2); }
+.bar.b3 { background: var(--now); }
+.bar.b4 { background: var(--up); }
+.bar.b5 { background: var(--warn); }
+
+/* ── 체크리스트 ───────── */
+.checks { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+.checks li { display: flex; gap: 12px; align-items: center; background: var(--surface); border-radius: 14px; padding: 13px 16px; font-size: 16.5px; box-shadow: 0 6px 18px rgba(91, 63, 217, 0.06); }
+.checks li .chip { flex: none; min-width: 64px; text-align: center; }
+.checks li span.t { flex: 1; }
+
+/* 오방색 타일 */
+.tiles { display: flex; gap: 10px; margin-top: 10px; }
+.tile { width: 58px; height: 58px; border-radius: 14px; display: grid; place-items: center; font-size: 28px; font-weight: 800; line-height: 1; }
+.tile small { display: block; font-size: 11px; font-weight: 600; margin-top: 3px; }
+.t0 { background: var(--wood); color: #fff; }
+.t1 { background: var(--fire); color: #fff; }
+.t2 { background: var(--earth); color: #3a2a00; }
+.t3 { background: var(--metal); color: #2b2b35; box-shadow: inset 0 0 0 2px #cfd1da; }
+.t4 { background: var(--water); color: #fff; }
+
+/* ── 조작 UI: 메뉴 · 화살표 · 진행 막대 ───────── */
+.topbar { position: fixed; top: 0; left: 0; right: 0; height: 56px; display: flex; align-items: center; gap: 12px; padding: 0 16px; z-index: 20; pointer-events: none; }
+.topbar > * { pointer-events: auto; }
+.menu-btn { width: 44px; height: 44px; border-radius: 14px; border: 0; background: var(--surface); box-shadow: 0 6px 18px rgba(60, 40, 140, 0.15); display: grid; place-items: center; }
+.menu-btn svg { width: 22px; height: 22px; }
+.title-pill { background: var(--surface); border-radius: 999px; padding: 9px 16px; font-size: 14px; font-weight: 700; box-shadow: 0 6px 18px rgba(60, 40, 140, 0.12); max-width: 60vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.title-pill span { color: var(--muted); font-weight: 600; margin-right: 6px; }
+.counter { margin-left: auto; background: var(--surface); border-radius: 999px; padding: 9px 14px; font-size: 14px; font-weight: 800; box-shadow: 0 6px 18px rgba(60, 40, 140, 0.12); }
+.nav-btn { position: fixed; top: 50%; transform: translateY(-50%); width: 52px; height: 52px; border-radius: 50%; border: 0; background: var(--surface); box-shadow: 0 8px 22px rgba(60, 40, 140, 0.2); display: grid; place-items: center; z-index: 20; }
+.nav-btn svg { width: 24px; height: 24px; color: var(--accent); }
+.nav-btn:disabled { opacity: 0.3; cursor: default; }
+.nav-btn.prev { left: 14px; }
+.nav-btn.next { right: 14px; }
+.progress { position: fixed; left: 0; right: 0; bottom: 0; height: 5px; background: rgba(91, 63, 217, 0.12); z-index: 20; }
+.progress i { display: block; height: 100%; background: linear-gradient(90deg, var(--accent), var(--now)); transition: width 0.35s; }
+.hint { position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%); font-size: 13px; color: var(--muted); background: rgba(255, 255, 255, 0.85); padding: 6px 14px; border-radius: 999px; z-index: 20; }
+
+.drawer-back { position: fixed; inset: 0; background: rgba(20, 16, 50, 0.35); z-index: 30; opacity: 0; visibility: hidden; transition: 0.25s; }
+.drawer { position: fixed; top: 0; bottom: 0; left: 0; width: min(360px, 88vw); background: var(--surface); z-index: 31; transform: translateX(-100%); transition: transform 0.28s; display: flex; flex-direction: column; box-shadow: 10px 0 40px rgba(20, 16, 50, 0.2); }
+.drawer.open { transform: none; }
+.drawer-back.open { opacity: 1; visibility: visible; }
+.drawer header { padding: 22px 22px 12px; border-bottom: 1px solid var(--line); }
+.drawer header b { display: block; font-size: 19px; }
+.drawer header small { color: var(--muted); font-size: 13px; }
+.drawer nav { overflow-y: auto; padding: 10px; }
+.drawer .grp { font-size: 12px; font-weight: 800; color: var(--muted); padding: 14px 12px 6px; letter-spacing: 0.04em; }
+.drawer a { display: flex; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 12px; color: var(--text); text-decoration: none; font-size: 15px; font-weight: 600; }
+.drawer a span { width: 28px; height: 28px; border-radius: 9px; display: grid; place-items: center; background: var(--surface-2); color: var(--muted); font-size: 13px; font-weight: 800; flex: none; }
+.drawer a:hover { background: var(--surface-2); }
+.drawer a.on { background: var(--accent-soft); color: var(--accent); }
+.drawer a.on span { background: var(--accent); color: #fff; }
+
+@media (max-width: 700px) {
+  .hint { display: none; }
+  .nav-btn { width: 42px; height: 42px; top: auto; bottom: 18px; transform: none; }
+  .title-pill { display: none; }
+}
+@media print {
+  body { overflow: visible; background: #fff; }
+  .viewport { position: static; display: block; }
+  .deck { transform: none !important; position: static; width: auto; height: auto; }
+  .slide { position: relative; opacity: 1; visibility: visible; transform: none; page-break-after: always; width: 1280px; height: 720px; margin: 0 auto 20px; box-shadow: none; }
+  .topbar, .nav-btn, .progress, .hint, .drawer, .drawer-back { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <button class="menu-btn" id="menuBtn" aria-label="목차 열기" aria-expanded="false" aria-controls="drawer">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+  </button>
+  <div class="title-pill" id="titlePill"><span>그래프로 보는 사주</span>개발 계획서</div>
+  <div class="counter" id="counter" aria-live="polite">1 / 1</div>
+</div>
+
+<button class="nav-btn prev" id="prevBtn" aria-label="이전 장">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+</button>
+<button class="nav-btn next" id="nextBtn" aria-label="다음 장">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+</button>
+<div class="progress"><i id="progressBar"></i></div>
+<div class="hint">← → 키 · 스와이프로 넘기기 · M 키로 목차</div>
+
+<div class="drawer-back" id="drawerBack"></div>
+<aside class="drawer" id="drawer" aria-label="목차">
+  <header><b>그래프로 보는 사주</b><small>개발 계획서 · 목차</small></header>
+  <nav id="toc"></nav>
+</aside>
+
+<main class="viewport">
+<div class="deck" id="deck">
+
+<!-- 1. 표지 -->
+<section class="slide cover" data-title="표지" data-group="시작">
+  <p class="kicker">개발 계획서 · 2026. 10. 12</p>
+  <h1>그래프로 보는<br><em>사주</em></h1>
+  <p class="lead">생년월일시로 사주 명식을 풀어 인생 · 재물 · 관계 · 일 · 건강의 흐름을 그래프로 보여주고, 지금 할 일까지 제안하는 웹 서비스</p>
+  <div class="cover-meta">
+    <span>웹 MVP 배포 완료</span>
+    <span>saju-app-sykim.web.app</span>
+    <span>HTML · CSS · 바닐라 JS + Firebase</span>
+  </div>
+  <svg class="cover-art" viewBox="0 0 430 360" aria-hidden="true">
+    <defs><linearGradient id="ga" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#5b3fd9" stop-opacity=".35"/><stop offset="1" stop-color="#5b3fd9" stop-opacity="0"/></linearGradient></defs>
+    <rect x="0" y="0" width="430" height="360" rx="28" fill="#fff"/>
+    <text x="28" y="44" font-size="18" font-weight="800" fill="#1c1930">인생 그래프</text>
+    <text x="28" y="68" font-size="13" fill="#6f6a86">대운별 점수 · 지금 위치 · 인생 주요 포인트</text>
+    <g stroke="#ece8f6"><line x1="28" x2="402" y1="130" y2="130"/><line x1="28" x2="402" y1="185" y2="185"/><line x1="28" x2="402" y1="240" y2="240"/></g>
+    <path d="M40 230 C80 200 110 170 150 180 S220 230 250 205 S320 120 360 125 S395 150 400 160 L400 270 L40 270 Z" fill="url(#ga)"/>
+    <path d="M40 230 C80 200 110 170 150 180 S220 230 250 205" fill="none" stroke="#5b3fd9" stroke-width="4" stroke-linecap="round"/>
+    <path d="M250 205 S320 120 360 125 S395 150 400 160" fill="none" stroke="#5b3fd9" stroke-width="4" stroke-dasharray="8 8" stroke-linecap="round"/>
+    <circle cx="250" cy="205" r="9" fill="#c3367a" stroke="#fff" stroke-width="3"/>
+    <text x="250" y="190" text-anchor="middle" font-size="13" font-weight="800" fill="#c3367a">지금</text>
+    <rect x="345" y="95" width="30" height="175" rx="8" fill="#5b3fd9" opacity=".1"/>
+    <g font-size="10" font-weight="800" fill="#fff">
+      <circle cx="120" cy="300" r="11" fill="#e2484b"/><text x="120" y="304" text-anchor="middle">결</text>
+      <circle cx="205" cy="300" r="11" fill="#3f74de"/><text x="205" y="304" text-anchor="middle">취</text>
+      <circle cx="330" cy="300" r="11" fill="#d69a1e"/><text x="330" y="304" text-anchor="middle">재</text>
+      <circle cx="290" cy="330" r="11" fill="#8a8f9e"/><text x="290" y="334" text-anchor="middle">건</text>
+    </g>
+  </svg>
+</section>
+
+<!-- 2. 목차 -->
+<section class="slide" data-title="목차" data-group="시작">
+  <p class="kicker">CONTENTS</p>
+  <h2>목차</h2>
+  <p class="lead">어떤 서비스를 · 어떻게 만들었고 · 다음에 무엇을 할지</p>
+  <div class="grid g3" id="contentsGrid"></div>
+</section>
+
+<!-- 3. 서비스 개요 -->
+<section class="slide" data-title="서비스 개요" data-group="1. 서비스">
+  <p class="kicker">1. 서비스 개요</p>
+  <h2>사주를 <em>읽는 것</em>에서 <em>써먹는 것</em>으로</h2>
+  <p class="lead">만세력 앱은 명식(간지 · 십신 · 대운)을 정확히 보여주지만, 일반 사용자는 그 의미를 스스로 풀기 어렵습니다.<br>명식 → 그래프 → 해석 → 실천 제안을 한 흐름으로 잇습니다.</p>
+  <div class="flow">
+    <div class="step"><span class="chip">입력</span><b>명식</b><small>생년월일시 · 양력/음력/윤달<br>네 기둥 · 십신 · 대운 · 세운</small></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="chip">계산</span><b>그래프</b><small>용신·기신 기반 0~100점<br>대운 · 연 · 월 · 일 흐름</small></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="chip">풀이</span><b>해석</b><small>점수 구간 + 근거로<br>쉬운 한 줄 풀이</small></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="chip now">행동</span><b>실천</b><small>"지금 할 일" 카드<br>자격증 · 기관 · 검진 안내</small></div>
+  </div>
+  <div class="grid g3" style="margin-top:22px">
+    <div class="card soft"><h3>한 줄 정의</h3><p>사주 명식을 점수화해 "내 인생 흐름"을 한눈에 보여주는 해석 앱</p></div>
+    <div class="card soft"><h3>위치 설정</h3><p>운명을 단정하지 않고 "방향을 생각해 보는 도구". 모든 화면에 참고용 고지</p></div>
+    <div class="card soft"><h3>무료 입구</h3><p>만세력 · 인생 그래프 · 올해 운세는 무료, 상세 리포트 · 월운 알림은 유료 후보</p></div>
+  </div>
+</section>
+
+<!-- 4. 타깃 사용자 -->
+<section class="slide" data-title="타깃 사용자와 니즈" data-group="1. 서비스">
+  <p class="kicker">1. 서비스 개요</p>
+  <h2>누구의 어떤 질문에 답하나</h2>
+  <p class="lead">핵심 타깃은 인생의 전환점에 선 40~60대. "앞으로 무엇을, 언제" 할지 알고 싶어 합니다.</p>
+  <table>
+    <tr><th style="width:18%">사용자</th><th style="width:22%">상황</th><th style="width:28%">알고 싶은 것</th><th>서비스가 주는 답</th></tr>
+    <tr><td><b>전환기 중년</b> (핵심)</td><td>퇴직 · 무직 · 육아 종료</td><td>남은 인생의 흐름, 다시 일할 방향</td><td>인생 그래프 · 맞는 직종 · 직장 유형 · 추천 자격증</td></tr>
+    <tr><td><b>재테크 관심층</b></td><td>주식 · 부동산 보유</td><td>언제 거두고 언제 쉴지</td><td>재물운 연 · 월 그래프, 경제적 성취 포인트 (종목 추천은 하지 않음)</td></tr>
+    <tr><td><b>관계 고민층</b></td><td>배우자 · 자녀와의 갈등</td><td>관계가 좋아지는 시기</td><td>연애 · 배우자 · 자식운 월별 흐름, 결혼·인연 포인트, 대화하기 좋은 날</td></tr>
+    <tr><td><b>건강이 신경 쓰이는 사용자</b></td><td>나이 · 생활 습관 변화</td><td>어디를, 언제 챙겨야 할지</td><td>타고난 건강 체크(오행별), 건강운 흐름, 건강 주의 해, 검진 안내</td></tr>
+  </table>
+  <div class="foot"><span>공통 니즈: 어려운 용어 없이 한눈에 · 지금 이 달에 할 일 · 다음 질문으로 바로 이어가기</span></div>
+</section>
+
+<!-- 5. 핵심 기능 -->
+<section class="slide" data-title="핵심 기능 지도" data-group="1. 서비스">
+  <p class="kicker">1. 서비스 개요</p>
+  <h2>핵심 기능 지도</h2>
+  <p class="lead">만세력 조회를 출발점으로, 흐름 → 관계 → 일 → 건강 네 묶음의 리포트로 이어집니다.</p>
+  <div class="grid g4">
+    <div class="card"><div class="ico" style="background:var(--accent)">흐</div><h3>흐름</h3><ul><li>인생 그래프 (대운)</li><li>인생 주요 포인트</li><li>한 해 운세 (지난해 · 다음해)</li><li>월별 흐름 · 일진 달력</li></ul></div>
+    <div class="card"><div class="ico" style="background:var(--fire)">관</div><h3>관계</h3><ul><li>연애운 · 배우자</li><li>자식운</li><li>결혼·인연 가능성 높은 해</li><li>대화하기 좋은 날</li></ul></div>
+    <div class="card"><div class="ico" style="background:#3f74de">일</div><h3>일</h3><ul><li>직업운 · 재물운</li><li>맞는 직종 적합도</li><li>지금 vs 다음 대운 직장 유형</li><li>추천 자격증 · 실천 가이드</li></ul></div>
+    <div class="card"><div class="ico" style="background:var(--wood)">건</div><h3>건강</h3><ul><li>건강운 (연 · 월)</li><li>타고난 건강 체크 (오행별)</li><li>건강 주의 해</li><li>국가 건강검진 안내</li></ul></div>
+  </div>
+  <div class="card soft" style="margin-top:18px; display:flex; gap:26px; align-items:center">
+    <div style="flex:1"><h3>기본: 만세력 조회 (무료)</h3><p>입력 → 표 보기(네 기둥 · 십신 · 지장간 · 12운성 · 대운 · 세운) / 아이콘 보기(일간 본질 · 오행 균형 · 십성 5그룹 · 기질 키워드). 가족 · 지인 명식은 목록으로 관리.</p></div>
+    <div class="tiles"><div class="tile t0">甲<small>목</small></div><div class="tile t1">丙<small>화</small></div><div class="tile t2">戊<small>토</small></div><div class="tile t3">庚<small>금</small></div><div class="tile t4">壬<small>수</small></div></div>
+  </div>
+</section>
+
+<!-- 6. 화면 구성 -->
+<section class="slide" data-title="화면 구성" data-group="2. 설계">
+  <p class="kicker">2. 설계</p>
+  <h2>화면 구성 · 9개 화면</h2>
+  <p class="lead">주소 <code>#</code> 뒤로 화면을 바꾸는 한 장짜리 웹앱. 하단 탭 4개(홈 · 운세 · 만세력 · 나의 기질)와 휴대폰 뒤로가기가 그대로 동작합니다.</p>
+  <table>
+    <tr><th style="width:17%">화면</th><th style="width:22%">주소</th><th>담긴 내용 · 그래프</th></tr>
+    <tr><td><b>홈</b></td><td><code>#home</code></td><td>새 명식 입력 · 명식 바꾸기 버튼, 오늘의 운, 올해 최고의 달, 다가오는 인생 포인트, 리포트 6칸, 다음 주 일진 막대</td></tr>
+    <tr><td><b>한 해 운세</b></td><td><code>#fortune[/연도]</code></td><td>‹ › 연도 넘기기, 반원 게이지, 그해의 인생 포인트, 월별 막대, 일진 달력, 추천 일정</td></tr>
+    <tr><td><b>월별 흐름</b></td><td><code>#monthly/영역[/연도]</code></td><td>지금 보는 명식 표시, 영역 탭 7개, 월별 막대, 상승 기회 · 조심할 때, 달마다 할 일</td></tr>
+    <tr><td><b>인생 그래프</b></td><td><code>#life</code></td><td>대운 꺾은선 + 인생 주요 포인트 줄(결 · 취 · 재 · 건), 한 줄 요약, 시기별 풀이</td></tr>
+    <tr><td><b>맞는 일</b></td><td><code>#job</code></td><td>직종 적합도, 직장 유형 비교, 추천 자격증, 고용24 · 큐넷 안내</td></tr>
+    <tr><td><b>나의 기질</b></td><td><code>#me</code></td><td>영역별 레이더, 오행 도넛, 지금 vs 다음 대운, 타고난 건강 체크, 테마 4종, 계정</td></tr>
+    <tr><td><b>만세력 · 목록 · 입력</b></td><td><code>#chart #charts #manse</code></td><td>표 / 아이콘 보기, 대운 · 세운, 명식 목록(고르기 · 수정 · 삭제), 연 · 월 · 일 목록 입력</td></tr>
+  </table>
+</section>
+
+<!-- 7. 기술 구성 -->
+<section class="slide" data-title="기술 구성" data-group="2. 설계">
+  <p class="kicker">2. 설계</p>
+  <h2>기술 구성 · 기획 후보 → 실제 선택</h2>
+  <p class="lead">"현장 날씨 안전도우미" 앱과 같은 스택으로 맞춰, 빌드 도구 없이 빠르게 만들고 바로 배포합니다.</p>
+  <table>
+    <tr><th style="width:18%">구성 요소</th><th style="width:30%">기획서 후보</th><th>실제 구현</th></tr>
+    <tr><td><b>화면</b></td><td>React Native(Expo) + 웹</td><td>순수 HTML · CSS · 바닐라 JS (<code>&lt;script type="module"&gt;</code>), Pretendard 글꼴</td></tr>
+    <tr><td><b>그래프</b></td><td>Chart.js 또는 Victory</td><td>직접 그린 SVG 7종 — 꺾은선 · 막대 · 레이더 · 도넛 · 게이지 · 가로 막대 · 비교 막대</td></tr>
+    <tr><td><b>만세력 엔진</b></td><td>자체 구현 + 천문 절기 데이터</td><td>자체 구현, 데이터 없이 천문 공식으로 절기 · 합삭 계산</td></tr>
+    <tr><td><b>점수 엔진</b></td><td>규칙표(JSON) 기반 서버 모듈</td><td>브라우저 JS 모듈, 규칙표는 <code>score-rules.js</code> 위쪽 데이터</td></tr>
+    <tr><td><b>풀이 문장</b></td><td>규칙 템플릿 + LLM 다듬기</td><td>규칙 템플릿만 (같은 명식 = 같은 결과). LLM은 다음 단계 후보</td></tr>
+    <tr><td><b>회원 · 저장</b></td><td>Node.js 또는 Supabase</td><td>Firebase Auth(구글 로그인) + Firestore, 로그아웃 상태는 이 기기 저장</td></tr>
+    <tr><td><b>배포</b></td><td>앱스토어</td><td>Firebase Hosting (no-cache 헤더) — 앱 출시는 다음 단계</td></tr>
+  </table>
+</section>
+
+<!-- 8. 시스템 구조 -->
+<section class="slide" data-title="시스템 구조" data-group="2. 설계">
+  <p class="kicker">2. 설계</p>
+  <h2>시스템 구조</h2>
+  <p class="lead">계산은 모두 브라우저에서. 서버에는 로그인 사용자의 명식 목록만 저장합니다.</p>
+  <div class="arch">
+    <div class="layer"><h3>🖥 화면</h3>
+      <div class="mod"><code>index.html</code><span>화면 9개 뼈대</span></div>
+      <div class="mod"><code>main.js</code><span>주소 · 이벤트 · 로그인</span></div>
+      <div class="mod"><code>ui.js</code><span>화면 그리기</span></div>
+      <div class="mod"><code>charts.js</code><span>SVG 그래프</span></div>
+      <div class="mod"><code>icons.js</code><span>선 · 오행 아이콘</span></div>
+      <div class="mod"><code>style.css</code><span>테마 4종 · 오방색</span></div>
+    </div>
+    <div class="layer"><h3>⚙ 계산 엔진</h3>
+      <div class="mod"><code>solar-terms.js</code><span>태양 황경 · 24절기 시각</span></div>
+      <div class="mod"><code>lunar.js</code><span>한국 음력 ↔ 양력 (합삭)</span></div>
+      <div class="mod"><code>manse.js</code><span>네 기둥 · 십신 · 대운 · 보정 안내</span></div>
+      <div class="mod"><code>saju-data.js</code><span>천간 · 지지 · 표준시 · 서머타임 표</span></div>
+      <div class="mod"><code>score.js</code><span>용신 · 영역 점수 · 인생 포인트</span></div>
+      <div class="mod"><code>score-rules.js</code><span>규칙표 · 풀이 문구 (검수 대상)</span></div>
+    </div>
+    <div class="layer"><h3>☁ 저장 · 배포</h3>
+      <div class="mod"><code>store.js</code><span>이 기기 (localStorage)</span></div>
+      <div class="mod"><code>auth.js</code><span>구글 로그인</span></div>
+      <div class="mod"><code>cloud.js</code><span>users/{uid}/charts</span></div>
+      <div class="mod"><code>firebase.js</code><span>SDK · 설정값</span></div>
+      <div class="mod"><code>firestore.rules</code><span>본인만 읽기 · 쓰기</span></div>
+      <div class="mod"><code>Hosting</code><span>saju-app-sykim</span></div>
+    </div>
+  </div>
+  <div class="foot"><span>개발용: <code>check.html</code> 엔진 검증 페이지 · <code>test-cases.js</code> 검증 사례 (배포 제외)</span><span>JS 16개 · 약 3,900줄</span></div>
+</section>
+
+<!-- 9. 만세력 엔진 -->
+<section class="slide" data-title="만세력 엔진" data-group="3. 엔진">
+  <p class="kicker">3. 엔진</p>
+  <h2>만세력 엔진 · <em>데이터 없이</em> 천문 계산</h2>
+  <p class="lead">절기와 음력을 표로 넣지 않고 공식으로 계산해 1900~2100년을 다룹니다.</p>
+  <div class="grid g3">
+    <div class="card"><div class="num">±0.6분</div><h3>24절기 시각</h3><p>Meeus 고정밀 방법(VSOP87 축약 + 장동 · 광행차). 공개 절입 시각 8건과 최대 0.6분 차이 (처음 쓴 간이 공식은 10분 오차라 교체)</p></div>
+    <div class="card"><div class="num">0건</div><h3>한국 음력 왕복 오류</h3><p>합삭 시각을 한국시간으로 계산해 음력 달을 직접 구성. 1900~2100년 전 날짜 양력→음력→양력 왕복 오류 0, 1966년 설날처럼 중국 음력과 다른 달도 맞춤</p></div>
+    <div class="card"><div class="num">21/21</div><h3>검증 사례 일치</h3><p>절기 경계 · 자시 · 시간 모름 · 음력 입력 · 서머타임 사례 9건과 설날 · 추석 · 윤달 12건</p></div>
+  </div>
+  <div class="grid g2" style="margin-top:18px">
+    <div class="card soft"><h3>계산 기준</h3><ul><li>연주 입춘 시각, 월주 12절 시각 기준</li><li>일주 23시(자시)부터 다음 날 · 야자시 선택 가능</li><li>시주는 서울 기준 지방시(약 32분 보정)</li><li>대운 = 절입까지 날수 ÷ 3, 양남음녀 순행</li></ul></div>
+    <div class="card soft"><h3>자동 보정 · 안내</h3><ul><li>서머타임(1948~51 · 55~60 · 87~88) 1시간</li><li>UTC+8:30 시기(1954~61 등) 표준시</li><li>절입 ±2시간 · 시주 경계 ±10분이면 확인 요청</li><li>없는 윤달 · 날짜는 입력 단계에서 경고</li></ul></div>
+  </div>
+</section>
+
+<!-- 10. 점수 엔진 -->
+<section class="slide" data-title="점수 엔진" data-group="3. 엔진">
+  <p class="kicker">3. 엔진</p>
+  <h2>점수 엔진 · 용신에 가까울수록 높게</h2>
+  <p class="lead">모든 그래프는 한 원칙을 영역별 가중치로 바꿔 0~100점으로 계산합니다. 같은 명식이면 항상 같은 점수.</p>
+  <div class="flow" style="margin-bottom:20px">
+    <div class="step"><b>① 원국 분석</b><small>신강·신약(월지 3배)<br>조후 · 용신 · 희신 · 기신</small></div>
+    <div class="arrow">→</div>
+    <div class="step"><b>② 기본 점수</b><small>천간 40% + 지지 60%<br>(지장간 비중 반영)</small></div>
+    <div class="arrow">→</div>
+    <div class="step"><b>③ 영역 가중치</b><small>영역마다 중요한<br>십신에 가점 · 감점</small></div>
+    <div class="arrow">→</div>
+    <div class="step"><b>④ 관계 보정</b><small>일지 · 시지 합충<br>천간합 · 도화 · 조후</small></div>
+    <div class="arrow">→</div>
+    <div class="step"><b>⑤ 풀이</b><small>점수 구간 + 근거<br>→ 한 줄 풀이 · 할 일</small></div>
+  </div>
+  <table>
+    <tr><th style="width:14%">영역</th><th style="width:43%">가점 요소</th><th>감점 요소</th></tr>
+    <tr><td><b>재물</b></td><td>편재 · 정재 · 식신 · 상관</td><td>겁재 · 비견 (쟁재)</td></tr>
+    <tr><td><b>연애 · 배우자</b></td><td>여: 정관 · 편관 / 남: 정재 · 편재, 도화, 일지와 합</td><td>상관(여) · 겁재(남), 일지와 충</td></tr>
+    <tr><td><b>자식 · 직업</b></td><td>식상(여) · 관성(남), 시지 합 / 관성 · 식신 · 인성</td><td>편인(도식) / 겁재 · 상관견관</td></tr>
+    <tr><td><b>건강</b></td><td>식신 · 정인, 조후 충족, 비어 있던 오행 채움</td><td>편관(칠살) · 상관, 넘치는 오행 더해짐, 일지 충</td></tr>
+  </table>
+</section>
+
+<!-- 11. 인생 주요 포인트 · 건강 -->
+<section class="slide" data-title="인생 주요 포인트 · 건강" data-group="3. 엔진">
+  <p class="kicker">3. 엔진</p>
+  <h2>인생 주요 포인트 · 건강 체크</h2>
+  <p class="lead">해마다 대운 40% + 세운 60%로 점수를 매기고, 그해 십신 · 일지 합 · 도화를 더해 가능성 높은 해를 고릅니다.</p>
+  <div class="grid g4">
+    <div class="card"><div class="ico" style="background:var(--fire)">결</div><h3>결혼 · 인연</h3><p>연애 · 배우자 영역, 22~60세 중 높은 3해. 여 정관 · 남 정재 해, 26~38세 가점</p></div>
+    <div class="card"><div class="ico" style="background:#3f74de">취</div><h3>취업 · 승진</h3><p>직업 영역, 20~67세 중 높은 3해. 정관 · 편관 · 정인 해 가점</p></div>
+    <div class="card"><div class="ico" style="background:#d69a1e">재</div><h3>경제적 성취</h3><p>재물 영역, 25~80세 중 높은 3해. 정재 · 편재 · 식신 해 가점</p></div>
+    <div class="card"><div class="ico" style="background:#8a8f9e">건</div><h3>건강 주의</h3><p>건강 영역, 30~85세 중 낮은 2해. 4~5년 이상 간격으로 선택</p></div>
+  </div>
+  <div class="grid g2" style="margin-top:18px">
+    <div class="card soft"><h3>어디에 보이나</h3><ul><li>인생 그래프 아래 표시 줄 (지난 해는 흐리게)</li><li>한 해 운세 "그해의 인생 포인트" 카드</li><li>홈 "다가오는 인생 포인트" 카드 → 그해 운세로 이동</li></ul></div>
+    <div class="card soft"><h3>타고난 건강 체크</h3><ul><li>오행이 없거나(0) 많을수록(3↑) · 기신일수록 "살펴볼 곳"</li><li>목 간·눈 · 화 심장·혈압 · 토 위장 · 금 폐·피부 · 수 신장·허리</li><li>"의학적 진단이 아니에요" 고정 문구 + 국가 건강검진 안내</li></ul></div>
+  </div>
+</section>
+
+<!-- 12. 데이터 · 개인정보 -->
+<section class="slide" data-title="데이터 · 개인정보" data-group="4. 데이터">
+  <p class="kicker">4. 데이터</p>
+  <h2>데이터 저장 · 개인정보 원칙</h2>
+  <p class="lead">생년월일시는 민감정보에 준해 다룹니다. 본인 외에는 읽을 수 없게 하고, 실명 예시는 쓰지 않습니다.</p>
+  <div class="grid g2">
+    <div class="card"><h3>어디에 저장되나</h3>
+      <table style="box-shadow:none;margin-top:6px">
+        <tr><th>상태</th><th>저장 위치</th></tr>
+        <tr><td>로그아웃</td><td>이 기기 <code>saju:charts</code></td></tr>
+        <tr><td>로그인</td><td>Firestore <code>users/{uid}/charts</code></td></tr>
+        <tr><td>첫 로그인</td><td>이 기기 명식을 계정으로 올림 (같은 id면 덮어씀)</td></tr>
+      </table>
+    </div>
+    <div class="card"><h3>지키는 원칙</h3><ul>
+      <li>보안 규칙: <code>users/{uid}</code> 아래는 그 uid 본인만 읽고 쓰기</li>
+      <li>가족 · 지인 명식은 "저장 동의를 받았어요" 체크가 있어야 저장</li>
+      <li>앱 예시는 가상 인물 "홍길동" (실존 인물 정보 없음)</li>
+      <li>기획서 · 목업은 저장소에서 제외, 지난 커밋 기록까지 정리</li>
+      <li>출생지는 입력받지 않음 (서울 기준 지방시)</li>
+    </ul></div>
+  </div>
+  <div class="card soft" style="margin-top:18px"><p><b>표현 원칙</b> — 재물: 특정 종목 · 매수 · 매도 추천 없이 "투자 이유 · 세금 · 자금 용도" 점검 / 관계: "이혼수", "자식 복 없음" 같은 단정 표현 금지 / 건강: 진단이 아닌 생활 습관 · 검진 안내</p></div>
+</section>
+
+<!-- 13. 개발 진행 -->
+<section class="slide" data-title="개발 진행 현황" data-group="5. 일정">
+  <p class="kicker">5. 일정</p>
+  <h2>개발 진행 현황 · 7단계 완료</h2>
+  <p class="lead">엔진부터 배포까지 단계마다 검증하고 커밋했습니다. 이후 사용자 수정 요청을 반영했습니다.</p>
+  <div class="timeline">
+    <div class="tl"><div class="dot">1</div><b>만세력 엔진</b><small>절기 · 네 기둥<br>대운 · 검증 페이지</small></div>
+    <div class="tl"><div class="dot">2</div><b>입력 보정</b><small>음력 · 윤달<br>서머타임 · 표준시</small></div>
+    <div class="tl"><div class="dot">3</div><b>화면 뼈대</b><small>주소 전환 · 탭<br>입력 · 표 보기</small></div>
+    <div class="tl"><div class="dot">4</div><b>아이콘 보기</b><small>일간 본질 · 오행<br>십성 · 키워드</small></div>
+    <div class="tl"><div class="dot">5</div><b>점수 엔진</b><small>파스텔 화면 8개<br>그래프 7종 · 테마</small></div>
+    <div class="tl"><div class="dot">6</div><b>로그인 · 저장</b><small>구글 로그인<br>가족 명식 목록</small></div>
+    <div class="tl"><div class="dot">7</div><b>배포</b><small>Firebase Hosting<br>보안 규칙</small></div>
+  </div>
+  <div class="card" style="margin-top:26px"><h3>수정 요청 반영 <span class="chip done">완료</span></h3>
+    <div class="grid g3" style="gap:10px 24px; margin-top:8px">
+      <p>· 연 · 월 · 일 목록 입력, 요일 · 음력 확인</p><p>· 지난해 · 다음해 운세 넘기기</p><p>· 마음 처방 → 건강운 · 건강 체크</p>
+      <p>· 인생 주요 포인트 (결혼 · 취업 · 재물 · 건강)</p><p>· 새 명식 입력 · 명식 바꾸기 버튼</p><p>· 출생지 입력 삭제</p>
+      <p>· 만세력 오방색 (청 · 적 · 황 · 백 · 흑)</p><p>· 대운 아래 세운 10년</p><p>· 월별 흐름에 보는 명식 표시</p>
+    </div>
+  </div>
+</section>
+
+<!-- 14. 다음 단계 일정 -->
+<section class="slide" data-title="다음 단계 일정" data-group="5. 일정">
+  <p class="kicker">5. 일정 (잠정)</p>
+  <h2>다음 단계 · 10주 계획</h2>
+  <p class="lead">무료 웹 베타로 해석 품질과 리포트 연결률을 확인한 뒤, 결제와 앱으로 넓힙니다. 일정은 개발 인력이 정해지면 확정합니다.</p>
+  <div class="gantt">
+    <span></span>
+    <span class="h">10/13</span><span class="h">10/20</span><span class="h">10/27</span><span class="h">11/3</span><span class="h">11/10</span><span class="h">11/17</span><span class="h">11/24</span><span class="h">12/1</span><span class="h">12/8</span><span class="h">12/15</span>
+    <span class="name">8. 엔진 검증 관문<small>기존 앱과 명식 30건 대조</small></span><div class="bar" style="grid-column: span 2">30건 일치 · 대운수 기준 확정</div><span style="grid-column: span 8"></span>
+    <span class="name">9. 지인 베타<small>10명 · 사용 기록 · 피드백</small></span><span></span><div class="bar b2" style="grid-column: span 2">배포 주소로 각자 조회</div><span style="grid-column: span 7"></span>
+    <span class="name">10. 명리 전문가 검수<small>3인 · 샘플 100건</small></span><span style="grid-column: span 2"></span><div class="bar b3" style="grid-column: span 3">규칙표 · 풀이 문구 보정</div><span style="grid-column: span 5"></span>
+    <span class="name">11. 상세 리포트 · 결제<small>영역별 단건 · 구독 설계</small></span><span style="grid-column: span 4"></span><div class="bar b4" style="grid-column: span 3">유료 화면 · 결제 연동</div><span style="grid-column: span 3"></span>
+    <span class="name">12. 월운 알림 · 앱화<small>FCM 푸시 · PWA 설치</small></span><span style="grid-column: span 6"></span><div class="bar b5" style="grid-column: span 4">매월 월운 알림 · 홈 화면 설치</div>
+  </div>
+  <div class="foot"><span>관문: 8단계를 통과해야 9단계(공개 베타)로 넘어갑니다</span></div>
+</section>
+
+<!-- 15. 검증 · 완료 기준 -->
+<section class="slide" data-title="검증 · 완료 기준" data-group="5. 일정">
+  <p class="kicker">5. 일정</p>
+  <h2>검증 · 완료 기준</h2>
+  <p class="lead">기획서의 1주 MVP 완료 기준과 지금 상태입니다.</p>
+  <ul class="checks">
+    <li><span class="chip done">완료</span><span class="t">휴대폰 화면(360~390px)에서 입력부터 그래프까지 가로 넘침 없이 이동 · 라벤더 / 다크 테마 확인</span></li>
+    <li><span class="chip done">완료</span><span class="t">모든 결과 화면에 참고용 고지 · 건강 화면에 "의학적 진단 아님" 문구</span></li>
+    <li><span class="chip done">완료</span><span class="t">절기 시각 8건 ±0.6분 · 음력 왕복 오류 0 · 검증 사례 21건 일치 · 배포 사이트 콘솔 오류 없음</span></li>
+    <li><span class="chip now">진행</span><span class="t">명식 30건(절기 경계일 · 윤달 · 시간 모름 포함)이 기존 만세력 앱과 일치 — 현재 0/30, 대운수(반올림 · 나이 기준) 확정 필요</span></li>
+    <li><span class="chip now">진행</span><span class="t">구글 로그인 · 계정 저장 실제 사용자 확인 (미리보기 창은 팝업이 막혀 직접 확인 필요)</span></li>
+    <li><span class="chip next">예정</span><span class="t">배포 주소로 지인 10명이 각자 명식 조회 완료</span></li>
+    <li><span class="chip next">예정</span><span class="t">명리 전문가 3인이 샘플 100건의 점수와 풀이 검수</span></li>
+  </ul>
+</section>
+
+<!-- 16. 리스크 -->
+<section class="slide" data-title="리스크와 대응" data-group="6. 리스크 · 운영">
+  <p class="kicker">6. 리스크 · 운영</p>
+  <h2>리스크와 대응</h2>
+  <p class="lead">사주는 학파와 계산 기준에 따라 결과가 갈립니다. 갈리는 지점은 숨기지 않고 안내합니다.</p>
+  <table>
+    <tr><th style="width:24%">리스크</th><th style="width:38%">내용</th><th>대응</th></tr>
+    <tr><td><b>해석 편차</b></td><td>학파마다 용신 · 대운수 · 야자시 판단이 다름</td><td>기준을 <code>SETTINGS</code> · 규칙표로 분리, 전문가 검수, "해석 기준 보기" 공개 예정</td></tr>
+    <tr><td><b>출생 시각 오차</b></td><td>절기 경계 · 시주 경계 · 동쪽 지역(부산 등 약 8분)</td><td>경계 근처면 확인 안내, 시간 모름이면 세 기둥 해석</td></tr>
+    <tr><td><b>점수 신뢰도</b></td><td>규칙 숫자가 초안</td><td>샘플 100건 검수 후 보정, 지난 포인트를 "(지남)"으로 보여 사용자 체감 확인</td></tr>
+    <tr><td><b>민감 영역</b></td><td>재물 · 관계 · 건강 결정에 영향</td><td>단정 표현 금지어, 종목 추천 금지, 건강은 검진 · 의료기관 안내</td></tr>
+    <tr><td><b>개인정보</b></td><td>생년월일시 · 가족 정보</td><td>본인만 읽는 규칙, 동의 체크, 공개 저장소에 실명 · 생년월일 금지</td></tr>
+    <tr><td><b>캐시 · 배포</b></td><td>휴대폰에 예전 CSS · JS가 섞임</td><td>no-cache 헤더 · 파일 버전 번호(<code>?v=</code>) 갱신</td></tr>
+  </table>
+</section>
+
+<!-- 17. 배포 · 운영 -->
+<section class="slide" data-title="배포 · 운영" data-group="6. 리스크 · 운영">
+  <p class="kicker">6. 리스크 · 운영</p>
+  <h2>배포 · 운영</h2>
+  <p class="lead">공유는 Firebase 주소로. GitHub Pages 주소는 개발용 파일이 함께 열리므로 외부 공유에 쓰지 않습니다.</p>
+  <div class="grid g2">
+    <div class="card dark"><h3>정식 주소</h3><p style="font-size:26px;font-weight:800;margin:6px 0 10px">saju-app-sykim.web.app</p><ul>
+      <li>Firebase Hosting · 모든 파일 no-cache</li><li>기획서 · 목업 · 검증 페이지 · 계획서는 배포 제외</li><li>구글 로그인 승인 도메인 기본 포함</li></ul></div>
+    <div class="card"><h3>배포 순서</h3><ul>
+      <li>로컬 확인: <code>py -m http.server 5510</code></li>
+      <li>엔진 검증: <code>check.html</code> 사례 전부 일치</li>
+      <li>화면 확인: 360 · 390px, 라벤더 · 다크</li>
+      <li>배포: <code>firebase deploy --only hosting,firestore:rules</code></li>
+      <li>커밋 · 푸시: <code>main</code> (뉴스 자동 갱신과 병합)</li>
+    </ul></div>
+  </div>
+  <div class="card soft" style="margin-top:18px"><p><b>성공 지표 (베타 후 목표치 확정)</b> — 리포트 연결률 · 1인당 리포트 수 · 월운 재방문율 · 유료 전환율 · 실천 카드 클릭률 · "도움이 됐어요" 비율</p></div>
+</section>
+
+<!-- 18. 마무리 -->
+<section class="slide cover" data-title="정리 · 결정할 것" data-group="마무리">
+  <p class="kicker">정리</p>
+  <h1 style="font-size:58px">엔진 검증을 마치고<br><em>지인 베타</em>로 갑니다</h1>
+  <p class="lead">웹 MVP는 배포까지 끝났습니다. 다음 결정이 필요합니다.</p>
+  <div class="grid g3" style="max-width:1080px">
+    <div class="card"><h3>① 대운수 기준</h3><p>날수 ÷ 3 반올림(현재) vs 기존 앱 방식 — 30건 대조로 확정</p></div>
+    <div class="card"><h3>② 베타 참여자</h3><p>지인 10명 명단 · 피드백 받을 방법(설문 · 메모)</p></div>
+    <div class="card"><h3>③ 유료 범위</h3><p>무료(만세력 · 인생 그래프 · 올해 운세) 밖 상세 리포트 가격</p></div>
+  </div>
+</section>
+
+</div>
+</main>
+
+<script>
+// 슬라이드 넘기기 · 목차 메뉴 · 화면 맞춤. 다른 파일에 의존하지 않는다.
+(() => {
+  const slides = [...document.querySelectorAll(".slide")];
+  const deck = document.getElementById("deck");
+  const counter = document.getElementById("counter");
+  const titlePill = document.getElementById("titlePill");
+  const bar = document.getElementById("progressBar");
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const drawer = document.getElementById("drawer");
+  const back = document.getElementById("drawerBack");
+  const menuBtn = document.getElementById("menuBtn");
+  const toc = document.getElementById("toc");
+  let current = 0;
+
+  // 목차(메뉴) 만들기: 묶음(data-group)별로
+  let html = "";
+  let group = "";
+  slides.forEach((s, i) => {
+    if (s.dataset.group !== group) {
+      group = s.dataset.group;
+      html += `<div class="grp">${group}</div>`;
+    }
+    html += `<a href="#${i + 1}" data-i="${i}"><span>${i + 1}</span>${s.dataset.title}</a>`;
+  });
+  toc.innerHTML = html;
+
+  // 2장 목차 카드
+  const groups = [...new Set(slides.map((s) => s.dataset.group))].filter((g) => !["시작", "마무리"].includes(g));
+  document.getElementById("contentsGrid").innerHTML = groups.map((g) => {
+    const items = slides.map((s, i) => ({ s, i })).filter(({ s }) => s.dataset.group === g);
+    return `<a class="card" href="#${items[0].i + 1}" style="text-decoration:none;color:inherit"><h3>${g}</h3><ul>${items.map(({ s, i }) => `<li>${s.dataset.title} <span style="color:var(--muted)">· ${i + 1}</span></li>`).join("")}</ul></a>`;
+  }).join("");
+
+  function fit() {
+    // 화면 정가운데를 기준으로 줄인다 (여백: 가로 80px · 세로 80px 정도)
+    const scale = Math.min(window.innerWidth / 1360, window.innerHeight / 800);
+    deck.style.transform = `translate(-50%, -50%) scale(${scale})`;
+  }
+
+  function go(i, push = true) {
+    current = Math.max(0, Math.min(slides.length - 1, i));
+    slides.forEach((s, k) => {
+      s.classList.toggle("on", k === current);
+      s.classList.toggle("prev", k < current);
+      s.setAttribute("aria-hidden", k === current ? "false" : "true");
+    });
+    counter.textContent = `${current + 1} / ${slides.length}`;
+    titlePill.innerHTML = `<span>${current + 1}.</span>${slides[current].dataset.title}`;
+    bar.style.width = `${((current + 1) / slides.length) * 100}%`;
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === slides.length - 1;
+    toc.querySelectorAll("a").forEach((a) => a.classList.toggle("on", Number(a.dataset.i) === current));
+    if (push && location.hash !== `#${current + 1}`) history.replaceState(null, "", `#${current + 1}`);
+  }
+
+  function openMenu(open) {
+    drawer.classList.toggle("open", open);
+    back.classList.toggle("open", open);
+    menuBtn.setAttribute("aria-expanded", String(open));
+  }
+
+  prevBtn.addEventListener("click", () => go(current - 1));
+  nextBtn.addEventListener("click", () => go(current + 1));
+  menuBtn.addEventListener("click", () => openMenu(!drawer.classList.contains("open")));
+  back.addEventListener("click", () => openMenu(false));
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    const n = Number(a.getAttribute("href").slice(1));
+    if (!n) return;
+    e.preventDefault();
+    go(n - 1);
+    openMenu(false);
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowRight" || e.key === "PageDown" || e.key === " ") { e.preventDefault(); go(current + 1); }
+    else if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); go(current - 1); }
+    else if (e.key === "Home") go(0);
+    else if (e.key === "End") go(slides.length - 1);
+    else if (e.key === "m" || e.key === "M") openMenu(!drawer.classList.contains("open"));
+    else if (e.key === "Escape") openMenu(false);
+  });
+
+  // 휴대폰 스와이프
+  let sx = null;
+  let sy = null;
+  document.addEventListener("touchstart", (e) => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+  document.addEventListener("touchend", (e) => {
+    if (sx == null || drawer.classList.contains("open")) return;
+    const dx = e.changedTouches[0].clientX - sx;
+    const dy = e.changedTouches[0].clientY - sy;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) go(current + (dx < 0 ? 1 : -1));
+    sx = null;
+  });
+
+  window.addEventListener("resize", fit);
+  window.addEventListener("hashchange", () => go((Number(location.hash.slice(1)) || 1) - 1, false));
+  fit();
+  go((Number(location.hash.slice(1)) || 1) - 1, false);
+})();
+</script>
+</body>
+</html>

@@ -2,7 +2,7 @@
 // 주소: #home · #fortune[/연도] · #monthly/<영역>[/연도] · #life · #job · #me · #chart · #charts · #manse/<new|edit>
 
 import { calculateSaju } from "./manse.js";
-import { CITIES } from "./saju-data.js";
+import { SETTINGS } from "./saju-data.js";
 import { analyzeNatal, lifeGraph, yearFlow, lifeEvents } from "./score.js";
 import {
   loadLocalCharts, saveLocalChart, deleteLocalChart, newChartId, loadCurrentId, saveCurrentId,
@@ -143,8 +143,8 @@ function toast(text) {
 function wireManseForm(editing) {
   const form = document.getElementById("manseForm");
   const f = form.elements;
-  const lonField = form.querySelector("[data-lon]");
   const consentField = form.querySelector("[data-consent]");
+  const longitude = editing?.longitude ?? SETTINGS.defaultLongitude; // 시주 지방시 보정 경도 (서울)
   const dateHintEl = form.querySelector("[data-date-hint]");
   const timeHintEl = form.querySelector("[data-time-hint]");
   const num = (el) => (el.value === "" ? 0 : Number(el.value));
@@ -161,20 +161,14 @@ function wireManseForm(editing) {
     dateHintEl.innerHTML = dateHint(f.calendar.value, num(f.year), num(f.month), num(f.day));
   };
   const refreshTimeHint = () => {
-    timeHintEl.textContent = f.unknownTime.checked || f.hour.value === "" ? "" : timeHint(num(f.hour), num(f.minute), Number(f.longitude.value) || 126.98);
+    timeHintEl.textContent = f.unknownTime.checked || f.hour.value === "" ? "" : timeHint(num(f.hour), num(f.minute), longitude);
   };
   for (const el of [f.year, f.month, ...f.calendar]) el.addEventListener("change", refreshDays);
   f.day.addEventListener("change", refreshDateHint);
-  for (const el of [f.hour, f.minute, f.longitude]) el.addEventListener("change", refreshTimeHint);
+  for (const el of [f.hour, f.minute]) el.addEventListener("change", refreshTimeHint);
   f.unknownTime.addEventListener("change", (e) => {
     f.hour.disabled = e.target.checked;
     f.minute.disabled = e.target.checked;
-    refreshTimeHint();
-  });
-  f.city.addEventListener("change", (e) => {
-    const city = CITIES.find((c) => c.name === e.target.value);
-    lonField.hidden = Boolean(city);
-    if (city) f.longitude.value = city.lon;
     refreshTimeHint();
   });
   f.relation.addEventListener("change", (e) => {
@@ -183,7 +177,6 @@ function wireManseForm(editing) {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const cal = f.calendar.value;
-    const city = CITIES.find((c) => c.name === f.city.value);
     const two = (n) => String(n).padStart(2, "0");
     if (!f.year.value || !f.month.value || !f.day.value) return showFormError("태어난 연도 · 월 · 일을 모두 골라 주세요.");
     if (!f.unknownTime.checked && f.hour.value === "") return showFormError("태어난 시를 고르거나 '시간을 몰라요'를 체크해 주세요.");
@@ -196,8 +189,8 @@ function wireManseForm(editing) {
       leap: cal === "leap",
       date: `${f.year.value}-${two(f.month.value)}-${two(f.day.value)}`,
       time: f.unknownTime.checked ? null : `${two(f.hour.value)}:${two(f.minute.value)}`,
-      city: city ? city.name : "",
-      longitude: city ? city.lon : Number(f.longitude.value) || 126.98,
+      city: editing?.city ?? "서울",
+      longitude, // 출생지는 입력받지 않는다: 새 명식은 서울, 고치는 명식은 원래 값 유지
       applyDst: f.applyDst.checked,
       nightZi: f.nightZi.checked,
       consent: f.relation.value === "본인" || f.consent.checked,
