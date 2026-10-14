@@ -534,7 +534,10 @@ async function pickCandidate(c) {
   try {
     state.lookup = await WikiLookup.load(c);
     renderLookup();
-    setStatus("불러왔습니다. 연혁·사진을 확인하고 ‘장면 만들기’를 누르세요. 만든 뒤에도 아래에서 고칠 수 있습니다.");
+    // 고르는 즉시 인물 이름을 넣고 장면·사진까지 자동으로 채움
+    state.person = state.lookup.name;
+    syncInputs(); refresh();
+    await applyLookup(true);
   } catch (err) {
     setStatus(`불러오지 못했습니다: ${err.message}`, true);
   }
@@ -604,11 +607,15 @@ function pickPhoto(d, ev, used) {
   return null;
 }
 
-async function applyLookup() {
+async function applyLookup(auto = false) {
   const d = state.lookup;
   const evs = d.events.filter((e) => e.checked);
   if (!evs.length) { alert("체크한 연혁이 없습니다."); return; }
-  if (!state.isSample && state.slides.length && !confirm("지금 편집 중인 장면을 지우고 새로 만들까요?")) return;
+  if (!state.isSample && state.slides.length &&
+      !confirm(`‘${d.name}’의 연혁과 사진으로 장면을 새로 만들까요?\n지금 편집 중인 장면은 지워집니다.`)) {
+    setStatus("장면은 그대로 두었습니다. 새로 만들려면 아래 ‘체크한 항목으로 장면 다시 만들기’를 누르세요.");
+    return;
+  }
   const fd = WikiLookup.fmtDate;
   state.person = d.name;
   state.infoLine = [
@@ -626,18 +633,28 @@ async function applyLookup() {
   });
   state.isSample = false;
   syncInputs(); renderList(); refresh();
-  $("slideList").scrollIntoView({ behavior: "smooth", block: "start" });
+  if (!auto) $("slideList").scrollIntoView({ behavior: "smooth", block: "start" });
 
+  const n = state.slides.length;
   const withPhoto = state.slides.filter((sl) => sl.photoKey);
-  let done = 0;
-  setStatus(`장면 ${state.slides.length}개를 만들었습니다. 사진 불러오는 중… 0/${withPhoto.length}`);
+  let done = 0, failed = 0;
+  setStatus(`장면 ${n}개를 만들었습니다. 사진 불러오는 중… 0/${withPhoto.length}`);
   await Promise.all(withPhoto.map(async (sl) => {
-    const img = await loadUrlImage(photoByKey(sl.photoKey).thumb);
-    if (img && sl.photoKey) sl.img = img;
-    setStatus(`장면 ${state.slides.length}개를 만들었습니다. 사진 불러오는 중… ${++done}/${withPhoto.length}`);
+    const key = sl.photoKey;
+    const img = await loadUrlImage(photoByKey(key).thumb);
+    if (sl.photoKey === key) {
+      if (img) sl.img = img;
+      else { failed++; sl.photoKey = ""; sl.source = composeSource(null); }
+    }
+    setStatus(`장면 ${n}개를 만들었습니다. 사진 불러오는 중… ${++done}/${withPhoto.length}`);
   }));
-  renderList(); refresh(); showSlide(state.slides[0]);
-  setStatus(`장면 ${state.slides.length}개를 만들었습니다. 아래에서 내용과 사진을 고친 뒤 영상을 만드세요.`);
+  renderList(); refresh(); showSlide(state.slides.find((sl) => sl.img) || state.slides[0]);
+  const ok = withPhoto.length - failed;
+  setStatus(
+    `‘${d.name}’ 장면 ${n}개를 만들고 사진 ${ok}장을 자동으로 넣었습니다.` +
+    (n - ok ? ` 사진이 없는 장면 ${n - ok}개는 아래 ‘후보 사진에서 고르기’나 ‘내 사진 올리기’로 채우세요.` : "") +
+    (failed ? ` (사진 ${failed}장은 불러오지 못했습니다)` : ""),
+  );
 }
 
 /* ===== 배경음악 선택 ===== */
@@ -709,7 +726,7 @@ function bind() {
   sync("person", "person"); sync("subtitle", "subtitle"); sync("infoLine", "infoLine");
 
   $("qForm").addEventListener("submit", doSearch);
-  $("applyBtn").addEventListener("click", applyLookup);
+  $("applyBtn").addEventListener("click", () => applyLookup(false));
   const checkAll = (v) => { state.lookup.events.forEach((ev) => (ev.checked = v)); renderLookup(); };
   $("evAll").addEventListener("click", () => checkAll(true));
   $("evNone").addEventListener("click", () => checkAll(false));

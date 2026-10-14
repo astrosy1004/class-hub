@@ -154,7 +154,7 @@ const WikiLookup = (() => {
       used.add(hit);
       return hit;
     };
-    const shortTitle = (t) => t.replace(/\s*\([^)]*\)/g, "").trim();
+    const shortTitle = (t) => t.replace(/\s*\([^)]*\)/g, "").replace(/^대한민국의\s+/, "").trim();
 
     if (birth) push({ kind: "출생", date: birth, title: "출생", desc: birthPlace ? `${birthPlace}에서 태어났다.` : `${fmtDate(birth)} 태어났다.` });
 
