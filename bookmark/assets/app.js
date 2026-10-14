@@ -66,6 +66,7 @@ const programs = [
     icon: "🐱",
     tone: "orange",
     url: "https://happy-mypet.vercel.app/",
+    plan: "../pet-care-presentation.html",
     description: "고양이 울음소리와 행동 신호를 해석하고 식사 · 건강을 기록하는 반려동물 케어 서비스",
     features: ["울음 · 꼬리 · 귀 · 자세로 감정 해석", "식사 · 배변 · 건강 기록", "AI 맞춤 케어 안내"],
     tags: ["고양이", "Vercel"],
