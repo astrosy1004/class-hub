@@ -98,6 +98,18 @@ const programs = [
     tags: ["날씨", "안전", "Firebase"],
   },
   {
+    id: "timeline-video",
+    type: "webapp",
+    status: "live",
+    title: "연혁 영상 메이커",
+    icon: "🎬",
+    tone: "teal",
+    url: "../timeline-video/",
+    description: "정치·경제인 이름을 검색하면 연혁과 시기별 사진을 불러와 과거→현재 변화를 보여주는 유튜브용 영상을 만드는 도구",
+    features: ["위키백과·위키데이터로 생년월일 · 경력 자동 정리", "공용 사진을 연도별로 장면에 자동 배정", "무료 배경음악(CC BY) · 채널 이름 표시", "가로 16:9 · 쇼츠 9:16 mp4 녹화"],
+    tags: ["유튜브", "영상", "위키백과"],
+  },
+  {
     id: "mynews",
     type: "webapp",
     status: "live",
