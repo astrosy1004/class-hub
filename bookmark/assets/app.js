@@ -46,6 +46,19 @@ const toneOptions = [
 // plan 은 개발 계획서 주소(선택). 적어 두면 메뉴와 카드에 📋 개발 계획서 링크가 생깁니다.
 const programs = [
   {
+    id: "location",
+    type: "webapp",
+    status: "live",
+    title: "우리 동네 AI 입지 분석",
+    icon: "📍",
+    tone: "blue",
+    url: "https://location-app-sykim.web.app",
+    plan: "../location/plan.html",
+    description: "지역과 업종을 입력하면 유동인구 · 고객층 · 경쟁 점포를 지도와 그래프로 보여주고 입지 적합도를 알려주는 상권 분석 웹앱",
+    features: ["현재 위치 · 동 단위 검색과 세부 업종", "Kakao 지도 점포 상세와 경쟁 분석", "생활인구 추이 · 점수 산출 근거 · AI 의견", "후보지 비교와 구글 로그인 저장"],
+    tags: ["상권분석", "Kakao", "Firebase"],
+  },
+  {
     id: "saju",
     type: "webapp",
     status: "live",

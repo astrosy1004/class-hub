@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>우리 동네 AI 입지 분석 · 개발 계획서</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+/* 발표용 개발 계획서. 슬라이드 1장 = 1280×720, 화면 크기에 맞춰 통째로 줄이고 늘린다.
+   넘기기: ← → 키 · 화면 좌우 버튼 · 휴대폰 스와이프 · ☰ 메뉴. 주소 #3 처럼 장 번호로 바로 열 수 있다. */
+:root {
+  --bg: #efecfb;
+  --stage: #f7f5fd;
+  --surface: #ffffff;
+  --surface-2: #f3f0fc;
+  --text: #1c1930;
+  --muted: #6f6a86;
+  --line: #e6e1f5;
+  --accent: #5b3fd9;
+  --accent-2: #8c78ea;
+  --accent-soft: #ece7fd;
+  --now: #c3367a;
+  --now-soft: #fbe5ef;
+  --up: #1d9a6c;
+  --up-soft: #dff5ec;
+  --warn: #d9781f;
+  --warn-soft: #fff1e3;
+  --wood: #2f9e6e;
+  --fire: #e2484b;
+  --earth: #f2c12e;
+  --metal: #ffffff;
+  --water: #24242c;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Malgun Gothic", sans-serif;
+  overflow: hidden;
+  word-break: keep-all;
+}
+button { font: inherit; color: inherit; cursor: pointer; }
+
+/* ── 무대: 1280×720 슬라이드를 화면에 맞춰 축소 ───────── */
+.viewport { position: fixed; inset: 0; overflow: hidden; }
+.deck { width: 1280px; height: 720px; position: absolute; left: 50%; top: 50%; transform-origin: center center; transform: translate(-50%, -50%); }
+.slide {
+  position: absolute; inset: 0; background: var(--stage); border-radius: 28px; overflow: hidden;
+  padding: 64px 80px 60px; box-shadow: 0 30px 80px rgba(60, 40, 140, 0.18);
+  opacity: 0; visibility: hidden; transform: translateX(40px); transition: opacity 0.35s, transform 0.35s, visibility 0.35s;
+  display: flex; flex-direction: column;
+}
+.slide.prev { transform: translateX(-40px); }
+.slide.on { opacity: 1; visibility: visible; transform: none; }
+.slide::before { /* 위쪽 라벤더 그라디언트 */
+  content: ""; position: absolute; inset: 0 0 auto 0; height: 260px; z-index: 0;
+  background: linear-gradient(180deg, #e3dcfa, rgba(247, 245, 253, 0));
+}
+.slide > * { position: relative; z-index: 1; }
+
+.kicker { font-size: 18px; font-weight: 700; color: var(--accent); letter-spacing: 0.02em; margin: 0 0 10px; }
+.slide h2 { font-size: 42px; line-height: 1.25; margin: 0 0 8px; letter-spacing: -0.02em; }
+.slide h2 em { font-style: normal; color: var(--accent); }
+.lead { font-size: 20px; color: var(--muted); margin: 0 0 28px; line-height: 1.55; }
+.foot { margin-top: auto; padding-top: 18px; font-size: 14px; color: var(--muted); display: flex; justify-content: space-between; }
+
+.grid { display: grid; gap: 18px; }
+.g2 { grid-template-columns: 1fr 1fr; }
+.g3 { grid-template-columns: repeat(3, 1fr); }
+.g4 { grid-template-columns: repeat(4, 1fr); }
+.card { background: var(--surface); border-radius: 20px; padding: 22px 24px; box-shadow: 0 8px 24px rgba(91, 63, 217, 0.08); }
+.card h3 { margin: 0 0 8px; font-size: 21px; }
+.card p, .card li { font-size: 16.5px; line-height: 1.55; color: #3b3752; margin: 0; }
+.card ul { margin: 0; padding-left: 18px; }
+.card li + li { margin-top: 4px; }
+.card .num { font-size: 40px; font-weight: 800; color: var(--accent); line-height: 1; margin-bottom: 6px; }
+.card.soft { background: var(--accent-soft); box-shadow: none; }
+.card.dark { background: var(--accent); color: #fff; }
+.card.dark h3, .card.dark p, .card.dark li { color: #fff; }
+.ico { width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 12px; }
+.chip { display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: 14px; font-weight: 700; background: var(--accent-soft); color: var(--accent); }
+.chip.done { background: var(--up-soft); color: var(--up); }
+.chip.next { background: var(--warn-soft); color: var(--warn); }
+.chip.now { background: var(--now-soft); color: var(--now); }
+
+table { width: 100%; border-collapse: collapse; font-size: 16.5px; background: var(--surface); border-radius: 18px; overflow: hidden; box-shadow: 0 8px 24px rgba(91, 63, 217, 0.08); }
+th, td { padding: 13px 18px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; line-height: 1.45; }
+th { background: var(--surface-2); font-size: 15px; color: var(--muted); font-weight: 700; }
+tr:last-child td { border-bottom: 0; }
+td b { color: var(--accent); }
+
+/* ── 표지 ───────── */
+.cover { justify-content: center; }
+.cover::before { height: 100%; background: radial-gradient(1000px 600px at 85% 20%, #d9cffb, transparent 60%), linear-gradient(160deg, #e9e3fd, #f7f5fd 60%); }
+.cover h1 { font-size: 76px; line-height: 1.12; margin: 6px 0 18px; letter-spacing: -0.03em; }
+.cover h1 em { font-style: normal; color: var(--accent); }
+.cover .lead { font-size: 24px; max-width: 640px; }
+.cover-meta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+.cover-meta span { background: var(--surface); border-radius: 999px; padding: 10px 18px; font-size: 16px; font-weight: 600; box-shadow: 0 6px 18px rgba(91, 63, 217, 0.1); }
+.cover-art { position: absolute; right: 70px; top: 130px; width: 430px; }
+
+/* ── 흐름 화살표 ───────── */
+.flow { display: flex; align-items: stretch; gap: 14px; }
+.flow .step { flex: 1; background: var(--surface); border-radius: 20px; padding: 22px; text-align: center; box-shadow: 0 8px 24px rgba(91, 63, 217, 0.08); }
+.flow .step b { display: block; font-size: 24px; margin: 6px 0; }
+.flow .step small { font-size: 15px; color: var(--muted); line-height: 1.45; display: block; }
+.flow .arrow { align-self: center; font-size: 28px; color: var(--accent-2); font-weight: 800; }
+
+/* ── 구조도 ───────── */
+.arch { display: grid; grid-template-columns: 1fr 1.35fr 1fr; gap: 22px; align-items: stretch; }
+.layer { background: var(--surface); border-radius: 20px; padding: 18px 20px; box-shadow: 0 8px 24px rgba(91, 63, 217, 0.08); }
+.layer h3 { margin: 0 0 12px; font-size: 19px; display: flex; align-items: center; gap: 8px; }
+.mod { display: flex; justify-content: space-between; gap: 10px; padding: 9px 12px; border-radius: 12px; background: var(--surface-2); font-size: 15px; margin-top: 8px; }
+.mod code { font-family: Consolas, monospace; font-size: 14px; color: var(--accent); font-weight: 700; }
+.mod span { color: var(--muted); text-align: right; }
+
+/* ── 로드맵 ───────── */
+.timeline { position: relative; display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-top: 8px; }
+.timeline::before { content: ""; position: absolute; left: 4%; right: 4%; top: 25px; height: 4px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); border-radius: 4px; }
+.tl { text-align: center; position: relative; }
+.tl .dot { width: 54px; height: 54px; border-radius: 50%; margin: 0 auto 12px; display: grid; place-items: center; font-weight: 800; font-size: 20px; color: #fff; background: var(--accent); border: 5px solid var(--stage); }
+.tl b { display: block; font-size: 16px; margin-bottom: 4px; }
+.tl small { display: block; font-size: 13.5px; color: var(--muted); line-height: 1.4; }
+
+.gantt { display: grid; grid-template-columns: 250px repeat(10, 1fr); gap: 6px 4px; align-items: center; font-size: 15px; }
+.gantt .h { font-size: 13px; color: var(--muted); text-align: center; font-weight: 700; }
+.gantt .name { font-weight: 700; }
+.gantt .name small { display: block; font-weight: 500; color: var(--muted); font-size: 13px; }
+.bar { height: 30px; border-radius: 10px; background: var(--accent); color: #fff; font-size: 13px; font-weight: 700; display: flex; align-items: center; padding: 0 10px; white-space: nowrap; overflow: hidden; }
+.bar.b2 { background: var(--accent-2); }
+.bar.b3 { background: var(--now); }
+.bar.b4 { background: var(--up); }
+.bar.b5 { background: var(--warn); }
+
+/* ── 체크리스트 ───────── */
+.checks { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+.checks li { display: flex; gap: 12px; align-items: center; background: var(--surface); border-radius: 14px; padding: 13px 16px; font-size: 16.5px; box-shadow: 0 6px 18px rgba(91, 63, 217, 0.06); }
+.checks li .chip { flex: none; min-width: 64px; text-align: center; }
+.checks li span.t { flex: 1; }
+
+/* 오방색 타일 */
+.tiles { display: flex; gap: 10px; margin-top: 10px; }
+.tile { width: 58px; height: 58px; border-radius: 14px; display: grid; place-items: center; font-size: 28px; font-weight: 800; line-height: 1; }
+.tile small { display: block; font-size: 11px; font-weight: 600; margin-top: 3px; }
+.t0 { background: var(--wood); color: #fff; }
+.t1 { background: var(--fire); color: #fff; }
+.t2 { background: var(--earth); color: #3a2a00; }
+.t3 { background: var(--metal); color: #2b2b35; box-shadow: inset 0 0 0 2px #cfd1da; }
+.t4 { background: var(--water); color: #fff; }
+
+/* ── 조작 UI: 메뉴 · 화살표 · 진행 막대 ───────── */
+.topbar { position: fixed; top: 0; left: 0; right: 0; height: 56px; display: flex; align-items: center; gap: 12px; padding: 0 16px; z-index: 20; pointer-events: none; }
+.topbar > * { pointer-events: auto; }
+.menu-btn { width: 44px; height: 44px; border-radius: 14px; border: 0; background: var(--surface); box-shadow: 0 6px 18px rgba(60, 40, 140, 0.15); display: grid; place-items: center; }
+.menu-btn svg { width: 22px; height: 22px; }
+.title-pill { background: var(--surface); border-radius: 999px; padding: 9px 16px; font-size: 14px; font-weight: 700; box-shadow: 0 6px 18px rgba(60, 40, 140, 0.12); max-width: 60vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.title-pill span { color: var(--muted); font-weight: 600; margin-right: 6px; }
+.counter { margin-left: auto; background: var(--surface); border-radius: 999px; padding: 9px 14px; font-size: 14px; font-weight: 800; box-shadow: 0 6px 18px rgba(60, 40, 140, 0.12); }
+.nav-btn { position: fixed; top: 50%; transform: translateY(-50%); width: 52px; height: 52px; border-radius: 50%; border: 0; background: var(--surface); box-shadow: 0 8px 22px rgba(60, 40, 140, 0.2); display: grid; place-items: center; z-index: 20; }
+.nav-btn svg { width: 24px; height: 24px; color: var(--accent); }
+.nav-btn:disabled { opacity: 0.3; cursor: default; }
+.nav-btn.prev { left: 14px; }
+.nav-btn.next { right: 14px; }
+.progress { position: fixed; left: 0; right: 0; bottom: 0; height: 5px; background: rgba(91, 63, 217, 0.12); z-index: 20; }
+.progress i { display: block; height: 100%; background: linear-gradient(90deg, var(--accent), var(--now)); transition: width 0.35s; }
+.hint { position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%); font-size: 13px; color: var(--muted); background: rgba(255, 255, 255, 0.85); padding: 6px 14px; border-radius: 999px; z-index: 20; }
+
+.drawer-back { position: fixed; inset: 0; background: rgba(20, 16, 50, 0.35); z-index: 30; opacity: 0; visibility: hidden; transition: 0.25s; }
+.drawer { position: fixed; top: 0; bottom: 0; left: 0; width: min(360px, 88vw); background: var(--surface); z-index: 31; transform: translateX(-100%); transition: transform 0.28s; display: flex; flex-direction: column; box-shadow: 10px 0 40px rgba(20, 16, 50, 0.2); }
+.drawer.open { transform: none; }
+.drawer-back.open { opacity: 1; visibility: visible; }
+.drawer header { padding: 22px 22px 12px; border-bottom: 1px solid var(--line); }
+.drawer header b { display: block; font-size: 19px; }
+.drawer header small { color: var(--muted); font-size: 13px; }
+.drawer nav { overflow-y: auto; padding: 10px; }
+.drawer .grp { font-size: 12px; font-weight: 800; color: var(--muted); padding: 14px 12px 6px; letter-spacing: 0.04em; }
+.drawer a { display: flex; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 12px; color: var(--text); text-decoration: none; font-size: 15px; font-weight: 600; }
+.drawer a span { width: 28px; height: 28px; border-radius: 9px; display: grid; place-items: center; background: var(--surface-2); color: var(--muted); font-size: 13px; font-weight: 800; flex: none; }
+.drawer a:hover { background: var(--surface-2); }
+.drawer a.on { background: var(--accent-soft); color: var(--accent); }
+.drawer a.on span { background: var(--accent); color: #fff; }
+
+@media (max-width: 700px) {
+  .hint { display: none; }
+  .nav-btn { width: 42px; height: 42px; top: auto; bottom: 18px; transform: none; }
+  .title-pill { display: none; }
+}
+@media print {
+  body { overflow: visible; background: #fff; }
+  .viewport { position: static; display: block; }
+  .deck { transform: none !important; position: static; width: auto; height: auto; }
+  .slide { position: relative; opacity: 1; visibility: visible; transform: none; page-break-after: always; width: 1280px; height: 720px; margin: 0 auto 20px; box-shadow: none; }
+  .topbar, .nav-btn, .progress, .hint, .drawer, .drawer-back { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <button class="menu-btn" id="menuBtn" aria-label="목차 열기" aria-expanded="false" aria-controls="drawer">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+  </button>
+  <div class="title-pill" id="titlePill"><span>우리 동네 AI 입지 분석</span>개발 계획서</div>
+  <div class="counter" id="counter" aria-live="polite">1 / 1</div>
+</div>
+
+<button class="nav-btn prev" id="prevBtn" aria-label="이전 장">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+</button>
+<button class="nav-btn next" id="nextBtn" aria-label="다음 장">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+</button>
+<div class="progress"><i id="progressBar"></i></div>
+<div class="hint">← → 키 · 스와이프로 넘기기 · M 키로 목차</div>
+
+<div class="drawer-back" id="drawerBack"></div>
+<aside class="drawer" id="drawer" aria-label="목차">
+  <header><b>우리 동네 AI 입지 분석</b><small>개발 계획서 · 목차</small></header>
+  <nav id="toc"></nav>
+</aside>
+
+<main class="viewport">
+<div class="deck" id="deck">
+
+<!-- 1. 표지 -->
+<section class="slide cover" data-title="표지" data-group="시작">
+  <p class="kicker">개발 계획서 · 2026. 10. 13 (10. 14 현재 상태 반영)</p>
+  <h1>우리 동네<br><em>AI 입지 분석</em></h1>
+  <p class="lead">지역과 업종을 넣으면 유동인구 · 고객층 · 경쟁 · 임대료를 지도와 그래프로 보여주고, 입지 적합도와 AI 컨설턴트 의견까지 제안하는 웹 서비스</p>
+  <div class="cover-meta">
+    <span>웹 MVP 배포됨 · location-app-sykim.web.app</span>
+    <span>동 단위 · Kakao 지도 · 조회 시점 자료</span>
+    <span>HTML · CSS · 바닐라 JS + Firebase</span>
+  </div>
+  <svg class="cover-art" viewBox="0 0 430 360" aria-hidden="true">
+    <rect x="0" y="0" width="430" height="360" rx="28" fill="#fff"/>
+    <text x="28" y="44" font-size="18" font-weight="800" fill="#1c1930">입지 적합도</text>
+    <text x="28" y="68" font-size="13" fill="#6f6a86">생활인구 · 고객 일치 · 경쟁 · 임대료 · 성장성</text>
+    <path d="M70 250 A95 95 0 0 1 260 250" fill="none" stroke="#ece8f6" stroke-width="22" stroke-linecap="round"/>
+    <path d="M70 250 A95 95 0 0 1 233 183" fill="none" stroke="#5b3fd9" stroke-width="22" stroke-linecap="round"/>
+    <text x="165" y="238" text-anchor="middle" font-size="46" font-weight="800" fill="#5b3fd9">82</text>
+    <text x="165" y="262" text-anchor="middle" font-size="13" font-weight="800" fill="#1d9a6c">조건부 추천</text>
+    <g font-size="11" font-weight="700" fill="#6f6a86">
+      <text x="290" y="130">고객 일치</text><rect x="290" y="136" width="110" height="10" rx="5" fill="#ece8f6"/><rect x="290" y="136" width="92" height="10" rx="5" fill="#5b3fd9"/>
+      <text x="290" y="170">유동인구</text><rect x="290" y="176" width="110" height="10" rx="5" fill="#ece8f6"/><rect x="290" y="176" width="88" height="10" rx="5" fill="#8c78ea"/>
+      <text x="290" y="210">경쟁 강도</text><rect x="290" y="216" width="110" height="10" rx="5" fill="#ece8f6"/><rect x="290" y="216" width="52" height="10" rx="5" fill="#d9781f"/>
+      <text x="290" y="250">임대료</text><rect x="290" y="256" width="110" height="10" rx="5" fill="#ece8f6"/><rect x="290" y="256" width="64" height="10" rx="5" fill="#c3367a"/>
+      <text x="290" y="290">성장성</text><rect x="290" y="296" width="110" height="10" rx="5" fill="#ece8f6"/><rect x="290" y="296" width="84" height="10" rx="5" fill="#1d9a6c"/>
+    </g>
+    <g font-size="10" font-weight="800" fill="#fff">
+      <circle cx="60" cy="318" r="11" fill="#5b3fd9"/><text x="60" y="322" text-anchor="middle">객</text>
+      <circle cx="92" cy="318" r="11" fill="#8c78ea"/><text x="92" y="322" text-anchor="middle">인</text>
+      <circle cx="124" cy="318" r="11" fill="#d9781f"/><text x="124" y="322" text-anchor="middle">경</text>
+      <circle cx="156" cy="318" r="11" fill="#c3367a"/><text x="156" y="322" text-anchor="middle">임</text>
+      <circle cx="188" cy="318" r="11" fill="#1d9a6c"/><text x="188" y="322" text-anchor="middle">성</text>
+    </g>
+  </svg>
+</section>
+
+<!-- 2. 목차 -->
+<section class="slide" data-title="목차" data-group="시작">
+  <p class="kicker">CONTENTS</p>
+  <h2>목차</h2>
+  <p class="lead">기획서를 검토하고 · 확정한 결정을 반영해 · 무엇을 어떻게 만들었는지 (10. 14 현재)</p>
+  <div class="grid g4" id="contentsGrid"></div>
+</section>
+
+<!-- 3. 검토 요약 -->
+<section class="slide" data-title="기획서 검토 요약" data-group="1. 기획서 검토">
+  <p class="kicker">1. 기획서 검토</p>
+  <h2>방향은 좋고, <em>결정 3가지</em>를 반영했습니다</h2>
+  <p class="lead">개발계획서(15개 장) · 목업 3장 · 보유 CSV를 검토하고, 확정한 선택에 맞춰 계획을 고쳐 구현했습니다.</p>
+  <div class="grid g2">
+    <div class="card"><h3>그대로 가져간 것 <span class="chip done">유지</span></h3><ul>
+      <li>"숫자는 먼저 계산하고, AI는 문장만 만든다" 원칙</li>
+      <li>모든 추천에 기준일 · 출처 · 한계 표시</li>
+      <li>5개 항목 가중합 입지 적합도, "조건부 추천" 등급</li>
+      <li>시간대 · 추이 · 연령 도넛 · 강점/위험/전략 구성 (목업)</li>
+    </ul></div>
+    <div class="card"><h3>확정한 결정 <span class="chip done">구현됨</span></h3><ul>
+      <li><b>① 처음부터 동 단위</b> 검색 ("연남동 카페") — 서울 427개 행정동</li>
+      <li><b>② 조회 시점</b>에 자료를 가져옴 — 경쟁 점포는 실시간 Kakao, 생활인구는 매일 모은 요약</li>
+      <li><b>③ Kakao 지도 SDK</b> 사용 (검색 · 지도 · 점포 · 현재 위치)</li>
+    </ul></div>
+  </div>
+  <div class="card soft" style="margin-top:18px"><p><b>구현하며 바뀐 것</b> — 서울 API가 행정동 필터를 지원하지 않고 최근 2개월만 제공해, <b>GitHub Actions가 매일 전 행정동을 받아 Firestore에 쌓는 수집기</b> 구조로 바꿨습니다 (서버 · Blaze 요금제 불필요). 점수의 25구 백분위는 쓸 수 없어 <b>수집된 427개 동의 기준 분포</b>로 대체했습니다.</p></div>
+  <div class="foot"><span>그 밖의 보완: 기획서의 무거운 스택(Next.js · FastAPI · PostGIS · Celery) 축소 · 일정과 완료 기준 신규 정의</span></div>
+</section>
+
+<!-- 4. 데이터 실측 -->
+<section class="slide" data-title="보유 데이터 실측" data-group="1. 기획서 검토">
+  <p class="kicker">1. 기획서 검토</p>
+  <h2>보유 CSV로는 동 단위가 안 됩니다</h2>
+  <p class="lead">파일명은 250m인데 내용은 자치구 합계입니다 (56.7MB · CP949).</p>
+  <div class="grid g3">
+    <div class="card"><div class="num">25개</div><h3>자치구 코드</h3><p>구 단위 (예: 11440 = 마포구). 행정동 · 격자 컬럼 없음</p></div>
+    <div class="card"><div class="num">281일</div><h3>2026.1.1 ~ 10.8</h3><p>24시간 × 25구 × 281일 = 168,600행. 약 10개월</p></div>
+    <div class="card"><div class="num">28칸</div><h3>성별 × 연령</h3><p>남 · 여 각 14구간. 20대 = 20~24 + 25~29 합산</p></div>
+  </div>
+  <table style="margin-top:18px">
+    <tr><th style="width:26%">필요한 것</th><th style="width:30%">CSV로 가능한가</th><th>계획서의 처리</th></tr>
+    <tr><td>동 단위 생활인구 (연남동)</td><td>불가 — 구까지만</td><td>서울 API를 매일 수집해 동별 요약을 Firestore에 저장 (수집기)</td></tr>
+    <tr><td>시간대 · 요일 · 연령 · 성별 구조</td><td>가능 (구 단위)</td><td>응답 형식 · 집계 코드를 검증하는 <b>표본</b>으로 사용</td></tr>
+    <tr><td>최근 12개월 추이</td><td>부분 — 약 10개월</td><td>"최근 N개월"로 표기, 매일 수집해 월별 추이를 쌓음 (현재 90일 · 4개월)</td></tr>
+  </table>
+</section>
+
+<!-- 6. 서비스 개요 -->
+<section class="slide" data-title="서비스 개요" data-group="2. 서비스">
+  <p class="kicker">2. 서비스 개요</p>
+  <h2>상권 통계를 <em>읽는 것</em>에서 <em>결정하는 것</em>으로</h2>
+  <p class="lead">공공데이터는 여러 곳에 흩어져 있고 숫자만으로는 창업 판단이 어렵습니다.<br>검색 → 지표 → 점수 → 전략 제안을 한 흐름으로 잇습니다.</p>
+  <div class="flow">
+    <div class="step"><span class="chip">입력</span><b>지역 · 업종</b><small>"연남동 카페"<br>Kakao 검색으로 행정동 확인</small></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="chip">계산</span><b>지표</b><small>시간대 · 요일 · 연령 · 성별<br>경쟁 · 임대료 · 추이</small></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="chip">판단</span><b>적합도</b><small>5항목 가중합 0~100점<br>등급 + 근거 지표</small></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="chip now">행동</span><b>전략</b><small>강점 · 위험 · 추천 전략<br>현장 답사 체크리스트</small></div>
+  </div>
+  <div class="grid g3" style="margin-top:22px">
+    <div class="card soft"><h3>한 줄 정의</h3><p>지역과 업종만 넣으면 입지 점수와 이유를 한 화면에서 보여주는 상권 분석 앱</p></div>
+    <div class="card soft"><h3>위치 설정</h3><p>"성공을 보장하는 예측"이 아니라 "현장 조사 전에 후보를 좁히는 도구". 모든 결과에 기준일 · 출처 · 한계</p></div>
+    <div class="card soft"><h3>무료 입구</h3><p>검색 · 지도 · 데이터 분석 · 적합도는 무료. 후보 비교 PDF · 정기 모니터링은 유료 후보</p></div>
+  </div>
+</section>
+
+<!-- 7. 타깃 사용자 -->
+<section class="slide" data-title="타깃 사용자와 니즈" data-group="2. 서비스">
+  <p class="kicker">2. 서비스 개요</p>
+  <h2>누구의 어떤 질문에 답하나</h2>
+  <p class="lead">핵심 타깃은 지역을 비교 중인 예비 창업자. "어디가, 왜, 얼마나 나은지"를 알고 싶어 합니다.</p>
+  <table>
+    <tr><th style="width:18%">사용자</th><th style="width:22%">상황</th><th style="width:28%">알고 싶은 것</th><th>서비스가 주는 답</th></tr>
+    <tr><td><b>예비 창업자</b> (핵심)</td><td>창업 지역 비교 중</td><td>어느 지역이 내 업종에 맞는가</td><td>입지 적합도 · 후보지 3곳 비교 · 고객층 · 시간대 그래프</td></tr>
+    <tr><td><b>기존 소상공인</b></td><td>이전 · 업종 변경 고민</td><td>지금 자리의 약점과 대안</td><td>경쟁 · 임대료 부담 경고, 추천 메뉴 · 영업시간 · 프로모션</td></tr>
+    <tr><td><b>지자체 · 지원기관</b></td><td>창업 상담 · 정책 지원</td><td>상담 근거 자료</td><td>PDF 리포트, 데이터 출처 · 기준일 표기, (후속) 상담사 대시보드</td></tr>
+  </table>
+  <div class="foot"><span>공통 니즈: 어려운 통계 용어 없이 한눈에 · 이유가 보이는 점수 · 현장에 가져갈 체크 항목</span></div>
+</section>
+
+<!-- 8. 핵심 기능 -->
+<section class="slide" data-title="핵심 기능 지도" data-group="2. 서비스">
+  <p class="kicker">2. 서비스 개요</p>
+  <h2>핵심 기능 지도</h2>
+  <p class="lead">검색을 출발점으로, 상권 → 고객 → 비용 → 전략 네 묶음의 리포트로 이어집니다.</p>
+  <div class="grid g4">
+    <div class="card"><div class="ico" style="background:var(--accent)">상</div><h3>상권</h3><ul><li>Kakao 지도 · 행정동 색칠</li><li>경쟁 점포 위치 (Kakao)</li><li>분석 반경 설정</li><li>입지 적합도 요약</li></ul></div>
+    <div class="card"><div class="ico" style="background:#3f74de">객</div><h3>고객</h3><ul><li>시간대별 유동인구</li><li>연령 · 성별 프로필</li><li>주중 · 주말 비교</li><li>월별 상권 변화</li></ul></div>
+    <div class="card"><div class="ico" style="background:var(--warn)">비</div><h3>비용</h3><ul><li>월 임대료 · 보증금</li><li>주변 지역 대비 수준</li><li>상승 추세 · 부담 경고</li><li>손익분기점 (후속)</li></ul></div>
+    <div class="card"><div class="ico" style="background:var(--now)">략</div><h3>전략</h3><ul><li>강점 · 위험요소</li><li>메뉴 · 가격 · 영업시간</li><li>프로모션 제안</li><li>후보지 3곳 비교 · PDF</li></ul></div>
+  </div>
+  <div class="card soft" style="margin-top:18px; display:flex; gap:26px; align-items:center">
+    <div style="flex:1"><h3>기본: 지역 · 업종 검색 (무료)</h3><p>추천 검색어 · 업종 칩(카페 · 음식점 · 술집 · 편의점 · 병원) · 최근 검색 · 분석 진행 표시. 후보지는 "내 분석" 목록에 저장.</p></div>
+    <div class="tiles"><div class="tile t0">客<small>고객</small></div><div class="tile t1">競<small>경쟁</small></div><div class="tile t2">賃<small>임대</small></div><div class="tile t3">長<small>성장</small></div></div>
+  </div>
+</section>
+
+<!-- 9. 화면 구성 -->
+<section class="slide" data-title="화면 구성" data-group="3. 설계">
+  <p class="kicker">3. 설계</p>
+  <h2>화면 구성 · 7개 화면</h2>
+  <p class="lead">주소 <code>#</code> 뒤로 화면을 바꾸는 한 장짜리 웹앱. 하단 탭 4개(홈 · 상권지도 · 후보비교 · 내 분석)와 휴대폰 뒤로가기가 그대로 동작합니다.</p>
+  <table>
+    <tr><th style="width:17%">화면</th><th style="width:24%">주소</th><th>담긴 내용 · 그래프 (목업 대응)</th></tr>
+    <tr><td><b>홈</b></td><td><code>#home</code></td><td>지역 · 업종 검색, 추천 검색어, 업종 칩, 최근 검색 (목업 1장 위쪽)</td></tr>
+    <tr><td><b>상권 지도</b></td><td><code>#map/지역/업종</code></td><td>Kakao 지도 + 행정동 경계 색칠, 경쟁 점포 마커, 반경 · 레이어 선택, 하단 시트에 적합도 (목업 1장)</td></tr>
+    <tr><td><b>상권 데이터 분석</b></td><td><code>#analysis/지역/업종</code></td><td>시간대 막대(일 · 주 · 월), 월별 꺾은선, 주요 요약 3칸, 연령 도넛, 기준일 · 출처 (목업 2장)</td></tr>
+    <tr><td><b>상가 시세</b></td><td><code>#rent/지역/업종</code></td><td>지역별 월 임대료 가로 막대, 보증금, 상승 추세 · 부담 경고 (자료 확보 후)</td></tr>
+    <tr><td><b>AI 컨설턴트</b></td><td><code>#report/지역/업종</code></td><td>한 줄 요약, 강점 · 위험요소 · 추천 전략 · 종합 의견, 근거 지표 칩 (목업 3장)</td></tr>
+    <tr><td><b>후보 비교</b></td><td><code>#compare</code></td><td>최대 3곳 레이더 + 항목별 비교 막대, PDF 저장 (인쇄 기능)</td></tr>
+    <tr><td><b>내 분석</b></td><td><code>#me</code></td><td>저장한 후보지, 최근 검색, 테마, 로그인 · 계정</td></tr>
+  </table>
+</section>
+
+<!-- 10. 기술 구성 -->
+<section class="slide" data-title="기술 구성" data-group="3. 설계">
+  <p class="kicker">3. 설계</p>
+  <h2>기술 구성 · 기획 후보 → 실제 선택</h2>
+  <p class="lead">빌드 도구 없는 정적 웹. 서버 없이 Firebase와 GitHub Actions로 구성했습니다.</p>
+  <table>
+    <tr><th style="width:16%">구성 요소</th><th style="width:26%">기획서 후보</th><th>실제 구현</th></tr>
+    <tr><td><b>화면</b></td><td>Next.js · TypeScript · Tailwind</td><td>순수 HTML · CSS · 바닐라 JS (<code>type="module"</code>), Pretendard, 블루 테마 · 다크</td></tr>
+    <tr><td><b>지도 · 검색</b></td><td>Mapbox 또는 Kakao · Naver</td><td><b>Kakao 지도 SDK</b>: 장소 · 주소 검색, 좌표→행정동, 카테고리 · 키워드 점포 검색</td></tr>
+    <tr><td><b>경쟁 점포</b></td><td>소진공 상가정보 DB</td><td>조회 시점에 Kakao 검색. 45곳 한도는 <b>반경을 4칸씩 나눠 재검색</b>해 합침</td></tr>
+    <tr><td><b>생활인구</b></td><td>PostGIS 적재</td><td><b>GitHub Actions 수집기</b>가 매일 서울 API → Firestore 요약, 브라우저는 문서 1건 읽기</td></tr>
+    <tr><td><b>그래프</b></td><td>Recharts 또는 ECharts</td><td>직접 그린 SVG: 꺾은선 · 막대 · 누적막대 · 히트맵 · 도넛 · 레이더</td></tr>
+    <tr><td><b>점수 · 리포트</b></td><td>서버 모델 · LLM</td><td>브라우저 JS + 규칙 템플릿 (LLM 다듬기는 후속)</td></tr>
+    <tr><td><b>회원 · 배포</b></td><td>Docker · AWS · Actions</td><td>Firebase Auth(구글) · Firestore · Hosting, 수집은 GitHub Actions</td></tr>
+  </table>
+  <div class="foot"><span>Cloud Functions 대신 Actions를 택해 Blaze 요금제(카드 등록) 없이 운영합니다</span></div>
+</section>
+
+<!-- 개발 환경 -->
+<section class="slide" data-title="개발 환경" data-group="3. 설계">
+  <p class="kicker">3. 설계</p>
+  <h2>개발 환경</h2>
+  <p class="lead">빌드 도구 없는 정적 웹. 서버 코드는 없고, 수집기만 Node.js로 Actions에서 돕니다.</p>
+  <table>
+    <tr><th style="width:14%">구분</th><th style="width:34%">사용 기술</th><th>용도 · 비고</th></tr>
+    <tr><td><b>프론트엔드</b></td><td>HTML5 · CSS3 · 바닐라 JavaScript (ES 모듈)</td><td>프레임워크 · 번들러 없음. CSS 변수로 라이트 · 다크</td></tr>
+    <tr><td><b>지도</b></td><td>Kakao 지도 JavaScript SDK (services)</td><td>장소 검색, 좌표→행정동, 점포 검색, 마커 · 반경 · 점포 상세</td></tr>
+    <tr><td><b>그래프</b></td><td>직접 작성한 SVG 모듈 (<code>charts.js</code>)</td><td>외부 라이브러리 없음</td></tr>
+    <tr><td><b>수집기</b></td><td>Node.js 20 (<code>collector/</code>) · GitHub Actions</td><td>매일 07시(KST) 서울 API 호출 → 동별 요약 · 기준 분포 저장</td></tr>
+    <tr><td><b>인증 · 저장</b></td><td>Firebase Authentication · Firestore</td><td>구글 로그인 · 후보지 · 최근 검색 · 생활인구 요약, 보안 규칙</td></tr>
+    <tr><td><b>배포 · 형상</b></td><td>Firebase Hosting · CLI, Git · GitHub <code>main</code></td><td><code>firebase deploy --only hosting,firestore:rules</code></td></tr>
+  </table>
+</section>
+
+<!-- 개발 환경 2 -->
+<section class="slide" data-title="폴더 구조 · 실행 방법" data-group="3. 설계">
+  <p class="kicker">3. 설계</p>
+  <h2>폴더 구조 · 실행 방법</h2>
+  <p class="lead">한 폴더가 사이트 하나. 폴더 안에서 상대 경로만 사용합니다.</p>
+  <div class="grid g2">
+    <div class="card"><h3>폴더 구조</h3>
+<pre style="margin:8px 0 0;font:13px/1.5 Consolas,monospace;color:#3b3752;white-space:pre">location/
+├─ index.html · css/style.css
+├─ js/   main · ui · charts · kmap · place
+│        analysis · fetchers · metrics · score
+│        score-rules · report · explain · sync
+│        auth · cloud · firebase · area-data · store
+├─ data/        sample-gu.json (기준 표본)
+├─ collector/   수집기 (collect · seoul · aggregate · baseline)
+├─ scripts/     probe-seoul.js · build_sample.py
+├─ check.html   검증 페이지 (배포 제외)
+├─ firebase.json · firestore.rules
+└─ plan.html · README.md</pre></div>
+    <div class="card"><h3>로컬 실행 · 확인</h3><ul>
+      <li>ES 모듈이라 로컬 서버로 실행: <code>py -m http.server 5530</code></li>
+      <li>앱 <code>localhost:5530</code> · 검증 <code>/check.html</code> (81개 항목)</li>
+      <li>Kakao JS 키: 허용 도메인에 <code>localhost:5530</code> 등록</li>
+      <li>수집기 시험: <code>node collector/collect.js --dry</code></li>
+      <li>원본 CSV · 키 · 서비스 계정 파일은 저장소에 올리지 않음</li>
+    </ul></div>
+  </div>
+  <div class="card soft" style="margin-top:16px"><p><b>준비한 계정 · 키</b> — Kakao Developers 앱(JS 키) · 서울 열린데이터광장 인증키(GitHub Secrets) · Firebase 프로젝트(<code>location-app-sykim</code>) · GitHub 저장소</p></div>
+</section>
+
+<!-- 11. 시스템 구조 -->
+<section class="slide" data-title="시스템 구조" data-group="3. 설계">
+  <p class="kicker">3. 설계</p>
+  <h2>시스템 구조</h2>
+  <p class="lead">검색 · 지도 · 점포는 브라우저에서 Kakao로, 생활인구는 매일 수집된 Firestore 요약을 읽어 브라우저에서 점수를 계산합니다.</p>
+  <div class="arch">
+    <div class="layer"><h3>🖥 화면 (브라우저)</h3>
+      <div class="mod"><code>index.html</code><span>화면 7개 + 하단 탭</span></div>
+      <div class="mod"><code>main.js</code><span>주소 · 검색 · 현재 위치</span></div>
+      <div class="mod"><code>ui.js</code><span>화면 그리기</span></div>
+      <div class="mod"><code>charts.js</code><span>SVG 그래프</span></div>
+      <div class="mod"><code>kmap.js</code><span>Kakao 지도 · 점포 상세</span></div>
+      <div class="mod"><code>explain.js</code><span>점수 산출 근거 설명</span></div>
+    </div>
+    <div class="layer"><h3>⚙ 분석 엔진 (브라우저)</h3>
+      <div class="mod"><code>place.js</code><span>검색 · 현재 위치 → 행정동</span></div>
+      <div class="mod"><code>fetchers.js</code><span>점포 · 생활인구 · 기준 분포</span></div>
+      <div class="mod"><code>metrics.js</code><span>시간대 · 연령 · 경쟁 지표</span></div>
+      <div class="mod"><code>score.js</code><span>5항목 적합도 · 등급</span></div>
+      <div class="mod"><code>score-rules.js</code><span>비중 · 구간 (검수 대상)</span></div>
+      <div class="mod"><code>report.js</code><span>강점 · 위험 · 전략 문장</span></div>
+    </div>
+    <div class="layer"><h3>☁ 수집 · 저장</h3>
+      <div class="mod"><code>collector/</code><span>매일 Actions → Firestore</span></div>
+      <div class="mod"><code>livingPop/{동}</code><span>동별 요약 (공개 읽기 1건)</span></div>
+      <div class="mod"><code>livingPopBaseline</code><span>업종별 기준 분포</span></div>
+      <div class="mod"><code>users/{uid}</code><span>후보지 · 최근 검색 (본인만)</span></div>
+      <div class="mod"><code>firestore.rules</code><span>접근 제어</span></div>
+      <div class="mod"><code>Hosting</code><span>location-app-sykim</span></div>
+    </div>
+  </div>
+  <div class="foot"><span>개발용: <code>check.html</code> 검증 · <code>collector/</code> 수집기 (배포 제외)</span><span>JS 25개</span></div>
+</section>
+
+<!-- 12. 지표 엔진 -->
+<section class="slide" data-title="지표 엔진 · 조회 시점 자료" data-group="4. 엔진">
+  <p class="kicker">4. 엔진</p>
+  <h2>지표 엔진 · <em>조회 시점</em>에 가져오고, 기준은 매일 갱신</h2>
+  <p class="lead">검색할 때 필요한 자료만 받아 계산합니다. 생활인구는 매일 수집한 동별 요약을 읽습니다.</p>
+  <div class="flow">
+    <div class="step"><span class="chip">검색</span><b>연남동 카페</b><small>Kakao 장소 검색 · 현재 위치<br>→ 좌표 → 행정동</small></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="chip">조회</span><b>3종 호출</b><small>경쟁 점포(Kakao)<br>생활인구(Firestore) · 임대료</small></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="chip">계산</span><b>지표 · 점수</b><small>동 기준 분포와 비교<br>0~100점 환산</small></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="chip now">표시</span><b>화면</b><small>기준일 · 출처 · 산출 근거<br>실패 항목은 "자료 없음"</small></div>
+  </div>
+  <div class="grid g2" style="margin-top:20px">
+    <div class="card soft"><h3>조회 시점에 가져오는 것</h3><ul><li>경쟁 점포: 반경 500m 동종 점포 (한 번에 45곳 → 4칸씩 나눠 재검색, 최대 2단계)</li><li>점포 상세: 이름 · 분류 · 주소 · 전화 · 카카오맵 링크</li><li>생활인구: 수집된 동 요약 1건 (시간대 · 연령 · 월별 추이)</li><li>임대료: 조회 가능한 자료 확인 전이라 점수에서 제외</li></ul></div>
+    <div class="card soft"><h3>매일 수집해 쌓아 두는 것</h3><ul><li>서울 427개 행정동 × 24시간의 일별 요약 (API는 최근 2개월만 제공해 매일 모아야 추이가 쌓임)</li><li>업종 21개 프로필별 <b>기준 분포</b> (고객 일치 · 규모 · 성장률)</li><li>현재 90일 · 4개월분</li></ul></div>
+  </div>
+</section>
+
+<!-- 13. 점수 엔진 -->
+<section class="slide" data-title="입지 적합도 점수 엔진" data-group="4. 엔진">
+  <p class="kicker">4. 엔진</p>
+  <h2>점수 엔진 · 기준 분포와 <em>규칙 구간</em>으로 환산</h2>
+  <p class="lead">5항목 가중합은 유지합니다. 같은 입력이면 같은 점수. 항목마다 0~100 환산 방식이 다릅니다.</p>
+  <p style="margin:0 0 14px;font-size:16px;font-weight:700;color:var(--accent)">등급: 85↑ 추천 · 70~84 조건부 추천 · 55~69 신중 검토 · 55↓ 재검토 (초안, 상담사 검수로 보정)</p>
+  <table>
+    <tr><th style="width:19%">평가항목 (비중)</th><th style="width:47%">산출 · 0~100 환산</th><th>자료 · 상태</th></tr>
+    <tr><td><b>목표 고객 일치도 (25%)</b></td><td>업종별 목표 고객(성별 · 연령 비중표)과 그 동 비중의 겹침 → 기준 분포 백분위</td><td><span class="chip next">API</span> 동 생활인구</td></tr>
+    <tr><td><b>유동인구 규모 (20%)</b></td><td>업종 영업 시간대 평균 생활인구 → 서울 동 백분위</td><td><span class="chip next">API</span></td></tr>
+    <tr><td><b>경쟁 강도 (20%)</b></td><td>반경 500m 동종 점포 수를 <b>규칙 구간표</b>로 환산 (예: 0~10곳 100점 … 45곳↑ 20점)</td><td><span class="chip done">Kakao</span> 조회 시점</td></tr>
+    <tr><td><b>임대료 부담 (20%)</b></td><td>서울 평균 대비 월 임대료 비율 (낮을수록 높은 점수)</td><td><span class="chip now">미정</span> 자료 확인</td></tr>
+    <tr><td><b>성장 가능성 (15%)</b></td><td>최근 3개월 vs 직전 3개월 생활인구 증감률 → 백분위</td><td><span class="chip next">요약</span> 월별 사전 집계</td></tr>
+  </table>
+  <div class="foot"><span>자료 없는 항목은 빼고 비중을 다시 나눠(임대료 없음 → 31 · 25 · 25 · 19%) "4개 항목 기준" 표시</span></div>
+</section>
+
+<!-- 14. AI 컨설턴트 리포트 -->
+<section class="slide" data-title="AI 컨설턴트 리포트" data-group="4. 엔진">
+  <p class="kicker">4. 엔진</p>
+  <h2>AI 컨설턴트 · 숫자는 계산, <em>문장은 규칙</em></h2>
+  <p class="lead">"점수 구간 + 근거 지표 → 문장" 규칙 템플릿 방식. 문장마다 근거 지표와 기준일 칩이 붙습니다.</p>
+  <table>
+    <tr><th style="width:26%">조건 (지표)</th><th style="width:12%">구분</th><th>생성 문장 (규칙 템플릿 예)</th></tr>
+    <tr><td>20~30대 비중이 25구 상위 25%</td><td><span class="chip done">강점</span></td><td>"20~30대 유동인구 비중이 높아 카페 수요가 안정적입니다." <span style="color:var(--muted)">· 근거: 20대 46%, 기준일</span></td></tr>
+    <tr><td>주말 ÷ 평일 생활인구 ≥ 1.5배</td><td><span class="chip now">위험</span></td><td>"주말에 유동인구가 몰려 평일 매출 편차가 클 수 있습니다."</td></tr>
+    <tr><td>동종 점포 밀도 상위 25%</td><td><span class="chip now">위험</span></td><td>"반경 내 유사 업종이 많아 경쟁이 치열합니다."</td></tr>
+    <tr><td>강점 × 업종 조합</td><td><span class="chip">전략</span></td><td>"디저트 중심 차별화 메뉴 · 주말 테이크아웃 프로모션을 검토하세요."</td></tr>
+  </table>
+  <div class="grid g3" style="margin-top:16px">
+    <div class="card soft"><h3>항상 붙는 것</h3><p>데이터 기준일 · 출처 · "참고자료이며 성공을 보장하지 않습니다" 고지</p></div>
+    <div class="card soft"><h3>금지 표현</h3><p>"반드시 · 확실히 성공 · 무조건" 같은 단정. 확인 못 한 항목은 "자료 없음"으로 표기</p></div>
+    <div class="card soft"><h3>2단계: LLM 다듬기</h3><p>키 노출을 막기 위해 서버 함수를 경유해야 함 (후속). 계산된 지표 JSON만 입력하고, 출력에 없는 숫자가 있으면 폐기</p></div>
+  </div>
+</section>
+
+<!-- 15. 데이터 출처 · 품질 -->
+<section class="slide" data-title="데이터 출처 · 품질" data-group="5. 데이터">
+  <p class="kicker">5. 데이터</p>
+  <h2>데이터 출처 · 품질 원칙</h2>
+  <p class="lead">자료마다 출처 · 기준일을 화면에 표시하고, 호출 실패 · 자료 없음은 숨기지 않고 안내합니다. 유동인구 ≠ 구매자 · 매출.</p>
+  <table>
+    <tr><th style="width:20%">데이터</th><th style="width:36%">출처</th><th style="width:16%">가져오는 시점</th><th>쓰이는 곳</th></tr>
+    <tr><td><b>검색 · 행정동 확인</b></td><td>Kakao 장소 · 주소 검색</td><td><span class="chip done">조회 시점</span></td><td>입력 지역 → 행정동</td></tr>
+    <tr><td><b>경쟁 점포 · 점포 상세</b></td><td>Kakao 카테고리 · 키워드 검색</td><td><span class="chip done">조회 시점</span></td><td>경쟁 강도 · 지도 마커 · 상세 카드</td></tr>
+    <tr><td><b>동 단위 생활인구</b></td><td>서울 열린데이터광장 [내국인] 행정동별 생활인구(250m)</td><td><span class="chip done">매일 수집</span></td><td>시간대 · 고객 · 규모 · 성장성</td></tr>
+    <tr><td><b>기준 분포</b></td><td>수집한 427개 동의 지표</td><td><span class="chip done">매일 갱신</span></td><td>점수의 백분위 눈금</td></tr>
+    <tr><td><b>상가 임대료</b></td><td>한국부동산원 · 서울시 상권분석 (동 단위 여부 미확인)</td><td><span class="chip now">미정</span></td><td>임대료 부담 · 시세</td></tr>
+  </table>
+  <div class="card soft" style="margin-top:16px"><p><b>제약</b> — 서울 API는 최근 2개월만 제공하고 행정동 필터가 안 돼 전 행정동을 받아 고릅니다. 서울 밖은 생활인구가 없어 지도 · 점포만 보여줍니다.</p></div>
+</section>
+
+<!-- 16. 저장 · 개인정보 -->
+<section class="slide" data-title="저장 · 개인정보" data-group="5. 데이터">
+  <p class="kicker">5. 데이터</p>
+  <h2>데이터 저장 · 개인정보 원칙</h2>
+  <p class="lead">생년월일 같은 민감정보는 받지 않습니다. 저장하는 것은 검색 기록과 후보지 목록뿐입니다.</p>
+  <div class="grid g2">
+    <div class="card"><h3>어디에 저장되나</h3>
+      <table style="box-shadow:none;margin-top:6px">
+        <tr><th>상태</th><th>저장 위치</th></tr>
+        <tr><td>로그아웃</td><td>이 기기 <code>loc:saved</code> · <code>loc:recent</code></td></tr>
+        <tr><td>로그인</td><td>이 기기 + Firestore <code>users/{uid}</code></td></tr>
+        <tr><td>로그인할 때</td><td>이 기기와 계정 목록을 합쳐 양쪽을 같게</td></tr>
+        <tr><td>로그아웃할 때</td><td>공용 기기 보호를 위해 이 기기 목록 비움</td></tr>
+      </table>
+    </div>
+    <div class="card"><h3>지키는 원칙</h3><ul>
+      <li>보안 규칙: <code>users/{uid}</code> 아래는 그 uid 본인만 읽고 쓰기</li>
+      <li><b>현재 위치는 저장하지 않고</b>, 정확한 좌표는 계정에도 올리지 않음 (좌표는 행정동 확인을 위해 Kakao에만 전달)</li>
+      <li>생활인구 요약은 개인정보 없는 통계라 공개 읽기 (목록 · 쓰기 불가)</li>
+      <li>서울 인증키 · 서비스 계정은 GitHub Secrets에만 보관</li>
+      <li>Kakao JS 키는 허용 도메인으로 제한</li>
+    </ul></div>
+  </div>
+  <div class="card soft" style="margin-top:18px"><p><b>이용 조건</b> — 공공데이터 이용허락과 Kakao 지도 · 로컬 API 약관(표시 의무 · 호출 한도)을 확인해 화면 하단 "데이터 출처"에 기재합니다.</p></div>
+</section>
+
+<!-- 17. 개발 단계 -->
+<section class="slide" data-title="개발 단계 7단계" data-group="6. 일정">
+  <p class="kicker">6. 일정</p>
+  <h2>개발 단계 · 7단계 진행 현황</h2>
+  <p class="lead">엔진부터 만들고 검증한 뒤 화면 · 저장 · 배포로 갔습니다. 10. 14 현재 6단계의 로그인 설정만 남았습니다.</p>
+  <div class="timeline">
+    <div class="tl"><div class="dot">1</div><b>자료 연결</b><small>Kakao · 수집기<br>검증 페이지</small></div>
+    <div class="tl"><div class="dot">2</div><b>검색 표준화</b><small>행정동 · 업종 표<br>검색 별칭</small></div>
+    <div class="tl"><div class="dot">3</div><b>화면 뼈대</b><small>주소 전환 · 탭<br>홈 · 검색</small></div>
+    <div class="tl"><div class="dot">4</div><b>지도 · 그래프</b><small>Kakao 지도 · 점포<br>그래프 6종</small></div>
+    <div class="tl"><div class="dot">5</div><b>점수 · 리포트</b><small>5항목 적합도<br>AI 컨설턴트 문장</small></div>
+    <div class="tl"><div class="dot">6</div><b>로그인 · 비교</b><small>구글 로그인 코드<br>후보 비교 · 인쇄</small></div>
+    <div class="tl"><div class="dot">7</div><b>배포</b><small>Hosting 배포<br>보안 규칙</small></div>
+  </div>
+  <div class="card" style="margin-top:22px"><h3>단계 외에 추가로 구현한 기능 <span class="chip done">완료</span></h3>
+    <div class="grid g3" style="gap:8px 24px; margin-top:8px">
+      <p>· 현재 위치로 자동 검색</p><p>· 세부 업종 15개 + 직접 입력</p><p>· 점수 항목별 산출 근거 설명</p>
+      <p>· 지도 점포 선택 → 상세 카드 · 목록</p><p>· 생활인구 없는 동네도 지도 표시</p><p>· 경쟁 점포 45곳 한도 분할 검색</p>
+    </div>
+  </div>
+  <div class="foot"><span>6단계 상태: 코드 완료 · Firebase 콘솔에서 Authentication(구글) 사용 설정만 남음</span></div>
+</section>
+
+<!-- 18. 일정 간트 -->
+<section class="slide" data-title="20주 일정" data-group="6. 일정">
+  <p class="kicker">6. 일정</p>
+  <h2>현재 상태 · 다음 일정</h2>
+  <p class="lead">기획서의 20주 계획보다 빠르게 웹 MVP까지 왔습니다. 남은 것은 검수와 자료 확보입니다.</p>
+  <table>
+    <tr><th style="width:26%">항목</th><th style="width:14%">상태</th><th>내용</th></tr>
+    <tr><td><b>웹 MVP (1~5, 7단계)</b></td><td><span class="chip done">완료</span></td><td>검색 · 지도 · 분석 · 추이 · 점수 · AI 의견 · 후보 비교, Hosting 배포</td></tr>
+    <tr><td><b>생활인구 수집 자동화</b></td><td><span class="chip done">완료</span></td><td>매일 07시 수집, 427개 동 · 90일 백필, 기준 분포 21개 프로필</td></tr>
+    <tr><td><b>구글 로그인 · 계정 저장</b></td><td><span class="chip now">설정 대기</span></td><td>코드 완료 · 콘솔에서 Authentication 켠 뒤 실제 로그인 확인</td></tr>
+    <tr><td><b>임대료 자료 확보</b></td><td><span class="chip next">예정</span></td><td>동 단위로 조회 가능한 공개 자료 확인 → 5번째 점수 항목 연결</td></tr>
+    <tr><td><b>상담사 검수 · 규칙 보정</b></td><td><span class="chip next">예정</span></td><td>항목 비중 · 업종별 목표 고객 · 경쟁 구간표(초안) 샘플 20건 검수</td></tr>
+    <tr><td><b>지인 베타 · 피드백</b></td><td><span class="chip next">예정</span></td><td>사용자 10명 · 사용 기록 · 점수 체감 확인</td></tr>
+    <tr><td><b>후속 기능</b></td><td><span class="chip next">예정</span></td><td>LLM 다듬기 · PDF 서식 · 손익분기점 · 정기 모니터링</td></tr>
+  </table>
+</section>
+
+<!-- 19. 검증 · 완료 기준 -->
+<section class="slide" data-title="검증 · 완료 기준" data-group="6. 일정">
+  <p class="kicker">6. 일정</p>
+  <h2>검증 · 완료 기준</h2>
+  <p class="lead">"그럴듯한 점수"가 아니라 "원자료와 맞는 점수"가 되도록, 단계마다 검증 관문을 통과합니다.</p>
+  <ul class="checks">
+    <li><span class="chip done">완료</span><span class="t">엔진 검증 페이지 81개 항목 통과 (점수 재현성 · 규칙표 · 금지어 · 기준 분포 · 계정 합치기 · 점포 카드)</span></li>
+    <li><span class="chip done">완료</span><span class="t">서울 API 응답 규격 확인 · 427개 행정동 90일 수집 · 연남동 코드 확인 (Kakao 10자리 앞 8자리)</span></li>
+    <li><span class="chip done">완료</span><span class="t">Kakao 점포 검색 실측 (연남동 카페 249곳 이상) · 45곳 한도 분할 검색 동작</span></li>
+    <li><span class="chip done">완료</span><span class="t">API 실패 · 자료 없음(서울 밖)에서 화면이 깨지지 않고 항목별 안내 · 지도는 계속 표시</span></li>
+    <li><span class="chip now">진행</span><span class="t">구글 로그인 · 다른 기기에서 후보지 동기화 직접 확인 (Authentication 설정 후)</span></li>
+    <li><span class="chip next">예정</span><span class="t">공식 통계(서울시 상권분석 등)와 구 단위 순위 대조 · 휴대폰 실기기 점검</span></li>
+    <li><span class="chip next">예정</span><span class="t">창업 상담사 3인이 샘플 20건의 점수 · 문장 검수 → <code>score-rules.js</code> 보정</span></li>
+  </ul>
+</section>
+
+<!-- 20. 리스크 -->
+<section class="slide" data-title="리스크와 대응" data-group="7. 리스크 · 운영">
+  <p class="kicker">7. 리스크 · 운영</p>
+  <h2>리스크와 대응</h2>
+  <p class="lead">기획서의 리스크에, 구현하며 확인된 위험을 더했습니다.</p>
+  <table>
+    <tr><th style="width:22%">리스크</th><th style="width:38%">내용</th><th>대응 · 현재 상태</th></tr>
+    <tr><td><b>서울 API 제약</b></td><td>행정동 필터 미동작 · 최근 2개월만 제공 · 신규 데이터셋 규격 변경</td><td>전 행정동 수집기로 우회, 매일 수집해 이력 보존 (적용됨)</td></tr>
+    <tr><td><b>임대료 자료</b></td><td>동 단위 공개 자료가 불확실 (점수 20%)</td><td>없으면 4항목 기준으로 표시하고 비중 재배분 (적용됨)</td></tr>
+    <tr><td><b>Kakao 한계</b></td><td>1회 최대 45곳, 업종 분류 차이, 호출 한도(키 공유)</td><td>분할 검색 · 검색 30회 상한 · "N곳 이상" 표기 · 세션 캐시</td></tr>
+    <tr><td><b>키 · 비밀 관리</b></td><td>서비스 계정 키가 한 번 공개 경로에 노출된 사고 → 폐기 · 교체 필요</td><td>제외 규칙 보강 · 배포 후 공개 점검 · 키 교체 예정</td></tr>
+    <tr><td><b>초안 규칙</b></td><td>항목 비중 · 업종별 목표 고객 · 경쟁 구간표가 초안</td><td>산출 근거를 화면에 공개, 상담사 검수로 보정</td></tr>
+    <tr><td><b>유동 ≠ 구매 · AI 과신</b></td><td>생활인구가 곧 고객 · 매출은 아님, 점수가 확정처럼 읽힘</td><td>용어 고정 표기 · "조건부 추천" · 근거 칩 · 금지어 검사</td></tr>
+  </table>
+</section>
+
+<!-- 21. 배포 · 운영 -->
+<section class="slide" data-title="배포 · 운영" data-group="7. 리스크 · 운영">
+  <p class="kicker">7. 리스크 · 운영</p>
+  <h2>배포 · 운영</h2>
+  <p class="lead">공유는 Firebase 주소로. 계획서 · 검증 페이지 · 수집기 · 키 파일은 배포에서 제외합니다.</p>
+  <div class="grid g2">
+    <div class="card dark"><h3>정식 주소</h3><p style="font-size:24px;font-weight:800;margin:6px 0 10px">location-app-sykim.web.app</p><ul>
+      <li>Firebase Hosting · 모든 파일 no-cache</li><li>매일 07시 수집: GitHub Actions → Firestore</li><li>구글 로그인 승인 도메인 기본 포함</li></ul></div>
+    <div class="card"><h3>배포 순서</h3><ul>
+      <li>검증: <code>check.html</code> 전 항목 통과</li>
+      <li>화면 확인: 360 · 390px, 라이트 · 다크</li>
+      <li>배포: <code>firebase deploy --only hosting,firestore:rules</code></li>
+      <li>공개 점검: 개발용 파일 · 키 파일 404 확인</li>
+      <li>커밋 · 푸시: <code>main</code> (사용자가 요청할 때만)</li>
+    </ul></div>
+  </div>
+  <div class="card soft" style="margin-top:18px"><p><b>운영 · 성공 지표</b> — 수집 성공 여부 · Kakao 호출 수 · 검색 → 리포트 도달률 · 후보 비교 사용률 · "도움이 됐어요" 비율 (베타 후 목표치 확정)</p></div>
+</section>
+
+<!-- 22. 마무리 -->
+<section class="slide cover" data-title="정리 · 남은 확인" data-group="마무리">
+  <p class="kicker">정리</p>
+  <h1 style="font-size:54px">웹 MVP를 배포했고<br><em>검수와 자료 확보</em>가 남았습니다</h1>
+  <p class="lead">동 단위 · Kakao 지도 · 조회 시점 3가지 결정을 모두 구현했습니다. 남은 확인은 아래와 같습니다.</p>
+  <div class="grid g3" style="max-width:1080px">
+    <div class="card"><h3>① 로그인 · 키 정리</h3><p>Authentication(구글) 켜기 · 서비스 계정 키 교체 · 서울 인증키 재발급</p></div>
+    <div class="card"><h3>② 임대료 자료</h3><p>동 단위로 조회 가능한 자료 확인 (없으면 4항목 기준 유지)</p></div>
+    <div class="card"><h3>③ 점수 검수</h3><p>상담사 검수로 항목 비중 · 업종별 목표 고객 · 경쟁 구간표 보정</p></div>
+  </div>
+</section>
+
+</div>
+</main>
+
+<script>
+// 슬라이드 넘기기 · 목차 메뉴 · 화면 맞춤. 다른 파일에 의존하지 않는다.
+(() => {
+  const slides = [...document.querySelectorAll(".slide")];
+  const deck = document.getElementById("deck");
+  const counter = document.getElementById("counter");
+  const titlePill = document.getElementById("titlePill");
+  const bar = document.getElementById("progressBar");
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const drawer = document.getElementById("drawer");
+  const back = document.getElementById("drawerBack");
+  const menuBtn = document.getElementById("menuBtn");
+  const toc = document.getElementById("toc");
+  let current = 0;
+
+  // 목차(메뉴) 만들기: 묶음(data-group)별로
+  let html = "";
+  let group = "";
+  slides.forEach((s, i) => {
+    if (s.dataset.group !== group) {
+      group = s.dataset.group;
+      html += `<div class="grp">${group}</div>`;
+    }
+    html += `<a href="#${i + 1}" data-i="${i}"><span>${i + 1}</span>${s.dataset.title}</a>`;
+  });
+  toc.innerHTML = html;
+
+  // 2장 목차 카드
+  const groups = [...new Set(slides.map((s) => s.dataset.group))].filter((g) => !["시작", "마무리"].includes(g));
+  document.getElementById("contentsGrid").innerHTML = groups.map((g) => {
+    const items = slides.map((s, i) => ({ s, i })).filter(({ s }) => s.dataset.group === g);
+    return `<a class="card" href="#${items[0].i + 1}" style="text-decoration:none;color:inherit"><h3>${g}</h3><ul>${items.map(({ s, i }) => `<li>${s.dataset.title} <span style="color:var(--muted)">· ${i + 1}</span></li>`).join("")}</ul></a>`;
+  }).join("");
+
+  function fit() {
+    // 화면 정가운데를 기준으로 줄인다 (여백: 가로 80px · 세로 80px 정도)
+    const scale = Math.min(window.innerWidth / 1360, window.innerHeight / 800);
+    deck.style.transform = `translate(-50%, -50%) scale(${scale})`;
+  }
+
+  function go(i, push = true) {
+    current = Math.max(0, Math.min(slides.length - 1, i));
+    slides.forEach((s, k) => {
+      s.classList.toggle("on", k === current);
+      s.classList.toggle("prev", k < current);
+      s.setAttribute("aria-hidden", k === current ? "false" : "true");
+    });
+    counter.textContent = `${current + 1} / ${slides.length}`;
+    titlePill.innerHTML = `<span>${current + 1}.</span>${slides[current].dataset.title}`;
+    bar.style.width = `${((current + 1) / slides.length) * 100}%`;
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === slides.length - 1;
+    toc.querySelectorAll("a").forEach((a) => a.classList.toggle("on", Number(a.dataset.i) === current));
+    if (push && location.hash !== `#${current + 1}`) history.replaceState(null, "", `#${current + 1}`);
+  }
+
+  function openMenu(open) {
+    drawer.classList.toggle("open", open);
+    back.classList.toggle("open", open);
+    menuBtn.setAttribute("aria-expanded", String(open));
+  }
+
+  prevBtn.addEventListener("click", () => go(current - 1));
+  nextBtn.addEventListener("click", () => go(current + 1));
+  menuBtn.addEventListener("click", () => openMenu(!drawer.classList.contains("open")));
+  back.addEventListener("click", () => openMenu(false));
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    const n = Number(a.getAttribute("href").slice(1));
+    if (!n) return;
+    e.preventDefault();
+    go(n - 1);
+    openMenu(false);
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowRight" || e.key === "PageDown" || e.key === " ") { e.preventDefault(); go(current + 1); }
+    else if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); go(current - 1); }
+    else if (e.key === "Home") go(0);
+    else if (e.key === "End") go(slides.length - 1);
+    else if (e.key === "m" || e.key === "M") openMenu(!drawer.classList.contains("open"));
+    else if (e.key === "Escape") openMenu(false);
+  });
+
+  // 휴대폰 스와이프
+  let sx = null;
+  let sy = null;
+  document.addEventListener("touchstart", (e) => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+  document.addEventListener("touchend", (e) => {
+    if (sx == null || drawer.classList.contains("open")) return;
+    const dx = e.changedTouches[0].clientX - sx;
+    const dy = e.changedTouches[0].clientY - sy;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) go(current + (dx < 0 ? 1 : -1));
+    sx = null;
+  });
+
+  window.addEventListener("resize", fit);
+  window.addEventListener("hashchange", () => go((Number(location.hash.slice(1)) || 1) - 1, false));
+  fit();
+  go((Number(location.hash.slice(1)) || 1) - 1, false);
+})();
+</script>
+</body>
+</html>
