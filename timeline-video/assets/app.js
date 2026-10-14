@@ -10,12 +10,36 @@ const DEFAULT_PROJECT = {
   ],
 };
 
+/* ===== 배경음악 목록 (위키미디어 공용, Kevin MacLeod · CC BY 3.0 — 출처 표기만 하면 상업 영상 사용 가능) ===== */
+const MUSIC_BASE = "https://upload.wikimedia.org/wikipedia/commons/";
+const MUSIC = [
+  { mood: "잔잔·회상", title: "Gymnopedie No. 2", sec: 159, path: "2/20/Gymnopedie_No._2_%28ISRC_USUAN1100786%29.mp3" },
+  { mood: "잔잔·회상", title: "Prelude in C (BWV 846)", sec: 179, path: "a/ac/Prelude_in_C_%28BWV_846%29_%28ISRC_USUAN1100689%29.mp3" },
+  { mood: "잔잔·회상", title: "Heart of Nowhere", sec: 172, path: "2/26/Heart_of_Nowhere_%28ISRC_USUAN1400045%29.mp3" },
+  { mood: "잔잔·회상", title: "Sad Trio", sec: 252, path: "c/cb/Sad_Trio_%28ISRC_USUAN1100089%29.mp3" },
+  { mood: "잔잔·회상", title: "Starry", sec: 199, path: "9/99/Starry_%28ISRC_USUAN1100062%29.mp3" },
+  { mood: "다큐·서사", title: "Long Road Ahead", sec: 147, path: "0/02/Long_Road_Ahead_%28ISRC_USUAN1100588%29.mp3" },
+  { mood: "다큐·서사", title: "Fireflies and Stardust", sec: 255, path: "8/84/Fireflies_and_Stardust_%28ISRC_USUAN1600061%29.mp3" },
+  { mood: "다큐·서사", title: "Sheep May Safely Graze", sec: 238, path: "f/fa/Sheep_May_Safely_Graze_-_BWV_208_%28ISRC_USUAN1100079%29.mp3" },
+  { mood: "밝음·경쾌", title: "Merry Go", sec: 120, path: "f/fb/Merry_Go_%28ISRC_USUAN1100731%29.mp3" },
+  { mood: "밝음·경쾌", title: "Montauk Point", sec: 220, path: "3/30/Montauk_Point_%28ISRC_USUAN1400013%29.mp3" },
+  { mood: "밝음·경쾌", title: "Lobby Time", sec: 193, path: "e/e9/Lobby_Time_%28ISRC_USUAN1600054%29.mp3" },
+  { mood: "밝음·경쾌", title: "The Builder", sec: 118, path: "a/aa/The_Builder_%28ISRC_USUAN1400016%29.mp3" },
+  { mood: "긴장·뉴스", title: "Hitman", sec: 201, path: "e/ea/Hitman_%28ISRC_USUAN1300013%29.mp3" },
+  { mood: "긴장·뉴스", title: "Sneaky Adventure", sec: 73, path: "9/9e/Sneaky_Adventure_%28ISRC_USUAN1100644%29.mp3" },
+  { mood: "긴장·뉴스", title: "Unlight", sec: 189, path: "9/9e/Unlight_%28ISRC_USUAN1100878%29.mp3" },
+  { mood: "긴장·뉴스", title: "Pilot Error", sec: 156, path: "3/33/Pilot_Error_%28ISRC_USUAN1100112%29.mp3" },
+];
+const musicCredit = (m) => `Music: "${m.title}" by Kevin MacLeod (incompetech.com)\nLicensed under Creative Commons: By Attribution 3.0\nhttps://creativecommons.org/licenses/by/3.0/`;
+
 const SETTINGS = {
   fps: 30,
   introSec: 3,
   transitionSec: 1,
   accent: "#ffd23f",
   themeKey: "timelineVideoTheme",
+  channelKey: "timelineVideoChannel",
+  fadeSec: 1.5, // 배경음악 시작·끝 페이드
   sizes: { "16:9": [1280, 720], "9:16": [720, 1280] },
 };
 
@@ -26,6 +50,7 @@ function makeSlide(s = {}) {
 }
 
 const state = {
+  channel: "",      // 영상 왼쪽 위 라벨 (비우면 인물 이름)
   person: DEFAULT_PROJECT.person,
   subtitle: DEFAULT_PROJECT.subtitle,
   infoLine: "",
@@ -135,9 +160,10 @@ function drawSegment(c, seg, local, W, H) {
 
   // 상단 라벨
   c.textBaseline = "top"; c.textAlign = "left";
+  const label = state.channel || state.person;
   c.font = font(26);
-  c.fillStyle = "rgba(0,0,0,.45)"; c.fillRect(m - 14 * s, 36 * s, c.measureText(state.person).width + 28 * s, 44 * s);
-  c.fillStyle = "#fff"; c.fillText(state.person, m, 44 * s);
+  c.fillStyle = "rgba(0,0,0,.45)"; c.fillRect(m - 14 * s, 36 * s, c.measureText(label).width + 28 * s, 44 * s);
+  c.fillStyle = "#fff"; c.fillText(label, m, 44 * s);
   const idx = state.slides.indexOf(sl) + 1;
   c.textAlign = "right"; c.font = font(24, 600); c.fillStyle = "#e5e7eb";
   c.fillText(`${idx} / ${state.slides.length}`, W - m, 46 * s);
@@ -211,6 +237,7 @@ let recording = false, recorder = null, chunks = [];
 function tick() {
   curT = (performance.now() - wallStart) / 1000;
   if (curT >= total) { curT = total; render(curT); updateSeek(); finishPlayback(); return; }
+  if (audio.vol) audio.vol.gain.value = bgmGainAt(curT);
   render(curT); updateSeek();
 }
 function play() {
@@ -268,29 +295,70 @@ function setUiBusy(b) {
 }
 
 /* ===== 배경음악 ===== */
-const audio = { el: null, ctx: null, dest: null, preview: null };
-function loadBgm(file) {
-  if (!file) return;
-  if (!audio.ctx) {
-    audio.ctx = new AudioContext();
-    audio.el = new Audio();
-    audio.el.loop = true;
-    const src = audio.ctx.createMediaElementSource(audio.el);
-    audio.dest = audio.ctx.createMediaStreamDestination();
-    audio.preview = audio.ctx.createGain();
-    src.connect(audio.dest);
-    src.connect(audio.preview);
-    audio.preview.connect(audio.ctx.destination);
+// 음원 → vol(음량·페이드) → [녹화용 dest, 스피커용 preview]
+const audio = { el: null, ctx: null, dest: null, preview: null, vol: null, volume: 0.6, auditioning: false };
+function ensureAudio() {
+  if (audio.ctx) return;
+  audio.ctx = new AudioContext();
+  audio.el = new Audio();
+  audio.el.crossOrigin = "anonymous"; // 공용 음원도 녹화되도록 (CORS 없으면 무음이 됨)
+  audio.el.loop = true;
+  audio.el.preload = "auto";
+  const src = audio.ctx.createMediaElementSource(audio.el);
+  audio.vol = audio.ctx.createGain();
+  audio.dest = audio.ctx.createMediaStreamDestination();
+  audio.preview = audio.ctx.createGain();
+  src.connect(audio.vol);
+  audio.vol.connect(audio.dest);
+  audio.vol.connect(audio.preview);
+  audio.preview.connect(audio.ctx.destination);
+  audio.el.addEventListener("error", () => {
+    if (audio.el.getAttribute("src")) $("bgmStatus").textContent = "음악을 불러오지 못했습니다. 잠시 후 다시 고르거나 다른 곡을 골라 주세요.";
+  });
+}
+function setBgmSource(src) {
+  stopAudition();
+  if (!src) {
+    if (audio.el) { audio.el.pause(); audio.el.removeAttribute("src"); audio.el.load(); }
+    return;
   }
-  audio.el.src = URL.createObjectURL(file);
+  ensureAudio();
+  audio.el.src = src;
+}
+const hasBgm = () => audio.el && audio.el.getAttribute("src");
+// 영상 처음·끝에서 부드럽게 커지고 작아짐
+function bgmGainAt(t) {
+  const f = SETTINGS.fadeSec;
+  return audio.volume * Math.max(0, Math.min(1, t / f, (total - t) / f));
 }
 function startAudio(t) {
-  if (!audio.el || !audio.el.src) return;
+  if (!hasBgm()) return;
+  stopAudition();
   audio.ctx.resume();
+  audio.vol.gain.value = bgmGainAt(t);
   try { audio.el.currentTime = audio.el.duration ? t % audio.el.duration : 0; } catch (_) {}
   audio.el.play().catch(() => {});
 }
-function stopAudio() { if (audio.el) audio.el.pause(); }
+function stopAudio() { if (audio.el && !audio.auditioning) audio.el.pause(); }
+
+// 미리 듣기 (영상과 별개로 처음부터 재생)
+function toggleAudition() {
+  if (!hasBgm()) return;
+  if (audio.auditioning) { stopAudition(); return; }
+  if (playing) pause();
+  audio.ctx.resume();
+  audio.vol.gain.value = audio.volume;
+  audio.el.currentTime = 0;
+  audio.el.play().catch(() => {});
+  audio.auditioning = true;
+  $("bgmListen").textContent = "■ 정지";
+}
+function stopAudition() {
+  if (!audio.auditioning) return;
+  audio.auditioning = false;
+  audio.el.pause();
+  $("bgmListen").textContent = "▶ 미리 듣기";
+}
 
 /* ===== 편집 UI ===== */
 function loadImage(file) {
@@ -572,6 +640,57 @@ async function applyLookup() {
   setStatus(`장면 ${state.slides.length}개를 만들었습니다. 아래에서 내용과 사진을 고친 뒤 영상을 만드세요.`);
 }
 
+/* ===== 배경음악 선택 ===== */
+function bindBgm() {
+  const sel = $("bgmSelect");
+  sel.add(new Option("없음", ""));
+  const groups = {};
+  MUSIC.forEach((m, i) => {
+    if (!groups[m.mood]) { groups[m.mood] = document.createElement("optgroup"); groups[m.mood].label = m.mood; sel.append(groups[m.mood]); }
+    groups[m.mood].append(new Option(`${m.title} (${fmt(m.sec)})`, String(i)));
+  });
+  sel.add(new Option("내 음악 파일 올리기…", "file"));
+
+  const showCredit = (text) => {
+    $("bgmCreditBox").hidden = !text;
+    $("bgmCredit").value = text || "";
+  };
+  let prev = "";
+  sel.addEventListener("focus", () => (prev = sel.value === "file" ? prev : sel.value));
+  $("bgmFile").addEventListener("cancel", () => (sel.value = prev)); // 파일 창을 닫으면 이전 선택으로
+  sel.addEventListener("change", () => {
+    $("bgmStatus").textContent = "";
+    if (sel.value === "file") { $("bgmFile").click(); return; }
+    prev = sel.value;
+    if (!sel.value) { setBgmSource(""); showCredit(""); $("bgmListen").disabled = true; return; }
+    const m = MUSIC[+sel.value];
+    setBgmSource(MUSIC_BASE + m.path);
+    showCredit(musicCredit(m));
+    $("bgmListen").disabled = false;
+    if (m.sec < total) $("bgmStatus").textContent = `곡(${fmt(m.sec)})이 영상(${fmt(total)})보다 짧아 처음부터 반복됩니다.`;
+  });
+  $("bgmFile").addEventListener("change", (e) => {
+    const f = e.target.files[0];
+    if (!f) { sel.value = ""; return; }
+    setBgmSource(URL.createObjectURL(f));
+    showCredit("");
+    $("bgmListen").disabled = false;
+    $("bgmStatus").textContent = `내 파일: ${f.name} — 저작권을 직접 확인해 주세요.`;
+    e.target.value = "";
+  });
+  $("bgmListen").addEventListener("click", toggleAudition);
+  $("bgmVol").addEventListener("input", (e) => {
+    audio.volume = Number(e.target.value) / 100;
+    if (!audio.vol) return;
+    audio.vol.gain.value = audio.auditioning ? audio.volume : bgmGainAt(curT);
+  });
+  $("bgmCopy").addEventListener("click", async () => {
+    try { await navigator.clipboard.writeText($("bgmCredit").value); $("bgmCopy").textContent = "복사됨 ✓"; }
+    catch (_) { $("bgmCredit").select(); document.execCommand("copy"); $("bgmCopy").textContent = "복사됨 ✓"; }
+    setTimeout(() => ($("bgmCopy").textContent = "복사"), 1500);
+  });
+}
+
 function syncInputs() {
   $("person").value = state.person; $("subtitle").value = state.subtitle; $("infoLine").value = state.infoLine;
 }
@@ -597,7 +716,16 @@ function bind() {
   sync("ratio", "ratio", (v) => v, setRatio);
   sync("transition", "transition");
   sync("slideSec", "slideSec", (v) => Math.min(15, Math.max(2, Number(v) || 4)));
-  $("bgm").addEventListener("change", (e) => loadBgm(e.target.files[0]));
+  // 채널 이름은 영상마다 같으니 브라우저에 기억
+  try { state.channel = localStorage.getItem(SETTINGS.channelKey) || ""; } catch (_) {}
+  $("channel").value = state.channel;
+  $("channel").addEventListener("input", (e) => {
+    state.channel = e.target.value.trim();
+    try { localStorage.setItem(SETTINGS.channelKey, state.channel); } catch (_) {}
+    refresh();
+  });
+
+  bindBgm();
 
   $("addBtn").addEventListener("click", () => { state.slides.push(makeSlide()); renderList(); refresh(); });
   $("bulk").addEventListener("change", async (e) => {

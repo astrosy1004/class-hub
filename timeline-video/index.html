@@ -70,6 +70,7 @@
 
       <h2>기본 설정</h2>
       <div class="grid2">
+        <label class="span2">채널 이름 (영상 왼쪽 위, 비우면 인물 이름)<input id="channel" type="text" placeholder="예: 정치경제 타임라인"></label>
         <label>인물 이름<input id="person" type="text"></label>
         <label>부제<input id="subtitle" type="text"></label>
         <label class="span2">인트로 정보 줄 (생년월일 등)<input id="infoLine" type="text" placeholder="예: 1963년 12월 8일생 · 만 62세"></label>
@@ -87,8 +88,26 @@
             <option value="cut">컷</option>
           </select>
         </label>
-        <label>장면당 시간(초)<input id="slideSec" type="number" min="2" max="15" step="0.5"></label>
-        <label>배경음악(선택)<input id="bgm" type="file" accept="audio/*"></label>
+        <label class="span2">장면당 시간(초)<input id="slideSec" type="number" min="2" max="15" step="0.5"></label>
+      </div>
+
+      <div class="bgm">
+        <label>배경음악 <small class="muted">무료 음원 (CC BY 3.0 · 출처 표기 필요)</small>
+          <select id="bgmSelect"></select>
+        </label>
+        <input id="bgmFile" type="file" accept="audio/*" hidden>
+        <div class="bgm-row">
+          <button id="bgmListen" type="button" disabled>▶ 미리 듣기</button>
+          <label class="vol">음량<input id="bgmVol" type="range" min="0" max="100" value="60"></label>
+        </div>
+        <p id="bgmStatus" class="muted small"></p>
+        <div id="bgmCreditBox" class="credit" hidden>
+          <div class="row-head">
+            <span class="muted small">영상 설명란에 붙여 넣을 음악 출처</span>
+            <button id="bgmCopy" type="button" class="ghost">복사</button>
+          </div>
+          <textarea id="bgmCredit" readonly rows="3"></textarea>
+        </div>
       </div>
 
       <div class="row-head">

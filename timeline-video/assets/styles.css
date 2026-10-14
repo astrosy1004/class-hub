@@ -96,6 +96,17 @@ hr { border: 0; border-top: 1px solid var(--border); margin: 20px 0; }
 .span2 { grid-column: 1 / -1; }
 .wide-btn { width: 100%; margin-top: 14px; padding: 11px; }
 
+/* 배경음악 */
+.bgm { margin-bottom: 18px; display: flex; flex-direction: column; gap: 8px; }
+.bgm-row { display: flex; gap: 12px; align-items: center; }
+.bgm-row .vol { flex-direction: row; align-items: center; gap: 8px; flex: 1; }
+.bgm-row .vol input { flex: 1; }
+.bgm .small { margin: 0; }
+.credit { border: 1px dashed var(--border); border-radius: 8px; padding: 8px; }
+.credit .row-head { margin-bottom: 6px; }
+.credit button { padding: 3px 10px; }
+.credit textarea { font-size: .78rem; min-height: 0; }
+
 /* 인물 불러오기 */
 .search-row { display: flex; gap: 8px; }
 .search-row input { flex: 1; }
