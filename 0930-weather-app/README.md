@@ -66,6 +66,7 @@ python -m http.server 5500 --bind 127.0.0.1
 │  ├─ firebase.js       Firebase SDK(CDN) import + 설정값
 │  ├─ auth.js           로그인 · 로그아웃 · 로그인 상태 구독
 │  └─ history.js        로그인 사용자의 최근 조회 (Firestore users/{uid}/history)
+├─ plan.html           개발 계획서 (좌우로 넘기는 슬라이드, 목업 이미지 포함 단일 파일 · Firebase 배포 제외)
 ├─ firestore.rules, firebase.json, .firebaserc
 └─ README.md
 ```

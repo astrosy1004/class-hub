@@ -9,6 +9,7 @@
       ".firebaserc",
       "firestore.rules",
       "README.md",
+      "plan.html",
       "**/.*",
       "**/node_modules/**"
     ],

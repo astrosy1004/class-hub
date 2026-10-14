@@ -114,6 +114,7 @@ const programs = [
     icon: "⛑️",
     tone: "amber",
     url: "https://weath-app-sykim.web.app",
+    plan: "../0930-weather-app/plan.html",
     description: "지역 날씨에 맞춰 공사 현장 안전수칙을 안내해 사고를 예방하는 웹앱",
     features: ["현재 · 시간별 · 주간 날씨와 미세먼지", "더위 · 추위 · 강풍 등 분류별 안전수칙", "위험 기상 알림과 QR · 링크 공유"],
     tags: ["날씨", "안전", "Firebase"],
