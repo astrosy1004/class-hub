@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-10-16T08:35:37.065Z",
+  "updatedAt": "2026-10-16T14:24:02.844Z",
   "categories": [
     {
       "id": "job",
