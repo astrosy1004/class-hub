@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-10-16T14:24:02.844Z",
+  "updatedAt": "2026-10-16T19:07:36.347Z",
   "categories": [
     {
       "id": "job",
@@ -170,6 +170,14 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
+          "title": "[2019 인천 SW미래채움 교육페스티벌]'인천 생활속 코딩' 온몸으로 느꼈다 - 전자신문",
+          "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTFBfd21RY0l6ZXBkekU5U09saXpISGNNczRBbmpzOFJMZWstdjhPNjFBMDhVM0ZhdHFNbUJBZlNvNzFUOS0xb2VPd1dmbno0dw?oc=5",
+          "date": "2019-11-24T08:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiTkFVX3lxTFBfd21RY0l6ZXBkekU5U09saXpISGNNczRBbmpzOFJMZWstdjhPNjFBMDhVM0ZhdHFNbUJBZlNvNzFUOS0xb2VPd1dmbno0dw?oc=5\" target=\"_blank\">[",
+          "source": "전자신문",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
           "title": "광명시,경단녀‘SW정보화교육강사 양성과정’수료식 - 현대일보",
           "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE9PME0zaWVGa0t1Q3p1RThIOHcteU5oUWMzY3FQdWpVRTk4aGVmODkyN3Boem1lbEd0bl90LVFYcTh5dXJnQnA2RV9xaHFVdnA0b1dObUxra1g4dnBkSEcwLWRqdkdNZFpWRjYzUlJ3?oc=5",
           "date": "2019-07-10T07:00:00.000Z",
@@ -199,14 +207,6 @@ window.MYNEWS_DATA = {
           "date": "2018-10-30T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiTEFVX3lxTE11Smh5R3BLNHNFODRFd2E1M2Y0UTBXT2dBM2k0UERGN053ZlJveVJEc096OUtmX3F0TkdGenRFcTFZOWVJWVJ4Z0VqaTE?oc=5\" target=\"_blank\">2018",
           "source": "브런치",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
-          "title": "코딩강사되기 캠프로 방과후 학교 코딩강사의 'SW교육' 역량을 강화 - gukjenews.com",
-          "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE16cjJUaHJZR1ZQNkozQTkxNUhFSm5ZMGJubG1fQVplRlBCSFlNUHo4d3g4RjQwUEl2MEh1WU11S1RZOXlWZXhWb1ZiWXpnYWtQemd5RHM2MTdzVG5hdkhlUkIycXVDMWE5ZVZ1WQ?oc=5",
-          "date": "2018-03-30T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTE16cjJUaHJZR1ZQNkozQTkxNUhFSm5ZMGJubG1fQVplRlBCSFlNUHo4d3g4RjQwUEl2MEh1WU11S1RZOXlWZXhWb1ZiWXpnYWtQemd5RHM2MTdzVG5hdkhlUk",
-          "source": "gukjenews.com",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
