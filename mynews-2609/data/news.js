@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-10-17T13:21:00.618Z",
+  "updatedAt": "2026-10-17T16:44:24.118Z",
   "categories": [
     {
       "id": "job",
@@ -130,14 +130,6 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "아이씨뱅큐, 마이크로비트 코딩 강사 기초 연수 전액 무료 진행 - 테크월드",
-          "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE1VMnRwdTdZRkE4aU4yUzZ2MjVzQmJJRTQxYUlRaGx6WmltY056cjFfMEtHX21ob0ZkM1F3UGZNZmg5Um54MmhTd09DMXNEZTNUSzE4WEZuYjdTdk5scWhuYS1SUFBaUEYx?oc=5",
-          "date": "2021-05-28T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiaEFVX3lxTE1VMnRwdTdZRkE4aU4yUzZ2MjVzQmJJRTQxYUlRaGx6WmltY056cjFfMEtHX21ob0ZkM1F3UGZNZmg5Um54MmhTd09DMXNEZTNUSzE4WEZuYjdTdk5scWhuYS",
-          "source": "테크월드",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
           "title": "북부여성새로일하기센터, 경력단절여성 위한 코딩융합교육전문가과정 모집 - 더쎈뉴스",
           "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9MMFVTSU9jUUxjczZtb09zVElYRks3YzNpWU9VMkxkdVV6YjJGbmtHWEFWa1VBVWg5d0paV2daWE9IU0tUbUwxemk5cHZCOFJFSUJwQ1lEeUc3aWUyNXo4bTBtSEM2V2pI?oc=5",
           "date": "2021-03-31T07:00:00.000Z",
@@ -175,6 +167,14 @@ window.MYNEWS_DATA = {
           "date": "2019-07-10T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMibkFVX3lxTE9PME0zaWVGa0t1Q3p1RThIOHcteU5oUWMzY3FQdWpVRTk4aGVmODkyN3Boem1lbEd0bl90LVFYcTh5dXJnQnA2RV9xaHFVdnA0b1dObUxra1g4dnBkSEcwLW",
           "source": "현대일보",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "김포여성새로일하기센터, 코딩강사 양성과정 개강 - www.cwn.kr",
+          "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE5SeS04S3BHcWs4LVl4TzRZcU05Z3BscHJabXVUTUNyeDhSMS1HSWxxVThUOUpJWXdDZkwtUFRjbTFmU2MxeDVkQVk3cklXa3lCSHNJWnVBa3FkZjZyWWpJ?oc=5",
+          "date": "2019-03-26T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiX0FVX3lxTE5SeS04S3BHcWs4LVl4TzRZcU05Z3BscHJabXVUTUNyeDhSMS1HSWxxVThUOUpJWXdDZkwtUFRjbTFmU2MxeDVkQVk3cklXa3lCSHNJWnVBa3FkZjZyWWpJ?o",
+          "source": "www.cwn.kr",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
