@@ -382,6 +382,7 @@ const COURSES = [
 // 화면 문구 (한국어 · 영어 · 중국어 · 일본어)
 const I18N = {
   ko: {
+    heroCta: "지도에서 찾아보기",
     tabHome: "홈", tabMap: "지도", tabExplore: "탐색", tabSaved: "찜", tabTrips: "내 여행",
     splashTagline: "한국의 아름다움을 여행하세요", start: "시작하기", chooseLang: "언어를 선택하세요",
     homeTitle: "한국의 뷰티를 탐색하세요", homeSub: "여행 중 만나는 클리닉 · 스킨케어 · 웰니스",
@@ -445,6 +446,7 @@ const I18N = {
     rateNote: "환율은 참고용 고정값입니다.", fallbackNote: "",
   },
   en: {
+    heroCta: "Find on the map",
     tabHome: "Home", tabMap: "Map", tabExplore: "Explore", tabSaved: "Saved", tabTrips: "Trips",
     splashTagline: "Explore Korea's beauty", start: "Get started", chooseLang: "Choose your language",
     homeTitle: "Explore Korea's beauty", homeSub: "Clinics, skincare, wellness and more for your trip",
@@ -508,6 +510,7 @@ const I18N = {
     rateNote: "Exchange rates are fixed reference values.", fallbackNote: "",
   },
   zh: {
+    heroCta: "在地图上查找",
     tabHome: "首页", tabMap: "地图", tabExplore: "探索", tabSaved: "收藏", tabTrips: "行程",
     splashTagline: "探索韩国之美", start: "开始", chooseLang: "选择语言",
     homeTitle: "探索韩国美妆", homeSub: "旅途中的诊所、护肤、养生等",
@@ -571,6 +574,7 @@ const I18N = {
     rateNote: "汇率为固定参考值。", fallbackNote: " 部分详情以英文显示。",
   },
   ja: {
+    heroCta: "地図で探す",
     tabHome: "ホーム", tabMap: "マップ", tabExplore: "探す", tabSaved: "保存", tabTrips: "旅行",
     splashTagline: "韓国の美を旅しよう", start: "はじめる", chooseLang: "言語を選択",
     homeTitle: "韓国のビューティーを探そう", homeSub: "旅行中のクリニック・スキンケア・ウェルネス",

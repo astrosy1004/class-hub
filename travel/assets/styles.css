@@ -2223,3 +2223,69 @@ body[data-screen="map"] .locate-btn:has(+ .map-card:not([hidden])) {
   background: color-mix(in srgb, var(--surface) 88%, transparent);
   box-shadow: var(--shadow-soft);
 }
+
+/* ---------- 홈 대표 이미지 ---------- */
+.home-hero {
+  position: relative;
+  display: block;
+  margin: 18px 20px 0;
+  border-radius: 22px;
+  overflow: hidden;
+  aspect-ratio: 1200 / 630;
+  box-shadow: var(--shadow-soft);
+  color: #fff;
+}
+
+.home-hero img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.home-hero-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 16px 18px;
+  background: linear-gradient(100deg, rgba(120, 30, 45, 0.42), transparent 62%);
+  font-size: 13px;
+  text-shadow: 0 1px 6px rgba(90, 20, 30, 0.35);
+}
+
+.hero-brand {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(24px, 7.4vw, 32px);
+  line-height: 1.05;
+  max-width: 60%;
+}
+
+.hero-brand span {
+  font-size: 0.55em;
+  vertical-align: top;
+  color: #ffe0e6;
+}
+
+.hero-cta {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 16px;
+  background: #fff;
+  color: #d34b55;
+  font-size: 13px;
+  font-weight: 700;
+  text-shadow: none;
+}
+
+.hero-cta .ic {
+  width: 16px;
+  height: 16px;
+}

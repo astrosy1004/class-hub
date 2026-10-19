@@ -26,6 +26,9 @@
 - `assets/styles.css`: 디자인 (코랄 테마, 색상은 `:root` 변수, 다크 모드는 `[data-theme="dark"]`, 글꼴은 Pretendard + DM Serif Display)
 - `assets/app.js`: 최상단 데이터 배열 + 다국어 문구 → 아이콘 · 라우터 · 화면별 그리기 · 예약 · 리뷰
 - `assets/logo.svg`: 로고 겸 파비콘
+- `assets/hero.png`: 홈 화면 대표 이미지(배너). 글자는 화면에서 언어별로 얹습니다.
+- `assets/og-image.png`: 링크 공유 미리보기 이미지(1200×630, 카카오톡 · SNS). `index.html` 의 `og:image` 에 배포 주소로 연결
+- `scripts/make_hero.py`: 위 두 이미지를 다시 만드는 스크립트 (`python scripts/make_hero.py assets`, Pillow 필요)
 - `목업화면.png`: 화면 목업, `k-beauty-tourism-development-plan.md`: 개발계획서
 
 ## 구현된 기능 (계획서 대비)
