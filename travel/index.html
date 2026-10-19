@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#e8636b" />
+    <title>K-뷰티 패스포트</title>
+    <meta name="description" content="외국인 여행객을 위한 K-뷰티 지도 · 다국어 예약 웹앱 (MVP 프로토타입)" />
+    <link rel="icon" href="./assets/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <link rel="stylesheet" href="./assets/styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <!-- 스플래시 -->
+      <div class="splash" id="splash">
+        <div class="splash-art" id="splashArt"></div>
+        <div class="splash-text">
+          <h1 class="serif">K-Beauty<br />Passport <span class="blossom" aria-hidden="true">✿</span></h1>
+          <p class="splash-tag" data-i18n="splashTagline">Explore Korea's beauty</p>
+        </div>
+        <div class="splash-bottom">
+          <p data-i18n="chooseLang">언어를 선택하세요</p>
+          <div class="seg-row" id="splashLangs"></div>
+          <button class="btn-white big wide" type="button" id="splashStart" data-i18n="start">시작하기</button>
+        </div>
+      </div>
+
+      <!-- 홈 -->
+      <section class="screen" data-screen="home" hidden>
+        <header class="home-head">
+          <div id="homeAreaSlot"></div>
+          <div class="head-actions">
+            <button class="icon-btn" type="button" data-sheet="settings" data-i18n-aria="settings" aria-label="설정"><span data-icon="globe"></span></button>
+            <button class="icon-btn" type="button" data-sheet="notifications" data-i18n-aria="notifications" aria-label="알림">
+              <span data-icon="bell"></span><span class="dot" id="bellDot" hidden></span>
+            </button>
+          </div>
+        </header>
+        <div class="pad">
+          <h1 class="serif home-title" data-i18n="homeTitle">한국의 뷰티를 탐색하세요</h1>
+          <p class="muted" data-i18n="homeSub">여행 중 만나는 클리닉 · 스킨케어 · 웰니스</p>
+        </div>
+        <nav class="cat-row" id="homeCats" aria-label="categories"></nav>
+
+        <div class="section-title pad">
+          <h2 data-i18n="popularNear">내 주변 인기</h2>
+          <a class="see-all" href="#/explore"><span data-i18n="seeAll">전체 보기</span> ›</a>
+        </div>
+        <div class="h-scroll" id="popularRow"></div>
+
+        <div class="section-title pad">
+          <h2 data-i18n="curated">여행자 추천 코스</h2>
+        </div>
+        <div class="h-scroll" id="curatedRow"></div>
+
+        <footer class="app-footer pad">
+          <p data-i18n="footer">예시 데이터로 만든 MVP 프로토타입입니다.</p>
+          <p><span data-i18n="rateNote">환율은 참고용 고정값</span><span id="fallbackNote"></span></p>
+        </footer>
+      </section>
+
+      <!-- 지도 -->
+      <section class="screen map-screen" data-screen="map" hidden>
+        <div class="map-box" id="mapBox">
+          <svg id="mapSvg" role="img" aria-label="map"></svg>
+        </div>
+        <div class="map-top">
+          <div class="map-search">
+            <span data-icon="search"></span>
+            <input id="mapQuery" type="search" autocomplete="off" data-i18n-ph="mapSearchPh" />
+            <button class="icon-btn flat" type="button" data-sheet="filters" data-i18n-aria="filters" aria-label="필터"><span data-icon="sliders"></span></button>
+          </div>
+          <div class="chip-row">
+            <div id="mapAreaSlot"></div>
+            <div class="chip-scroll" id="mapCats"></div>
+          </div>
+          <p class="map-count"><span id="mapCount"></span> · <span data-i18n="mapNote">개략도</span></p>
+        </div>
+        <button class="locate-btn" type="button" data-locate data-i18n-aria="locate" aria-label="기준 위치"><span data-icon="locate"></span></button>
+        <div class="map-card" id="mapCard" hidden></div>
+      </section>
+
+      <!-- 탐색 -->
+      <section class="screen" data-screen="explore" hidden>
+        <header class="screen-head left">
+          <h1 data-i18n="exploreTitle">모든 장소</h1>
+          <div id="exploreAreaSlot"></div>
+        </header>
+        <div class="pad">
+          <label class="search-box">
+            <span data-icon="search"></span>
+            <input id="exploreQuery" type="search" autocomplete="off" data-i18n-ph="searchPh" />
+          </label>
+        </div>
+        <div class="chip-scroll pad-x" id="exploreCats"></div>
+        <div class="chip-scroll pad-x">
+          <button class="chip filter-chip" type="button" data-sheet="filters"><span data-icon="sliders"></span><span data-i18n="filters">필터</span><span class="count-dot" id="filterCount" hidden></span></button>
+          <button class="chip" type="button" data-toggle="rating" aria-pressed="false" data-i18n="filterRating">평점 4.5+</button>
+          <button class="chip" type="button" data-toggle="openNow" aria-pressed="false" data-i18n="filterOpen">영업 중</button>
+          <button class="chip" type="button" data-toggle="bookable" aria-pressed="false" data-i18n="filterBookable">예약 가능</button>
+        </div>
+        <p class="pad result-count" id="exploreCount"></p>
+        <div class="list pad" id="exploreList" aria-live="polite"></div>
+      </section>
+
+      <!-- 찜 -->
+      <section class="screen" data-screen="saved" hidden>
+        <header class="screen-head left"><h1 data-i18n="favoritesTitle">찜한 장소</h1></header>
+        <div class="list pad" id="savedList"></div>
+      </section>
+
+      <!-- 내 여행 -->
+      <section class="screen" data-screen="trips" hidden>
+        <header class="screen-head left"><h1 data-i18n="tripTitle">내 여행 · 예약</h1></header>
+        <div class="pad" id="tripsView"></div>
+      </section>
+
+      <!-- 장소 상세 -->
+      <section class="screen" data-screen="place" hidden>
+        <div id="placeView"></div>
+      </section>
+
+      <!-- 코스 -->
+      <section class="screen" data-screen="course" hidden>
+        <div class="pad" id="courseView"></div>
+      </section>
+
+      <!-- 하단 탭바 -->
+      <nav class="tabbar" id="tabbar" aria-label="main">
+        <a class="tab" href="#/home" data-tab="home"><span data-icon="home"></span><span data-i18n="tabHome">홈</span></a>
+        <a class="tab" href="#/map" data-tab="map"><span data-icon="pin"></span><span data-i18n="tabMap">지도</span></a>
+        <a class="tab" href="#/explore" data-tab="explore"><span data-icon="search"></span><span data-i18n="tabExplore">탐색</span></a>
+        <a class="tab" href="#/saved" data-tab="saved"><span data-icon="heart"></span><span data-i18n="tabSaved">찜</span></a>
+        <a class="tab" href="#/trips" data-tab="trips"><span data-icon="calendar"></span><span data-i18n="tabTrips">내 여행</span><span class="tab-badge" id="tripBadge" hidden></span></a>
+      </nav>
+    </div>
+
+    <!-- 설정 시트 -->
+    <dialog class="sheet" id="settingsDialog">
+      <div class="sheet-body">
+        <div class="sheet-head">
+          <h2 data-i18n="settings">설정</h2>
+          <button class="close-btn" type="button" data-close data-i18n-aria="close" aria-label="닫기">×</button>
+        </div>
+        <p class="sheet-label" data-i18n="language">언어</p>
+        <div class="seg-row" id="langOptions"></div>
+        <p class="sheet-label" data-i18n="currency">통화</p>
+        <div class="seg-row" id="currencyOptions"></div>
+        <label class="switch-row">
+          <span data-i18n="darkMode">다크 모드</span>
+          <input type="checkbox" class="switch" id="darkToggle" />
+        </label>
+        <p class="sheet-note" data-i18n="rateNote">환율은 참고용 고정값</p>
+      </div>
+    </dialog>
+
+    <!-- 알림 시트 -->
+    <dialog class="sheet" id="notifDialog">
+      <div class="sheet-body">
+        <div class="sheet-head">
+          <h2 data-i18n="notifications">알림</h2>
+          <button class="close-btn" type="button" data-close data-i18n-aria="close" aria-label="닫기">×</button>
+        </div>
+        <div class="notif-list" id="notifList"></div>
+      </div>
+    </dialog>
+
+    <!-- 필터 시트 -->
+    <dialog class="sheet" id="filterDialog">
+      <div class="sheet-body">
+        <div class="sheet-head">
+          <h2 data-i18n="filters">필터</h2>
+          <button class="close-btn" type="button" data-close data-i18n-aria="close" aria-label="닫기">×</button>
+        </div>
+        <div class="chip-wrap">
+          <button class="chip" type="button" data-toggle="rating" aria-pressed="false" data-i18n="filterRating">평점 4.5+</button>
+          <button class="chip" type="button" data-toggle="openNow" aria-pressed="false" data-i18n="filterOpen">영업 중</button>
+          <button class="chip" type="button" data-toggle="bookable" aria-pressed="false" data-i18n="filterBookable">예약 가능</button>
+        </div>
+        <label class="field"><span data-i18n="filterLang">외국어</span><select id="speakSelect"></select></label>
+        <label class="field"><span data-i18n="filterPrice">가격대</span><select id="priceSelect"></select></label>
+        <label class="field"><span data-i18n="nearby">기준</span><select id="nearSelect"></select></label>
+        <label class="field"><span data-i18n="sort">정렬</span><select id="sortSelect"></select></label>
+        <div class="sheet-actions">
+          <button class="btn-line" type="button" data-reset data-i18n="reset">필터 초기화</button>
+          <button class="btn-accent" type="button" data-close id="filterApply">보기</button>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- 예약 신청 -->
+    <dialog class="sheet" id="bookingDialog">
+      <form class="sheet-body" id="bookingForm" method="dialog" novalidate>
+        <div class="sheet-head">
+          <div>
+            <h2 data-i18n="bookTitle">예약 신청</h2>
+            <p class="muted" id="bookingPlace"></p>
+          </div>
+          <button class="close-btn" type="button" data-close data-i18n-aria="close" aria-label="닫기">×</button>
+        </div>
+
+        <label class="field">
+          <span data-i18n="service">서비스</span>
+          <select name="service" id="bookingService"></select>
+        </label>
+        <div class="field-row">
+          <label class="field">
+            <span data-i18n="date">날짜</span>
+            <input type="date" name="date" id="bookingDate" required />
+          </label>
+          <label class="field">
+            <span data-i18n="people">인원</span>
+            <select name="people" id="bookingPeople"></select>
+          </label>
+        </div>
+        <fieldset class="field">
+          <legend data-i18n="time">시간</legend>
+          <div class="slot-grid" id="slotGrid"></div>
+        </fieldset>
+        <label class="field">
+          <span><span data-i18n="name">이름</span> *</span>
+          <input name="guestName" id="bookingName" maxlength="40" autocomplete="name" required />
+        </label>
+        <label class="field">
+          <span data-i18n="email">이메일</span>
+          <input name="email" type="email" maxlength="80" autocomplete="email" />
+        </label>
+        <label class="field">
+          <span data-i18n="note">요청사항</span>
+          <input name="note" maxlength="120" data-i18n-ph="notePh" />
+        </label>
+        <label class="check">
+          <input type="checkbox" name="consent" id="bookingConsent" />
+          <span><span data-i18n="consent">동의</span> *</span>
+        </label>
+
+        <div class="summary" id="bookingSummary"></div>
+        <p class="form-error" id="bookingError" role="alert"></p>
+
+        <div class="sheet-actions">
+          <button class="btn-line" type="button" data-close data-i18n="cancel">취소</button>
+          <button class="btn-accent" type="submit" id="bookingSubmit">예약</button>
+        </div>
+      </form>
+    </dialog>
+
+    <!-- 리뷰 작성 -->
+    <dialog class="sheet" id="reviewDialog">
+      <form class="sheet-body" id="reviewForm" method="dialog" novalidate>
+        <div class="sheet-head">
+          <div>
+            <h2 data-i18n="reviewTitle">리뷰 작성</h2>
+            <p class="muted" id="reviewPlace"></p>
+          </div>
+          <button class="close-btn" type="button" data-close data-i18n-aria="close" aria-label="닫기">×</button>
+        </div>
+        <div class="field">
+          <span data-i18n="ratingLabel">서비스 만족도</span>
+          <div class="star-input" data-name="rating"></div>
+        </div>
+        <div class="field">
+          <span data-i18n="langScore">언어 만족도</span>
+          <div class="star-input" data-name="langScore"></div>
+        </div>
+        <label class="field">
+          <span data-i18n="reviewText">후기</span>
+          <textarea name="text" rows="4" maxlength="400"></textarea>
+        </label>
+        <p class="form-error" id="reviewError" role="alert"></p>
+        <div class="sheet-actions">
+          <button class="btn-line" type="button" data-close data-i18n="cancel">취소</button>
+          <button class="btn-accent" type="submit" data-i18n="submitReview">등록</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="./assets/app.js"></script>
+  </body>
+</html>
