@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-10-18T22:02:21.982Z",
+  "updatedAt": "2026-10-19T02:20:58.130Z",
   "categories": [
     {
       "id": "job",
@@ -162,14 +162,6 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "광명시,경단녀‘SW정보화교육강사 양성과정’수료식 - 현대일보",
-          "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE9PME0zaWVGa0t1Q3p1RThIOHcteU5oUWMzY3FQdWpVRTk4aGVmODkyN3Boem1lbEd0bl90LVFYcTh5dXJnQnA2RV9xaHFVdnA0b1dObUxra1g4dnBkSEcwLWRqdkdNZFpWRjYzUlJ3?oc=5",
-          "date": "2019-07-10T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMibkFVX3lxTE9PME0zaWVGa0t1Q3p1RThIOHcteU5oUWMzY3FQdWpVRTk4aGVmODkyN3Boem1lbEd0bl90LVFYcTh5dXJnQnA2RV9xaHFVdnA0b1dObUxra1g4dnBkSEcwLW",
-          "source": "현대일보",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
           "title": "한국교육능력진흥원㈜, ㈜소리보따리와 유아코딩지도사 코딩교육 콘텐츠제휴계약 체결 - 한국금융경제신문",
           "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTFB6RzVpTnJsVmxZWkVTTGlOSlM2Y0lXUmZPY1docEhnSEEwUzFpTEl5TURNOEowVHU0MjNQamczZW9tXzV0UEw5cTBHUTJnV1BYaGFIQ2hMa3NwdEZwVUp3WXN6dUdPb3dLZUpPQ9IBcEFVX3lxTE1NMU9zZnh6TEFNNGlfdkVHLVhNMU0tSWthcjljMXkwYmJvMEpNVXZyVG14WFpHUkNIOW85N0RpeHU5Tk9nUGhxV3ZPQThjZjF6NUZiUWN2X1RsZzNlWUQyd01CT1ZrcXZMVTlCVUhxcHE?oc=5",
           "date": "2018-12-06T08:00:00.000Z",
@@ -207,6 +199,14 @@ window.MYNEWS_DATA = {
           "date": "2018-02-20T08:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMid0FVX3lxTE8tM0FwdTdZQ2pRaUtwWGQtSUg5c3h1VFBrM1JZcXl2SDdYSDU2WS1GU2FRRnVrUUptNHllMUdYQUp6cGNqei1DREJOSnFzdnFJNkZNVzZtYUFWWFNLQ2xuVW",
           "source": "OhmyNews",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "비욘드코딩, 미스코리아녹원회와 코딩교육 봉사활동 - 뉴스1",
+          "link": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5DdVNDUlJkc2NGbmpEbVg2NVQyODYyLXF1S1pSTnRhQVB0RmFyR25IUG1VRGt4Tk5teWZISUhhZGk1cFRDQXZRRU9rX2xvMEZMNThqS2s3OExld9IBX0FVX3lxTE9BRk5SRzNla0hGRDJ5Q2pxSjZ5WkxLSHgwNjJjeFl0V1dHMU5KT2lLZE1RaVpIUTYtemM2UXNpUGd5RDJWT2ZlRzdnU3FPUjRULThJZzFaUHM3ZURCMmtR?oc=5",
+          "date": "2017-12-21T08:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiWkFVX3lxTE5DdVNDUlJkc2NGbmpEbVg2NVQyODYyLXF1S1pSTnRhQVB0RmFyR25IUG1VRGt4Tk5teWZISUhhZGk1cFRDQXZRRU9rX2xvMEZMNThqS2s3OExld9IBX0FVX3",
+          "source": "뉴스1",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
