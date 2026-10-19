@@ -33,6 +33,17 @@ const CATEGORIES = [
   { id: "plastic", glyph: "sparkle", tone: "blue", name: { ko: "성형외과", en: "Plastic Surgery", zh: "整形外科", ja: "美容外科" } },
 ];
 
+// 근처 실제 장소 검색 (카카오 장소 검색). keyword: 검색어, category: 카카오 분류 코드, match: 분류 이름에 이 글자가 있는 곳만
+// 카카오 JavaScript 키는 브라우저에 보이는 공개용 값입니다. Kakao Developers 에서 허용 도메인(GitHub Pages 주소)으로 제한하세요.
+const KAKAO_JS_KEY = "970ae30d16ffcda61e57991d8958886a";
+const REAL_SEARCH = {
+  derma: { keyword: "피부과", match: "피부과" },
+  pharmacy: { category: "PM9", keyword: "약국" },
+  spa: { keyword: "스파" },
+  store: { keyword: "화장품", match: "화장품" },
+  plastic: { keyword: "성형외과", match: "성형외과" },
+};
+
 // 지역과 기준 위치(역·관광지·호텔). kind: station | spot | hotel | airport
 const AREAS = [
   {
@@ -382,6 +393,12 @@ const COURSES = [
 // 화면 문구 (한국어 · 영어 · 중국어 · 일본어)
 const I18N = {
   ko: {
+    nearbyTitle: "근처 실제 {cat}", findReal: "근처 실제 {cat} 찾기", findRealSub: "카카오 지도로 진짜 병원·매장 보기", realChip: "실제 장소",
+    myLocation: "내 위치", searchHere: "이 지역에서 다시 검색", openKakao: "카카오맵에서 보기", call: "전화",
+    realNote: "카카오 장소 검색으로 찾은 실제 장소입니다. 제휴 여부·가격·외국어 지원은 확인되지 않았으니 방문 전 직접 확인하세요.",
+    loadingReal: "근처 장소를 찾는 중…", realEmpty: "반경 2km 안에서 {cat}을(를) 찾지 못했어요", realCount: "실제 장소 {n}곳 · 반경 2km",
+    realFail: "카카오 지도를 불러오지 못했어요. 아래 링크로 카카오맵에서 바로 검색할 수 있어요.", searchOnKakao: "카카오맵에서 '{q}' 검색",
+    geoFail: "위치를 가져오지 못했어요. 브라우저 위치 권한을 확인하세요.",
     heroCta: "지도에서 찾아보기",
     tabHome: "홈", tabMap: "지도", tabExplore: "탐색", tabSaved: "찜", tabTrips: "내 여행",
     splashTagline: "한국의 아름다움을 여행하세요", start: "시작하기", chooseLang: "언어를 선택하세요",
@@ -446,6 +463,12 @@ const I18N = {
     rateNote: "환율은 참고용 고정값입니다.", fallbackNote: "",
   },
   en: {
+    nearbyTitle: "Real {cat} nearby", findReal: "Find real {cat} nearby", findRealSub: "See actual clinics & shops on Kakao Map", realChip: "Real places",
+    myLocation: "My location", searchHere: "Search this area", openKakao: "Open in Kakao Map", call: "Call",
+    realNote: "Real places from Kakao local search. Partnership, prices and language support are not verified — please check before visiting.",
+    loadingReal: "Searching nearby…", realEmpty: "No {cat} found within 2 km", realCount: "{n} real places · within 2 km",
+    realFail: "Couldn't load Kakao Map here. Use the link below to search on Kakao Map.", searchOnKakao: "Search '{q}' on Kakao Map",
+    geoFail: "Couldn't get your location. Check the browser's location permission.",
     heroCta: "Find on the map",
     tabHome: "Home", tabMap: "Map", tabExplore: "Explore", tabSaved: "Saved", tabTrips: "Trips",
     splashTagline: "Explore Korea's beauty", start: "Get started", chooseLang: "Choose your language",
@@ -510,6 +533,12 @@ const I18N = {
     rateNote: "Exchange rates are fixed reference values.", fallbackNote: "",
   },
   zh: {
+    nearbyTitle: "附近真实的{cat}", findReal: "查找附近真实的{cat}", findRealSub: "在Kakao地图上查看真实的诊所和店铺", realChip: "真实地点",
+    myLocation: "我的位置", searchHere: "搜索此区域", openKakao: "在Kakao地图中查看", call: "致电",
+    realNote: "以下为通过Kakao地点搜索找到的真实地点。合作关系、价格和语言支持未经核实，请在到访前确认。",
+    loadingReal: "正在搜索附近…", realEmpty: "2公里内未找到{cat}", realCount: "{n}个真实地点 · 2公里内",
+    realFail: "无法加载Kakao地图。可通过下方链接直接在Kakao地图中搜索。", searchOnKakao: "在Kakao地图搜索“{q}”",
+    geoFail: "无法获取位置，请检查浏览器定位权限。",
     heroCta: "在地图上查找",
     tabHome: "首页", tabMap: "地图", tabExplore: "探索", tabSaved: "收藏", tabTrips: "行程",
     splashTagline: "探索韩国之美", start: "开始", chooseLang: "选择语言",
@@ -574,6 +603,12 @@ const I18N = {
     rateNote: "汇率为固定参考值。", fallbackNote: " 部分详情以英文显示。",
   },
   ja: {
+    nearbyTitle: "近くの実際の{cat}", findReal: "近くの実際の{cat}を探す", findRealSub: "Kakaoマップで実在のクリニック・店舗を見る", realChip: "実在の場所",
+    myLocation: "現在地", searchHere: "このエリアで再検索", openKakao: "Kakaoマップで見る", call: "電話",
+    realNote: "Kakaoの場所検索で見つけた実在の場所です。提携・料金・言語対応は未確認のため、来店前にご確認ください。",
+    loadingReal: "近くを検索中…", realEmpty: "半径2km以内に{cat}が見つかりませんでした", realCount: "実在の場所 {n}件 · 半径2km",
+    realFail: "Kakaoマップを読み込めませんでした。下のリンクからKakaoマップで直接検索できます。", searchOnKakao: "Kakaoマップで「{q}」を検索",
+    geoFail: "現在地を取得できません。ブラウザの位置情報の許可をご確認ください。",
     heroCta: "地図で探す",
     tabHome: "ホーム", tabMap: "マップ", tabExplore: "探す", tabSaved: "保存", tabTrips: "旅行",
     splashTagline: "韓国の美を旅しよう", start: "はじめる", chooseLang: "言語を選択",
@@ -935,10 +970,10 @@ const durationText = (minutes) => t("minutes", { m: minutes });
 
 /* =========================================================
    6. 화면 이동 (해시 라우터)
-   #/home · #/map · #/explore · #/saved · #/trips · #/place/<id> · #/course/<id>
+   #/home · #/map · #/explore · #/saved · #/trips · #/place/<id> · #/course/<id> · #/nearby/<카테고리>
    ========================================================= */
 
-const SCREENS = ["home", "map", "explore", "saved", "trips", "place", "course"];
+const SCREENS = ["home", "map", "explore", "saved", "trips", "place", "course", "nearby"];
 let navCount = 0;
 
 function parseRoute() {
@@ -964,6 +999,7 @@ const RENDERERS = {
   trips: renderTrips,
   place: renderPlace,
   course: renderCourse,
+  nearby: renderNearby,
 };
 
 function renderScreen() {
@@ -972,7 +1008,7 @@ function renderScreen() {
   if (route.name === "course" && !COURSES.some((c) => c.id === route.id)) return go("#/home");
   document.body.dataset.screen = route.name;
   $$(".screen").forEach((s) => (s.hidden = s.dataset.screen !== route.name));
-  const activeTab = { place: "", course: "trips" }[route.name] ?? route.name;
+  const activeTab = { place: "", course: "trips", nearby: "map" }[route.name] ?? route.name;
   $$(".tab").forEach((tab) => tab.classList.toggle("active", tab.dataset.tab === activeTab));
   $("#tabbar").hidden = route.name === "place";
   RENDERERS[route.name](route.id);
@@ -1353,6 +1389,12 @@ function renderPlace(id) {
 
       <p class="place-desc">${esc(L(place.desc))}</p>
 
+      <button class="real-cta" type="button" data-nearby="${place.category}|${place.lat}|${place.lng}" style="--tone: ${toneVar(place)}">
+        <span class="real-cta-icon">${icon("pin")}</span>
+        <span class="real-cta-text"><b>${esc(t("findReal", { cat: L(cat.name) }))}</b><small>${esc(t("findRealSub"))}</small></span>
+        ${icon("chevron", "sm")}
+      </button>
+
       <h2 class="block-title">${esc(t("popularServices"))}</h2>
       <div class="service-list">
         ${place.services
@@ -1554,6 +1596,216 @@ function renderCourse(id) {
         .join("")}
     </ol>
     <button class="btn-accent wide big" type="button" data-route="${course.area}|${course.steps.map((s) => s.place).join(",")}">${icon("map")} ${esc(t("showOnMap"))}</button>`;
+}
+
+/* =========================================================
+   12-2. 근처 실제 장소 (카카오 지도 · 장소 검색)
+   #/nearby/<카테고리> — 예시 데이터가 아닌 실제 병원 · 약국 · 매장을 반경 2km 안에서 찾습니다.
+   ※ 카카오 JavaScript 키에 이 사이트 주소가 "허용 도메인"으로 등록되어 있어야 지도가 뜹니다.
+   ========================================================= */
+
+let kakaoLoading = null;
+let kakaoError = "";
+
+function ensureKakao() {
+  if (!KAKAO_JS_KEY) return Promise.resolve(false);
+  if (window.kakao?.maps?.services) return Promise.resolve(true);
+  if (kakaoLoading) return kakaoLoading;
+  kakaoLoading = new Promise((resolve) => {
+    const s = document.createElement("script");
+    s.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${encodeURIComponent(KAKAO_JS_KEY)}&libraries=services&autoload=false`;
+    s.onload = () => {
+      if (!window.kakao?.maps?.load) return resolve(false);
+      window.kakao.maps.load(() => resolve(true));
+    };
+    s.onerror = () => {
+      kakaoError = `${location.origin}`;
+      kakaoLoading = null;
+      resolve(false);
+    };
+    document.head.appendChild(s);
+  });
+  return kakaoLoading;
+}
+
+const real = { map: null, overlays: [], items: [], center: null, cat: "derma", selected: null, seq: 0 };
+
+function goNearby(cat, center) {
+  real.center = center || areaCenter(state.area);
+  real.selected = null;
+  go(`#/nearby/${REAL_SEARCH[cat] ? cat : "derma"}`);
+}
+
+function renderNearby(cat) {
+  real.cat = REAL_SEARCH[cat] ? cat : "derma";
+  if (!real.center) real.center = areaCenter(state.area);
+  const catName = L(categoryById(real.cat).name);
+  $("#nearbyTitle").textContent = t("nearbyTitle", { cat: catName });
+  $("#nearbyCats").innerHTML = CATEGORIES.map(
+    (c) => `<button class="cat chip ${c.id === real.cat ? "on" : ""}" type="button" data-nearby-cat="${c.id}">
+      <span class="cat-icon" style="--tone: var(--tone-${c.tone})">${icon(c.glyph)}</span><span class="cat-name">${esc(L(c.name))}</span>
+    </button>`
+  ).join("");
+  $("#nearbyCount").textContent = "";
+  $("#nearbyList").innerHTML = `<p class="blank">${esc(t("loadingReal"))}</p>`;
+
+  ensureKakao().then((ok) => {
+    if (parseRoute().name !== "nearby") return;
+    if (!ok) return showKakaoFallback();
+    $("#realMap").classList.remove("failed");
+    if (!real.map) {
+      const { maps } = window.kakao;
+      $("#realMap").innerHTML = "";
+      real.map = new maps.Map($("#realMap"), { center: new maps.LatLng(real.center.lat, real.center.lng), level: 5 });
+      real.map.addControl(new maps.ZoomControl(), maps.ControlPosition.RIGHT);
+    } else {
+      real.map.relayout();
+    }
+    searchReal();
+  });
+}
+
+// 지역 이름과 함께 카카오맵 검색으로 넘어가는 링크 (지도를 못 불러와도 실제 장소를 볼 수 있게)
+function kakaoSearchLink() {
+  const near = AREAS.map((a) => ({ a, d: distance(areaCenter(a.id), real.center) })).sort((x, y) => x.d - y.d)[0].a;
+  const q = `${near.name.ko} ${REAL_SEARCH[real.cat].keyword}`;
+  return { q, url: `https://map.kakao.com/link/search/${encodeURIComponent(q)}` };
+}
+
+function showKakaoFallback() {
+  const { q, url } = kakaoSearchLink();
+  $("#realMap").classList.add("failed");
+  $("#realMap").innerHTML = `<div class="real-fail">${icon("map", "big")}<p>${esc(t("realFail"))}</p>
+    ${kakaoError ? `<small>Kakao Developers › 플랫폼 › Web: ${esc(kakaoError)}</small>` : ""}</div>`;
+  $("#nearbyList").innerHTML = `<a class="btn-accent wide big" href="${url}" target="_blank" rel="noopener">${icon("search")} ${esc(t("searchOnKakao", { q }))}</a>`;
+}
+
+function searchReal() {
+  const seq = ++real.seq;
+  const { maps } = window.kakao;
+  const spec = REAL_SEARCH[real.cat];
+  const ps = new maps.services.Places();
+  const opts = { location: new maps.LatLng(real.center.lat, real.center.lng), radius: 2000, sort: maps.services.SortBy.DISTANCE };
+  const found = [];
+
+  const done = (failed) => {
+    if (seq !== real.seq) return;
+    if (failed && !found.length) return showKakaoFallback();
+    real.items = found
+      .filter((d) => !spec.match || d.category_name.includes(spec.match))
+      .filter((d, i, arr) => arr.findIndex((x) => x.id === d.id) === i)
+      .map((d) => ({
+        id: d.id,
+        name: d.place_name,
+        category: d.category_name.split(" > ").pop(),
+        address: d.road_address_name || d.address_name,
+        phone: d.phone,
+        url: d.place_url,
+        lat: Number(d.y),
+        lng: Number(d.x),
+        dist: Number(d.distance),
+      }));
+    drawReal();
+  };
+
+  const handle = (data, status, pagination) => {
+    if (seq !== real.seq) return;
+    if (status === maps.services.Status.OK) {
+      found.push(...data);
+      if (pagination.hasNextPage && pagination.current < 3) return pagination.nextPage();
+      return done(false);
+    }
+    done(status === maps.services.Status.ERROR);
+  };
+
+  if (spec.category) ps.categorySearch(spec.category, handle, opts);
+  else ps.keywordSearch(spec.keyword, handle, opts);
+}
+
+function drawReal() {
+  const { maps } = window.kakao;
+  const tone = `var(--tone-${categoryById(real.cat).tone})`;
+  real.overlays.forEach((o) => o.setMap(null));
+  real.overlays = [];
+
+  const center = new maps.LatLng(real.center.lat, real.center.lng);
+  const me = document.createElement("div");
+  me.className = "real-me";
+  real.overlays.push(new maps.CustomOverlay({ position: center, content: me, map: real.map, zIndex: 1 }));
+
+  const bounds = new maps.LatLngBounds();
+  bounds.extend(center);
+  real.items.forEach((item, i) => {
+    const el = document.createElement("button");
+    el.type = "button";
+    el.className = `real-pin ${real.selected === item.id ? "selected" : ""}`;
+    el.style.setProperty("--tone", tone);
+    el.dataset.realId = item.id;
+    el.title = item.name;
+    el.innerHTML = `<span>${i + 1}</span>`;
+    const pos = new maps.LatLng(item.lat, item.lng);
+    real.overlays.push(new maps.CustomOverlay({ position: pos, content: el, yAnchor: 1, map: real.map, zIndex: real.selected === item.id ? 5 : 2 }));
+    if (i < 15) bounds.extend(pos);
+  });
+  if (real.items.length) real.map.setBounds(bounds, 40, 30, 40, 30);
+  else real.map.setCenter(center);
+
+  const catName = L(categoryById(real.cat).name);
+  $("#nearbyCount").textContent = t("realCount", { n: real.items.length });
+  const { q, url } = kakaoSearchLink();
+  $("#nearbyList").innerHTML =
+    (real.items.length
+      ? real.items
+          .map(
+            (item, i) => `<article class="real-item ${real.selected === item.id ? "selected" : ""}" data-real-id="${item.id}">
+              <span class="real-num" style="--tone: ${tone}">${i + 1}</span>
+              <div class="real-body">
+                <b>${esc(item.name)}</b>
+                <small>${esc(item.category)} · ${item.dist >= 1000 ? (item.dist / 1000).toFixed(1) + "km" : item.dist + "m"} · ${esc(t("walk", { m: walkMinutes(item.dist) }))}</small>
+                <small class="muted">${esc(item.address)}</small>
+                <div class="tl-actions">
+                  <a class="mini-btn accent" href="${esc(item.url)}" target="_blank" rel="noopener">${esc(t("openKakao"))}</a>
+                  <a class="mini-btn" href="https://map.kakao.com/link/to/${encodeURIComponent(item.name)},${item.lat},${item.lng}" target="_blank" rel="noopener">${esc(t("directions"))}</a>
+                  ${item.phone ? `<a class="mini-btn" href="tel:${esc(item.phone)}">${esc(t("call"))}</a>` : ""}
+                </div>
+              </div>
+            </article>`
+          )
+          .join("")
+      : `<p class="blank">${esc(t("realEmpty", { cat: catName }))}</p>`) +
+    `<a class="btn-soft wide" href="${url}" target="_blank" rel="noopener">${icon("search")} ${esc(t("searchOnKakao", { q }))}</a>`;
+}
+
+function selectReal(id, fromMap) {
+  real.selected = real.selected === id ? null : id;
+  const item = real.items.find((x) => x.id === id);
+  $$(".real-item").forEach((el) => el.classList.toggle("selected", el.dataset.realId === real.selected));
+  $$(".real-pin").forEach((el) => el.classList.toggle("selected", el.dataset.realId === real.selected));
+  if (!item || !real.selected) return;
+  real.map.panTo(new window.kakao.maps.LatLng(item.lat, item.lng));
+  if (fromMap) $(`.real-item[data-real-id="${id}"]`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+  else $("#realMap").scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+function realFromMyLocation() {
+  if (!navigator.geolocation) return toast(t("geoFail"));
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      real.center = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+      real.selected = null;
+      if (real.map) searchReal();
+    },
+    () => toast(t("geoFail")),
+    { enableHighAccuracy: true, timeout: 8000 }
+  );
+}
+
+function realSearchHere() {
+  if (!real.map) return;
+  const c = real.map.getCenter();
+  real.center = { lat: c.getLat(), lng: c.getLng() };
+  real.selected = null;
+  searchReal();
 }
 
 /* =========================================================
@@ -1892,10 +2144,25 @@ function setupEvents() {
 
   document.addEventListener("click", (e) => {
     const el = e.target.closest(
-      "[data-fav], [data-book], [data-cat], [data-route], [data-cancel], [data-approve], [data-visit], [data-review], [data-close], [data-back], [data-share], [data-marker], [data-unselect], [data-sheet], [data-lang], [data-currency], [data-toggle], [data-reset], [data-locate], [data-go]"
+      "[data-nearby], [data-nearby-cat], [data-real-id], [data-real], [data-fav], [data-book], [data-cat], [data-route], [data-cancel], [data-approve], [data-visit], [data-review], [data-close], [data-back], [data-share], [data-marker], [data-unselect], [data-sheet], [data-lang], [data-currency], [data-toggle], [data-reset], [data-locate], [data-go]"
     );
     if (!el) return;
     const d = el.dataset;
+    if (d.nearby) {
+      const [cat, lat, lng] = d.nearby.split("|");
+      if (cat === "map") return goNearby(state.category === "all" ? "derma" : state.category, areaCenter(state.area));
+      return goNearby(cat, lat ? { lat: Number(lat), lng: Number(lng) } : null);
+    }
+    if (d.nearbyCat) {
+      real.selected = null;
+      return go(`#/nearby/${d.nearbyCat}`);
+    }
+    if (d.realId) {
+      if (e.target.closest("a")) return;
+      return selectReal(d.realId, el.classList.contains("real-pin"));
+    }
+    if (d.real === "me") return realFromMyLocation();
+    if (d.real === "here") return realSearchHere();
     if (d.fav) return toggleFavorite(d.fav);
     if (d.book) return openBooking(d.book, Number(d.service || 0));
     if (d.close !== undefined) return el.closest("dialog").close();

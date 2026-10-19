@@ -97,6 +97,7 @@
             <div id="mapAreaSlot"></div>
             <div class="chip-scroll" id="mapCats"></div>
           </div>
+          <button class="real-chip" type="button" data-nearby="map"><span data-icon="pin"></span><span data-i18n="realChip">실제 장소</span></button>
           <p class="map-count"><span id="mapCount"></span> · <span data-i18n="mapNote">개략도</span></p>
         </div>
         <button class="locate-btn" type="button" data-locate data-i18n-aria="locate" aria-label="기준 위치"><span data-icon="locate"></span></button>
@@ -146,6 +147,26 @@
       <!-- 코스 -->
       <section class="screen" data-screen="course" hidden>
         <div class="pad" id="courseView"></div>
+      </section>
+
+      <!-- 근처 실제 장소 (카카오) -->
+      <section class="screen" data-screen="nearby" hidden>
+        <header class="screen-head">
+          <button class="icon-btn" type="button" data-back data-i18n-aria="back" aria-label="뒤로"><span data-icon="back"></span></button>
+          <h1 id="nearbyTitle"></h1>
+          <span class="icon-btn ghost"></span>
+        </header>
+        <div class="chip-scroll pad-x" id="nearbyCats"></div>
+        <div class="pad">
+          <div class="real-map" id="realMap"></div>
+          <div class="real-tools">
+            <button class="chip" type="button" data-real="me"><span data-icon="locate"></span><span data-i18n="myLocation">내 위치</span></button>
+            <button class="chip" type="button" data-real="here"><span data-icon="search"></span><span data-i18n="searchHere">이 지역에서 다시 검색</span></button>
+          </div>
+          <p class="notice small" data-i18n="realNote">카카오 장소 검색으로 찾은 실제 장소입니다.</p>
+          <p class="result-count" id="nearbyCount"></p>
+          <div class="list" id="nearbyList"></div>
+        </div>
       </section>
 
       <!-- 하단 탭바 -->

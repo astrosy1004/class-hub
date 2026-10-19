@@ -2289,3 +2289,201 @@ body[data-screen="map"] .locate-btn:has(+ .map-card:not([hidden])) {
   width: 16px;
   height: 16px;
 }
+
+/* ---------- 근처 실제 장소 (카카오) ---------- */
+.real-cta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  margin-top: 16px;
+  padding: 14px;
+  border: 1px solid color-mix(in srgb, var(--tone) 35%, var(--line));
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--tone) 8%, var(--surface));
+  text-align: left;
+}
+
+.real-cta-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--tone);
+  color: #fff;
+}
+
+.real-cta-text {
+  flex: 1;
+  display: grid;
+  line-height: 1.35;
+}
+
+.real-cta-text b {
+  font-size: 15px;
+}
+
+.real-cta-text small {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.real-chip {
+  position: absolute;
+  right: 16px;
+  top: 128px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 34px;
+  padding: 0 12px 0 8px;
+  border: 0;
+  border-radius: 17px;
+  background: var(--text);
+  color: var(--bg);
+  font-size: 12px;
+  font-weight: 700;
+  box-shadow: var(--shadow-soft);
+}
+
+.real-chip .ic {
+  width: 17px;
+  height: 17px;
+}
+
+#nearbyCats {
+  margin-bottom: 12px;
+}
+
+.real-map {
+  position: relative;
+  height: min(46vh, 380px);
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--m-land);
+  box-shadow: var(--shadow-soft);
+}
+
+.real-map.failed {
+  display: grid;
+  place-items: center;
+  height: auto;
+  min-height: 180px;
+  padding: 20px;
+}
+
+.real-fail {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.real-fail small {
+  font-size: 11px;
+  color: var(--faint);
+  word-break: break-all;
+}
+
+.real-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.real-tools .ic {
+  width: 17px;
+  height: 17px;
+}
+
+.real-pin {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 2px solid #fff;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  background: var(--tone);
+  box-shadow: 0 3px 6px rgba(60, 20, 25, 0.3);
+  cursor: pointer;
+}
+
+.real-pin span {
+  transform: rotate(45deg);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.real-pin.selected {
+  width: 38px;
+  height: 38px;
+  background: var(--text);
+}
+
+.real-me {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #3b82f6;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 8px rgba(59, 130, 246, 0.22);
+}
+
+.real-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.real-item.selected {
+  border-color: var(--accent);
+}
+
+.real-num {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--tone);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.real-body {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  line-height: 1.4;
+}
+
+.real-body b {
+  font-size: 15px;
+}
+
+.real-body small {
+  font-size: 12px;
+}
+
+#nearbyList .btn-soft {
+  margin-top: 4px;
+}
+
+.real-map.failed + .real-tools {
+  display: none;
+}
