@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>나만의 AI 채팅</title>
+    <meta name="description" content="내 OpenAI API 키로 쓰는 개인 채팅 서비스. 음성 입력(STT)과 음성 읽기(TTS)를 지원합니다." />
+    <link rel="icon" href="./assets/logo.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <link rel="stylesheet" href="./assets/styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar" id="sidebar" aria-label="대화 목록">
+        <div class="sidebar-head">
+          <a class="brand" href="./">
+            <img src="./assets/logo.svg" alt="" width="30" height="30" />
+            <span>나만의 AI 채팅</span>
+          </a>
+        </div>
+        <button class="btn-primary new-chat" id="newChat" type="button">＋ 새 대화</button>
+        <ul class="conv-list" id="convList"></ul>
+        <div class="sidebar-foot">
+          <button class="btn-line" id="openSettings" type="button">⚙ 설정</button>
+          <button class="btn-line" id="themeToggle" type="button" aria-label="테마 변경"><span id="themeIcon">☾</span> 테마</button>
+        </div>
+      </aside>
+      <div class="sidebar-backdrop" id="sidebarBackdrop" hidden></div>
+
+      <main class="main">
+        <header class="topbar">
+          <button class="icon-button menu-button" id="menuToggle" type="button" aria-label="대화 목록 열기">☰</button>
+          <h1 class="chat-title" id="chatTitle">새 대화</h1>
+          <span class="model-chip" id="modelChip"></span>
+        </header>
+
+        <section class="messages" id="messages" aria-live="polite">
+          <div class="empty" id="emptyState">
+            <img src="./assets/logo.svg" alt="" width="56" height="56" />
+            <h2>무엇이든 물어보세요</h2>
+            <p>글자로 입력하거나 🎙 버튼을 눌러 말로 질문할 수 있어요.<br />답변 옆 🔊 버튼을 누르면 소리로 읽어 줍니다.</p>
+            <div class="suggestions" id="suggestions"></div>
+          </div>
+        </section>
+
+        <div class="key-banner" id="keyBanner" hidden>
+          OpenAI API 키가 아직 없어요. <button class="link-button" type="button" data-open-settings>설정에서 키 입력하기</button>
+        </div>
+
+        <form class="composer" id="composer">
+          <button class="icon-button mic" id="micButton" type="button" aria-label="음성으로 입력" title="음성으로 입력 (STT)">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3" /><path d="M5 11a7 7 0 0 0 14 0M12 18v3" /></svg>
+          </button>
+          <textarea id="input" rows="1" placeholder="메시지를 입력하세요 (Enter 전송, Shift+Enter 줄바꿈)"></textarea>
+          <button class="icon-button send" id="sendButton" type="submit" aria-label="보내기">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" /></svg>
+          </button>
+          <button class="icon-button stop" id="stopButton" type="button" aria-label="생성 중지" hidden>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2" /></svg>
+          </button>
+        </form>
+        <p class="status" id="status"></p>
+      </main>
+    </div>
+
+    <dialog class="settings" id="settingsDialog">
+      <form method="dialog" id="settingsForm">
+        <h2>설정</h2>
+
+        <label class="field">
+          <span>OpenAI API 키</span>
+          <div class="key-row">
+            <input id="apiKey" type="password" autocomplete="off" spellcheck="false" placeholder="sk-..." />
+            <button class="btn-line" id="toggleKey" type="button">보기</button>
+          </div>
+          <small>키는 이 브라우저(localStorage)에만 저장되고, OpenAI 서버로만 전송됩니다.</small>
+        </label>
+
+        <label class="field">
+          <span>채팅 모델</span>
+          <input id="chatModel" list="chatModelList" spellcheck="false" />
+          <datalist id="chatModelList"></datalist>
+        </label>
+
+        <label class="field">
+          <span>시스템 프롬프트 (AI 성격·말투)</span>
+          <textarea id="systemPrompt" rows="3"></textarea>
+        </label>
+
+        <div class="field-grid">
+          <label class="field">
+            <span>음성 인식 모델 (STT)</span>
+            <select id="sttModel"></select>
+          </label>
+          <label class="field">
+            <span>음성 합성 모델 (TTS)</span>
+            <select id="ttsModel"></select>
+          </label>
+          <label class="field">
+            <span>목소리</span>
+            <select id="ttsVoice"></select>
+          </label>
+          <label class="field">
+            <span>읽기 속도</span>
+            <select id="ttsSpeed"></select>
+          </label>
+        </div>
+
+        <label class="check">
+          <input id="autoSend" type="checkbox" />
+          <span>말하기가 끝나면 바로 전송</span>
+        </label>
+        <label class="check">
+          <input id="autoSpeak" type="checkbox" />
+          <span>답변을 자동으로 소리 내어 읽기</span>
+        </label>
+
+        <div class="dialog-actions">
+          <button class="btn-danger" id="clearAll" type="button">모든 대화 삭제</button>
+          <span class="spacer"></span>
+          <button class="btn-line" value="cancel" type="submit">닫기</button>
+          <button class="btn-primary" id="saveSettings" value="save" type="submit">저장</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="./assets/app.js"></script>
+  </body>
+</html>
