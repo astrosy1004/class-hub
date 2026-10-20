@@ -10,6 +10,7 @@ const categories = [
   { id: "builder", title: "UI · 앱 빌더", meta: "프롬프트로 만드는 앱", icon: "🧱", tone: "pink" },
   { id: "backend", title: "백엔드", meta: "DB · 인증 · 서버", icon: "🗄️", tone: "orange" },
   { id: "automation", title: "AI 에이전트 · 자동화", meta: "워크플로우 연결", icon: "🔁", tone: "amber" },
+  { id: "jobs", title: "채용", meta: "학교 채용 · 공지 모음", icon: "📢", tone: "orange" },
 ];
 
 // 내 프로그램 분류
@@ -258,6 +259,8 @@ const bookmarks = [
   { category: "automation", title: "n8n", url: "https://n8n.io", icon: "🔁", description: "오픈소스 워크플로우 자동화" },
   { category: "automation", title: "Make", url: "https://www.make.com", icon: "🧵", description: "노코드 업무 자동화" },
   { category: "automation", title: "Zapier AI", url: "https://zapier.com", icon: "⚡", description: "업무 자동화 연결 플랫폼" },
+  { category: "jobs", title: "학교 공지 키워드 모음", url: "https://claude.ai/artifact/11DjF4f3KBuaSUy5gnZBfi", icon: "📢", description: "위례·송파·성남·하남 초중고 공지에서 AI·디지털튜터·코딩·정보·채용 글 모음" },
+  { category: "jobs", title: "위례·송파·성남·하남 학교 목록", url: "https://claude.ai/artifact/E85SEVbHbxmCjuNxESecGt", icon: "🏫", description: "초중고 292개교 주소 · 전화 · 홈페이지 표" },
 ];
 
 const PROGRAM_KEY = "bookmarkPrograms";
