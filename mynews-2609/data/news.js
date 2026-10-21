@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-10-21T14:45:16.152Z",
+  "updatedAt": "2026-10-21T19:46:06.322Z",
   "categories": [
     {
       "id": "job",
@@ -49,6 +49,14 @@ window.MYNEWS_DATA = {
       ],
       "error": null,
       "items": [
+        {
+          "title": "30년 IT 전문가 김정언, '바이브코딩 REA 강사 양성 교육' 연다 - 파이낸스투데이",
+          "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE55cTR1M1VWVUZCN3U3YUdjcGFKWFMyZDdsUkx3T2NsZnpUMWpxOGg0OHl5eDlqY3hMNmtBSTNnVDB0bEpydFdtRDlwSmEzZ3Y0S2NHa2pTeE1udGNPazhETVlxYWNXZlZqbU1Fbw?oc=5",
+          "date": "2026-10-21T07:59:20.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTE55cTR1M1VWVUZCN3U3YUdjcGFKWFMyZDdsUkx3T2NsZnpUMWpxOGg0OHl5eDlqY3hMNmtBSTNnVDB0bEpydFdtRDlwSmEzZ3Y0S2NHa2pTeE1udGNPazhETV",
+          "source": "파이낸스투데이",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
         {
           "title": "국립공주대, ‘AI·코딩 강사 14명’ 집중 양성 - 공뉴스",
           "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBUSHYxWEt2S3JIbXhGNUlyeVp4bG1HYVdrTEZRVnA3MzBsXzNVNW5RU05qQ29HRFVyaTRzeEt5QVEtOGZ6Q2MtMzJlRmNhUEhGQmJpSWRvYzVpSWMwMW5tTXJpN2NyclZTV2ZVVA?oc=5",
@@ -199,14 +207,6 @@ window.MYNEWS_DATA = {
           "date": "2018-04-10T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMijgFBVV95cUxPX0xUQnpPbENwTXNYT19wSXZXTXJxeExuVDFjcHV3eFoxWUp6d1ZxaVFlbk9Bdk1TbUtZRGpuYmVrWW5ib3RfOEk5WFlacktTdGxDNUFKS3lfbXpSMWUxaj",
           "source": "서울Pn",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
-          "title": "학교 코딩 강사, 강아지 산책시키는 ‘도그 워커’ 등 이색 노인일자리 주목받아 - 백세시대",
-          "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTFBDSV9iQlQxNTlWQWliLTZXeWlTbm1BV29MdUVQT1R0QURWc0haWHZpdTRRUHJlVVh0MkdLQkpZRlVVd1Q2Y1RPRWZKWmhzM2xLUUhpRjFja1NmSmpvZFlLem5iOHEteGJSLUE?oc=5",
-          "date": "2018-03-23T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTFBDSV9iQlQxNTlWQWliLTZXeWlTbm1BV29MdUVQT1R0QURWc0haWHZpdTRRUHJlVVh0MkdLQkpZRlVVd1Q2Y1RPRWZKWmhzM2xLUUhpRjFja1NmSmpvZFlLem",
-          "source": "백세시대",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
