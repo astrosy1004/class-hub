@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-10-21T02:28:30.541Z",
+  "updatedAt": "2026-10-21T08:58:27.249Z",
   "categories": [
     {
       "id": "job",
@@ -71,14 +71,6 @@ window.MYNEWS_DATA = {
           "date": "2026-07-08T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMibkFVX3lxTE5uTWRCYlZ2M2drYjVyM1hQZkZ3anl5MF9CTVBmMDYxOGhXX0J3V1JZMDFNOGdpR3lUbkdGdlFoS1JuV09mc0xRRDlxYjlNU2pKY01kQ1d4VjhZTVl6aUVaeD",
           "source": "김해뉴스",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
-          "title": "AI 콘텐츠마케팅부터 드론 코딩까지…전북도 여성 창업교육 강화 - 아시아투데이",
-          "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE40RGxrc01feU5tandPa2gyOU5JSVYtd21JOWVwUTdnT3FfcEtXcjYzUHBFOGRXQlNnZHJuUHR6aWVCZXlhV19Sc3ZIUUxYMzNvYmpPZWhzTDFfV3VSOFVHVHVwd09fV2Z1T1hSdWd3?oc=5",
-          "date": "2026-06-04T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMibkFVX3lxTE40RGxrc01feU5tandPa2gyOU5JSVYtd21JOWVwUTdnT3FfcEtXcjYzUHBFOGRXQlNnZHJuUHR6aWVCZXlhV19Sc3ZIUUxYMzNvYmpPZWhzTDFfV3VSOFVHVH",
-          "source": "아시아투데이",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -207,6 +199,14 @@ window.MYNEWS_DATA = {
           "date": "2018-03-23T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTFBDSV9iQlQxNTlWQWliLTZXeWlTbm1BV29MdUVQT1R0QURWc0haWHZpdTRRUHJlVVh0MkdLQkpZRlVVd1Q2Y1RPRWZKWmhzM2xLUUhpRjFja1NmSmpvZFlLem",
           "source": "백세시대",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "4차 산업 혁명, 사회와 공감하는 코딩교육이 필요하다 - OhmyNews",
+          "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE8tM0FwdTdZQ2pRaUtwWGQtSUg5c3h1VFBrM1JZcXl2SDdYSDU2WS1GU2FRRnVrUUptNHllMUdYQUp6cGNqei1DREJOSnFzdnFJNkZNVzZtYUFWWFNLQ2xuVW5zVFI0QllqQXRYcW1WRE1jeUxyM21n?oc=5",
+          "date": "2018-02-20T08:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMid0FVX3lxTE8tM0FwdTdZQ2pRaUtwWGQtSUg5c3h1VFBrM1JZcXl2SDdYSDU2WS1GU2FRRnVrUUptNHllMUdYQUp6cGNqei1DREJOSnFzdnFJNkZNVzZtYUFWWFNLQ2xuVW",
+          "source": "OhmyNews",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
