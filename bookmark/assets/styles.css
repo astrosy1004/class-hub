@@ -940,6 +940,42 @@ main {
   background: var(--accent-soft);
 }
 
+/* ---------- 수업 관련 카드 ---------- */
+.lesson-body {
+  display: grid;
+  gap: 10px;
+  padding: 0 4px;
+}
+
+.lesson-body p {
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+.lesson-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.lesson-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.lesson-link:hover {
+  background: var(--accent-soft);
+}
+
 /* ---------- 전체 북마크 ---------- */
 .board-search {
   display: flex;

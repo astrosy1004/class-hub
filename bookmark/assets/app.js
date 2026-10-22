@@ -184,6 +184,22 @@ const programs = [
   }
 ];
 
+// 수업 관련: 출강 수업별 페이지 모음. links 에 학생용 · 선생님용 등 여러 주소를 넣을 수 있습니다.
+const lessons = [
+  {
+    org: "강동미래혁신센터",
+    title: "파이썬 바이브 코딩",
+    icon: "🐍",
+    tone: "violet",
+    url: "https://astrosy1004.github.io/class-hub/gangdong/python-escape/",
+    description: "기초 문법 · 변수 · 조건문 · Thonny · SDGs 복습 네온 메타버스 방탈출과 시상식",
+    links: [
+      { label: "🎮 학생용 방탈출", url: "https://astrosy1004.github.io/class-hub/gangdong/python-escape/" },
+      { label: "🏆 선생님 · 시상 화면", url: "https://astrosy1004.github.io/class-hub/gangdong/python-escape/#awards" },
+    ],
+  },
+];
+
 const bookmarks = [
   {
     category: "class",
@@ -652,6 +668,28 @@ function renderClasses() {
   });
 }
 
+/* ---------- 수업 관련 ---------- */
+function renderLessons() {
+  $("#lessonTrack").innerHTML = lessons
+    .map(
+      (lesson) => `
+      <article class="class-card tone-${lesson.tone}">
+        <a class="class-cover" href="${lesson.url}" target="_blank" rel="noopener noreferrer">
+          <span class="class-label">${lesson.org}</span>
+          <strong>${lesson.title}</strong>
+          <span class="class-icon" aria-hidden="true">${lesson.icon}</span>
+        </a>
+        <div class="lesson-body">
+          <p>${lesson.description}</p>
+          <div class="lesson-links">
+            ${lesson.links.map((link) => `<a class="lesson-link" href="${link.url}" target="_blank" rel="noopener noreferrer">${link.label}</a>`).join("")}
+          </div>
+        </div>
+      </article>`
+    )
+    .join("");
+}
+
 /* ---------- 등록 대화상자 ---------- */
 function fillOptions(select, list) {
   select.innerHTML = list.map((item) => `<option value="${item.id}">${item.title}</option>`).join("");
@@ -879,6 +917,7 @@ setupSearchLayer();
 renderPrograms();
 setupPrograms();
 renderClasses();
+renderLessons();
 setupCarousels();
 setupDialog();
 renderChips();
