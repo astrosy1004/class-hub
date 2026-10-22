@@ -1,15 +1,15 @@
 // 화면 전환(#주소) · 명식 목록/계산 묶음(model) · 로그인 · 이벤트 연결 전담.
-// 주소: #home · #fortune[/연도] · #monthly/<영역>[/연도] · #life · #job · #me · #chart · #charts · #manse/<new|edit>
+// 주소: #home · #fortune[/연도] · #monthly/<영역>[/연도] · #ask[/주제[/연도]] · #life · #job · #me · #chart · #charts · #manse/<new|edit>
 
 import { calculateSaju } from "./manse.js";
 import { SETTINGS } from "./saju-data.js";
 import { analyzeNatal, lifeGraph, yearFlow, lifeEvents } from "./score.js";
 import {
   loadLocalCharts, saveLocalChart, deleteLocalChart, newChartId, loadCurrentId, saveCurrentId,
-  loadChartMode, saveChartMode, loadTheme, saveTheme,
+  loadChartMode, saveChartMode, loadTheme, saveTheme, loadMatchId, saveMatchId,
 } from "./store.js";
 import {
-  renderHome, renderFortune, renderMonthly, renderLife, renderJob, renderMe, renderChart, renderManse, renderCharts, themeButtons,
+  renderHome, renderFortune, renderMonthly, renderLife, renderJob, renderMe, renderChart, renderManse, renderCharts, renderAsk, renderBasis, themeButtons,
   dayOptions, dateHint, timeHint,
 } from "./ui.js";
 import { icon } from "./icons.js";
@@ -17,7 +17,7 @@ import { icon } from "./icons.js";
 // 저장된 명식이 없을 때 보여주는 가상의 예시 (실제 인물 아님: 경오·기묘·기묘·기사)
 const SAMPLE = { sample: true, id: "sample", name: "홍길동", relation: "예시", gender: "M", calendar: "solar", leap: false, date: "1990-03-15", time: "10:30", city: "서울", longitude: 126.98, applyDst: true, nightZi: false };
 
-const TAB_OF = { home: "home", fortune: "fortune", monthly: "fortune", life: "home", job: "home", me: "me", chart: "chart", charts: "chart", manse: "chart" };
+const TAB_OF = { home: "home", fortune: "fortune", monthly: "fortune", ask: "fortune", basis: "chart", life: "home", job: "home", me: "me", chart: "chart", charts: "chart", manse: "chart" };
 const views = Object.fromEntries([...document.querySelectorAll("[data-view]")].map((el) => [el.dataset.view, el]));
 
 // 로그인 · 계정 명식 상태
@@ -104,6 +104,8 @@ function render() {
     home: () => renderHome(m),
     fortune: () => renderFortune(m, yearFlowOf(m, arg)),
     monthly: () => renderMonthly(m, arg || "total", yearFlowOf(m, arg2)),
+    ask: () => renderAsk(m, arg, arg2, { charts: chartList(), partnerId: loadMatchId() }),
+    basis: () => renderBasis(m),
     life: () => renderLife(m, lifeSelected),
     job: () => renderJob(m),
     me: () => renderMe(m, loadTheme(), account),
@@ -380,6 +382,14 @@ document.addEventListener("click", (e) => {
         toast("지우지 못했어요. 인터넷 연결을 확인해 주세요.");
       });
   }
+});
+
+// 궁합: 비교할 사람 고르기
+document.addEventListener("change", (e) => {
+  const sel = e.target.closest("[data-partner]");
+  if (!sel) return;
+  saveMatchId(sel.value);
+  rerenderKeepScroll();
 });
 
 window.addEventListener("hashchange", () => {

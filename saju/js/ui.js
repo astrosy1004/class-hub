@@ -6,8 +6,12 @@ import { solarTermsOfYear, msFromJd } from "./solar-terms.js";
 import { pillarKo, calculateSaju, fourPillarsText, tenGod } from "./manse.js";
 import {
   bandOf, elementLabel, josa, scorePillar, dayScore, godGroups, jobFit, certificates, healthCheck, workplaceFit, dateKey,
+  analyzeNatal, topicFlow, riskAppetite, matchScore, childStar, majorFit, formatPoints,
 } from "./score.js";
-import { DOMAINS, ACTIONS, GUIDES, DISCLAIMER, DAY_MASTER, GOD_THEME, JOHU, HEALTH_NOTICE } from "./score-rules.js";
+import {
+  DOMAINS, ACTIONS, GUIDES, DISCLAIMER, DAY_MASTER, GOD_THEME, JOHU, HEALTH_NOTICE, TOPICS, DIRECTIONS, STUDY_STYLE, STUDY_WEAK,
+  ROLE_VALUE, ROLE_NAME, SCORE, HIDDEN_WEIGHT, STRENGTH_WEIGHT, TEN_GOD_MEANING,
+} from "./score-rules.js";
 import { lunarMonthDays, leapMonthOf, solarToLunar, lunarToSolar } from "./lunar.js";
 import { lineChart, barChart, radarChart, donutChart, gaugeChart, hBars, compareBars } from "./charts.js";
 import { icon, ELEMENT_ICONS } from "./icons.js";
@@ -30,6 +34,12 @@ const topbar = (title, right = "") =>
   `<header class="topbar"><button class="icon-btn" data-action="back" aria-label="뒤로">${icon("back")}</button><h1>${title}</h1>${right}</header>`;
 const domainOf = (id) => DOMAINS.find((d) => d.id === id);
 
+// 운세 탭 하위 메뉴: 한 해 운세 · 월별 흐름 · 상세 문의
+function subnav(on) {
+  const items = [["fortune", "#fortune", "한 해 운세"], ["monthly", "#monthly/total", "월별 흐름"], ["ask", "#ask", "상세 문의"]];
+  return `<nav class="subnav" aria-label="운세 메뉴">${items.map(([id, href, label]) => `<a href="${href}" class="${on === id ? "on" : ""}" ${on === id ? 'aria-current="page"' : ""}>${label}</a>`).join("")}</nav>`;
+}
+
 // 지금 보고 있는 명식 요약 (제목 오른쪽). 누르면 명식 목록으로 가서 바꿀 수 있다
 function whoChip(model) {
   const { profile, saju, natal } = model;
@@ -50,6 +60,34 @@ function sampleBanner(model) {
   return model.profile.sample
     ? `<div class="empty-banner"><span>예시 명식(${esc(model.profile.name)})으로 보고 있어요</span><a class="banner-btn" href="#manse/new">${icon("plus")}내 명식 입력</a></div>`
     : "";
+}
+
+// 명리 근거 상자: factors [{ what, why, pts }] 를 표로. 접혀 있다가 누르면 펼쳐진다
+function basisBox(factors, { title = "명리 근거 보기", note = "", total = null, raw = false } = {}) {
+  if (!factors || !factors.length) return "";
+  const sum = total ?? Math.round(factors.reduce((a, f) => a + f.pts, 0));
+  const pts = (f) => (raw ? `${f.pts}${f.weight ? ` <small>×${f.weight}</small>` : ""}` : f.what === "기본 점수" ? Math.round(f.pts) : formatPoints(f.pts));
+  return `<details class="basis">
+      <summary>${icon("book")}${title}</summary>
+      ${note ? `<p class="basis-note">${note}</p>` : ""}
+      <table class="basis-table">
+        <tr><th>글자 · 요소</th><th>왜 그렇게 보나</th><th>점수</th></tr>
+        ${factors.map((f) => `<tr><td>${f.what}</td><td>${f.why}</td><td class="${!raw && f.pts < -0.05 ? "minus" : !raw && f.pts > 0.05 && f.what !== "기본 점수" ? "plus" : ""}">${pts(f)}</td></tr>`).join("")}
+        <tr class="sum"><td colspan="2">${raw ? "가중 평균" : "합계"}</td><td>${sum}점</td></tr>
+      </table>
+      <a class="basis-link" href="#basis">해석 기준 전체 보기 ›</a>
+    </details>`;
+}
+
+// 근거 문장 목록용 상자 (인생 주요 포인트 · 건강 체크처럼 표보다 문장이 맞을 때)
+function basisList(items, { title = "명리 근거 보기", note = "" } = {}) {
+  if (!items.length) return "";
+  return `<details class="basis">
+      <summary>${icon("book")}${title}</summary>
+      ${note ? `<p class="basis-note">${note}</p>` : ""}
+      <ul class="basis-ul">${items.map((t) => `<li>${t}</li>`).join("")}</ul>
+      <a class="basis-link" href="#basis">해석 기준 전체 보기 ›</a>
+    </details>`;
 }
 
 function actionCard(domainId, score, title = "지금 할 일") {
@@ -190,6 +228,12 @@ export function renderHome(model) {
       ${reports.map((r) => `<a href="${r.href}"><span class="ico ${r.cls}">${icon(r.icon)}</span><b>${r.name}</b><small>${r.sub}</small></a>`).join("")}
     </nav>
 
+    <a class="card ask-banner" href="#ask">
+      <span class="ico fill-accent">${icon("chat")}</span>
+      <span class="grow"><b>상세 문의</b><small>${TOPICS.map((t) => t.short).join(" · ")}</small></span>
+      ${icon("next")}
+    </a>
+
     <h2 class="section-title">이번 달 꼭 알아둘 것</h2>
     <section class="card">
       <div class="rows">
@@ -277,6 +321,7 @@ export function renderFortune(model, yf) {
 
   return `
     ${topbar("한 해 운세 한눈에")}
+    ${subnav("fortune")}
     ${sampleBanner(model)}
     ${yearNav("#fortune", yf, model)}
     <section class="card" style="text-align:center">
@@ -286,6 +331,7 @@ export function renderFortune(model, yf) {
       <div class="mini3">
         ${["wealth", "love", "health"].map((id) => `<div>${domainOf(id).short}<b>${yf.scores[id]}</b>${miniNote(id, yf.scores[id])}</div>`).join("")}
       </div>
+      ${basisBox(scorePillar(natal, yf.pillar, "total").factors, { note: `${yf.year}년 세운 <b>${yf.text}(${yf.ko})</b> 한 기둥을 내 원국의 용신 · 기신에 비춰 매긴 종합 점수예요.` })}
     </section>
     ${eventCard}
 
@@ -346,6 +392,7 @@ export function renderMonthly(model, domainId = "total", yf) {
 
   return `
     ${topbar("월별 흐름", whoChip(model))}
+    ${subnav("monthly")}
     ${yearNav(`#monthly/${id}`, yf, model)}
     <nav class="tabs">${tabs}</nav>
     <p class="eyebrow">${isCur ? `지금 ${m}월 ${now.ko}월 · ${domain.short} ${now.scores[id]}점` : `${yf.year} ${yf.ko}년 · ${domain.short} ${yf.scores[id]}점`}</p>
@@ -353,6 +400,16 @@ export function renderMonthly(model, domainId = "total", yf) {
     <section class="card">
       ${barChart({ bars: yf.months.map((mo) => ({ label: mo.month, value: mo.scores[id], state: stateOf(mo), show: mo.month === m || mo === peak || mo === best })), caption: `${yf.year}년 ${domain.name} 월별 점수` })}
       <div class="legend">${isCur ? `<span><i class="past"></i>지난 달</span><span><i class="now"></i>지금</span><span><i class="future"></i>남은 달</span>` : `<span><i class="${isPast ? "past" : "future"}"></i>${yf.year}년 월별 점수</span>`}</div>
+      ${(() => {
+        const mo = isCur ? now : best;
+        const mf = scorePillar(model.natal, mo.pillar, id);
+        const yfac = scorePillar(model.natal, yf.pillar, id).score;
+        return basisBox(mf.factors, {
+          title: `${mo.month}월 점수 근거 보기`,
+          note: `${mo.month}월 점수 = 세운 ${yf.ko} ${yfac}점 × 35% + 월운 <b>${mo.ko}</b> ${mf.score}점 × 65% = <b>${mo.scores[id]}점</b>. 아래는 월운 ${mo.ko}의 계산이에요.`,
+          total: mf.score,
+        });
+      })()}
     </section>
     <div class="pair">
       <section class="card"><span class="sub">${isPast ? "좋았던 달" : "상승 기회"}</span><b>${best.month}월 ${best.ko}월</b><span class="sub">${bs.month}월 ${bs.day}일부터 · ${best.scores[id]}점</span></section>
@@ -423,6 +480,7 @@ export function renderLife(model, selected = -1) {
       })}</div>
       <div class="legend mk-legend">${events.map((ev) => `<span><i class="mkbg-${ev.id}"></i>${ev.name}</span>`).join("")}<span class="muted-past">흐린 점 = 지난 해</span></div>
       <div class="chart-tip"><b>${ageRange(sel)} ${sel.ko}</b> · ${sel.score}점 · ${sel.band.name}<br>${sel.reason}</div>
+      ${basisBox(scorePillar(natal, sel, "total").factors, { title: `${sel.ko} 대운 점수 근거 보기`, note: `${ageRange(sel)} 대운 <b>${sel.text}(${sel.ko})</b>을 내 원국의 용신 · 기신에 비춰 매긴 점수예요. 그래프의 다른 점을 누르면 그 대운의 근거로 바뀌어요.` })}
     </section>
 
     <h2 class="section-title">인생 주요 포인트</h2>
@@ -436,6 +494,7 @@ export function renderLife(model, selected = -1) {
           </div>
         </div>`).join("")}
       <p class="note">해마다 대운(40%)과 그해 세운(60%)의 영역 점수에 그해 십신·일지 합·도화를 더해 고른 해예요. 누르면 그해 운세로 가요. ${HEALTH_NOTICE}</p>
+      ${basisList(events.flatMap((ev) => ev.items.map((it) => `<b>${ev.short} ${it.year}년(${it.age}세)</b> · ${it.basis} → ${it.score}점`)), { title: "포인트별 계산 근거 보기", note: "결혼은 연애 · 배우자, 취업은 직업, 재물은 재물, 건강은 건강 영역 점수를 썼어요. 건강은 가장 낮은 해를 골라요." })}
     </section>
 
     <section class="card" style="background:var(--accent-soft)">
@@ -479,6 +538,7 @@ export function renderJob(model) {
       <div class="card-head"><h2>직종 적합도</h2><span class="sub">100점 기준</span></div>
       ${hBars(fit.slice(0, 6).map((j, i) => ({ label: j.name, value: j.score, fillClass: i < 2 ? "" : i < 4 ? "weak" : "soft-only" })))}
       <p class="note">${josa(`${top.name}(${top.meaning})`, "이/가")} 가장 많아서 ${fit[0].name} 계열 점수가 높게 나왔어요.</p>
+      ${basisBox(fit[0].factors, { title: `1위 ${fit[0].name} 근거 보기`, note: "직종마다 중요한 십신을 몇 개 가졌는지(2개까지)와, 관련 오행이 내 용신 · 희신인지로 매겨요.", total: fit[0].score })}
     </section>
     ${wpNext ? `<section class="card">
       <div class="card-head"><h2>맞는 직장 유형</h2><span class="sub">지금 ${cur.ko} → ${next.startAge}세 ${next.ko}</span></div>
@@ -525,6 +585,7 @@ export function renderMe(model, theme, account) {
       <div class="card-head"><h2>지금 대운의 영역별 운</h2></div>
       <p class="lead">${cur.ko} 대운 ${ageRange(cur)} · 100점 기준</p>
       ${radarChart({ axes })}
+      ${basisList(radarIds.map((id) => { const r = scorePillar(natal, cur, id); return `<b>${domainOf(id).short} ${r.score}점</b> · ${r.reason} (대운 ${cur.text} = 천간 ${r.stemGod} · 지지 ${r.branchGod})`; }), { title: "영역별 근거 보기", note: `모두 지금 대운 <b>${cur.text}(${cur.ko})</b> 한 기둥을 영역마다 다른 십신 가중치로 매긴 점수예요.` })}
       <p class="note">${josa(high.label, "은/는")} 잘 풀리는데 <b>${low.label}</b>${josa(low.label, "이/가").slice(-1)} 가장 낮아요. ${actionText(radarIds[axes.indexOf(low)], low.value)}</p>
     </section>
 
@@ -554,6 +615,7 @@ export function renderMe(model, theme, account) {
       ${hBars(health.map((h) => ({ label: `${h.label}`, value: h.value, right: `${h.state} · ${h.value}`, fillClass: h.value >= 60 ? "now" : h.value >= 40 ? "" : "weak" })))}
       <p class="note">${watch.map((h) => `<b>${ELEMENTS[h.element].ko}(${h.state})</b> ${h.tip}.`).join(" ")} 지금 대운 건강운은 ${cur.domains.health}점이에요. ${actionText("health", cur.domains.health)}</p>
       <p class="note">${HEALTH_NOTICE}</p>
+      ${basisList(health.map((h) => `<b>${ELEMENTS[h.element].ko}(${ELEMENTS[h.element].han}) ${h.value}</b> · ${h.why}`), { note: "오행이 원국에 없거나(0개) 몰려 있으면(3개 이상), 그리고 기신 오행이면 그 오행에 대응하는 몸을 더 살펴보라고 봐요 (명리의 오행 · 장부 대응)." })}
     </section>
     ${guideCard(GUIDES.health, "건강 챙기기")}
 
@@ -620,11 +682,11 @@ export function renderChart(model, mode = "table") {
   const cell = (p, fn, cls = "sm") => `<div class="${cls}">${p ? fn(p) : "·"}</div>`;
   const daeunDesc = [...saju.daeun.list].reverse();
 
-  return head + `
+  return head + dayMasterCard(model) + `
     <section class="card">
       <div class="pillar-table">
         <span></span>${order.map(([, n]) => `<div class="h">${n}</div>`).join("")}
-        <span class="h">십성</span>${order.map(([k]) => cell(P[k], (p) => `<span class="god ${k === "day" ? "me" : ""}">${k === "day" ? "본원" : p.stemGod}</span>`)).join("")}
+        <span class="h">십성</span>${order.map(([k]) => cell(P[k], (p) => `<span class="god ${k === "day" ? "me" : ""}">${k === "day" ? "일간(나)" : p.stemGod}</span>`)).join("")}
         <span class="h">천간</span>${order.map(([k]) => tile(P[k], "stem")).join("")}
         <span class="h">지지</span>${order.map(([k]) => tile(P[k], "branch")).join("")}
         <span class="h">십성</span>${order.map(([k]) => cell(P[k], (p) => `<span class="god">${p.branchGod}</span>`)).join("")}
@@ -876,3 +938,348 @@ export function renderCharts(list, currentId, account) {
 }
 
 const GOOGLE_LOGO = `<svg viewBox="0 0 48 48" width="18" height="18" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>`;
+
+// ── 만세력: 나의 일간 카드 ─────────────────────────────
+function dayMasterCard(model) {
+  const { natal } = model;
+  const stem = STEMS[natal.dm];
+  const e = stem.element;
+  const info = DAY_MASTER[natal.dm];
+  return `<section class="card dm-card">
+      <span class="tile bg-${e} el-${e}">${stem.han}<small>${stem.ko}${ELEMENTS[e].ko}</small></span>
+      <div class="grow">
+        <p class="sub">나의 일간 · 일주의 천간 = 나 자신</p>
+        <b>${natal.dmName} · ${stem.yang ? "양" : "음"}${ELEMENTS[e].ko}</b>
+        <p>${info.image} — ${info.desc}</p>
+        <div class="chips">
+          <span class="chip">${natal.strong ? "신강" : "신약"}</span>
+          <span class="chip up">용신 ${elementLabel(natal.yong)}</span>
+          <span class="chip">희신 ${elementLabel(natal.hee)}</span>
+          <span class="chip warn">기신 ${natal.gi.map((g) => ELEMENTS[g].ko).join("·")}</span>
+        </div>
+        <a class="basis-link" href="#basis">왜 이렇게 보나요? 해석 기준 보기 ›</a>
+      </div>
+    </section>`;
+}
+
+// ── 10. 상세 문의 ─────────────────────────────
+const topicOf = (id) => TOPICS.find((t) => t.id === id);
+const topicColor = { water: 4, fire: 1, earth: 2, metal: 3, wood: 0 };
+
+export function renderAsk(model, topicId, yearArg, ctx) {
+  const topic = topicOf(topicId);
+  if (!topic) return renderAskHub(model, ctx);
+  if (topic.kind === "match") return renderMatch(model, topic, ctx);
+  if (topic.kind === "aptitude") return renderPath(model, topic);
+  return renderTopic(model, topic, yearArg);
+}
+
+function renderAskHub(model, ctx) {
+  const thisYear = model.today.getFullYear();
+  const others = ctx.charts.filter((c) => c.id !== model.profile.id).length;
+  return `
+    ${topbar("상세 문의", whoChip(model))}
+    ${subnav("ask")}
+    ${sampleBanner(model)}
+    <p class="headline">궁금한 일을<br><em>자세히</em> 살펴보세요</p>
+    <div class="topic-grid">
+      ${TOPICS.map((t) => {
+        const sub = t.kind === "match"
+          ? (others ? `저장된 명식 ${others}개와 비교` : "비교할 명식을 먼저 입력")
+          : t.kind === "aptitude"
+            ? `1위 ${majorFit(model.natal)[0].name}`
+            : `${thisYear}년 ${topicFlow(model.natal, t.id, thisYear).score}점`;
+        return `<a class="card topic-card" href="#ask/${t.id}">
+          <span class="ico fill-${topicColor[t.color]}">${icon(t.icon)}</span>
+          <b>${t.name}</b><small>${t.question}</small><span class="chip">${sub}</span>
+        </a>`;
+      }).join("")}
+    </div>
+    ${disclaimer()}`;
+}
+
+function renderTopic(model, topic, yearArg) {
+  const { natal, today } = model;
+  const thisYear = today.getFullYear();
+  const y = Number(yearArg) >= 1900 && Number(yearArg) <= 2100 ? Number(yearArg) : thisYear;
+  const flow = topicFlow(natal, topic.id, y);
+  const isCur = y === thisYear;
+  const isPast = y < thisYear;
+  const m = isCur ? sajuMonth(today) : isPast ? 13 : 0;
+  const stateOf = (mo) => (isCur ? (mo.month < m ? "past" : mo.month === m ? "now" : "future") : isPast ? "past" : "future");
+  const ranked = [...flow.months].filter((mo) => !isCur || mo.month >= m).sort((a, b) => b.score - a.score);
+  // 좋은 달은 피할 달(가장 낮은 달)을 빼고 최대 3개
+  const worst = ranked.length > 1 ? ranked[ranked.length - 1] : null;
+  const best = ranked.slice(0, Math.min(3, ranked.length - (worst ? 1 : 0))).sort((a, b) => a.month - b.month);
+  const bestYear = flow.decade.reduce((a, b) => (b.score > a.score ? b : a));
+  const advice = flow.score >= 65 ? topic.high : flow.score >= 45 ? topic.mid : topic.low;
+  const col = topicColor[topic.color];
+
+  let extra = "";
+  if (topic.id === "move") {
+    extra = `<section class="card">
+      <div class="card-head"><h2>방향</h2><span class="sub">용신 · 희신 · 기신 오행의 방위</span></div>
+      <div class="dir-grid">
+        <div class="dir good"><small>좋은 방향</small><b>${DIRECTIONS[natal.yong]}</b><span>용신 ${elementLabel(natal.yong)}</span></div>
+        <div class="dir good"><small>그다음</small><b>${DIRECTIONS[natal.hee]}</b><span>희신 ${elementLabel(natal.hee)}</span></div>
+        <div class="dir bad"><small>피하면 좋은 방향</small><b>${natal.gi.map((g) => DIRECTIONS[g]).join(" · ")}</b><span>기신 ${natal.gi.map((g) => ELEMENTS[g].ko).join("·")}</span></div>
+      </div>
+      <p class="note">지금 사는 곳을 기준으로 한 방향이에요. 거리보다 생활(직장 · 학교 · 병원)이 먼저예요.</p>
+    </section>`;
+  }
+  if (topic.money) {
+    const risk = riskAppetite(natal);
+    extra = `<section class="card">
+      <div class="card-head"><h2>타고난 투자 성향</h2><span class="sub">편재 · 겁재 · 인성으로 본 성향</span></div>
+      ${hBars([{ label: risk >= 65 ? "공격형 — 크게 벌고 크게 잃기 쉬움" : risk >= 40 ? "균형형 — 나눠서 천천히" : "안정형 — 지키는 쪽이 편함", value: risk, right: `${risk}`, fillClass: risk >= 65 ? "now" : "" }])}
+      <p class="note">특정 종목 · 매물 · 매수 · 매도 시점을 추천하지 않아요. 흐름이 좋은 때에도 아래 점검 목록을 먼저 확인하세요.</p>
+    </section>`;
+  }
+
+  return `
+    ${topbar(topic.name, whoChip(model))}
+    ${subnav("ask")}
+    ${yearNav(`#ask/${topic.id}`, { year: y, ko: flow.ko }, model)}
+    <section class="card" style="text-align:center">
+      ${gaugeChart({ value: flow.score, caption: `${y}년 ${topic.short}운` })}
+      <p style="font-weight:700;margin-top:4px">${topic.question}</p>
+      <p style="font-weight:800;color:var(--accent)">${isPast ? "지난 해 기록이에요" : advice}</p>
+      <p class="sub" style="margin-top:6px">${flow.ko}년 · ${flow.reason}</p>
+      ${basisBox(flow.factors, { note: `${y}년 세운 <b>${flow.ko}</b>을 ${topic.name}에 맞춘 십신 가중치로 매긴 점수예요. 달마다 점수는 세운 35% + 월운 65%로 섞어요.` })}
+    </section>
+
+    <section class="card">
+      <div class="card-head"><h2>달마다 ${topic.short}운</h2><span class="sub">절기 기준</span></div>
+      <p class="lead">${isPast ? "가장 좋았던 달" : `좋은 달${isCur ? "(남은 달 기준)" : ""}`}: <b>${best.map((b) => `${b.month}월`).join(" · ")}</b>${worst ? ` · ${isPast ? "힘들었던" : "피할"} 달: ${worst.month}월` : ""}</p>
+      ${barChart({ bars: flow.months.map((mo) => ({ label: mo.month, value: mo.score, state: stateOf(mo), show: best.includes(mo) || mo.month === m })), caption: `${y}년 ${topic.name} 월별 점수` })}
+      <div class="chips" style="margin-top:10px">${best.map((b) => `<span class="chip up">${b.month}월 ${b.ko}월 ${b.score}점</span>`).join("")}</div>
+    </section>
+
+    <section class="card">
+      <div class="card-head"><h2>앞으로 10년</h2><span class="sub">${y}~${y + 9}년</span></div>
+      <p class="lead">가장 좋은 해는 <b>${bestYear.year}년(${bestYear.ko}) ${bestYear.score}점</b></p>
+      ${barChart({ bars: flow.decade.map((d) => ({ label: String(d.year).slice(2), value: d.score, state: d.year === thisYear ? "now" : d.year < thisYear ? "past" : "future", show: d === bestYear || d.year === thisYear })), caption: `${topic.name} 10년 점수` })}
+    </section>
+
+    ${extra}
+
+    <section class="card">
+      <div class="card-head"><h2>스스로 점검할 것</h2></div>
+      <ul class="checklist">${topic.checklist.map((c) => `<li>${c}</li>`).join("")}</ul>
+    </section>
+    ${topic.guides ? guideCard(topic.guides, "도움 받을 곳") : ""}
+    ${topic.link ? `<a class="btn soft" href="${topic.link.href}">${topic.link.label}</a>` : ""}
+    <p class="disclaimer">${topic.money ? "투자 판단과 책임은 본인에게 있어요. " : ""}${DISCLAIMER}</p>`;
+}
+
+function renderMatch(model, topic, ctx) {
+  const isChild = topic.id === "child";
+  const list = ctx.charts.filter((c) => c.id !== model.profile.id);
+  const sorted = isChild ? [...list.filter((c) => c.relation === "자녀"), ...list.filter((c) => c.relation !== "자녀")] : list;
+  const partnerChart = sorted.find((c) => c.id === ctx.partnerId) || sorted[0];
+  const head = `
+    ${topbar(topic.name, whoChip(model))}
+    ${subnav("ask")}
+    ${sampleBanner(model)}`;
+
+  if (!partnerChart) {
+    return head + `
+      <section class="card">
+        <div class="card-head"><h2>비교할 명식이 없어요</h2></div>
+        <p style="font-size:15px">${isChild ? "자녀의" : "상대의"} 생년월일을 먼저 입력해 주세요. 관계를 "${isChild ? "자녀" : "배우자 · 지인"}"로 고르고, 본인 동의를 받은 뒤 저장하면 여기서 바로 비교할 수 있어요.</p>
+      </section>
+      <a class="btn" href="#manse/new">${icon("plus", 'style="width:18px;height:18px"')}${isChild ? "자녀" : "상대"} 명식 입력</a>
+      ${disclaimer()}`;
+  }
+
+  const me = { saju: model.saju, natal: model.natal };
+  const ps = calculateSaju({ ...partnerChart, today: model.today });
+  const partner = { saju: ps, natal: analyzeNatal(ps) };
+  const r = matchScore(me, partner);
+  const band = r.total >= 75 ? "서로 힘이 되는 사이" : r.total >= 60 ? "노력하면 잘 맞는 사이" : r.total >= 45 ? "다름을 인정하면 편해지는 사이" : "부딪힐 때 한 박자 쉬어 가는 사이";
+  const weakest = [...r.parts].sort((a, b) => a.score - b.score)[0];
+  const tips = {
+    dm: "말하는 방식이 달라요. 결론부터 말하기 전에 상대의 이야기를 끝까지 들어 주세요.",
+    day: "생활 리듬이 달라요. 집안일 · 휴식 시간을 미리 정해 두면 다툼이 줄어요.",
+    zodiac: "첫인상 · 가치관에서 엇갈리기 쉬워요. 큰 결정은 하루 미뤄 두고 다시 이야기하세요.",
+    fill: "서로의 부족한 기운을 채워 주기 어려워요. 각자 좋아하는 활동 시간을 존중해 주세요.",
+  };
+  const pe = STEMS[partner.natal.dm].element;
+  const myE = STEMS[model.natal.dm].element;
+  const pick = `<label class="field partner-pick"><span>${isChild ? "자녀 고르기" : "비교할 사람"}</span>
+      <select class="input" data-partner>${sorted.map((c) => `<option value="${esc(c.id)}" ${c.id === partnerChart.id ? "selected" : ""}>${esc(c.name || "이름 없음")} · ${esc(c.relation || "")} · ${esc(c.date)}</option>`).join("")}</select>
+    </label>`;
+
+  let childCard = "";
+  if (isChild) {
+    const cs = childStar(me, partner);
+    const parentTips = [
+      "친구 같은 관계예요. 다정하되 부모로서 지킬 선은 분명히 해 주세요.",
+      "아이를 아끼고 챙겨 주는 관계예요. 다 해 주기보다 스스로 해 볼 기회를 주세요.",
+      "부모가 아이를 이끌려 하기 쉬워요. 잔소리 대신 기다려 주고 선택지를 주세요.",
+      "아이의 주장이 강하게 느껴질 수 있어요. 규칙은 아이와 함께 정해 보세요.",
+      "아이가 부모에게 힘이 되는 관계예요. 작은 일에도 칭찬을 자주 해 주세요.",
+    ];
+    childCard = `<section class="card">
+      <div class="card-head"><h2>부모 · 자녀로 보면</h2></div>
+      <p style="font-size:15px">${parentTips[r.rel]}</p>
+      <p class="note">${model.natal.gender === "F" ? "엄마" : "아빠"} 사주의 자녀성은 <b>${elementLabel(cs.star)}</b>이고, 아이의 일간은 ${josa(elementLabel(pe), "이에요/예요")}. ${cs.match ? "자녀성과 같아서 서로 마음이 잘 통하기 쉬워요." : "자녀성과 달라서 아이만의 방식을 인정해 주면 더 가까워져요."}</p>
+    </section>`;
+  }
+
+  return head + `
+    ${pick}
+    <section class="card" style="text-align:center">
+      <div class="vs">
+        <div><span class="who-orb bg-${myE} el-${myE}">${STEMS[model.natal.dm].han}</span><small>${esc(model.profile.name || "나")}</small></div>
+        <span class="vs-mark">${icon("heart")}</span>
+        <div><span class="who-orb bg-${pe} el-${pe}">${STEMS[partner.natal.dm].han}</span><small>${esc(partnerChart.name || "상대")}</small></div>
+      </div>
+      ${gaugeChart({ value: r.total, caption: `${topic.short} 점수` })}
+      <p style="font-weight:800;color:var(--accent)">${band}</p>
+    </section>
+    <section class="card">
+      <div class="card-head"><h2>어디가 잘 맞을까</h2><span class="sub">100점 기준</span></div>
+      ${hBars(r.parts.map((p) => ({ label: `${p.label} · ${p.note}`, value: p.score, right: `${p.score}`, fillClass: p.score >= 70 ? "" : p.score >= 50 ? "weak" : "now" })))}
+      <p class="note"><b>${weakest.label}</b>${josa(weakest.label.replace(/\s*\(.*\)/, ""), "이/가").slice(-1)} 가장 낮아요. ${tips[weakest.id]}</p>
+      ${basisBox(r.basis, { raw: true, total: r.total, note: "종합 = 성격 30% + 생활 25% + 띠 15% + 오행 보완 30%. 일간은 오행의 생극(상생 · 상극)과 천간합, 일지 · 띠는 지지의 육합 · 삼합 / 충 · 원진으로 봐요." })}
+    </section>
+    ${childCard}
+    <p class="disclaimer">궁합은 관계의 정답이 아니라 서로를 이해하는 참고 자료예요. ${DISCLAIMER}</p>`;
+}
+
+// ── 상세 문의: 진로 · 적성 (학생용) ─────────────────────────────
+function renderPath(model, topic) {
+  const { natal, today, saju } = model;
+  const thisYear = today.getFullYear();
+  const majors = majorFit(natal);
+  const jobs = jobFit(natal).slice(0, 5);
+  const groups = godGroups(natal).sort((a, b) => b.count - a.count);
+  const top = groups[0];
+  const empty = groups.filter((g) => g.count === 0);
+  const style = STUDY_STYLE[top.id];
+  const exam = topicFlow(natal, "exam", thisYear);
+  const birth = birthYearOf(model);
+  const bestExam = exam.decade.reduce((a, b) => (b.score > a.score ? b : a));
+  const dm = DAY_MASTER[natal.dm];
+
+  return `
+    ${topbar(topic.name, whoChip(model))}
+    ${subnav("ask")}
+    ${sampleBanner(model)}
+    <p class="eyebrow">${natal.dmName} 일간 · ${top.name}(${top.meaning}) ${top.count}개 · ${saju.koreanAge}세</p>
+    <p class="headline"><em>${majors[0].name}</em>,<br>${majors[1].name} 계열이 잘 맞아요</p>
+
+    <section class="card">
+      <div class="card-head"><h2>맞는 학과 계열</h2><span class="sub">100점 기준</span></div>
+      ${hBars(majors.map((mj, i) => ({ label: `${mj.name} <small class="muted-inline">${mj.examples}</small>`, value: mj.score, fillClass: i < 2 ? "" : i < 4 ? "weak" : "soft-only" })))}
+      <p class="note">${josa(majors[0].name, "은/는")} ${Object.keys(majors[0].gods).join(" · ")}이 있을수록 높아요. 내 사주에는 ${Object.keys(majors[0].gods).map((g) => `${g} ${natal.godCount[g] || 0}개`).join(", ")}가 있어요.</p>
+      ${basisBox(majors[0].factors, { title: `1위 ${majors[0].name} 근거 보기`, total: majors[0].score })}
+      ${basisBox(majors[1].factors, { title: `2위 ${majors[1].name} 근거 보기`, total: majors[1].score })}
+    </section>
+
+    <section class="card">
+      <div class="card-head"><h2>나에게 맞는 공부 방법</h2></div>
+      <div class="study">
+        <span class="ico fill-0">${icon("book")}</span>
+        <div><b>${style.title}</b><p>${style.tip}</p></div>
+      </div>
+      <p class="note"><b>타고난 기질</b> · ${dm.image} — ${dm.desc}</p>
+      ${empty.length ? `<p class="note"><b>보완할 점</b> · ${empty.map((g) => STUDY_WEAK[g.id]).join(" ")}</p>` : ""}
+    </section>
+
+    <section class="card">
+      <div class="card-head"><h2>시험 · 입시 흐름</h2><span class="sub">${thisYear}~${thisYear + 9}년</span></div>
+      <p class="lead">공부한 만큼 결과가 잘 나는 해: <b>${bestExam.year}년(${bestExam.year - birth + 1}세) ${bestExam.score}점</b></p>
+      ${barChart({ bars: exam.decade.map((d) => ({ label: `${d.year - birth + 1}세`, value: d.score, state: d.year === thisYear ? "now" : "future", show: d === bestExam || d.year === thisYear })), caption: "앞으로 10년 시험운" })}
+      <a class="more" href="#ask/exam">시험 · 합격 달마다 보기</a>
+    </section>
+
+    <section class="card">
+      <div class="card-head"><h2>나중에 잘 맞을 일</h2><span class="sub">직종 적합도</span></div>
+      <div class="chips">${jobs.map((j) => `<span class="chip">${j.name} ${j.score}</span>`).join("")}</div>
+      <a class="more" href="#job">맞는 일 · 자격증 자세히</a>
+    </section>
+
+    ${guideCard(topic.guides, "진로 검사 · 학과 정보")}
+    <p class="disclaimer">진로는 흥미 · 성적 · 적성검사와 함께 정하세요. 사주는 방향을 생각해 보는 참고 자료예요. ${DISCLAIMER}</p>`;
+}
+
+// ── 11. 해석 기준 (#basis): 내 원국을 어떻게 분석했고 점수를 어떻게 매기는지 ─────────────────────────────
+export function renderBasis(model) {
+  const { natal, saju } = model;
+  const b = natal.basis;
+  const P = saju.pillars;
+  const order = [["year", "연주"], ["month", "월주"], ["day", "일주"], ["hour", "시주"]];
+  const roleChip = (e) => `<span class="chip ${natal.roles[e] === "yong" || natal.roles[e] === "hee" ? "up" : natal.roles[e] === "gi" ? "warn" : ""}">${ROLE_NAME[natal.roles[e]]}</span>`;
+  const relName = { self: "비겁 (나와 같은 오행)", output: "식상 (내가 생하는 오행)", wealth: "재성 (내가 극하는 오행)", power: "관성 (나를 극하는 오행)", resource: "인성 (나를 생하는 오행)" };
+  return `
+    ${topbar("해석 기준", whoChip(model))}
+    <p class="lead" style="margin-top:4px!important">이 앱의 모든 점수는 아래 순서로 계산해요. 자평명리의 일반 원칙을 단순화한 규칙이며, 학파마다 판단이 다를 수 있어요.</p>
+
+    <section class="card">
+      <div class="card-head"><h2>① 원국의 글자와 오행</h2><span class="sub">천간 + 지지 본기</span></div>
+      <table class="basis-table">
+        <tr><th>자리</th><th>천간</th><th>지지</th><th>지장간</th></tr>
+        ${order.map(([k, n]) => P[k] ? `<tr><td>${n}</td><td>${STEMS[P[k].stem].han} ${ELEMENTS[STEMS[P[k].stem].element].ko}</td><td>${BRANCHES[P[k].branch].han} ${ELEMENTS[BRANCHES[P[k].branch].element].ko}</td><td>${P[k].hidden.map((h) => h.han).join(" ")}</td></tr>` : `<tr><td>${n}</td><td colspan="3">시간 모름</td></tr>`).join("")}
+      </table>
+      <p class="note">오행 개수: ${ELEMENTS.map((el, e) => `${el.ko} ${natal.elementCount[e]}`).join(" · ")}. 일간 <b>${natal.dmName}</b>을 "나"로 두고 나머지 글자와의 관계(십신)를 봐요.</p>
+      <table class="basis-table">
+        <tr><th>오행</th><th>나와의 관계</th><th>역할</th></tr>
+        ${Object.keys(natal.rel).map((k) => `<tr><td>${elementLabel(natal.rel[k])}</td><td>${relName[k]}</td><td>${roleChip(natal.rel[k])}</td></tr>`).join("")}
+      </table>
+    </section>
+
+    <section class="card">
+      <div class="card-head"><h2>② 신강 · 신약</h2><span class="sub">나를 돕는 기운의 비율</span></div>
+      <p class="lead">나를 돕는 기운(비겁 · 인성) <b>${b.support.toFixed(1)}</b> / 전체 <b>${b.total.toFixed(1)}</b> = <b>${b.pct}%</b> → ${natal.strong ? "50% 이상이라 <b>신강</b>" : "50% 미만이라 <b>신약</b>"}</p>
+      <table class="basis-table">
+        <tr><th>자리 · 글자</th><th>오행</th><th>무게</th><th>나를 돕나</th></tr>
+        ${b.strengthRows.map((r) => `<tr><td>${r.pos}</td><td>${elementLabel(r.element)}</td><td>${r.weight.toFixed(2)}</td><td>${r.helps ? "돕는다" : "-"}</td></tr>`).join("")}
+      </table>
+      <p class="note">무게: 천간 1, 연지 1, <b>월지 3</b>(태어난 계절 · 월령이 가장 큼), 일지 1.5, 시지 1. 지지는 속에 든 지장간 비중(${Object.entries(HIDDEN_WEIGHT).map(([n, w]) => `${n}개면 ${w.map((x) => Math.round(x * 100) + "%").join(" · ")}`).join(", ")})으로 나눠요.</p>
+    </section>
+
+    <section class="card">
+      <div class="card-head"><h2>③ 용신 · 희신 · 기신</h2></div>
+      <ul class="basis-ul">
+        ${natal.johu ? `<li><b>조후</b> · ${BRANCHES[P.month.branch].han}월(${natal.johu.label})생은 계절의 온도를 먼저 맞춰요. 겨울(亥子丑)은 화(火), 여름(巳午未)은 수(水).</li>` : `<li><b>조후</b> · 봄 · 가을생이라 온도보다 강약을 먼저 봐요.</li>`}
+        <li><b>용신 ${elementLabel(natal.yong)}</b> · ${b.yongWhy}</li>
+        <li><b>희신 ${elementLabel(natal.hee)}</b> · ${b.heeWhy}</li>
+        <li><b>기신 ${natal.gi.map((g) => elementLabel(g)).join(" · ")}</b> · ${b.giWhy}</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <div class="card-head"><h2>④ 점수 계산</h2><span class="sub">대운 · 세운 · 월운 · 일진 공통</span></div>
+      <ol class="basis-ol">
+        <li><b>기본 ${SCORE.center}점</b>에서 시작해요.</li>
+        <li><b>천간 40% + 지지 60%</b>: 들어오는 글자의 오행이 용신이면 더하고 기신이면 빼요. 역할값 ${Object.entries(ROLE_VALUE).map(([k, v]) => `${ROLE_NAME[k]} ${v}`).join(" · ")} × ${SCORE.spread}점. 지지는 지장간마다 비중을 나눠 계산해요.</li>
+        <li><b>영역 가중치</b>: 재물이면 재성 · 식상, 직업이면 관성 · 인성처럼 영역에 중요한 십신이면 가점, 방해하면 감점 (±${SCORE.domainSpread}점 × 가중치).</li>
+        <li><b>관계 보정</b>: 일지(나 · 배우자 자리) · 시지(자녀 자리)와 육합이면 가점, 충이면 감점. 천간합으로 용신이 생기면 +${SCORE.stemCombineBonus}. 도화(인연) · 역마(이동) · 재고(창고) · 조후 충족도 주제에 따라 더해요.</li>
+        <li><b>섞기</b>: 달 점수 = 세운 35% + 월운 65%, 하루 점수 = 일진 70% + 월운 30%, 인생 포인트 = 대운 40% + 세운 60%.</li>
+        <li>마지막에 ${SCORE.min}~${SCORE.max}점 안으로 맞춰요.</li>
+      </ol>
+    </section>
+
+    <section class="card">
+      <div class="card-head"><h2>⑤ 십신의 뜻</h2><span class="sub">일간 기준 다른 글자와의 관계</span></div>
+      <table class="basis-table">
+        <tr><th>십신</th><th>관계</th><th>상징</th></tr>
+        ${TEN_GOD_MEANING.map((g) => `<tr><td><b>${g.name}</b></td><td>${g.rel}</td><td>${g.meaning}</td></tr>`).join("")}
+      </table>
+    </section>
+
+    <section class="card">
+      <div class="card-head"><h2>⑥ 합 · 충과 신살</h2></div>
+      <ul class="basis-ul">
+        <li><b>육합</b> 子丑 · 寅亥 · 卯戌 · 辰酉 · 巳申 · 午未 — 손을 잡아 순하게 풀림</li>
+        <li><b>충</b> 子午 · 丑未 · 寅申 · 卯酉 · 辰戌 · 巳亥 — 마주 보고 부딪혀 흔들림 · 변동</li>
+        <li><b>삼합</b> 申子辰 · 寅午戌 · 巳酉丑 · 亥卯未 — 같은 방향으로 모임 (궁합)</li>
+        <li><b>원진</b> 子未 · 丑午 · 寅酉 · 卯申 · 辰亥 · 巳戌 — 서운함이 쌓임 (궁합)</li>
+        <li><b>천간합</b> 甲己(토) · 乙庚(금) · 丙辛(수) · 丁壬(목) · 戊癸(화) — 합해 새 오행이 생김</li>
+        <li><b>도화</b> 일지 기준 子 · 午 · 卯 · 酉 — 매력 · 인연 &nbsp; <b>역마</b> 寅 · 申 · 巳 · 亥 — 이동 &nbsp; <b>재고</b> 辰 · 戌 · 丑 · 未 — 창고</li>
+      </ul>
+    </section>
+    <p class="disclaimer">규칙의 숫자는 초안이며 명리 전문가 검수로 보정할 예정이에요. ${DISCLAIMER}</p>`;
+}

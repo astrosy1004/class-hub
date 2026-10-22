@@ -31,6 +31,8 @@ const PATHS = {
   external: "M14 4h6v6M20 4l-9 9M18 14v6H4V6h6",
   leaf: "M5 19c0-8 5-14 15-14 0 10-6 15-14 15M5 19l7-7",
   pulse: "M3 12h4l2-5 4 10 2-5h6",
+  move: "M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1zM16 3h5v5",
+  chat: "M4 5h16v11H9l-5 4zM8 9h8M8 12h5",
   chevronLeft: "M15 5l-7 7 7 7",
   chevronRight: "M9 5l7 7-7 7",
   star: "M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z",
