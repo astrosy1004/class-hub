@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-10-22T02:24:42.918Z",
+  "updatedAt": "2026-10-22T09:00:44.569Z",
   "categories": [
     {
       "id": "job",
@@ -138,14 +138,6 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "안랩, SW 코딩강사 양성 무료 교육프로그램 '안랩샘(SEM)' 수강생 모집 - 팍스경제TV",
-          "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFB4cjUyQ29EdnBKb2dtM2NYZGFpSVV0dmlRM0YxaXJwR1g2bk5sRTMxY1BESkhRdENvTDNETU1UQ2dTcENmTk85Q2VLYU9aMkp5TTQ4UnJvemZDRU1ySnNmdFFMdEtmUkU?oc=5",
-          "date": "2020-02-12T08:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiZ0FVX3lxTFB4cjUyQ29EdnBKb2dtM2NYZGFpSVV0dmlRM0YxaXJwR1g2bk5sRTMxY1BESkhRdENvTDNETU1UQ2dTcENmTk85Q2VLYU9aMkp5TTQ4UnJvemZDRU1ySnNmdF",
-          "source": "팍스경제TV",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
           "title": "[2019 인천 SW미래채움 교육페스티벌]'인천 생활속 코딩' 온몸으로 느꼈다 - 전자신문",
           "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTFBfd21RY0l6ZXBkekU5U09saXpISGNNczRBbmpzOFJMZWstdjhPNjFBMDhVM0ZhdHFNbUJBZlNvNzFUOS0xb2VPd1dmbno0dw?oc=5",
           "date": "2019-11-24T08:00:00.000Z",
@@ -186,14 +178,6 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "2018 코딩강사 양성과정 '시원하게 코딩' - 브런치",
-          "link": "https://news.google.com/rss/articles/CBMiTEFVX3lxTE11Smh5R3BLNHNFODRFd2E1M2Y0UTBXT2dBM2k0UERGN053ZlJveVJEc096OUtmX3F0TkdGenRFcTFZOWVJWVJ4Z0VqaTE?oc=5",
-          "date": "2018-10-30T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiTEFVX3lxTE11Smh5R3BLNHNFODRFd2E1M2Y0UTBXT2dBM2k0UERGN053ZlJveVJEc096OUtmX3F0TkdGenRFcTFZOWVJWVJ4Z0VqaTE?oc=5\" target=\"_blank\">2018",
-          "source": "브런치",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
           "title": "가천대, 성남지역 코딩강사 전문성 교육 - 서울Pn",
           "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPX0xUQnpPbENwTXNYT19wSXZXTXJxeExuVDFjcHV3eFoxWUp6d1ZxaVFlbk9Bdk1TbUtZRGpuYmVrWW5ib3RfOEk5WFlacktTdGxDNUFKS3lfbXpSMWUxajZuT0lxRzhOZHpUeC1wZTVCb0VBdTZJY2d2ZjR2LVg1ZTdqd0VSS3ZWRVRjNlV3?oc=5",
           "date": "2018-04-10T07:00:00.000Z",
@@ -207,6 +191,22 @@ window.MYNEWS_DATA = {
           "date": "2018-03-23T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTFBDSV9iQlQxNTlWQWliLTZXeWlTbm1BV29MdUVQT1R0QURWc0haWHZpdTRRUHJlVVh0MkdLQkpZRlVVd1Q2Y1RPRWZKWmhzM2xLUUhpRjFja1NmSmpvZFlLem",
           "source": "백세시대",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "4차 산업 혁명, 사회와 공감하는 코딩교육이 필요하다 - OhmyNews",
+          "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE8tM0FwdTdZQ2pRaUtwWGQtSUg5c3h1VFBrM1JZcXl2SDdYSDU2WS1GU2FRRnVrUUptNHllMUdYQUp6cGNqei1DREJOSnFzdnFJNkZNVzZtYUFWWFNLQ2xuVW5zVFI0QllqQXRYcW1WRE1jeUxyM21n?oc=5",
+          "date": "2018-02-20T08:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMid0FVX3lxTE8tM0FwdTdZQ2pRaUtwWGQtSUg5c3h1VFBrM1JZcXl2SDdYSDU2WS1GU2FRRnVrUUptNHllMUdYQUp6cGNqei1DREJOSnFzdnFJNkZNVzZtYUFWWFNLQ2xuVW",
+          "source": "OhmyNews",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "성동구, 경단녀 코딩강사 양성 - 아시아경제",
+          "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE9FbXRRc2prdGJkR2ZMLUIzaWpWWDdqYzZteXlVSWRmaURVSmRoQm1ZM3k3SzZteEx1QnNSWkVHUl9xV3MzMmhfa1BENEZwd21XN09TYkNMcE4yc1VYVHFwUQ?oc=5",
+          "date": "2017-12-04T08:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiYEFVX3lxTE9FbXRRc2prdGJkR2ZMLUIzaWpWWDdqYzZteXlVSWRmaURVSmRoQm1ZM3k3SzZteEx1QnNSWkVHUl9xV3MzMmhfa1BENEZwd21XN09TYkNMcE4yc1VYVHFwUQ",
+          "source": "아시아경제",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
