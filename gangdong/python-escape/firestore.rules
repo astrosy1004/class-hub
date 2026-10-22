@@ -1,0 +1,35 @@
+rules_version = '2';
+
+// 파이썬 방탈출 — 수업 코드별 학생 결과 저장소
+// pyEscape/{수업코드}/records/{기록ID}
+// 로그인 없이 쓰는 교실용이라, 정해진 필드·크기만 허용하고 삭제는 막아 둡니다.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /pyEscape/{classCode}/records/{recordId} {
+      function validClass() {
+        return classCode.matches('^[A-Z0-9]{4,12}$');
+      }
+      function validRecord(d) {
+        return d.keys().hasOnly(['name', 'members', 'avatar', 'roomsCleared', 'escaped', 'seconds', 'hints',
+                                 'wrong', 'reveals', 'solved', 'score', 'project', 'date', 'status', 'updatedAt'])
+          && d.name is string && d.name.size() > 0 && d.name.size() <= 20
+          && (!('members' in d) || (d.members is string && d.members.size() <= 40))
+          && (!('project' in d) || (d.project is string && d.project.size() <= 40))
+          && (!('avatar' in d) || (d.avatar is string && d.avatar.size() <= 16))
+          && d.score is int && d.score >= 0 && d.score <= 10000
+          && d.seconds is int && d.seconds >= 0 && d.seconds <= 86400
+          && d.roomsCleared is int && d.roomsCleared >= 0 && d.roomsCleared <= 20
+          && d.escaped is bool
+          && d.status in ['playing', 'done'];
+      }
+
+      allow get, list: if validClass();
+      allow create, update: if validClass() && recordId.size() <= 40 && validRecord(request.resource.data);
+      allow delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

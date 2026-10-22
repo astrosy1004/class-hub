@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>파이썬 방탈출 | 바이브 코딩 수업 복습 게임</title>
+  <meta name="description" content="초등 파이썬 바이브 코딩 수업(기초 문법·변수·반복문·조건문·Thonny·SDGs)을 복습하는 방탈출 게임과 시상식 화면" />
+  <link rel="stylesheet" href="./assets/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <button class="brand" data-action="go-home" title="처음 화면으로">🐍 <b>파이썬 방탈출</b></button>
+    <div class="hud" id="hud" hidden></div>
+    <div class="top-actions">
+      <button class="icon-btn" id="soundBtn" data-action="sound" title="소리 켜기/끄기">🔊</button>
+      <button class="icon-btn" id="themeBtn" data-action="theme" title="다크 모드">🌙</button>
+      <a class="icon-btn" href="#awards" title="선생님: 시상·결과 공유 화면">🏆</a>
+    </div>
+  </header>
+
+  <main id="app"></main>
+
+  <!-- 맵에서 물건에 다가가면 뜨는 문제 팝업 -->
+  <div id="pmodal" class="pmodal" hidden></div>
+  <!-- 시상식 / 결과 공유 화면 (전체 화면 오버레이) -->
+  <div id="ceremony" class="ceremony" hidden></div>
+  <!-- 상장 미리보기 -->
+  <div id="modal" class="modal" hidden></div>
+  <div id="toast" class="toast" hidden></div>
+  <!-- 인쇄 전용 영역 -->
+  <div id="print-area"></div>
+
+  <script src="./assets/app.js"></script>
+</body>
+</html>
