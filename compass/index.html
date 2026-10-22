@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Life Compass · 나의 나침반</title>
+    <meta name="description" content="성향 × 가치관 × 현실 조건을 단계적으로 탐색하고, 4주 삶의 실험으로 검증하는 자기이해 웹앱" />
+    <link rel="icon" href="./assets/logo.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <link rel="stylesheet" href="./assets/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#/home" aria-label="Life Compass 홈">
+        <img src="./assets/logo.svg" alt="" width="30" height="30" />
+        <span>life compass</span>
+        <span class="pill" id="brandStatus">탐색 전</span>
+      </a>
+      <nav class="tabs" aria-label="주 메뉴">
+        <a href="#/home" data-route="home">대시보드</a>
+        <a href="#/explore" data-route="explore">탐색</a>
+        <a href="#/result" data-route="result">결과</a>
+        <a href="#/experiment" data-route="experiment">삶의 실험</a>
+        <a href="#/trust" data-route="trust">근거·안내</a>
+      </nav>
+      <a class="btn-pill glow mono topbar-cta" href="#/explore">탐색 시작</a>
+      <button class="icon-button" id="themeToggle" type="button" aria-label="다크 모드 전환"><span id="themeIcon">☾</span></button>
+    </header>
+
+    <main class="page" id="app" tabindex="-1"></main>
+
+    <footer class="site-footer">
+      <p>Life Compass는 자기이해·의사결정 보조 도구이며 <strong>임상 진단이 아닙니다.</strong> 결과는 현재 응답의 경향일 뿐, 진로·관계 결정을 대신하지 않습니다.</p>
+      <p>마음이 많이 힘들다면 자살예방상담 <a href="tel:109">109</a> · 정신건강위기상담 <a href="tel:15770199">1577-0199</a> (24시간)</p>
+    </footer>
+
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+    <script src="./assets/app.js"></script>
+  </body>
+</html>
