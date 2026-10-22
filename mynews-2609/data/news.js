@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-10-22T09:00:44.569Z",
+  "updatedAt": "2026-10-22T14:45:10.001Z",
   "categories": [
     {
       "id": "job",
@@ -106,14 +106,6 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "도 일자리재단, ‘3C코딩 강사 양성과정’ 교육생 25명 모집 - 경기도뉴스포털",
-          "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPU19CR1BFSlZLeVNaT0dWcWx6QXpoUDZjcmhMaTNsNTJ6QjV6N1VlekdNelVia3ZfTkpMMnM3MW5Kc1dfdkRIRUpVRlhpSmZBM0hhYmlsaWt0TzB0Y1NxdUptQURXeGxBaHZWMWhHaXRIRGFubG9fX21ONmNyTzNSaWRLWDQ?oc=5",
-          "date": "2022-08-27T13:31:50.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMihAFBVV95cUxPU19CR1BFSlZLeVNaT0dWcWx6QXpoUDZjcmhMaTNsNTJ6QjV6N1VlekdNelVia3ZfTkpMMnM3MW5Kc1dfdkRIRUpVRlhpSmZBM0hhYmlsaWt0TzB0Y1NxdU",
-          "source": "경기도뉴스포털",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
           "title": "[인터뷰] 오지 마을의 코딩 전도사 ‘숲속엄마’ 송미선 강사 - 쿠키뉴스",
           "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5xblVYb0s1LUNYTTZYLUNVdXVhZVYxemtxRW9icWsxd0ZESUt6bXdvazlMd05oeWVBcUVoTExQekZaV1RpWDE3RTB4YWhUazdlQ3I5NDF3MEZfY2VxTG5HMTNQMA?oc=5",
           "date": "2021-11-29T08:00:00.000Z",
@@ -207,6 +199,14 @@ window.MYNEWS_DATA = {
           "date": "2017-12-04T08:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiYEFVX3lxTE9FbXRRc2prdGJkR2ZMLUIzaWpWWDdqYzZteXlVSWRmaURVSmRoQm1ZM3k3SzZteEx1QnNSWkVHUl9xV3MzMmhfa1BENEZwd21XN09TYkNMcE4yc1VYVHFwUQ",
           "source": "아시아경제",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "마포구, ‘SW코딩교육' 전문가 양성과정 개설 - 서울복지신문",
+          "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE5RU0ZNTHAxMzY1SVQ4QlhMMUpvM2FNekg2WlkxVVF1S0E2V3ZuUDY4VHhSVWRpWXBJZWFxbm92dUR6ZnFtaUYtZ1NnMnZlRHZ0OGpxWXk3cGd2QlRUNU5tVGN4ekzSAWhBVV95cUxPRTRYMm1NaVdaOWJ4RG5rcXZmWUFrSElLMWw5QXZrR2hjVGEyM0JTUS1tNW5RR1V2c1lvbjJYRXV2Y2NFTkhMaVlOQktzb0FmdjBkMGVZdzRYRUpJNGw0MFFTb2J3UzNjbA?oc=5",
+          "date": "2017-11-02T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiZEFVX3lxTE5RU0ZNTHAxMzY1SVQ4QlhMMUpvM2FNekg2WlkxVVF1S0E2V3ZuUDY4VHhSVWRpWXBJZWFxbm92dUR6ZnFtaUYtZ1NnMnZlRHZ0OGpxWXk3cGd2QlRUNU5tVG",
+          "source": "서울복지신문",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
