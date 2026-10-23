@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-10-23T08:55:36.697Z",
+  "updatedAt": "2026-10-23T14:31:52.024Z",
   "categories": [
     {
       "id": "job",
@@ -106,6 +106,14 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
+          "title": "도 일자리재단, ‘3C코딩 강사 양성과정’ 교육생 25명 모집 - 경기도뉴스포털",
+          "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPU19CR1BFSlZLeVNaT0dWcWx6QXpoUDZjcmhMaTNsNTJ6QjV6N1VlekdNelVia3ZfTkpMMnM3MW5Kc1dfdkRIRUpVRlhpSmZBM0hhYmlsaWt0TzB0Y1NxdUptQURXeGxBaHZWMWhHaXRIRGFubG9fX21ONmNyTzNSaWRLWDQ?oc=5",
+          "date": "2022-08-27T13:31:50.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMihAFBVV95cUxPU19CR1BFSlZLeVNaT0dWcWx6QXpoUDZjcmhMaTNsNTJ6QjV6N1VlekdNelVia3ZfTkpMMnM3MW5Kc1dfdkRIRUpVRlhpSmZBM0hhYmlsaWt0TzB0Y1NxdU",
+          "source": "경기도뉴스포털",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
           "title": "[인터뷰] 오지 마을의 코딩 전도사 ‘숲속엄마’ 송미선 강사 - 쿠키뉴스",
           "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5xblVYb0s1LUNYTTZYLUNVdXVhZVYxemtxRW9icWsxd0ZESUt6bXdvazlMd05oeWVBcUVoTExQekZaV1RpWDE3RTB4YWhUazdlQ3I5NDF3MEZfY2VxTG5HMTNQMA?oc=5",
           "date": "2021-11-29T08:00:00.000Z",
@@ -127,14 +135,6 @@ window.MYNEWS_DATA = {
           "date": "2020-07-08T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTE1IS3NTSHV4N2FidTlTVHB6SUdHMFpFU0htdzYzbFF3YkZSV3BXUUtnVVhST3JZX0NtWFpLZEpMSVJBcm9tY282RHBLS3pNQVpfVjM4RnYwaWp2SjVmalJXMW",
           "source": "AI타임스",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
-          "title": "[2019 인천 SW미래채움 교육페스티벌]'인천 생활속 코딩' 온몸으로 느꼈다 - 전자신문",
-          "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTFBfd21RY0l6ZXBkekU5U09saXpISGNNczRBbmpzOFJMZWstdjhPNjFBMDhVM0ZhdHFNbUJBZlNvNzFUOS0xb2VPd1dmbno0dw?oc=5",
-          "date": "2019-11-24T08:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiTkFVX3lxTFBfd21RY0l6ZXBkekU5U09saXpISGNNczRBbmpzOFJMZWstdjhPNjFBMDhVM0ZhdHFNbUJBZlNvNzFUOS0xb2VPd1dmbno0dw?oc=5\" target=\"_blank\">[",
-          "source": "전자신문",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
