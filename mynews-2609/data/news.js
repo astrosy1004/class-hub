@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-10-23T22:44:31.925Z",
+  "updatedAt": "2026-10-24T02:28:16.325Z",
   "categories": [
     {
       "id": "job",
@@ -90,19 +90,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "양구군, AI 로봇 코딩 강사 양성…지역 기반 일자리 창출 나서 - 신아일보",
-          "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9qQ1ZfaHVLZHpVaVFMMGx6VWtycUhKWlhIYmo3TG90bTdWOXpKOFRvZWw0akFHSTJEbHM4el9qUVZrNUpmcmNMUmtvczN6SnFIX1hvT1laVlBydjdkbTFGMDAwZm8wSmY5M1Q0Q1FKLVA?oc=5",
-          "date": "2026-04-09T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMicEFVX3lxTE9qQ1ZfaHVLZHpVaVFMMGx6VWtycUhKWlhIYmo3TG90bTdWOXpKOFRvZWw0akFHSTJEbHM4el9qUVZrNUpmcmNMUmtvczN6SnFIX1hvT1laVlBydjdkbTFGMD",
-          "source": "신아일보",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
-          "title": "한신대 디지털새싹사업단, ‘AI 아트 코딩 강사 워크숍’ 개최 - 기독일보",
-          "link": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE5OU1ZlZG1oVk5aLV9ZUWg0T2FqdTdFUVFGVDA1X0Rrb1hWZW12bXhGRE1KbGJBakQ2RF9ucER6N200bE9pYmVjMU8zbzNGUDJBQXZ3MV9PMNIBXEFVX3lxTE5CMjFiMmZrX0FETDhLclEzZTU1TXRsNTRFTTM5NFEwZmxuMVJCYndETG02N0J2eGIyYkQtQnJCOTRhaE9uN3JrUC14WVhWdXZuSkhVZ1FRVC03LXN2?oc=5",
-          "date": "2024-07-26T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiV0FVX3lxTE5OU1ZlZG1oVk5aLV9ZUWg0T2FqdTdFUVFGVDA1X0Rrb1hWZW12bXhGRE1KbGJBakQ2RF9ucER6N200bE9pYmVjMU8zbzNGUDJBQXZ3MV9PMNIBXEFVX3lxTE",
-          "source": "기독일보",
+          "title": "코딩강사부터 AI교육까지…서초구 여성 재취업 프로그램 인기 - 서울Pn",
+          "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE9EMllQVUFRejRlaE1SaTNJbXJKSUZwQm54b0NzTnh0dTlaVWZzSkd1MmoxS1Y4a3lEeVd4TzBYdDYtNVVINkl6TVFrVm03Y0FIVWY4R083djJxYkdidFg5eUg3MjRnM1pfMWc?oc=5",
+          "date": "2024-02-29T08:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTE9EMllQVUFRejRlaE1SaTNJbXJKSUZwQm54b0NzTnh0dTlaVWZzSkd1MmoxS1Y4a3lEeVd4TzBYdDYtNVVINkl6TVFrVm03Y0FIVWY4R083djJxYkdidFg5eU",
+          "source": "서울Pn",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -207,6 +199,14 @@ window.MYNEWS_DATA = {
           "date": "2017-11-02T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiZEFVX3lxTE5RU0ZNTHAxMzY1SVQ4QlhMMUpvM2FNekg2WlkxVVF1S0E2V3ZuUDY4VHhSVWRpWXBJZWFxbm92dUR6ZnFtaUYtZ1NnMnZlRHZ0OGpxWXk3cGd2QlRUNU5tVG",
           "source": "서울복지신문",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "바보야, 문제는 코딩이 아니야! - samsung.com",
+          "link": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNT0RfVVlEQXZacVpnNjJuZWdDYmY3amZwWm4wamhzM2JTNHpSZHhQdEhQdEZQX0tvdFFSbHFOaXVMMm1XSEdDSDk2V3V1ZjRmRHNSdi1BdkJmc2d3TXFGRVAyYVowUFVHaUIwbjZpV0tNWDVobzM2akVUTUpLZkg1bVNOeU9KaHd3Ukc1S3BzMTBLV1pMYVcydXUwbndUX01NRVY4VlRScUxCcUpZLUF3bUtnVTVoTXU0aDlSRlV5Uk95cEdpRzAzeDBXOWNjR012WXd2VTZn?oc=5",
+          "date": "2017-07-13T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMi1gFBVV95cUxNT0RfVVlEQXZacVpnNjJuZWdDYmY3amZwWm4wamhzM2JTNHpSZHhQdEhQdEZQX0tvdFFSbHFOaXVMMm1XSEdDSDk2V3V1ZjRmRHNSdi1BdkJmc2d3TXFGRV",
+          "source": "samsung.com",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
