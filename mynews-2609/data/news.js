@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-10-24T02:28:16.325Z",
+  "updatedAt": "2026-10-24T08:29:21.543Z",
   "categories": [
     {
       "id": "job",
@@ -202,11 +202,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "바보야, 문제는 코딩이 아니야! - samsung.com",
+          "title": "바보야, 문제는 코딩이 아니야! - Samsung Global Newsroom",
           "link": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNT0RfVVlEQXZacVpnNjJuZWdDYmY3amZwWm4wamhzM2JTNHpSZHhQdEhQdEZQX0tvdFFSbHFOaXVMMm1XSEdDSDk2V3V1ZjRmRHNSdi1BdkJmc2d3TXFGRVAyYVowUFVHaUIwbjZpV0tNWDVobzM2akVUTUpLZkg1bVNOeU9KaHd3Ukc1S3BzMTBLV1pMYVcydXUwbndUX01NRVY4VlRScUxCcUpZLUF3bUtnVTVoTXU0aDlSRlV5Uk95cEdpRzAzeDBXOWNjR012WXd2VTZn?oc=5",
           "date": "2017-07-13T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMi1gFBVV95cUxNT0RfVVlEQXZacVpnNjJuZWdDYmY3amZwWm4wamhzM2JTNHpSZHhQdEhQdEZQX0tvdFFSbHFOaXVMMm1XSEdDSDk2V3V1ZjRmRHNSdi1BdkJmc2d3TXFGRV",
-          "source": "samsung.com",
+          "source": "Samsung Global Newsroom",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
