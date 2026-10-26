@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-10-26T09:28:59.456Z",
+  "updatedAt": "2026-10-26T16:21:58.879Z",
   "categories": [
     {
       "id": "job",
@@ -60,7 +60,7 @@ window.MYNEWS_DATA = {
         {
           "title": "국립공주대, ‘AI·코딩 강사 14명’ 집중 양성 - 공뉴스",
           "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBUSHYxWEt2S3JIbXhGNUlyeVp4bG1HYVdrTEZRVnA3MzBsXzNVNW5RU05qQ29HRFVyaTRzeEt5QVEtOGZ6Q2MtMzJlRmNhUEhGQmJpSWRvYzVpSWMwMW5tTXJpN2NyclZTV2ZVVA?oc=5",
-          "date": "2026-09-01T09:28:19.000Z",
+          "date": "2026-09-01T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTFBUSHYxWEt2S3JIbXhGNUlyeVp4bG1HYVdrTEZRVnA3MzBsXzNVNW5RU05qQ29HRFVyaTRzeEt5QVEtOGZ6Q2MtMzJlRmNhUEhGQmJpSWRvYzVpSWMwMW5tTX",
           "source": "공뉴스",
           "via": "Google 뉴스 코딩강사 역량강화"
