@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-10-28T07:42:42.705Z",
+  "updatedAt": "2026-10-28T14:41:12.709Z",
   "categories": [
     {
       "id": "job",
@@ -90,6 +90,14 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
+          "title": "AI 콘텐츠마케팅부터 드론 코딩까지…전북도 여성 창업교육 강화 - 아시아투데이",
+          "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE40RGxrc01feU5tandPa2gyOU5JSVYtd21JOWVwUTdnT3FfcEtXcjYzUHBFOGRXQlNnZHJuUHR6aWVCZXlhV19Sc3ZIUUxYMzNvYmpPZWhzTDFfV3VSOFVHVHVwd09fV2Z1T1hSdWd3?oc=5",
+          "date": "2026-06-04T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMibkFVX3lxTE40RGxrc01feU5tandPa2gyOU5JSVYtd21JOWVwUTdnT3FfcEtXcjYzUHBFOGRXQlNnZHJuUHR6aWVCZXlhV19Sc3ZIUUxYMzNvYmpPZWhzTDFfV3VSOFVHVH",
+          "source": "아시아투데이",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
           "title": "율목초, ‘찾아가는 코딩교실’ 디지털 교육 강화 - 화성 투데이",
           "link": "https://news.google.com/rss/articles/CBMiREFVX3lxTE5nRkxJbDZJb1lnLUcyUFh3MnU0c2ZVb3o0b3hGN0UyMFBLLUpOeTdYbmg4eVV1aVZfSmlQTlcwLV9CVlhB?oc=5",
           "date": "2026-04-15T07:00:00.000Z",
@@ -151,14 +159,6 @@ window.MYNEWS_DATA = {
           "date": "2020-07-08T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTE1IS3NTSHV4N2FidTlTVHB6SUdHMFpFU0htdzYzbFF3YkZSV3BXUUtnVVhST3JZX0NtWFpLZEpMSVJBcm9tY282RHBLS3pNQVpfVjM4RnYwaWp2SjVmalJXMW",
           "source": "AI타임스",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
-          "title": "여수에도 코딩협동조합이! '펀SW융합코딩협동조합' 오픈 - 여수넷통뉴스",
-          "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE03blpoMXZBcjRmWjlhdG9pelo1WHFndDhROHdpOURmZjJyVWE3SHZFLWxpMkJsSHR3LUJraUl0ckRRVV9BNzNzRk4tY09HcWtkbWdDd3pkN0VlazZxck9WNDZ2TjV1RTNs?oc=5",
-          "date": "2019-11-20T08:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiaEFVX3lxTE03blpoMXZBcjRmWjlhdG9pelo1WHFndDhROHdpOURmZjJyVWE3SHZFLWxpMkJsSHR3LUJraUl0ckRRVV9BNzNzRk4tY09HcWtkbWdDd3pkN0VlazZxck9WND",
-          "source": "여수넷통뉴스",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
