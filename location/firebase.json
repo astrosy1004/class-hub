@@ -21,7 +21,9 @@
       "plan.html",
       "brand-mockup.html",
       "assets/jari-logo-reference.png",
-      "assets/intro-screen.png"
+      "assets/intro-screen.png",
+      "rone-*.txt",
+      "*.zip"
     ],
     "headers": [
       {
