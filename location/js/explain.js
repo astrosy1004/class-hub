@@ -2,6 +2,7 @@
 // 반환은 HTML 문자열이고, 지도 화면의 항목을 눌렀을 때 펼쳐진다. (ui.js 에서 사용)
 import { AGE_GROUPS } from "./area-data.js";
 import { monthLabel } from "./metrics.js";
+import { RENT_RULES } from "./score-rules.js";
 
 const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const pct = (x, d = 0) => `${(x * 100).toFixed(d)}%`;
@@ -72,8 +73,23 @@ function competition(a, it) {
 }
 
 function rent(a, it) {
-  return `<p class="dtxt">같은 업종 월 임대료를 <b>서울 평균과 비교</b>해 낮을수록 높은 점수를 줄 계획이에요.</p>
-  <div class="dnote">아직 동 단위로 조회할 수 있는 <b>공개 임대료 자료를 확인하지 못해</b> 점수에서 제외했어요. 대신 나머지 항목의 비중(기본 25·20·20·15%)이 합 100%가 되도록 다시 나뉘어 적용됩니다.</div>
+  const r = a.rent;
+  const rows = RENT_RULES.bands.map(([max, sc], i) => {
+    const lo = i ? RENT_RULES.bands[i - 1][0] : 0;
+    const label = max === Infinity ? `${Math.round(lo * 100)}% 초과` : `${Math.round(max * 100)}% 이하`;
+    const on = r?.burden != null && r.burden > lo && r.burden <= max;
+    return `<div class="drow band ${on ? "on" : ""}"><span>${label}</span><div class="dbar"><i class="${on ? "r" : "t"}" style="width:${sc}%"></i></div><span class="dnum">${sc}점</span></div>`;
+  }).join("");
+  if (!r) return `<p class="dtxt">알아본 매물의 <b>월 임대료가 예상 월매출의 몇 %인지</b>로 점수를 매겨요. 낮을수록 높은 점수예요.</p>
+  <div class="dnote">아직 매물 정보가 없어 점수에서 제외했어요. 아래 <b>알아본 매물 월세 넣기</b>에 보증금 · 월세 · 예상 월매출을 넣으면 바로 반영돼요. 나머지 항목의 비중은 합 100%가 되도록 다시 나뉘어 있어요.</div>
+  ${contribution(it)}`;
+  const w = (n) => n.toLocaleString("ko-KR");
+  const calc = `월세 ${w(r.monthly)}만원${r.fee ? ` + 관리비 ${w(r.fee)}만원` : ""}${r.deposit ? ` + 보증금 ${w(r.deposit)}만원 × 12% ÷ 12` : ""} = 환산 월 <b>${w(r.total)}만원</b>`;
+  if (r.burden == null) return `<p class="dtxt">${calc}</p>
+  <div class="dnote">예상 월매출을 넣지 않아 점수에서는 제외했어요. 매출을 넣으면 <b>매출 대비 임대료 비율</b>로 점수를 매겨요.</div>${contribution(it)}`;
+  return `<p class="dtxt">월 임대료가 <b>예상 월매출의 몇 %인지</b>로 점수를 매겨요. 통상 10% 안팎이면 무리가 적은 편이에요.</p>
+  <div class="dcalc">${calc}<br>÷ 예상 월매출 ${w(r.sales)}만원 → <b>${Math.round(r.burden * 100)}%</b> → <b>${it.score}점</b></div>${rows}
+  <div class="dnote cap">보증금은 연 12%로 월세에 환산했어요 (서울시 우리마을가게 방식). 직접 넣은 값이라 이 기기에만 저장돼요. 구간별 점수는 초안이에요 (검수 전).</div>
   ${contribution(it)}`;
 }
 

@@ -95,6 +95,15 @@ location/
 └─ check.html
 ```
 
+### 3) 임대료 공개자료 (한국부동산원 R-ONE) — 찾기 단계
+R-ONE 은 브라우저에서 바로 호출할 수 없어(CORS 미지원) 서버(수집기)에서만 씁니다. 키는 GitHub Secrets 의 `RONE_API_KEY`.
+- **연결됨 (소규모 상가 임대료)**: 표 `T269273143698159`(지역별 임대료 2026년3분기~_소규모 상가, 주기 `QY`, 시점 `202603` 형식, 단위 천원/㎡, 지역은 상권 277곳). `collector/rent.js` 가 받아 Firestore `rentRef/smallShop` 에 저장하고(`collect.js` 가 `RONE_API_KEY` 가 있으면 매일 확인), 결과 화면 "알아본 매물이 있나요?" 아래에 **참고용**으로만 보여 줍니다 (동 이름이 상권과 겹치면 그 상권, 아니면 시도 평균 · 전국 평균). 점수에는 넣지 않습니다.
+- 워크플로(`.github/workflows/location-collect.yml`)의 수집 단계 `env:` 에 `RONE_API_KEY: ${{ secrets.RONE_API_KEY }}` 한 줄을 더하면 자동 갱신됩니다. 시험: `node collector/rent.js`. 새 기간 표가 나오면 `RONE_RENT_TABLE` 로 표 ID 를 바꿉니다.
+- 규칙 반영: `firebase deploy --only firestore:rules` (rentRef 읽기 허용 추가).
+- 이 PC 에서 시험: `set RONE_API_KEY=키` 후 `node collector/rone.js list` → "임대 · 공실 · 상가" 가 들어간 통계표(ID · 이름 · 주기) 목록
+- 표 하나 확인: `node collector/rone.js data <통계표ID> <주기 MM|QY|YY> <시점>` → 지역 · 항목 · 값 · 단위
+- R-ONE 임대 통계는 **상권 단위(㎡당 금액)** 라 행정동 월세와 다릅니다. 앱에는 "이 상권 평균 · 참고용" 으로만 보여줄 계획입니다. (실제 호출은 키를 넣은 뒤 처음 확인합니다.)
+
 ## 로그인 · 계정 저장 (6단계)
 
 | 상태 | 후보지 · 최근 검색 저장 위치 |
@@ -102,7 +111,7 @@ location/
 | 로그아웃 | 이 기기 localStorage (`loc:saved`, `loc:recent`) |
 | 로그인 | 이 기기 + Firestore `users/{uid}/saved|recent/{문서 id}` (다른 기기에서도 보임) |
 
-- 로그인(내 분석 → "구글로 로그인")하면 이 기기 목록과 계정 목록을 **합쳐** 양쪽을 같게 맞춥니다 (같은 항목은 더 최근 것, 후보지 최대 3 · 최근 검색 최대 8).
+- 로그인(내 정보 → "구글로 로그인")하면 이 기기 목록과 계정 목록을 **합쳐** 양쪽을 같게 맞춥니다 (같은 항목은 더 최근 것, 후보지 최대 3 · 최근 검색 최대 8).
 - 로그아웃하면 공용 기기를 위해 **이 기기의 후보지 · 최근 검색을 비웁니다** (계정에는 남아 있고 다시 로그인하면 돌아옴).
 - **현재 위치로 찾은 항목은 정확한 좌표를 계정에 올리지 않습니다** (구 + 행정동 이름만). 다시 열 때 이름으로 위치를 찾습니다.
 - Firebase SDK 는 CDN 에서 비동기로 불러오며(`js/firebase.js`), 못 불러와도 로그인 없이 모든 기능이 그대로 동작합니다.
@@ -112,9 +121,19 @@ location/
 1. [Authentication](https://console.firebase.google.com/project/location-app-sykim/authentication) → **시작하기** → 로그인 방법 → **Google** 사용 설정 → 지원 이메일 선택 → 저장
 2. Authentication → 설정 → **승인된 도메인**에 `localhost`, `location-app-sykim.web.app`, `location-app-sykim.firebaseapp.com` 이 있는지 확인 (기본 포함)
 
+## 배포 (Firebase Hosting)
+
+배포 전 점검 결과: 공개되면 안 되는 파일(수집기 · 스크립트 · 서비스 계정 키 · 개발용 검증 페이지 · 기획서 · 목업)은 `firebase.json` 의 `hosting.ignore` 로 제외돼 있고, 브라우저에 보이는 키(Kakao JS 키 · Firebase 웹 키)는 공개용 값이며 접근은 도메인 제한 · `firestore.rules` 로 막습니다.
+
+1. **Kakao 허용 도메인 등록 (가장 자주 빠뜨림)**: [Kakao Developers](https://developers.kakao.com) → 내 애플리케이션 → 플랫폼 → Web → 사이트 도메인에 `https://location-app-sykim.web.app`, `https://location-app-sykim.firebaseapp.com` 추가. 빠지면 배포본에서 지도 · 점포 검색이 예시로 바뀝니다.
+2. 로그인(`firebase login`) 후 프로젝트 폴더에서 한 번에 배포: `firebase deploy --only hosting,firestore:rules`
+3. 배포 주소(`https://location-app-sykim.web.app`)를 열어 **내 정보 → 연결 상태**가 모두 ✔ 인지 확인합니다 (생활인구 · 동 단위 기준 분포 · Kakao).
+4. 구글 로그인: Authentication → 설정 → 승인된 도메인에 위 두 도메인이 있는지 확인합니다 (기본 포함).
+5. 문제가 생기면 Hosting → 릴리스 기록에서 이전 버전으로 되돌릴 수 있습니다.
+
 ## 현재 위치 · 세부 업종
 
-- **현재 위치로 찾기**: 앱을 열면(설정이 켜져 있을 때) 브라우저 위치 권한을 요청하고, 지금 있는 행정동을 바로 분석해 지도를 보여줍니다. 홈의 "📍 현재 위치에서 찾기" 버튼으로도 실행하고, "내 분석 → 시작할 때 현재 위치로 검색"에서 끌 수 있습니다. 위치는 이 기기에서만 쓰고 저장하지 않으며, 행정동 확인을 위해 **좌표가 Kakao 지도 서비스에 전달**됩니다. 권한을 거부했거나 위치를 못 얻으면 안내 후 지역 검색으로 넘어갑니다. (위치 기능은 https 또는 localhost 에서만 동작)
+- **현재 위치로 찾기**: 앱을 열면(설정이 켜져 있을 때) 브라우저 위치 권한을 요청하고, 지금 있는 행정동을 바로 분석해 지도를 보여줍니다. 홈의 "📍 현재 위치에서 찾기" 버튼으로도 실행하고, "내 정보 → 시작할 때 현재 위치로 검색"에서 끌 수 있습니다. 위치는 이 기기에서만 쓰고 저장하지 않으며, 행정동 확인을 위해 **좌표가 Kakao 지도 서비스에 전달**됩니다. 권한을 거부했거나 위치를 못 얻으면 안내 후 지역 검색으로 넘어갑니다. (위치 기능은 https 또는 localhost 에서만 동작)
 - **세부 업종**: 업종 칩 오른쪽 "＋ 세부 업종" 메뉴에서 한식 · 중식 · 일식 · 양식 · 분식 · 치킨 · 베이커리 · 미용실 · 헬스장 · 약국 · 세탁소 · 학원 · 부동산 · 노래방 · PC방을 고르거나, **직접 입력**(예: 마라탕)할 수 있습니다. 약국 · 학원 · 부동산은 Kakao 카테고리로, 나머지는 키워드로 검색해 이름이 비슷한 다른 장소가 섞일 수 있습니다. 직접 입력 업종은 일반 고객 구성으로 계산합니다. **세부 업종의 목표 고객 · 영업 시간 · 경쟁 구간표는 모두 초안**입니다 (`js/area-data.js`).
 - 세부 업종 · 직접 입력의 동 단위 기준 분포는 수집기를 `--days 0` 으로 한 번 다시 실행해야 만들어집니다 (그 전에는 자치구 표본 분포로 계산하고 화면에 알려 줍니다).
 

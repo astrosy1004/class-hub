@@ -24,6 +24,9 @@ export function addRecent(item) {
   write(K.recent, list.slice(0, 8));
 }
 
+export function removeRecent(key) { write(K.recent, getRecent().filter((r) => r.key !== key)); }
+export const clearRecent = () => write(K.recent, []);
+
 export const getSaved = () => read(K.saved, []);
 export const isSaved = (key) => getSaved().some((s) => s.key === key);
 export function toggleSaved(item) {

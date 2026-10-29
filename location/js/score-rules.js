@@ -17,6 +17,12 @@ export const GRADES = [
   { min: 0, name: "재검토", cls: "now", icon: "⚠" },
 ];
 
+// 임대료 부담: 환산 월 임대료 ÷ 예상 월매출 (초안 — 통상 "임대료는 매출의 10% 안팎" 기준. 백테스트 · 상담사 검수로 보정)
+export const RENT_RULES = {
+  depositRate: 0.12, // 보증금 연 환산율 (서울시 우리마을가게 환산임대료와 같은 12%)
+  bands: [[0.08, 90], [0.1, 75], [0.13, 60], [0.16, 45], [0.2, 30], [0.25, 15], [Infinity, 5]], // [부담률 이하, 점수]
+};
+
 // 리포트 문장 규칙의 기준값
 export const REPORT_RULES = {
   strongScore: 75, // 이 점수 이상이면 강점 후보
