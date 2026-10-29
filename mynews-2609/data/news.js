@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-10-29T07:47:16.415Z",
+  "updatedAt": "2026-10-29T14:45:35.208Z",
   "categories": [
     {
       "id": "job",
@@ -98,27 +98,11 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "율목초, ‘찾아가는 코딩교실’ 디지털 교육 강화 - 화성 투데이",
-          "link": "https://news.google.com/rss/articles/CBMiREFVX3lxTE5nRkxJbDZJb1lnLUcyUFh3MnU0c2ZVb3o0b3hGN0UyMFBLLUpOeTdYbmg4eVV1aVZfSmlQTlcwLV9CVlhB?oc=5",
-          "date": "2026-04-15T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiREFVX3lxTE5nRkxJbDZJb1lnLUcyUFh3MnU0c2ZVb3o0b3hGN0UyMFBLLUpOeTdYbmg4eVV1aVZfSmlQTlcwLV9CVlhB?oc=5\" target=\"_blank\">율목초, ‘찾아가는 코딩교실",
-          "source": "화성 투데이",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
           "title": "한신대 디지털새싹사업단, ‘AI 아트 코딩 강사 워크숍’ 개최 - 기독일보",
           "link": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE5OU1ZlZG1oVk5aLV9ZUWg0T2FqdTdFUVFGVDA1X0Rrb1hWZW12bXhGRE1KbGJBakQ2RF9ucER6N200bE9pYmVjMU8zbzNGUDJBQXZ3MV9PMNIBXEFVX3lxTE5CMjFiMmZrX0FETDhLclEzZTU1TXRsNTRFTTM5NFEwZmxuMVJCYndETG02N0J2eGIyYkQtQnJCOTRhaE9uN3JrUC14WVhWdXZuSkhVZ1FRVC03LXN2?oc=5",
           "date": "2024-07-26T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiV0FVX3lxTE5OU1ZlZG1oVk5aLV9ZUWg0T2FqdTdFUVFGVDA1X0Rrb1hWZW12bXhGRE1KbGJBakQ2RF9ucER6N200bE9pYmVjMU8zbzNGUDJBQXZ3MV9PMNIBXEFVX3lxTE",
           "source": "기독일보",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
-          "title": "포스코인재창조원, 한국퓨얼셀과 함께 지역 초등생 코딩교육 위한 ‘JUMP 코딩’ 프로그램 실시 - 포스코그룹 뉴스룸",
-          "link": "https://news.google.com/rss/articles/CBMixwJBVV95cUxNV0RReE1RbVFCRVhPNnQ2VWpuQV9xMU5qM2lkZnc5T0VwMkpjXzBDTUJqTHlaZTdNOUJCa0taMmpFRmNMVWU5Y1pJekJiaFI4YWNpT3pBMVN1aXgyb3o3Y2RLVDhvSWYycU9yZGpVWVRTQnNrSVFWdlpIclU1MTd2MTYzaWNyQkVnZm1EelhDSk10eWNZNC0zUC1OUzh1S0hXaTZuOXhrTXY5bHBTMzZKT3BuTnNzM0JvSTZMeV92R0E0a2FicF9PckdlRDA1emVBNV9aVUszazV5SUw2QjVYTzZVVldmdTJSalphSHB3anZzUTA1T0ZWTVFtMlI3MExJd1FqYVNiNGdhTHZuNXBoMnFfZDVLUjVjSXBxMzBRam1qVXN2WUdiWmg2ZnNtU05wOFFjSTJnVE5CSTVDM21reDlyU2ItVGs?oc=5",
-          "date": "2023-07-12T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMixwJBVV95cUxNV0RReE1RbVFCRVhPNnQ2VWpuQV9xMU5qM2lkZnc5T0VwMkpjXzBDTUJqTHlaZTdNOUJCa0taMmpFRmNMVWU5Y1pJekJiaFI4YWNpT3pBMVN1aXgyb3o3Y2",
-          "source": "포스코그룹 뉴스룸",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -138,19 +122,19 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "달아오르는 코딩교육시장…광주 지역대학·지자체, 교육 프로그램 일제히 운영 - AI타임스",
-          "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5KTHIyMmhNOENYblRYdkFmYlZtbW15Z1RkME1tN05uYkh1TEMtVnJwTUdnMG9nNjNqUnBPMEVsb2dhckkyTDFNb0hZY1FtUDhxbTExb0s1LVIza0xPVmVNSVV4d3hJRFhydmc?oc=5",
-          "date": "2020-09-02T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTE5KTHIyMmhNOENYblRYdkFmYlZtbW15Z1RkME1tN05uYkh1TEMtVnJwTUdnMG9nNjNqUnBPMEVsb2dhckkyTDFNb0hZY1FtUDhxbTExb0s1LVIza0xPVmVNSV",
-          "source": "AI타임스",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
           "title": "여성 AI 전문가 양성 현장을 가다 - AI타임스",
           "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1IS3NTSHV4N2FidTlTVHB6SUdHMFpFU0htdzYzbFF3YkZSV3BXUUtnVVhST3JZX0NtWFpLZEpMSVJBcm9tY282RHBLS3pNQVpfVjM4RnYwaWp2SjVmalJXMW9LNzhvZEpwdkE?oc=5",
           "date": "2020-07-08T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTE1IS3NTSHV4N2FidTlTVHB6SUdHMFpFU0htdzYzbFF3YkZSV3BXUUtnVVhST3JZX0NtWFpLZEpMSVJBcm9tY282RHBLS3pNQVpfVjM4RnYwaWp2SjVmalJXMW",
           "source": "AI타임스",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "[2019 인천 SW미래채움 교육페스티벌]'인천 생활속 코딩' 온몸으로 느꼈다 - 전자신문",
+          "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTFBfd21RY0l6ZXBkekU5U09saXpISGNNczRBbmpzOFJMZWstdjhPNjFBMDhVM0ZhdHFNbUJBZlNvNzFUOS0xb2VPd1dmbno0dw?oc=5",
+          "date": "2019-11-24T08:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiTkFVX3lxTFBfd21RY0l6ZXBkekU5U09saXpISGNNczRBbmpzOFJMZWstdjhPNjFBMDhVM0ZhdHFNbUJBZlNvNzFUOS0xb2VPd1dmbno0dw?oc=5\" target=\"_blank\">[",
+          "source": "전자신문",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -207,6 +191,22 @@ window.MYNEWS_DATA = {
           "date": "2018-03-23T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTFBDSV9iQlQxNTlWQWliLTZXeWlTbm1BV29MdUVQT1R0QURWc0haWHZpdTRRUHJlVVh0MkdLQkpZRlVVd1Q2Y1RPRWZKWmhzM2xLUUhpRjFja1NmSmpvZFlLem",
           "source": "백세시대",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "4차 산업 혁명, 사회와 공감하는 코딩교육이 필요하다 - OhmyNews",
+          "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE8tM0FwdTdZQ2pRaUtwWGQtSUg5c3h1VFBrM1JZcXl2SDdYSDU2WS1GU2FRRnVrUUptNHllMUdYQUp6cGNqei1DREJOSnFzdnFJNkZNVzZtYUFWWFNLQ2xuVW5zVFI0QllqQXRYcW1WRE1jeUxyM21n?oc=5",
+          "date": "2018-02-20T08:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMid0FVX3lxTE8tM0FwdTdZQ2pRaUtwWGQtSUg5c3h1VFBrM1JZcXl2SDdYSDU2WS1GU2FRRnVrUUptNHllMUdYQUp6cGNqei1DREJOSnFzdnFJNkZNVzZtYUFWWFNLQ2xuVW",
+          "source": "OhmyNews",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "바보야, 문제는 코딩이 아니야! - Samsung Global Newsroom",
+          "link": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNT0RfVVlEQXZacVpnNjJuZWdDYmY3amZwWm4wamhzM2JTNHpSZHhQdEhQdEZQX0tvdFFSbHFOaXVMMm1XSEdDSDk2V3V1ZjRmRHNSdi1BdkJmc2d3TXFGRVAyYVowUFVHaUIwbjZpV0tNWDVobzM2akVUTUpLZkg1bVNOeU9KaHd3Ukc1S3BzMTBLV1pMYVcydXUwbndUX01NRVY4VlRScUxCcUpZLUF3bUtnVTVoTXU0aDlSRlV5Uk95cEdpRzAzeDBXOWNjR012WXd2VTZn?oc=5",
+          "date": "2017-07-13T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMi1gFBVV95cUxNT0RfVVlEQXZacVpnNjJuZWdDYmY3amZwWm4wamhzM2JTNHpSZHhQdEhQdEZQX0tvdFFSbHFOaXVMMm1XSEdDSDk2V3V1ZjRmRHNSdi1BdkJmc2d3TXFGRV",
+          "source": "Samsung Global Newsroom",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
