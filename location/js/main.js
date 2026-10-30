@@ -1,16 +1,18 @@
 // 화면 전환(#주소) · 검색 · 이벤트. 계산은 analysis.js, 그리기는 ui.js.
-// 주소 형식: #home · #map/연남동/cafe · #analysis/… · #trend/… · #report/… · #compare · #me
+// 주소 형식: #home · #result/연남동/cafe (분석 결과) → #map/… · #analysis/… · #trend/… · #report/… (4단계) · #compare · #me
 import { INDUSTRIES, industryByKey } from "./area-data.js";
 import { parseQuery, resolvePlace, resolveCurrent } from "./place.js";
-import { analyze } from "./analysis.js";
-import { drawMap } from "./kmap.js";
+import { analyze, applyRent } from "./analysis.js";
+import { drawMap, ensureKakao, kakaoReady, kakaoState } from "./kmap.js";
+import { probeConnections } from "./fetchers.js";
 import { CONFIG } from "./config.js";
-import { getRecent, addRecent, getSaved, toggleSaved, isSaved, getTheme, setTheme, getIndustryKey, setIndustryKey, getAutoLocate, setAutoLocate, setSavedList, setRecentList, clearUserLists } from "./store.js";
+import { getRecent, addRecent, removeRecent, clearRecent, getSaved, toggleSaved, isSaved, getTheme, setTheme, getIndustryKey, setIndustryKey, getAutoLocate, setAutoLocate, setSavedList, setRecentList, clearUserLists } from "./store.js";
 import { initAuth, signIn, signOutUser, authErrorMessage } from "./auth.js";
 import * as cloud from "./cloud.js";
 import { mergeLists } from "./sync.js";
 import * as ui from "./ui.js";
 import { explainHtml } from "./explain.js";
+import { pdfReportHtml, reportFileName } from "./pdf-report.js";
 
 const $ = (s, el = document) => el.querySelector(s);
 const views = Object.fromEntries([...document.querySelectorAll(".view")].map((v) => [v.dataset.view, v]));
@@ -32,14 +34,40 @@ function applyTheme(t) {
 function show(name, html) {
   Object.entries(views).forEach(([k, v]) => v.classList.toggle("on", k === name));
   views[name].innerHTML = html;
-  const tab = name === "home" ? "home" : name === "compare" ? "compare" : name === "me" ? "me" : "map";
-  document.querySelectorAll("#tabbar a").forEach((a) => a.classList.toggle("on", a.dataset.tab === tab));
+  const tab = name === "home" ? "home" : name === "compare" ? "compare" : name === "me" ? "me" : "result";
+  document.querySelectorAll("#tabbar a").forEach((a) => {
+    a.classList.toggle("on", a.dataset.tab === tab);
+    if (a.dataset.tab === tab) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+  });
+  updateSavedBadge();
+  document.getElementById("app").classList.toggle("wide", name === "pdf"); // 보고서는 A4 폭으로 넓게 미리보기
   window.scrollTo(0, 0);
 }
 
+// 하단 메뉴 "후보 비교"에 담은 후보 수 표시
+function updateSavedBadge() {
+  const n = getSaved().length, b = document.getElementById("savedN");
+  if (!b) return;
+  b.textContent = n;
+  b.hidden = !n;
+  b.closest("a")?.setAttribute("aria-label", n ? `후보 비교, 담은 후보 ${n}곳` : "후보 비교");
+}
+
 // ── 로그인 · 계정 동기화 ─────────────────────────
+// 내 정보 화면을 그린 뒤 연결 상태를 실제로 읽어 채운다
+const setConn = (id, ok, text) => { const el = document.getElementById(id); if (!el) return; el.textContent = (ok ? "✔ " : "✖ ") + text; el.className = ok ? "cn-ok" : "cn-bad"; };
+async function runProbes() {
+  const [res, kakao] = await Promise.all([
+    probeConnections(),
+    CONFIG.KAKAO_JS_KEY ? ensureKakao().then((ok) => ({ ok, text: ok ? "연결됨" : kakaoState.error || "SDK를 불러오지 못했어요" })) : Promise.resolve({ ok: false, text: "키가 없어요 (예시 지도 · 예시 점포)" }),
+  ]);
+  setConn("cn-pop", res.pop.ok, res.pop.text);
+  setConn("cn-base", res.baseline.ok, res.baseline.text);
+  setConn("cn-kakao", kakao.ok && kakaoReady(), kakao.text);
+}
+const showMe = () => { show("me", meHtml()); runProbes(); };
 const meHtml = () => ui.meHtml({ saved: getSaved(), theme: getTheme(), autoLocate: getAutoLocate(), user: state.user, authOk: state.authOk, syncing: state.syncing });
-const refreshMe = () => { if (views.me.classList.contains("on")) show("me", meHtml()); };
+const refreshMe = () => { updateSavedBadge(); if (views.me.classList.contains("on")) showMe(); };
 
 // 이 기기 목록을 계정에 맞춘다 (로그인 중일 때만, 실패해도 앱은 계속 동작)
 function pushToCloud(kind) {
@@ -107,7 +135,7 @@ async function startFlow(resolver, ind, firstLabel) {
     state.current = a;
     addRecent({ ...summary(a) });
     pushToCloud("recent");
-    location.hash = `#map/${encodeURIComponent(place.name)}/${ind.key}`;
+    location.hash = `#result/${encodeURIComponent(place.name)}/${ind.key}`;
   } catch (e) {
     const cur = steps.findIndex((s) => s.state === "run");
     if (cur >= 0) steps[cur].state = "err";
@@ -174,12 +202,18 @@ async function route() {
   try {
     if (view === "home" || !views[view]) { renderHome(); if (!location.hash || location.hash === "#home") autoLocateOnce(); return; }
     if (view === "compare") return renderCompare();
-    if (view === "me") return show("me", meHtml());
+    if (view === "me") return showMe();
     // 결과 화면
     let a = null;
     if (name) a = await ensureAnalysis(name, indKey);
     else a = state.current;
-    if (!a) return renderHome("먼저 지역과 업종을 검색해 주세요");
+    if (!a && name) return renderHome(`'${name}' 지역을 찾지 못했어요. 주소가 잘못됐거나 지원하지 않는 지역일 수 있어요.`);
+    if (!a) {
+      // 하단 메뉴 "분석 결과": 이번에 본 결과가 없으면 가장 최근 분석을 연다
+      const last = getRecent()[0];
+      if (last) return location.replace(`#${view}/${encodeURIComponent(last.place.name)}/${last.industryKey}`);
+      return renderHome("먼저 지역과 업종을 검색해 주세요");
+    }
     renderResult(view, a);
   } catch (e) {
     renderHome(e.message);
@@ -193,13 +227,53 @@ function renderHome(error = "") {
 
 function renderResult(view, a) {
   if (view === "map") {
-    show("map", ui.mapHtml(a, isSaved(a.key)));
+    show("map", ui.mapHtml(a));
     const icon = a.industry.icon;
     state.mapCtrl = null;
     drawMap($("#mapBox"), a.place, a.comp, CONFIG.RADIUS_M, icon, { onSelect: showStore }).then((ctrl) => { state.mapCtrl = ctrl; });
-  } else if (view === "analysis") show("analysis", ui.analysisHtml(a, state));
+  } else if (view === "result") show("result", ui.resultHtml(a, isSaved(a.key)));
+  else if (view === "analysis") show("analysis", ui.analysisHtml(a, state));
   else if (view === "trend") show("trend", ui.trendHtml(a, state));
   else if (view === "report") show("report", ui.reportHtml(a));
+  else if (view === "pdf") {
+    show("pdf", `<div class="pdf-bar"><a class="ib" href="${`#report/${encodeURIComponent(a.place.name)}/${a.industry.key}`}" aria-label="뒤로">‹</a><b>결과 보고서 미리보기</b><button type="button" class="pdf-go" data-pdf-print>📄 PDF로 저장</button></div>
+      <div class="pdf-tip">‘PDF로 저장’을 누르면 인쇄 창이 열려요. 대상(프린터)을 <b>PDF로 저장</b>으로 고르고, 더 많은 설정에서 <b>배경 그래픽</b>을 켜면 색이 그대로 나와요.</div>
+      ${pdfReportHtml(a)}`);
+  }
+}
+
+// 같은 동네에서 주요 업종 7개를 차례로 분석해 점수 순위를 보여준다 (눌렀을 때만 · 업종마다 점포 검색 1회씩)
+const COMPARE_KEYS = ["cafe", "restaurant", "bar", "cvs", "hospital", "salon", "bakery"];
+async function compareIndustries(btn) {
+  const a = state.current, box = document.getElementById("indCmp");
+  if (!a || !box || btn.disabled) return;
+  btn.disabled = true;
+  const rows = [];
+  try {
+    for (let i = 0; i < COMPARE_KEYS.length; i++) {
+      box.innerHTML = `<div class="cap" style="margin-top:8px">${i + 1}/${COMPARE_KEYS.length} 업종 분석 중…</div>`;
+      const ind = industryByKey(COMPARE_KEYS[i]);
+      rows.push(ind.key === a.industry.key ? a : await analyze(a.place, ind));
+    }
+    box.innerHTML = ui.industryCompareHtml(rows, a.industry.key);
+    btn.hidden = true;
+  } catch (e) {
+    box.innerHTML = `<div class="err-box" style="margin-top:8px">업종 비교를 불러오지 못했어요. ${e.message || ""}</div>`;
+    btn.disabled = false;
+  }
+}
+
+// 결과 링크 공유: 휴대폰은 공유 창, 그 외에는 주소 복사 (주소만으로 같은 결과가 열린다)
+async function shareResult() {
+  const a = state.current;
+  if (!a) return;
+  const url = `${location.origin}${location.pathname}#result/${encodeURIComponent(a.place.name)}/${a.industry.key}`;
+  const title = `${a.place.name} ${a.industry.name} 입지 분석`;
+  try {
+    if (navigator.share) { await navigator.share({ title, text: `${title} · 입지 적합도 ${a.score.total ?? "-"}점`, url }); return; }
+  } catch (e) { if (e.name === "AbortError") return; /* 공유 창 실패 → 복사로 */ }
+  try { await navigator.clipboard.writeText(url); toast("결과 링크를 복사했어요"); }
+  catch (e) { window.prompt("이 주소를 복사해 공유하세요", url); }
 }
 
 // 지도의 점포를 누르면 상세 카드, 빈 곳을 누르면 닫기
@@ -210,6 +284,9 @@ function showStore(item, i) {
   if (!item) { box.hidden = true; return; }
   box.innerHTML = ui.storeCardHtml(item, state.current.industry);
   box.hidden = false;
+  // 작은 지도에서는 상세 카드가 지도를 다 가리므로 크게 펼친다
+  const wrap = document.getElementById("mapWrap");
+  if (wrap?.classList.contains("small")) document.querySelector("[data-mapbig]")?.click();
 }
 
 async function renderCompare() {
@@ -228,6 +305,15 @@ document.addEventListener("submit", (e) => {
   if (e.target.id === "searchForm") {
     e.preventDefault();
     runSearch($("#q").value);
+  } else if (e.target.id === "rentForm") {
+    // 알아본 매물 월세 → 임대료 점수 반영 (보증금 또는 월세 중 하나는 있어야 함)
+    e.preventDefault();
+    if (!state.current) return;
+    const input = Object.fromEntries(new FormData(e.target));
+    if (!Number(String(input.deposit).replace(/[^0-9.]/g, "")) && !Number(String(input.monthly).replace(/[^0-9.]/g, ""))) return toast("보증금이나 월세를 넣어 주세요");
+    applyRent(state.current, input);
+    renderResult("result", state.current);
+    toast(state.current.rent?.score != null ? `임대료를 반영했어요 · 종합 ${state.current.score.total ?? "-"}점` : "매물을 저장했어요. 예상 매출을 넣으면 점수에 반영돼요");
   } else if (e.target.id === "customForm") {
     // 직접 입력한 업종: "마라탕" → 키워드 검색 업종으로 적용
     e.preventDefault();
@@ -247,25 +333,46 @@ document.addEventListener("click", (e) => {
   if (t.dataset.ind) {
     state.industryKey = t.dataset.ind;
     setIndustryKey(state.industryKey);
-    state.moreOpen = false; // 세부 업종을 골랐으면 메뉴를 닫는다
+    state.moreOpen = false; // 업종을 고르면 드롭다운을 닫는다
     renderHome();
   } else if (t.dataset.more !== undefined) {
     state.moreOpen = !state.moreOpen;
     renderHome();
+    if (state.moreOpen) $("#morePanel .dd-row.on, #morePanel .dd-row")?.focus();
   } else if (t.dataset.locate !== undefined) {
     runLocate();
   } else if (t.dataset.auto !== undefined && t.closest("#autoChips")) {
     setAutoLocate(t.dataset.auto === "1");
-    show("me", meHtml());
-  } else if (t.dataset.suggest) {
-    $("#q").value = t.dataset.suggest;
-    runSearch(t.dataset.suggest);
+    showMe();
+  } else if (t.dataset.area) {
+    // 인기 지역: 검색창에 넣고 하단 분석 버튼을 연다 (분석은 버튼으로 시작)
+    $("#q").value = t.dataset.area;
+    updateHomeCta();
+    document.querySelectorAll("[data-area]").forEach((b) => b.classList.toggle("on", b === t));
   } else if (t.dataset.h) {
     state.hourMode = t.dataset.h;
     renderResult("analysis", state.current);
   } else if (t.dataset.r !== undefined) {
     state.range = Number(t.dataset.r);
     renderResult("trend", state.current);
+  } else if (t.dataset.conf !== undefined) {
+    // 신뢰도 배지: 이유 펼치기 / 접기
+    const box = document.getElementById("confBox");
+    if (!box) return;
+    box.hidden = !box.hidden;
+    t.setAttribute("aria-expanded", String(!box.hidden));
+  } else if (t.dataset.mapgo !== undefined) {
+    // "지도 · 경쟁 점포" 타일: 주소(#)를 바꾸지 않고 아래 지도로 내려간다
+    e.preventDefault();
+    document.getElementById("mapSec")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  } else if (t.dataset.mapbig !== undefined) {
+    const wrap = document.getElementById("mapWrap");
+    if (!wrap) return;
+    const big = wrap.classList.toggle("big");
+    wrap.classList.toggle("small", !big);
+    t.textContent = big ? "지도 작게 보기" : "지도 크게 보기";
+    t.setAttribute("aria-expanded", String(big));
+    state.mapCtrl?.relayout?.();
   } else if (t.dataset.storeClose !== undefined) {
     state.mapCtrl?.clear();
   } else if (t.dataset.stores !== undefined) {
@@ -277,7 +384,29 @@ document.addEventListener("click", (e) => {
     t.setAttribute("aria-expanded", String(open));
   } else if (t.dataset.store !== undefined) {
     state.mapCtrl?.select(Number(t.dataset.store));
-    window.scrollTo({ top: 0, behavior: "smooth" }); // 지도와 상세 카드가 보이도록
+    document.getElementById("mapSec")?.scrollIntoView({ behavior: "smooth", block: "start" }); // 지도와 상세 카드가 보이도록
+  } else if (t.dataset.indcmp !== undefined) {
+    compareIndustries(t);
+  } else if (t.dataset.probe !== undefined) {
+    document.querySelectorAll("#connBox b[id]").forEach((b) => { b.textContent = "확인 중…"; b.className = "cn-wait"; });
+    runProbes();
+  } else if (t.dataset.share !== undefined) {
+    shareResult();
+  } else if (t.dataset.recentDel) {
+    removeRecent(t.dataset.recentDel);
+    pushToCloud("recent");
+    renderHome();
+  } else if (t.dataset.recentClear !== undefined) {
+    clearRecent();
+    pushToCloud("recent");
+    renderHome();
+    toast("최근 검색을 모두 지웠어요");
+  } else if (t.dataset.unsave) {
+    // 후보 비교: 담은 후보에서 빼기 (목록과 비교표를 다시 그린다)
+    toggleSaved({ key: t.dataset.unsave });
+    pushToCloud("saved");
+    toast("후보지에서 뺐어요");
+    renderCompare();
   } else if (t.dataset.signin !== undefined) {
     // 팝업은 클릭 처리 안에서 바로 열어야 하므로 이 호출 앞에 await 를 두지 않는다
     signIn().catch((err) => { const m = authErrorMessage(err); if (m) toast(m); });
@@ -291,28 +420,74 @@ document.addEventListener("click", (e) => {
     }).catch(() => toast("로그아웃하지 못했어요"));
   } else if (t.dataset.explain) {
     // 점수 항목 · 종합 점수: 산출 근거 펼치기 / 접기
-    const box = document.getElementById(`d-${t.dataset.explain}`);
+    const box = document.getElementById(t.dataset.box || `d-${t.dataset.explain}`);
     if (!box || !state.current) return;
     const open = box.hidden;
     if (open && !box.innerHTML) box.innerHTML = explainHtml(state.current, t.dataset.explain);
     box.hidden = !open;
     t.setAttribute("aria-expanded", String(open));
     t.classList.toggle("open", open);
+  } else if (t.dataset.allitems !== undefined) {
+    const box = document.getElementById("allItems");
+    if (!box) return;
+    box.hidden = !box.hidden;
+    t.setAttribute("aria-expanded", String(!box.hidden));
+    t.textContent = box.hidden ? "항목별 점수 전체 보기 ›" : "항목별 점수 접기";
+  } else if (t.dataset.rentopen !== undefined) {
+    const f = document.getElementById("rentForm");
+    if (!f) return;
+    f.hidden = !f.hidden;
+    t.setAttribute("aria-expanded", String(!f.hidden));
+    if (!f.hidden) f.querySelector("input")?.focus();
+  } else if (t.dataset.rentclear !== undefined) {
+    if (!state.current) return;
+    applyRent(state.current, null);
+    renderResult("result", state.current);
+    toast("매물 정보를 지웠어요");
   } else if (t.id === "saveBtn") {
     const r = toggleSaved(summary(state.current));
     if (!r.ok) return toast(r.msg);
     t.textContent = r.saved ? "★" : "☆";
+    t.classList.toggle("on", r.saved);
+    t.setAttribute("aria-pressed", String(r.saved));
     pushToCloud("saved");
+    updateSavedBadge();
     toast(r.saved ? "후보지에 담았어요" : "후보지에서 뺐어요");
+  } else if (t.dataset.pdfPrint !== undefined) {
+    // 인쇄 대화상자의 기본 파일 이름이 되도록 문서 제목을 잠시 바꾼다
+    const prev = document.title;
+    document.title = state.current ? reportFileName(state.current) : prev;
+    window.addEventListener("afterprint", () => { document.title = prev; }, { once: true });
+    window.print();
   } else if (t.id === "printBtn") {
     window.print();
   } else if (t.dataset.theme !== undefined && t.closest("#themeChips")) {
     setTheme(t.dataset.theme);
     applyTheme(t.dataset.theme);
-    show("me", meHtml());
+    showMe();
   }
 });
 
+// 홈: 지역을 입력하는 대로 하단 분석 버튼 문구를 맞춘다
+function updateHomeCta() {
+  const btn = document.getElementById("homeCta");
+  if (!btn) return;
+  const c = ui.homeCtaLabel($("#q")?.value || "", state.industryKey);
+  btn.textContent = c.text;
+  btn.disabled = !c.ready;
+}
+document.addEventListener("input", (e) => { if (e.target.id === "q") updateHomeCta(); });
+
+// 더보기 드롭다운: 바깥을 누르거나 Esc 를 누르면 닫는다
+// (위의 click 처리 다음에 실행되므로, 다른 버튼의 동작을 끝낸 뒤 닫힌다)
+function closeMore(focus) {
+  if (!state.moreOpen || location.hash.replace(/^#/, "").split("/")[0] !== "home" && location.hash) return;
+  state.moreOpen = false;
+  renderHome();
+  if (focus) $("[data-more]")?.focus();
+}
+document.addEventListener("click", (e) => { if (state.moreOpen && !e.target.closest("#morePanel, [data-more]")) closeMore(false); });
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeMore(true); });
 window.addEventListener("hashchange", route);
 applyTheme(getTheme());
 route();

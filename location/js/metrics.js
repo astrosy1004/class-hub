@@ -13,6 +13,8 @@ export function computeMetrics(pop, ind, comp) {
   const endTotal = sum(pop.weekend);
   const peakHour = pop.weekday.indexOf(Math.max(...pop.weekday));
   const peakEndHour = pop.weekend.indexOf(Math.max(...pop.weekend));
+  // 업종 영업 시간대 안에서 가장 붐비는 시각 (술집이면 17시~새벽 1시 중에서) — 현장 방문 · 운영 안내에 쓴다
+  const openPeak = (arr) => ind.hours.reduce((b, h) => (arr[h % 24] > arr[b % 24] ? h : b), ind.hours[0]) % 24;
 
   const m = pop.monthly;
   const last3 = avg(m.slice(-3));
@@ -30,7 +32,8 @@ export function computeMetrics(pop, ind, comp) {
   return {
     sizeHours: hoursAvg(pop.weekday), // 업종 영업 시간대 평균 생활인구 (명/시간)
     weekendRatio: dayTotal ? endTotal / dayTotal : 1,
-    peakHour, peakEndHour,
+    peakHour, peakEndHour, // 하루 전체에서 가장 붐비는 시각
+    openPeakHour: openPeak(pop.weekday), openPeakEndHour: openPeak(pop.weekend), // 영업 시간대 안에서
     growth, mom, volatility: vol, busiestMonth: busiest,
     age, topAge, share2030: (age.g20 || 0) + (age.g30 || 0), female: pop.female,
     customerMatch,

@@ -32,4 +32,5 @@ jobs:
         env:
           SEOUL_API_KEY: ${{ secrets.SEOUL_API_KEY }}
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          RONE_API_KEY: ${{ secrets.RONE_API_KEY }}   # 임대료 참고 자료(한국부동산원), 없으면 건너뜀
         run: node location/collector/collect.js --days "${{ github.event.inputs.days || '2' }}"

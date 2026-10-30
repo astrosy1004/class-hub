@@ -75,6 +75,9 @@ async function main() {
     if (snap.exists) state = snap.data();
   }
 
+  // 임대료 참고 자료(분기 갱신): 키가 있을 때만, 실패해도 생활인구 수집은 계속한다
+  if (db && process.env.RONE_API_KEY) await (await import("./rent.js")).syncRent(db).catch((e) => console.log("임대료(R-ONE) 건너뜀:", e.message));
+
   if (rebuild) {
     if (!db) throw new Error("--days 0 은 Firestore 연결이 필요합니다 (--dry 와 함께 쓸 수 없음)");
     const snap = await db.collection("livingPopDays").get();

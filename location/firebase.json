@@ -18,7 +18,10 @@
       "**/*serviceAccount*",
       "**/*.pem",
       "**/.env*",
-      "plan.html"
+      "plan.html",
+      "brand-mockup.html",
+      "rone-*.txt",
+      "*.zip"
     ],
     "headers": [
       {

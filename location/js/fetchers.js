@@ -76,6 +76,31 @@ export function getDongBaseline(industryKey) {
   return dongBasePromises.get(industryKey);
 }
 
+// 연결 점검(내 정보 화면): 실제로 한 번씩 읽어 보고 결과를 문장으로 돌려준다. 예외를 던지지 않는다.
+export async function probeConnections() {
+  const out = { pop: { ok: false, text: "" }, baseline: { ok: false, text: "" } };
+  if (popMode() !== "live") {
+    out.pop.text = "예시 표본 모드 (config.js 의 LIVE_POP 이 꺼져 있어요)";
+    out.baseline.text = "예시 표본 모드";
+    return out;
+  }
+  const { projectId, apiKey } = CONFIG.FIREBASE;
+  const doc = (path) => fetch(`https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/${path}?key=${apiKey}`);
+  try {
+    const r = await doc("livingPop/11440710"); // 연남동으로 시험 읽기
+    if (r.ok) {
+      const pop = fromFs({ mapValue: { fields: (await r.json()).fields || {} } });
+      out.pop = { ok: true, text: `연결됨 · 기준일 ${pop.asOf} · 추이 ${pop.months?.length ?? 0}개월` };
+    } else if (r.status === 404) out.pop.text = "연결은 됐지만 수집된 자료가 아직 없어요 (수집기를 한 번 실행하세요)";
+    else out.pop.text = `읽지 못했어요 (${r.status}) · Firestore 데이터베이스와 보안 규칙을 확인하세요`;
+  } catch (e) { out.pop.text = "네트워크 오류로 확인하지 못했어요"; }
+  try {
+    const r = await doc("livingPopBaseline/cafe");
+    out.baseline = r.ok ? { ok: true, text: "연결됨 · 동 단위 기준 분포 사용" } : { ok: false, text: "아직 없어요 · 자치구 표본 분포로 대신해요" };
+  } catch (e) { out.baseline.text = "네트워크 오류로 확인하지 못했어요"; }
+  return out;
+}
+
 export async function getPop(place) {
   if (popMode() === "live") return popFromFirestore(place); // 실패해도 예시로 몰래 바꾸지 않고 오류를 그대로 알린다
   const pop = popFromSample(await loadSample(), place.gu);
@@ -130,7 +155,25 @@ export async function getCompetitors(place, ind, radius = CONFIG.RADIUS_M) {
   return demoCompetitors(place, ind, radius);
 }
 
-// 임대료: 조회 가능한 동 단위 자료가 확인되기 전까지 "자료 없음" (점수는 4개 항목 기준)
+// 임대료 점수용 공개 자료: 행정동 단위 자료가 없어 "자료 없음" (점수는 사용자가 넣은 매물 값으로만 반영)
 export async function getRent() {
   return null;
+}
+
+// 참고용 상권 평균 임대료(한국부동산원): 수집기가 분기마다 Firestore rentRef/smallShop 에 저장한다. 못 읽으면 null (화면에서 생략)
+let rentRefPromise = null;
+export function getRentRef() {
+  if (popMode() !== "live") return Promise.resolve(null);
+  if (!rentRefPromise) {
+    const { projectId, apiKey } = CONFIG.FIREBASE;
+    rentRefPromise = fetch(`https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/rentRef/smallShop?key=${apiKey}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (!d) return null;
+        const ref = fromFs({ mapValue: { fields: d.fields || {} } });
+        return Array.isArray(ref?.areas) && ref.areas.length ? ref : null;
+      })
+      .catch(() => null);
+  }
+  return rentRefPromise;
 }

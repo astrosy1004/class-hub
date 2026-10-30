@@ -13,6 +13,9 @@ import { toCloudItem, mergeLists, docId } from "./sync.js";
 import { authErrorMessage } from "./auth.js";
 import { meHtml as meView, storeCardHtml, storeListHtml } from "./ui.js";
 import { toStore } from "./kmap.js";
+import { pdfReportHtml, reportFileName, checklist } from "./pdf-report.js";
+import { rentInfo, matchRentRef, fmtRentUnit } from "./rent.js";
+import { confidenceOf } from "./confidence.js";
 
 const out = document.getElementById("out");
 const results = [];
@@ -57,6 +60,12 @@ async function run() {
   const m1 = computeMetrics(pop, ind, comp);
   const s1 = computeScore(m1, ind, base, pop, null);
   const s2 = computeScore(computeMetrics(pop, ind, demoCompetitors(place, ind)), ind, base, pop, null);
+  {
+    // 영업 시간대 피크: 술집(17시~새벽 1시)이면 그 안에서 고른다
+    const bar = industryByKey("bar"), mb = computeMetrics(pop, bar, comp);
+    check("지표", "술집 방문 추천 시각이 영업 시간대 안", bar.hours.map((h) => h % 24).includes(mb.openPeakHour) && bar.hours.map((h) => h % 24).includes(mb.openPeakEndHour), `평일 ${mb.openPeakHour}시 · 하루 피크 ${mb.peakHour}시`);
+    check("지표", "영업 시간대 피크 = 그 시간대 최댓값", mb.openPeakHour != null && bar.hours.every((h) => pop.weekday[h % 24] <= pop.weekday[mb.openPeakHour]));
+  }
   check("점수", "같은 입력 = 같은 점수", s1.total === s2.total, `${s1.total}점`);
   check("점수", "임대료 없음 → 4개 항목 기준, 비중 재배분 합 = 1", s1.used === 4 && near(s1.items.filter((i) => i.score != null).reduce((a, i) => a + i.effWeight, 0), 1));
   const s3 = computeScore(m1, ind, base, pop, 50);
@@ -167,7 +176,7 @@ async function run() {
   const meOut = meView({ saved: [], theme: "", autoLocate: true, user: null, authOk: true });
   const meIn = meView({ saved: [], theme: "", autoLocate: true, user: { uid: "u", name: "홍길동", email: "a@b.c", photo: "" }, authOk: true });
   const meOff = meView({ saved: [], theme: "", autoLocate: true, user: null, authOk: false });
-  check("로그인 화면", "내 분석: 로그아웃 상태엔 로그인 버튼, 로그인 상태엔 이름 · 로그아웃 버튼", meOut.includes("data-signin") && !meOut.includes("data-signout") && meIn.includes("data-signout") && meIn.includes("홍길동") && !meIn.includes("data-signin"));
+  check("로그인 화면", "내 정보: 로그아웃 상태엔 로그인 버튼, 로그인 상태엔 이름 · 로그아웃 버튼", meOut.includes("data-signin") && !meOut.includes("data-signout") && meIn.includes("data-signout") && meIn.includes("홍길동") && !meIn.includes("data-signin"));
   check("로그인 화면", "SDK 를 못 불러온 상태: 안내만 (버튼 없음) · undefined 없음", !meOff.includes("data-signin") && meOff.includes("불러오지 못했어요") && ![meOut, meIn, meOff].some((h) => /undefined|NaN|\[object/.test(h)));
   check("로그인 화면", "표시 이름의 HTML 은 이스케이프됨", !meView({ saved: [], user: { uid: "u", name: "<img src=x onerror=alert(1)>", email: "e", photo: "" }, authOk: true }).includes("<img src=x"));
   // 12. 점포 상세 카드 (지도에서 점포를 눌렀을 때)
@@ -185,6 +194,47 @@ async function run() {
   check("점포 상세", "점포 목록: 가까운 순 40곳 · 순번이 마커 순번과 일치", (list.match(/data-store="/g) || []).length === 40 && list.includes('data-store="0"') && list.includes('data-store="39"') && !list.includes('data-store="40"'));
   const dc = demoCompetitors(DEMO_PLACES[0], ind);
   check("점포 상세", "예시 점포는 가까운 순으로 정렬됨", dc.items.every((x, k) => k === 0 || dc.items[k - 1].dist <= x.dist));
+  // 13. 결과 보고서(PDF)
+  const rep = { ...full, report: buildReport(full), popError: "" };
+  const doc = pdfReportHtml(rep, new Date(2026, 9, 14));
+  const secs = ["한눈에 보기", "1. 항목별 점수", "2. 항목별 산출 근거", "3. AI 컨설턴트 의견", "4. 상권 데이터", "5. 경쟁 점포 현황", "6. 현장 답사 체크리스트", "7. 분석 방법"];
+  check("결과 보고서", "모든 장(8개)이 들어 있음", secs.every((t) => doc.includes(t)), `${doc.length.toLocaleString()}자`);
+  check("결과 보고서", "undefined · NaN · [object 없음", !/undefined|NaN|\[object/.test(doc));
+  check("결과 보고서", "그래프 6개 이상 · 항목별 근거 5개 · 고지문 포함", (doc.match(/<svg/g) || []).length >= 6 && (doc.match(/class="pd-item"/g) || []).length === 5 && doc.includes("성공을 보장하지 않습니다"));
+  check("결과 보고서", "금지어 없음", !FORBIDDEN.some((w) => doc.includes(w)));
+  check("결과 보고서", "종합 점수와 항목 점수가 본문에 그대로 표시", doc.includes(`<b>${full.score.total}점</b>`) || doc.includes(`${full.score.total}<small>점`));
+  const xss = pdfReportHtml({ ...rep, place: { ...rep.place, name: "<script>x</script>" } }, new Date());
+  check("결과 보고서", "지역 이름의 HTML 은 이스케이프됨", !xss.includes("<script>x</script>") && xss.includes("&lt;script&gt;"));
+  const noPopRep = { ...noPopFull, report: buildReport(noPopFull), popError: "서울 밖 지역입니다" };
+  const docNo = pdfReportHtml(noPopRep, new Date());
+  check("결과 보고서", "생활인구 없는 동네도 보고서 생성 (안내 · 점수 없음)", docNo.includes("생활인구 자료가 없") && docNo.includes("점수 없음") && !/undefined|NaN|\[object/.test(docNo));
+  check("결과 보고서", "파일 이름에 금지 문자 없음", !/[\/:*?"<>|\s]/.test(reportFileName({ place: { name: "자양4동" }, industry: { name: "수제 버거" } }, new Date(2026, 9, 14))) && reportFileName({ place: { name: "자양4동" }, industry: { name: "카페" } }, new Date(2026, 9, 14)) === "입지분석_자양4동_카페_20261014");
+  const cl = checklist(rep);
+  check("결과 보고서", "현장 답사 체크리스트 3개 이상 · 금지어 없음", cl.length >= 3 && !cl.some((t) => FORBIDDEN.some((w) => t.includes(w))), `${cl.length}개`);
+  // 8. 임대료 직접 입력
+  const ri = rentInfo({ deposit: "3000", monthly: "250", fee: "20", sales: "3000" });
+  check("임대료", "보증금 12% 환산 + 월세 + 관리비 = 환산 월 임대료", near(ri.total, 300), `${ri.total}만원`);
+  check("임대료", "매출 대비 10% → 75점", ri.score === 75 && near(ri.burden, 0.1));
+  check("임대료", "예상 매출이 없으면 점수 없음 (항목 제외)", rentInfo({ monthly: "200" }).score === null);
+  check("임대료", "보증금 · 월세가 모두 없으면 입력 없음", rentInfo({ sales: "1000" }) === null && rentInfo(null) === null);
+  check("임대료", "부담이 클수록 낮은 점수", rentInfo({ monthly: "600", sales: "2000" }).score < rentInfo({ monthly: "150", sales: "2000" }).score);
+  check("임대료", "쉼표 · 단위가 섞인 입력도 숫자로", rentInfo({ monthly: "1,200만원", sales: "10,000" }).total === 1200);
+  const withRent = { ...full, rent: ri, score: computeScore(full.metrics, full.industry, full.baseline, full.pop, ri.score) };
+  withRent.report = buildReport(withRent);
+  check("임대료", "넣으면 5개 항목 기준 · 리포트 한계에 직접 입력 명시", withRent.score.used === full.score.used + 1 && withRent.report.limits.some((l) => l.includes("직접 넣은")));
+  check("임대료", "신뢰도 이유에 직접 입력 표시", confidenceOf(withRent).reasons.some((x) => x.text.includes("직접 넣은")));
+  check("임대료", "설명 화면: 계산식과 부담률 표시", explainHtml(withRent, "rent").includes("환산 월") && explainHtml(withRent, "rent").includes("10%"));
+  const heavy = { ...full, rent: rentInfo({ monthly: "500", sales: "2000" }) };
+  heavy.score = computeScore(full.metrics, full.industry, full.baseline, full.pop, heavy.rent.score);
+  check("임대료", "부담 25% → 위험 · 전략 문장 추가, 금지어 없음", buildReport(heavy).risks.some((r) => r.text.includes("임대료")) && !reportLines(buildReport(heavy)).some((t) => FORBIDDEN.some((w) => t.includes(w))));
+  const refDoc = { asOf: "2026년 3분기", unit: "천원/㎡", national: 20.7, areas: [{ n: "서울>도심>광화문", v: 92.5 }, { n: "서울>마포>연남동", v: 30 }, { n: "서울>마포>홍대입구", v: 50 }, { n: "인천>간석오거리", v: 19 }] };
+  const mr1 = matchRentRef(refDoc, { name: "연남동", dongCode: "1144071000" });
+  check("임대료 참고", "동 이름이 상권과 겹치면 그 상권 + 서울 평균", mr1.near.length === 1 && mr1.near[0].n.endsWith("연남동") && mr1.sidoN === 3 && mr1.sidoAvg === 57.5);
+  check("임대료 참고", "겹치는 상권이 없으면 시도 평균만 · 다른 시도 상권은 안 섞임", matchRentRef(refDoc, { name: "자양4동", dongCode: "1121571000" }).near.length === 0 && matchRentRef(refDoc, { name: "간석동", dongCode: "2823710100" }).sidoAvg === 19);
+  check("임대료 참고", "자료 · 동 코드가 없으면 null", matchRentRef(null, { name: "연남동", dongCode: "1144071000" }) === null && matchRentRef(refDoc, { name: "연남동" }) === null);
+  check("임대료 참고", "단위 환산: 19.0천원/㎡ ≈ 평당 6.3만원", fmtRentUnit(19) === "㎡당 19.0천원 (평당 약 6.3만원)", fmtRentUnit(19));
+  const sumR = buildReport(full).summary;
+  check("결과 보고서", "요약의 연령층 표현이 가장 많은 층과 어긋나지 않음", !/중심 전략/.test(sumR) && (sumR.includes(AGE_GROUPS.find((g) => g.key === full.metrics.topAge).name) || !sumR.includes("공략")), sumR);
 }
 
 run().then(() => {

@@ -3,26 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>우리 동네 AI 입지 분석</title>
-<meta name="description" content="지역과 업종을 입력하면 유동인구·고객층·경쟁 점포를 지도와 그래프로 보여주고 입지 적합도를 알려주는 상권 분석 서비스">
+<title>자리잡소 · 데이터 기반 입지분석</title>
+<link rel="icon" type="image/png" href="./assets/favicon.png">
+<meta name="description" content="자리잡소에서 생활인구·고객층·경쟁 점포 데이터를 확인하고 더 자신 있게 상권을 분석하세요.">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <link rel="stylesheet" href="./css/style.css">
+<script>
+  // 첫 방문은 소개(intro.html)부터. 소개에서 "분석 시작하기"를 누르면 이번 방문 동안은 바로 앱으로 (#주소로 들어온 공유 · 새로고침은 그대로)
+  try { if (!location.hash && !sessionStorage.getItem("introSeen")) location.replace("./intro.html"); } catch (e) { /* 저장소를 못 쓰면 소개 없이 시작 */ }
+</script>
 </head>
 <body>
 <div class="app" id="app">
   <section class="view" data-view="home"></section>
   <section class="view" data-view="map"></section>
+  <section class="view" data-view="result"></section>
   <section class="view" data-view="analysis"></section>
   <section class="view" data-view="trend"></section>
   <section class="view" data-view="report"></section>
+  <section class="view" data-view="pdf"></section>
   <section class="view" data-view="compare"></section>
   <section class="view" data-view="me"></section>
 </div>
 <nav class="tabbar" id="tabbar" aria-label="주요 메뉴">
-  <a href="#home" data-tab="home"><i>🏠</i>홈</a>
-  <a href="#map" data-tab="map"><i>🗺</i>상권지도</a>
-  <a href="#compare" data-tab="compare"><i>⚖</i>후보비교</a>
-  <a href="#me" data-tab="me"><i>👤</i>내 분석</a>
+  <a href="#home" data-tab="home"><span class="ti"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m20 20-4.5-4.5"/><path d="M10.5 13.2s-2.2-2-2.2-3.6a2.2 2.2 0 0 1 4.4 0c0 1.6-2.2 3.6-2.2 3.6z"/></svg></span>지역 찾기</a>
+  <a href="#result" data-tab="result"><span class="ti"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 16a8 8 0 1 1 16 0"/><path d="m12 16 3.5-4.5"/><path d="M4 20h16"/></svg></span>분석 결과</a>
+  <a href="#compare" data-tab="compare"><span class="ti"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3.5 2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.8l-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/></svg><b class="tb-n" id="savedN" hidden></b></span>후보 비교</a>
+  <a href="#me" data-tab="me"><span class="ti"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c1.2-3.6 4-5.5 7.5-5.5s6.3 1.9 7.5 5.5"/></svg></span>내 정보</a>
 </nav>
 <div class="toast" id="toast" role="status"></div>
 <script type="module" src="./js/main.js"></script>

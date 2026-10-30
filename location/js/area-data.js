@@ -58,6 +58,11 @@ export const DEMO_PLACES = [
 ];
 
 export const SUGGESTIONS = ["연남동 카페", "성수동 카페", "합정동 음식점", "망원동 편의점", "서촌 술집"];
+// 홈 2단계(지역 선택)의 인기 지역 칩: 이름은 검색어로 그대로 쓴다 (예시 모드에서도 찾을 수 있는 이름)
+export const POPULAR_AREAS = [
+  { name: "연남동", gu: "마포구" }, { name: "성수동", gu: "성동구" }, { name: "합정동", gu: "마포구" },
+  { name: "망원동", gu: "마포구" }, { name: "역삼동", gu: "강남구" }, { name: "서촌", gu: "종로구" },
+];
 
 function range(a, b) {
   const r = [];

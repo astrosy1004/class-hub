@@ -98,7 +98,7 @@ export function placeFromCoords(lat, lng) {
 }
 
 // ── 지도 그리기 ───────────────────────────────────────
-// 진짜 지도(Kakao) 또는 예시 지도. 둘 다 같은 조작 객체를 돌려준다: { mode, select(i), clear() }
+// 진짜 지도(Kakao) 또는 예시 지도. 둘 다 같은 조작 객체를 돌려준다: { mode, select(i), clear(), relayout?() }
 // 점포 마커를 누르면 onSelect(점포, 순번) 이 불리고, 지도의 빈 곳을 누르거나 clear() 하면 onSelect(null).
 export const MAX_MARKERS = 80;
 
@@ -150,6 +150,11 @@ export async function drawMap(el, place, comps, radius, industryIcon, { onSelect
         if (cur >= 0) pins[cur]?.classList.remove("sel");
         cur = -1;
         onSelect(null, -1);
+      },
+      // 지도 상자 크기가 바뀐 뒤(작게 ↔ 크게) 타일을 다시 그리고 중심을 맞춘다
+      relayout() {
+        map.relayout();
+        map.setCenter(center);
       },
     };
     maps.event.addListener(map, "click", () => ctrl.clear());
