@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-10-29T20:44:05.252Z",
+  "updatedAt": "2026-10-30T01:25:47.008Z",
   "categories": [
     {
       "id": "job",
@@ -52,7 +52,7 @@ window.MYNEWS_DATA = {
         {
           "title": "30년 IT 전문가 김정언, '바이브코딩 REA 강사 양성 교육' 연다 - 파이낸스투데이",
           "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE55cTR1M1VWVUZCN3U3YUdjcGFKWFMyZDdsUkx3T2NsZnpUMWpxOGg0OHl5eDlqY3hMNmtBSTNnVDB0bEpydFdtRDlwSmEzZ3Y0S2NHa2pTeE1udGNPazhETVlxYWNXZlZqbU1Fbw?oc=5",
-          "date": "2026-10-21T07:59:20.000Z",
+          "date": "2026-10-21T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTE55cTR1M1VWVUZCN3U3YUdjcGFKWFMyZDdsUkx3T2NsZnpUMWpxOGg0OHl5eDlqY3hMNmtBSTNnVDB0bEpydFdtRDlwSmEzZ3Y0S2NHa2pTeE1udGNPazhETV",
           "source": "파이낸스투데이",
           "via": "Google 뉴스 코딩강사 역량강화"
@@ -95,6 +95,14 @@ window.MYNEWS_DATA = {
           "date": "2026-06-04T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMibkFVX3lxTE40RGxrc01feU5tandPa2gyOU5JSVYtd21JOWVwUTdnT3FfcEtXcjYzUHBFOGRXQlNnZHJuUHR6aWVCZXlhV19Sc3ZIUUxYMzNvYmpPZWhzTDFfV3VSOFVHVH",
           "source": "아시아투데이",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "율목초, ‘찾아가는 코딩교실’ 디지털 교육 강화 - 화성 투데이",
+          "link": "https://news.google.com/rss/articles/CBMiREFVX3lxTE5nRkxJbDZJb1lnLUcyUFh3MnU0c2ZVb3o0b3hGN0UyMFBLLUpOeTdYbmg4eVV1aVZfSmlQTlcwLV9CVlhB?oc=5",
+          "date": "2026-04-15T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiREFVX3lxTE5nRkxJbDZJb1lnLUcyUFh3MnU0c2ZVb3o0b3hGN0UyMFBLLUpOeTdYbmg4eVV1aVZfSmlQTlcwLV9CVlhB?oc=5\" target=\"_blank\">율목초, ‘찾아가는 코딩교실",
+          "source": "화성 투데이",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -199,14 +207,6 @@ window.MYNEWS_DATA = {
           "date": "2018-02-20T08:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMid0FVX3lxTE8tM0FwdTdZQ2pRaUtwWGQtSUg5c3h1VFBrM1JZcXl2SDdYSDU2WS1GU2FRRnVrUUptNHllMUdYQUp6cGNqei1DREJOSnFzdnFJNkZNVzZtYUFWWFNLQ2xuVW",
           "source": "OhmyNews",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
-          "title": "바보야, 문제는 코딩이 아니야! - Samsung Global Newsroom",
-          "link": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNT0RfVVlEQXZacVpnNjJuZWdDYmY3amZwWm4wamhzM2JTNHpSZHhQdEhQdEZQX0tvdFFSbHFOaXVMMm1XSEdDSDk2V3V1ZjRmRHNSdi1BdkJmc2d3TXFGRVAyYVowUFVHaUIwbjZpV0tNWDVobzM2akVUTUpLZkg1bVNOeU9KaHd3Ukc1S3BzMTBLV1pMYVcydXUwbndUX01NRVY4VlRScUxCcUpZLUF3bUtnVTVoTXU0aDlSRlV5Uk95cEdpRzAzeDBXOWNjR012WXd2VTZn?oc=5",
-          "date": "2017-07-13T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMi1gFBVV95cUxNT0RfVVlEQXZacVpnNjJuZWdDYmY3amZwWm4wamhzM2JTNHpSZHhQdEhQdEZQX0tvdFFSbHFOaXVMMm1XSEdDSDk2V3V1ZjRmRHNSdi1BdkJmc2d3TXFGRV",
-          "source": "Samsung Global Newsroom",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
