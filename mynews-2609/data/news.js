@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-10-30T14:41:20.926Z",
+  "updatedAt": "2026-10-30T20:15:27.178Z",
   "categories": [
     {
       "id": "job",
@@ -95,14 +95,6 @@ window.MYNEWS_DATA = {
           "date": "2026-06-04T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMibkFVX3lxTE40RGxrc01feU5tandPa2gyOU5JSVYtd21JOWVwUTdnT3FfcEtXcjYzUHBFOGRXQlNnZHJuUHR6aWVCZXlhV19Sc3ZIUUxYMzNvYmpPZWhzTDFfV3VSOFVHVH",
           "source": "아시아투데이",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
-          "title": "율목초, ‘찾아가는 코딩교실’ 디지털 교육 강화 - 화성 투데이",
-          "link": "https://news.google.com/rss/articles/CBMiREFVX3lxTE5nRkxJbDZJb1lnLUcyUFh3MnU0c2ZVb3o0b3hGN0UyMFBLLUpOeTdYbmg4eVV1aVZfSmlQTlcwLV9CVlhB?oc=5",
-          "date": "2026-04-15T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiREFVX3lxTE5nRkxJbDZJb1lnLUcyUFh3MnU0c2ZVb3o0b3hGN0UyMFBLLUpOeTdYbmg4eVV1aVZfSmlQTlcwLV9CVlhB?oc=5\" target=\"_blank\">율목초, ‘찾아가는 코딩교실",
-          "source": "화성 투데이",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -207,6 +199,14 @@ window.MYNEWS_DATA = {
           "date": "2018-03-23T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTFBDSV9iQlQxNTlWQWliLTZXeWlTbm1BV29MdUVQT1R0QURWc0haWHZpdTRRUHJlVVh0MkdLQkpZRlVVd1Q2Y1RPRWZKWmhzM2xLUUhpRjFja1NmSmpvZFlLem",
           "source": "백세시대",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "4차 산업 혁명, 사회와 공감하는 코딩교육이 필요하다 - OhmyNews",
+          "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE8tM0FwdTdZQ2pRaUtwWGQtSUg5c3h1VFBrM1JZcXl2SDdYSDU2WS1GU2FRRnVrUUptNHllMUdYQUp6cGNqei1DREJOSnFzdnFJNkZNVzZtYUFWWFNLQ2xuVW5zVFI0QllqQXRYcW1WRE1jeUxyM21n?oc=5",
+          "date": "2018-02-20T08:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMid0FVX3lxTE8tM0FwdTdZQ2pRaUtwWGQtSUg5c3h1VFBrM1JZcXl2SDdYSDU2WS1GU2FRRnVrUUptNHllMUdYQUp6cGNqei1DREJOSnFzdnFJNkZNVzZtYUFWWFNLQ2xuVW",
+          "source": "OhmyNews",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
