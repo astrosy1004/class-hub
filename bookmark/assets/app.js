@@ -67,7 +67,7 @@ const programs = [
     title: "팔자도 · 그래프로 보는 사주",
     icon: "🔮",
     tone: "violet",
-    url: "https://saju-app-sykim.web.app",
+    url: "https://saju-app-sykim.web.app/#intro", // 북마크에서 들어오면 항상 인트로부터
     plan: "../saju/plan.html",
     description: "생년월일시로 사주 명식을 계산하고 인생 흐름을 그래프로 보여주는 웹앱",
     features: ["음력 · 서머타임 보정 명식 계산", "기질 점수와 인생 흐름 그래프", "구글 로그인으로 가족 · 지인 명식 저장", "파스텔 테마 4종"],
