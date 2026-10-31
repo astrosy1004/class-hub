@@ -69,6 +69,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .g2 { grid-template-columns: 1fr 1fr; }
 .g3 { grid-template-columns: repeat(3, 1fr); }
 .g4 { grid-template-columns: repeat(4, 1fr); }
+.g5 { grid-template-columns: repeat(5, 1fr); }
 .card { background: var(--surface); border-radius: 20px; padding: 22px 24px; box-shadow: 0 8px 24px rgba(91, 63, 217, 0.08); }
 .card h3 { margin: 0 0 8px; font-size: 21px; }
 .card p, .card li { font-size: 16.5px; line-height: 1.55; color: #3b3752; margin: 0; }
@@ -227,11 +228,11 @@ td b { color: var(--accent); }
 <!-- 1. 표지 -->
 <section class="slide cover" data-title="표지" data-group="시작">
   <img class="cover-logo" src="./img/logo.svg" alt="팔자도 로고">
-  <p class="kicker">개발 계획서 · 2026. 10. 12</p>
+  <p class="kicker">개발 계획서 · 2026. 10. 31 개편판</p>
   <h1>팔자도<br><em>그래프로 보는 사주</em></h1>
-  <p class="lead">생년월일시로 사주 명식을 풀어 인생 · 재물 · 관계 · 일 · 건강의 흐름을 그래프로 보여주고, 지금 할 일까지 제안하는 웹 서비스</p>
+  <p class="lead">사주팔자 여덟 글자를 그림(八字圖)으로. 생년월일시로 명식을 풀어 인생 · 재물 · 관계 · 일 · 건강의 흐름을 그래프로 보여주고, 모든 점수의 명리 근거와 지금 할 일까지 제안하는 웹 서비스</p>
   <div class="cover-meta">
-    <span>웹 MVP 배포 완료</span>
+    <span>웹 MVP 배포 · 팔자도 개편 완료</span>
     <span>saju-app-sykim.web.app</span>
     <span>HTML · CSS · 바닐라 JS + Firebase</span>
   </div>
@@ -303,16 +304,17 @@ td b { color: var(--accent); }
 <!-- 5. 핵심 기능 -->
 <section class="slide" data-title="핵심 기능 지도" data-group="1. 서비스">
   <p class="kicker">1. 서비스 개요</p>
-  <h2>핵심 기능 지도</h2>
-  <p class="lead">만세력 조회를 출발점으로, 흐름 → 관계 → 일 → 건강 네 묶음의 리포트로 이어집니다.</p>
-  <div class="grid g4">
-    <div class="card"><div class="ico" style="background:var(--accent)">흐</div><h3>흐름</h3><ul><li>인생 그래프 (대운)</li><li>인생 주요 포인트</li><li>한 해 운세 (지난해 · 다음해)</li><li>월별 흐름 · 일진 달력</li></ul></div>
-    <div class="card"><div class="ico" style="background:var(--fire)">관</div><h3>관계</h3><ul><li>연애운 · 배우자</li><li>자식운</li><li>결혼·인연 가능성 높은 해</li><li>대화하기 좋은 날</li></ul></div>
-    <div class="card"><div class="ico" style="background:#3f74de">일</div><h3>일</h3><ul><li>직업운 · 재물운</li><li>맞는 직종 적합도</li><li>지금 vs 다음 대운 직장 유형</li><li>추천 자격증 · 실천 가이드</li></ul></div>
-    <div class="card"><div class="ico" style="background:var(--wood)">건</div><h3>건강</h3><ul><li>건강운 (연 · 월)</li><li>타고난 건강 체크 (오행별)</li><li>건강 주의 해</li><li>국가 건강검진 안내</li></ul></div>
+  <h2>핵심 기능 지도 · 탭 5개</h2>
+  <p class="lead">사용자의 질문 하나에 탭 하나. "언제 좋아?"는 운세, "이 일 해도 될까?"는 상담, "나는 어떤 사람?"은 나.</p>
+  <div class="grid g5">
+    <div class="card"><div class="ico" style="background:var(--accent)">홈</div><h3>홈</h3><ul><li>인생 그래프 (대운)</li><li>선택한 사람 한 줄 정보</li><li>한 줄 요약 · 시기별 풀이</li><li>영역별 레이더 · 다음 대운</li><li>바로가기 6칸</li></ul></div>
+    <div class="card"><div class="ico" style="background:var(--fire)">운</div><h3>운세</h3><ul><li><b>오늘</b> 점수 · 시간대 · 행운 포인트 · 7일</li><li><b>올해</b> 게이지 + 월별 흐름(영역 7개)</li><li><b>인생</b> 인생 포인트 · 봄여름가을겨울 · 대운 풀이</li></ul></div>
+    <div class="card"><div class="ico" style="background:#3f74de">상</div><h3>상담</h3><ul><li>이사 · 주식 · 부동산</li><li>취업 · 시험</li><li>궁합 · 자녀 궁합</li><li>진로 · 적성 (학생)</li></ul></div>
+    <div class="card"><div class="ico" style="background:var(--wood)">나</div><h3>나</h3><ul><li>나의 기질 (본질 · 오행 · 십성 · 건강 체질)</li><li>생활 가이드 (용신 색 · 방향 · 습관)</li><li>맞는 일 · 자격증</li><li>설정 (테마 · 계정 · 명식)</li></ul></div>
+    <div class="card"><div class="ico" style="background:#2b2b35">만</div><h3>만세력</h3><ul><li>일간 카드 · 네 기둥 표</li><li>대운 · 세운 · 월운</li><li>일진 달력</li><li>해석 기준 · 점수 계산법</li></ul></div>
   </div>
   <div class="card soft" style="margin-top:18px; display:flex; gap:26px; align-items:center">
-    <div style="flex:1"><h3>기본: 만세력 조회 (무료)</h3><p>입력 → 표 보기(네 기둥 · 십신 · 지장간 · 12운성 · 대운 · 세운) / 아이콘 보기(일간 본질 · 오행 균형 · 십성 5그룹 · 기질 키워드). 가족 · 지인 명식은 목록으로 관리.</p></div>
+    <div style="flex:1"><h3>모든 점수에 명리 근거</h3><p>어느 글자가 용신이라 몇 점을 더했는지, 무엇과 충이라 몇 점을 뺐는지 "명리 근거 보기"로 계산표를 그대로 펼쳐 줍니다. 새 명식은 홈 오른쪽 위 ＋ 하나로만 추가합니다.</p></div>
     <div class="tiles"><div class="tile t0">甲<small>목</small></div><div class="tile t1">丙<small>화</small></div><div class="tile t2">戊<small>토</small></div><div class="tile t3">庚<small>금</small></div><div class="tile t4">壬<small>수</small></div></div>
   </div>
 </section>
@@ -320,18 +322,29 @@ td b { color: var(--accent); }
 <!-- 6. 화면 구성 -->
 <section class="slide" data-title="화면 구성" data-group="2. 설계">
   <p class="kicker">2. 설계</p>
-  <h2>화면 구성 · 9개 화면</h2>
-  <p class="lead">주소 <code>#</code> 뒤로 화면을 바꾸는 한 장짜리 웹앱. 하단 탭 4개(홈 · 운세 · 만세력 · 나의 기질)와 휴대폰 뒤로가기가 그대로 동작합니다.</p>
+  <h2>화면 구성 · 탭 5개 · 14개 화면</h2>
+  <p class="lead">주소 <code>#</code> 뒤로 화면을 바꾸는 한 장짜리 웹앱. 처음 온 사람은 인트로부터, 모든 화면 제목 옆에 지금 보는 명식이 표시됩니다.</p>
   <table>
-    <tr><th style="width:17%">화면</th><th style="width:22%">주소</th><th>담긴 내용 · 그래프</th></tr>
-    <tr><td><b>홈</b></td><td><code>#home</code></td><td>새 명식 입력 · 명식 바꾸기 버튼, 오늘의 운, 올해 최고의 달, 다가오는 인생 포인트, 리포트 6칸, 다음 주 일진 막대</td></tr>
-    <tr><td><b>한 해 운세</b></td><td><code>#fortune[/연도]</code></td><td>‹ › 연도 넘기기, 반원 게이지, 그해의 인생 포인트, 월별 막대, 일진 달력, 추천 일정</td></tr>
-    <tr><td><b>월별 흐름</b></td><td><code>#monthly/영역[/연도]</code></td><td>지금 보는 명식 표시, 영역 탭 7개, 월별 막대, 상승 기회 · 조심할 때, 달마다 할 일</td></tr>
-    <tr><td><b>인생 그래프</b></td><td><code>#life</code></td><td>대운 꺾은선 + 인생 주요 포인트 줄(결 · 취 · 재 · 건), 한 줄 요약, 시기별 풀이</td></tr>
-    <tr><td><b>맞는 일</b></td><td><code>#job</code></td><td>직종 적합도, 직장 유형 비교, 추천 자격증, 고용24 · 큐넷 안내</td></tr>
-    <tr><td><b>나의 기질</b></td><td><code>#me</code></td><td>영역별 레이더, 오행 도넛, 지금 vs 다음 대운, 타고난 건강 체크, 테마 4종, 계정</td></tr>
-    <tr><td><b>만세력 · 목록 · 입력</b></td><td><code>#chart #charts #manse</code></td><td>표 / 아이콘 보기, 대운 · 세운, 명식 목록(고르기 · 수정 · 삭제), 연 · 월 · 일 목록 입력</td></tr>
+    <tr><th style="width:13%">탭</th><th style="width:26%">하위 메뉴 · 주소</th><th>담긴 내용 · 그래프</th></tr>
+    <tr><td><b>(인트로)</b></td><td><code>#intro</code></td><td>워드마크 · 건너뛰기, 넘기는 4장(인생 그래프 · 점수 운세 · 명리 근거 · 상담), "내 명식 입력하고 시작하기"</td></tr>
+    <tr><td><b>홈</b></td><td><code>#home</code></td><td>오른쪽 위 ＋ 새 명식 · 목록 아이콘, 선택한 사람 한 줄, 인생 그래프(점을 누르면 인생 탭 풀이로), 시기별 풀이, 레이더, 바로가기</td></tr>
+    <tr><td><b>운세</b></td><td>오늘 <code>#today</code> · 올해 <code>#fortune</code> · 인생 <code>#life</code></td><td>오늘: 게이지 · 영역 4개 · 12시진 · 행운 포인트 · 앞뒤 7일 / 올해: 연도 넘기기 · 인생 포인트 · 월별 흐름(영역 탭) / 인생: 인생 포인트 · 봄여름가을겨울 · 대운 풀이</td></tr>
+    <tr><td><b>상담</b></td><td><code>#ask[/주제[/연도]]</code></td><td>주제 8개 카드, 주제별 연 · 월 흐름과 좋은 달, 궁합 비교, 진로 · 학과 적성</td></tr>
+    <tr><td><b>나</b></td><td>기질 <code>#me</code> · 생활 가이드 <code>#guide</code> · 맞는 일 <code>#job</code></td><td>본질 · 오행 도넛 · 십성 5그룹 · 건강 체크 · 설정 / 이렇게 살면 좋아요 / 직종 적합도 · 직장 유형 · 자격증</td></tr>
+    <tr><td><b>만세력</b></td><td><code>#chart</code> · <code>#basis</code> · <code>#charts</code> · <code>#manse</code></td><td>일간 카드 · 네 기둥 표 · 대운 · 세운 · 월운 · 일진 달력 / 해석 기준 / 명식 목록 / 입력 → "그래프로 보는 사주"로 홈</td></tr>
   </table>
+</section>
+
+<!-- 6-1. 브랜드 · 인트로 -->
+<section class="slide" data-title="브랜드 · 인트로" data-group="2. 설계">
+  <p class="kicker">2. 설계</p>
+  <h2>이름 <em>팔자도(八字圖)</em> · 로고 · 인트로</h2>
+  <p class="lead">"사주팔자 여덟 글자를 그린 그림". 이름만 들어도 사주 앱인 줄 알고, 그래프로 본다는 차별점이 로고에 담깁니다.</p>
+  <div class="grid g3">
+    <div class="card" style="text-align:center"><img src="./img/logo.svg" alt="팔자도 로고" style="width:110px;height:110px;border-radius:26px;box-shadow:0 12px 30px rgba(75,47,201,.28);margin:6px auto 14px;display:block"><h3>여덟 칸 그래프 로고</h3><p>만세력 표처럼 천간 · 지지 두 칸씩 쌓인 네 기둥(여덟 글자)의 높이를 달리해 막대그래프로, 마지막 칸(분홍)이 정점</p></div>
+    <div class="card"><h3>테마를 따라 바뀌는 색</h3><ul><li>라벤더: 보라 바탕 · 분홍 정점</li><li>민트: 초록 바탕 · 주황 정점</li><li>피치: 코랄 바탕 · 보라 정점</li><li>다크: 파랑 바탕 · 주황 정점</li><li>워드마크와 브라우저 탭 아이콘이 함께 바뀜</li></ul></div>
+    <div class="card"><h3>인트로 (자리잡소 방식)</h3><ul><li>상단 워드마크 · 건너뛰기</li><li>좌우로 넘기는 4장, 5초 자동 넘김</li><li>예시 명식으로 실제 계산한 카드</li><li>"내 명식 입력하고 시작하기"</li><li>북마크 링크는 항상 <code>#intro</code>로</li></ul></div>
+  </div>
 </section>
 
 <!-- 7. 기술 구성 -->
@@ -358,12 +371,12 @@ td b { color: var(--accent); }
   <p class="lead">계산은 모두 브라우저에서. 서버에는 로그인 사용자의 명식 목록만 저장합니다.</p>
   <div class="arch">
     <div class="layer"><h3>🖥 화면</h3>
-      <div class="mod"><code>index.html</code><span>화면 9개 뼈대</span></div>
+      <div class="mod"><code>index.html</code><span>화면 14개 뼈대</span></div>
       <div class="mod"><code>main.js</code><span>주소 · 이벤트 · 로그인</span></div>
       <div class="mod"><code>ui.js</code><span>화면 그리기</span></div>
       <div class="mod"><code>charts.js</code><span>SVG 그래프</span></div>
       <div class="mod"><code>icons.js</code><span>선 · 오행 아이콘</span></div>
-      <div class="mod"><code>style.css</code><span>테마 4종 · 오방색</span></div>
+      <div class="mod"><code>style.css</code><span>테마 4종 · 오방색 · 로고 색</span></div>
     </div>
     <div class="layer"><h3>⚙ 계산 엔진</h3>
       <div class="mod"><code>solar-terms.js</code><span>태양 황경 · 24절기 시각</span></div>
@@ -382,7 +395,7 @@ td b { color: var(--accent); }
       <div class="mod"><code>Hosting</code><span>saju-app-sykim</span></div>
     </div>
   </div>
-  <div class="foot"><span>개발용: <code>check.html</code> 엔진 검증 페이지 · <code>test-cases.js</code> 검증 사례 (배포 제외)</span><span>JS 16개 · 약 3,900줄</span></div>
+  <div class="foot"><span>개발용: <code>check.html</code> 엔진 검증 페이지 · <code>test-cases.js</code> 검증 사례 (배포 제외)</span><span>JS 16개 · 약 4,500줄</span></div>
 </section>
 
 <!-- 9. 만세력 엔진 -->
@@ -438,7 +451,7 @@ td b { color: var(--accent); }
     <div class="card"><div class="ico" style="background:#8a8f9e">건</div><h3>건강 주의</h3><p>건강 영역, 30~85세 중 낮은 2해. 4~5년 이상 간격으로 선택</p></div>
   </div>
   <div class="grid g2" style="margin-top:18px">
-    <div class="card soft"><h3>어디에 보이나</h3><ul><li>인생 그래프 아래 표시 줄 (지난 해는 흐리게)</li><li>한 해 운세 "그해의 인생 포인트" 카드</li><li>홈 "다가오는 인생 포인트" 카드 → 그해 운세로 이동</li></ul></div>
+    <div class="card soft"><h3>어디에 보이나</h3><ul><li>운세 › 인생: 그래프 아래 표시 줄(지난 해는 흐리게) · 다가오는 포인트 목록 · 포인트별 모든 해</li><li>올해 운세 "그해의 인생 포인트" 카드</li><li>인생의 봄 · 여름 · 가을 · 겨울: 대운 지지 계절(寅卯辰 · 巳午未 · 申酉戌 · 亥子丑)을 배경으로, 그 계절 오행이 내 용신인지 함께</li></ul></div>
     <div class="card soft"><h3>타고난 건강 체크</h3><ul><li>오행이 없거나(0) 많을수록(3↑) · 기신일수록 "살펴볼 곳"</li><li>목 간·눈 · 화 심장·혈압 · 토 위장 · 금 폐·피부 · 수 신장·허리</li><li>"의학적 진단이 아니에요" 고정 문구 + 국가 건강검진 안내</li></ul></div>
   </div>
 </section>
@@ -471,8 +484,8 @@ td b { color: var(--accent); }
 <!-- 13. 개발 진행 -->
 <section class="slide" data-title="개발 진행 현황" data-group="5. 일정">
   <p class="kicker">5. 일정</p>
-  <h2>개발 진행 현황 · 7단계 완료</h2>
-  <p class="lead">엔진부터 배포까지 단계마다 검증하고 커밋했습니다. 이후 사용자 수정 요청을 반영했습니다.</p>
+  <h2>개발 진행 현황 · 7단계 + 팔자도 개편</h2>
+  <p class="lead">엔진부터 배포까지 단계마다 검증하고 커밋했습니다. 이후 수정 요청을 반영하고, 이름 · 메뉴를 팔자도로 개편했습니다.</p>
   <div class="timeline">
     <div class="tl"><div class="dot">1</div><b>만세력 엔진</b><small>절기 · 네 기둥<br>대운 · 검증 페이지</small></div>
     <div class="tl"><div class="dot">2</div><b>입력 보정</b><small>음력 · 윤달<br>서머타임 · 표준시</small></div>
@@ -486,7 +499,9 @@ td b { color: var(--accent); }
     <div class="grid g3" style="gap:10px 24px; margin-top:8px">
       <p>· 연 · 월 · 일 목록 입력, 요일 · 음력 확인</p><p>· 지난해 · 다음해 운세 넘기기</p><p>· 마음 처방 → 건강운 · 건강 체크</p>
       <p>· 인생 주요 포인트 (결혼 · 취업 · 재물 · 건강)</p><p>· 새 명식 입력 · 명식 바꾸기 버튼</p><p>· 출생지 입력 삭제</p>
-      <p>· 만세력 오방색 (청 · 적 · 황 · 백 · 흑)</p><p>· 대운 아래 세운 10년</p><p>· 월별 흐름에 보는 명식 표시</p>
+      <p>· 만세력 오방색 (청 · 적 · 황 · 백 · 흑)</p><p>· 상담 8주제 · 학생 진로</p><p>· 모든 점수에 명리 근거 · 해석 기준</p>
+      <p>· 만세력 월운 · 일진 달력 · 생활 가이드</p><p>· 오늘의 운세 (시간대 · 행운)</p><p>· 이름 팔자도 · 로고 · 인트로</p>
+      <p>· 탭 5개 · 하위 메뉴 정리</p><p>· 홈 인생 그래프 · 아이콘 버튼</p><p>· 인생 포인트 · 봄여름가을겨울</p>
     </div>
   </div>
 </section>
@@ -563,7 +578,7 @@ td b { color: var(--accent); }
 <section class="slide cover" data-title="정리 · 결정할 것" data-group="마무리">
   <p class="kicker">정리</p>
   <h1 style="font-size:58px">엔진 검증을 마치고<br><em>지인 베타</em>로 갑니다</h1>
-  <p class="lead">웹 MVP는 배포까지 끝났습니다. 다음 결정이 필요합니다.</p>
+  <p class="lead">웹 MVP 배포와 팔자도 개편까지 끝났습니다. 다음 결정이 필요합니다.</p>
   <div class="grid g3" style="max-width:1080px">
     <div class="card"><h3>① 대운수 기준</h3><p>날수 ÷ 3 반올림(현재) vs 기존 앱 방식 — 30건 대조로 확정</p></div>
     <div class="card"><h3>② 베타 참여자</h3><p>지인 10명 명단 · 피드백 받을 방법(설문 · 메모)</p></div>
