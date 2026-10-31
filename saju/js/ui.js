@@ -545,7 +545,28 @@ function monthlySection(model, domainId = "total", yf) {
     ${id === "wealth" ? `<section class="card"><div class="card-head"><h2>스스로 점검할 것</h2></div><p style="font-size:14px">특정 종목·매수·매도를 추천하지 않아요. 돈이 움직이는 달에는 <b>투자 이유</b>, <b>세금</b>, <b>자금 용도</b>를 먼저 적어 보세요.</p></section>` : ""}`;
 }
 
-// 인생 그래프 본체: 대운 꺾은선 (+ 인생 주요 포인트 표시 · 범례). 홈은 표시 없이, 운세 › 인생은 표시와 함께. 점을 누르면 main.js가 selected를 바꾼다
+// 인생의 봄 · 여름 · 가을 · 겨울: 대운 지지의 계절 (寅卯辰 봄 · 巳午未 여름 · 申酉戌 가을 · 亥子丑 겨울).
+// 대운은 월주에서 한 칸씩 나아가므로(역행이면 거꾸로) 계절이 대개 세 대운(30년)씩 이어진다
+const SEASONS = [
+  { id: 0, name: "봄", element: 0, branches: "寅卯辰", word: "씨 뿌리고 자라는" },
+  { id: 1, name: "여름", element: 1, branches: "巳午未", word: "활짝 펼치고 뻗어 가는" },
+  { id: 2, name: "가을", element: 3, branches: "申酉戌", word: "거두고 다듬는" },
+  { id: 3, name: "겨울", element: 4, branches: "亥子丑", word: "갈무리하고 쉬며 준비하는" },
+];
+const seasonOf = (branch) => SEASONS[Math.floor(((branch - 2 + 12) % 12) / 3)];
+function lifeSeasons(model) {
+  const pts = model.life.points;
+  const runs = [];
+  pts.forEach((p, i) => {
+    const se = seasonOf(p.branch);
+    const last = runs.at(-1);
+    if (last && last.season === se) last.b = i;
+    else runs.push({ season: se, a: i, b: i });
+  });
+  return runs.map((r) => ({ ...r, from: pts[r.a].startAge, to: pts[r.b].startAge + 9, role: model.natal.roles[r.season.element] }));
+}
+
+// 인생 그래프 본체: 대운 꺾은선 (+ 인생 주요 포인트 · 봄여름가을겨울 표시와 범례). 홈은 표시 없이, 운세 › 인생은 표시와 함께. 점을 누르면 main.js가 selected를 바꾼다
 function lifeChart(model, selected = -1, height = 200, withMarkers = true, hint = "점을 누르면 풀이가 나와요") {
   const { life, events } = model;
   const pts = life.points;
@@ -553,6 +574,7 @@ function lifeChart(model, selected = -1, height = 200, withMarkers = true, hint 
   const peakIndex = pts.indexOf(life.peak);
   // 그래프 아래 줄마다 이벤트 표시 (대운 시작 나이 → 그래프 가로 위치)
   const first = pts[0].startAge;
+  const seasonRuns = withMarkers ? lifeSeasons(model) : []; // 인생 포인트 · 계절은 운세 › 인생에서만
   const markers = !withMarkers ? [] : events.flatMap((ev, lane) =>
     ev.items.map((it) => ({
       pos: Math.min(pts.length - 1, Math.max(0, (it.age - first) / 10)),
@@ -573,9 +595,11 @@ function lifeChart(model, selected = -1, height = 200, withMarkers = true, hint 
         futureFrom: ci > 0 ? ci : null,
         band: peakIndex !== ci ? [peakIndex, peakIndex, "가장 좋은 10년"] : null,
         markers,
+        seasons: seasonRuns.map((r) => ({ a: r.a, b: r.b, cls: `season-${r.season.id}`, label: r.season.name })),
         height,
         caption: "대운별 인생 점수와 인생 주요 포인트",
       })}</div>
+      ${seasonRuns.length ? `<div class="season-legend">${seasonRuns.map((r) => `<span class="season-${r.season.id}"><i></i><b>${r.season.name}</b> ${r.from}~${r.to}세 <small class="${r.role === "yong" || r.role === "hee" ? "up" : r.role === "gi" ? "down" : ""}">${ROLE_NAME[r.role]}</small></span>`).join("")}</div>` : ""}
       ${withMarkers ? `<div class="legend mk-legend">${events.map((ev) => `<span><i class="mkbg-${ev.id}"></i>${ev.name}</span>`).join("")}<span class="muted-past">흐린 점 = 지난 해</span></div>` : ""}`;
 }
 
@@ -608,6 +632,7 @@ function lifeDetail(model, selected = -1) {
       <ul class="ld-list">
         <li><b>천간 ${STEMS[p.stem].han}(${STEMS[p.stem].ko}${ELEMENTS[se].ko}) · ${p.stemGod}</b> ${roleChip(se)}<br>${GOD_THEME[p.stemGod]}의 기운이 앞에 드러나요. 오행 ${elementLabel(se)}${josa(elementLabel(se), "은/는").slice(-1)} 내 사주의 ${ROLE_NAME[natal.roles[se]]}이에요.</li>
         <li><b>지지 ${BRANCHES[p.branch].han}(${BRANCHES[p.branch].ko}${ELEMENTS[be].ko}) · ${p.branchGod}</b> ${roleChip(be)}<br>${GOD_THEME[p.branchGod]}의 기운이 바탕에 깔려요. 10년 내내 힘이 더 큰 쪽이에요.</li>
+        <li><b>인생의 ${seasonOf(p.branch).name}</b> ${roleChip(seasonOf(p.branch).element)}<br>대운 지지 ${josa(`${BRANCHES[p.branch].ko}(${BRANCHES[p.branch].han})`, "은/는")} ${seasonOf(p.branch).branches} 중 하나라 ${seasonOf(p.branch).name}(${elementLabel(seasonOf(p.branch).element)} 계절) 대운이에요. ${seasonOf(p.branch).word} 시기이고, 이 계절 기운은 내 사주의 ${ROLE_NAME[natal.roles[seasonOf(p.branch).element]]}이에요.</li>
         <li><b>한 줄 풀이</b><br>${p.reason}</li>
       </ul>
       <p class="ld-sub">이 10년의 영역별 운</p>

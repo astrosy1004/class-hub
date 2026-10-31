@@ -26,8 +26,9 @@ function smoothPath(pts) {
  * values: 점수 배열, labels: x축 글자, current: 현재 위치 순번, peak: 강조할 최고점 순번,
  * futureFrom: 이 순번부터 점선, band: [from, to, "라벨"] 배경 강조 구간, selected: 선택한 점,
  * markers: x축 아래 줄(lane)마다 찍는 표시 [{ pos: 소수 순번, lane, cls, label: 글자 1개, title, past }]
+ * seasons: 배경을 옅게 칠할 구간 [{ a, b, cls, label }] (a~b 순번, 점 사이의 가운데에서 나뉜다)
  */
-export function lineChart({ values, labels, current = -1, peak = -1, futureFrom = null, band = null, selected = -1, markers = [], height = 180, caption = "" }) {
+export function lineChart({ values, labels, current = -1, peak = -1, futureFrom = null, band = null, selected = -1, markers = [], seasons = [], height = 180, caption = "" }) {
   const padX = 16;
   const top = 30;
   const bottom = 26;
@@ -41,6 +42,9 @@ export function lineChart({ values, labels, current = -1, peak = -1, futureFrom 
   const pts = values.map((v, i) => [x(i), y(v)]);
 
   let svg = `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="${caption}">`;
+  const half = n > 1 ? (x(1) - x(0)) / 2 : padX;
+  const edge = (i, side) => (side < 0 ? (i === 0 ? 0 : x(i) - half) : i === n - 1 ? W : x(i) + half);
+  for (const z of seasons) svg += `<rect class="chart-season ${z.cls}" x="${edge(z.a, -1)}" y="${top - 18}" width="${edge(z.b, 1) - edge(z.a, -1)}" height="${base - top + 18}"/>`;
   for (const v of [25, 50, 75]) svg += `<line class="chart-grid" x1="${padX}" x2="${W - padX}" y1="${y(v)}" y2="${y(v)}"/>`;
   if (band) {
     const [a, b, text] = band;
@@ -56,6 +60,7 @@ export function lineChart({ values, labels, current = -1, peak = -1, futureFrom 
   } else {
     svg += `<path class="chart-line" d="${line}"/>`;
   }
+  for (const z of seasons) svg += `<text class="chart-season-label ${z.cls}" x="${(edge(z.a, -1) + edge(z.b, 1)) / 2}" y="${base - 6}" text-anchor="middle">${z.label}</text>`;
   pts.forEach(([px, py], i) => {
     const cls = i === current ? "now" : i === selected ? "sel" : "";
     svg += `<circle class="chart-dot ${cls}" cx="${px}" cy="${py}" r="${i === current ? 6 : 3.5}"/>`;
