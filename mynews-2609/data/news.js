@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-10-31T19:37:25.735Z",
+  "updatedAt": "2026-10-31T22:55:13.620Z",
   "categories": [
     {
       "id": "job",
@@ -98,14 +98,6 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "율목초, ‘찾아가는 코딩교실’ 디지털 교육 강화 - 화성 투데이",
-          "link": "https://news.google.com/rss/articles/CBMiREFVX3lxTE5nRkxJbDZJb1lnLUcyUFh3MnU0c2ZVb3o0b3hGN0UyMFBLLUpOeTdYbmg4eVV1aVZfSmlQTlcwLV9CVlhB?oc=5",
-          "date": "2026-04-15T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiREFVX3lxTE5nRkxJbDZJb1lnLUcyUFh3MnU0c2ZVb3o0b3hGN0UyMFBLLUpOeTdYbmg4eVV1aVZfSmlQTlcwLV9CVlhB?oc=5\" target=\"_blank\">율목초, ‘찾아가는 코딩교실",
-          "source": "화성 투데이",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
           "title": "한신대 디지털새싹사업단, ‘AI 아트 코딩 강사 워크숍’ 개최 - 기독일보",
           "link": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE5OU1ZlZG1oVk5aLV9ZUWg0T2FqdTdFUVFGVDA1X0Rrb1hWZW12bXhGRE1KbGJBakQ2RF9ucER6N200bE9pYmVjMU8zbzNGUDJBQXZ3MV9PMNIBXEFVX3lxTE5CMjFiMmZrX0FETDhLclEzZTU1TXRsNTRFTTM5NFEwZmxuMVJCYndETG02N0J2eGIyYkQtQnJCOTRhaE9uN3JrUC14WVhWdXZuSkhVZ1FRVC03LXN2?oc=5",
           "date": "2024-07-26T07:00:00.000Z",
@@ -162,14 +154,6 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "안랩, SW 코딩강사 양성 사회공헌 프로그램 ‘안랩샘(SEM)’ 9기 개강 - 보안뉴스",
-          "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE8zcDFoMnRscUpTOGRWbkNnaWpGMWNsVkVFWDZCTjFPU1lvMlhjV25Kc0RrZkQxUjBCVk5EQ0FSNXZmbHZkM2FDb09VX1g1NGowenJndmRUMUhqM3RtWHRwQVBqbmF6ek9zNFE?oc=5",
-          "date": "2019-10-11T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTE8zcDFoMnRscUpTOGRWbkNnaWpGMWNsVkVFWDZCTjFPU1lvMlhjV25Kc0RrZkQxUjBCVk5EQ0FSNXZmbHZkM2FDb09VX1g1NGowenJndmRUMUhqM3RtWHRwQV",
-          "source": "보안뉴스",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
           "title": "LG CNS 경력보유여성, 중학교 코딩 강사로 새출발! - 테크월드",
           "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE95SFZKYmVucDVKM3MtaGlFcDhEN0dmZ3k0LTJHamdFUHp3dnV0cFo4eUlxRDhHYkxXNUx5bGpaT2dPX0tzMnlVMWN4S09RMG9iN1NDYUQtVE1nQjQ0VGVtd294eGtlNE0?oc=5",
           "date": "2019-08-27T07:00:00.000Z",
@@ -207,6 +191,22 @@ window.MYNEWS_DATA = {
           "date": "2018-12-06T08:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTFB6RzVpTnJsVmxZWkVTTGlOSlM2Y0lXUmZPY1docEhnSEEwUzFpTEl5TURNOEowVHU0MjNQamczZW9tXzV0UEw5cTBHUTJnV1BYaGFIQ2hMa3NwdEZwVUp3WX",
           "source": "한국금융경제신문",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "2018 코딩강사 양성과정 '시원하게 코딩' - 브런치",
+          "link": "https://news.google.com/rss/articles/CBMiTEFVX3lxTE11Smh5R3BLNHNFODRFd2E1M2Y0UTBXT2dBM2k0UERGN053ZlJveVJEc096OUtmX3F0TkdGenRFcTFZOWVJWVJ4Z0VqaTE?oc=5",
+          "date": "2018-10-30T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiTEFVX3lxTE11Smh5R3BLNHNFODRFd2E1M2Y0UTBXT2dBM2k0UERGN053ZlJveVJEc096OUtmX3F0TkdGenRFcTFZOWVJWVJ4Z0VqaTE?oc=5\" target=\"_blank\">2018",
+          "source": "브런치",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "학교 코딩 강사, 강아지 산책시키는 ‘도그 워커’ 등 이색 노인일자리 주목받아 - 백세시대",
+          "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTFBDSV9iQlQxNTlWQWliLTZXeWlTbm1BV29MdUVQT1R0QURWc0haWHZpdTRRUHJlVVh0MkdLQkpZRlVVd1Q2Y1RPRWZKWmhzM2xLUUhpRjFja1NmSmpvZFlLem5iOHEteGJSLUE?oc=5",
+          "date": "2018-03-23T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTFBDSV9iQlQxNTlWQWliLTZXeWlTbm1BV29MdUVQT1R0QURWc0haWHZpdTRRUHJlVVh0MkdLQkpZRlVVd1Q2Y1RPRWZKWmhzM2xLUUhpRjFja1NmSmpvZFlLem",
+          "source": "백세시대",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
