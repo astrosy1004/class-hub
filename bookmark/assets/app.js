@@ -64,7 +64,7 @@ const programs = [
     id: "saju",
     type: "webapp",
     status: "live",
-    title: "그래프로 보는 사주",
+    title: "팔자도 · 그래프로 보는 사주",
     icon: "🔮",
     tone: "violet",
     url: "https://saju-app-sykim.web.app",

@@ -1,23 +1,24 @@
 // 화면 전환(#주소) · 명식 목록/계산 묶음(model) · 로그인 · 이벤트 연결 전담.
-// 주소: #home · #fortune[/연도] · #monthly/<영역>[/연도] · #ask[/주제[/연도]] · #life · #job · #me · #chart · #charts · #manse/<new|edit>
+// 주소: #intro · #home · #today[/날짜] · #fortune[/연도] · #monthly/<영역>[/연도] · #ask[/주제[/연도]] · #life · #job · #me · #guide · #basis · #chart · #charts · #manse/<new|edit>
 
 import { calculateSaju } from "./manse.js";
 import { SETTINGS } from "./saju-data.js";
 import { analyzeNatal, lifeGraph, yearFlow, lifeEvents } from "./score.js";
 import {
   loadLocalCharts, saveLocalChart, deleteLocalChart, newChartId, loadCurrentId, saveCurrentId,
-  loadChartMode, saveChartMode, loadTheme, saveTheme, loadMatchId, saveMatchId,
+  loadIntroSeen, saveIntroSeen, loadTheme, saveTheme, loadMatchId, saveMatchId,
 } from "./store.js";
 import {
-  renderHome, renderFortune, renderMonthly, renderLife, renderJob, renderMe, renderChart, renderManse, renderCharts, renderAsk, renderBasis, themeButtons,
-  dayOptions, dateHint, timeHint,
+  renderIntro, renderHome, renderToday, renderFortune, renderLife, renderJob, renderMe, renderChart, renderManse, renderCharts, renderAsk, renderBasis, renderGuide,
+  dayOptions, dateHint, timeHint, logoMark,
 } from "./ui.js";
 import { icon } from "./icons.js";
 
 // 저장된 명식이 없을 때 보여주는 가상의 예시 (실제 인물 아님: 경오·기묘·기묘·기사)
 const SAMPLE = { sample: true, id: "sample", name: "홍길동", relation: "예시", gender: "M", calendar: "solar", leap: false, date: "1990-03-15", time: "10:30", city: "서울", longitude: 126.98, applyDst: true, nightZi: false };
 
-const TAB_OF = { home: "home", fortune: "fortune", monthly: "fortune", ask: "fortune", basis: "chart", life: "home", job: "home", me: "me", chart: "chart", charts: "chart", manse: "chart" };
+// 탭 5개: 홈(인생 그래프 · 대운 · 시기별 풀이) · 운세(오늘 · 올해(월별 흐름) · 인생 포인트) · 상담 · 나(기질 · 생활 가이드 · 맞는 일) · 만세력
+const TAB_OF = { intro: "", home: "home", today: "fortune", monthly: "fortune", fortune: "fortune", life: "fortune", ask: "ask", me: "me", guide: "me", job: "me", chart: "chart", basis: "chart", charts: "chart", manse: "chart" };
 const views = Object.fromEntries([...document.querySelectorAll("[data-view]")].map((el) => [el.dataset.view, el]));
 
 // 로그인 · 계정 명식 상태
@@ -34,6 +35,7 @@ let unsubscribeCharts = null;
 let model = null;
 let modelKey = "";
 let lifeSelected = -1;
+let calOffset = 0; // 만세력 일진 달력: 지금 절기 달에서 몇 달 옮겼는지
 let navCount = 0; // 앱 안에서 화면을 옮긴 횟수 (0이면 뒤로 갈 곳이 없으니 홈으로)
 
 // ── 명식 목록 ─────────────────────────────
@@ -101,15 +103,18 @@ function render() {
   const { name, arg, arg2 } = parseRoute();
   const m = currentModel();
   const html = {
-    home: () => renderHome(m),
+    intro: () => renderIntro(m),
+    home: () => renderHome(m, lifeSelected),
+    today: () => renderToday(m, arg),
     fortune: () => renderFortune(m, yearFlowOf(m, arg)),
-    monthly: () => renderMonthly(m, arg || "total", yearFlowOf(m, arg2)),
+    life: () => renderLife(m, lifeSelected),
+    monthly: () => renderFortune(m, yearFlowOf(m, arg2), arg || "total"), // 월별 흐름은 올해 화면 안 (영역 탭)
     ask: () => renderAsk(m, arg, arg2, { charts: chartList(), partnerId: loadMatchId() }),
     basis: () => renderBasis(m),
-    life: () => renderLife(m, lifeSelected),
+    guide: () => renderGuide(m),
     job: () => renderJob(m),
     me: () => renderMe(m, loadTheme(), account),
-    chart: () => renderChart(m, loadChartMode()),
+    chart: () => renderChart(m, calOffset),
     charts: () => renderCharts(chartList(), currentChart().id, account),
     manse: () => renderManse(arg === "new" || currentChart().sample ? null : currentChart()),
   }[name]();
@@ -117,7 +122,35 @@ function render() {
   for (const [key, el] of Object.entries(views)) el.hidden = key !== name;
   views[name].innerHTML = html;
   document.querySelectorAll(".tabbar a").forEach((a) => a.classList.toggle("on", a.dataset.tab === TAB_OF[name]));
+  document.body.classList.toggle("intro-mode", name === "intro");
   if (name === "manse") wireManseForm(arg === "new" || currentChart().sample ? null : currentChart());
+  stopIntro();
+  if (name === "intro") wireIntro();
+}
+
+// 인트로 슬라이드: 넘기기 · 점 누르기 · 5초마다 자동 (손대면 멈춤)
+let introTimer = null;
+function stopIntro() {
+  clearInterval(introTimer);
+  introTimer = null;
+}
+function wireIntro() {
+  const box = document.querySelector("[data-intro-slides]");
+  const dots = [...document.querySelectorAll("[data-intro-dots] button")];
+  const count = document.querySelector("[data-intro-count]");
+  let cur = 0;
+  const go = (i) => box.scrollTo({ left: i * box.clientWidth, behavior: "smooth" });
+  const mark = () => {
+    const i = Math.round(box.scrollLeft / box.clientWidth);
+    if (i === cur) return;
+    cur = i;
+    dots.forEach((d, k) => d.classList.toggle("on", k === i));
+    count.textContent = `0${i + 1} / 0${dots.length}`;
+  };
+  box.addEventListener("scroll", () => requestAnimationFrame(mark), { passive: true });
+  dots.forEach((d, i) => d.addEventListener("click", () => { stopIntro(); go(i); }));
+  ["pointerdown", "touchstart", "wheel"].forEach((ev) => box.addEventListener(ev, stopIntro, { passive: true }));
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) introTimer = setInterval(() => go((cur + 1) % dots.length), 5000);
 }
 
 function rerenderKeepScroll() {
@@ -216,7 +249,7 @@ function wireManseForm(editing) {
     saveCurrentId(chart.id);
     lifeSelected = -1;
     toast(account.user ? "내 계정에 저장했어요" : "이 기기에 저장했어요");
-    location.hash = "#chart";
+    location.hash = "#home"; // 저장하면 홈의 인생 그래프로
   });
 }
 
@@ -309,25 +342,28 @@ Promise.all([import("./auth.js"), import("./cloud.js")])
 function applyTheme(id) {
   if (id === "lavender") delete document.documentElement.dataset.theme;
   else document.documentElement.dataset.theme = id;
-  const top = getComputedStyle(document.documentElement).getPropertyValue("--bg-top").trim();
-  document.querySelector('meta[name="theme-color"]').content = top;
+  const css = getComputedStyle(document.documentElement);
+  const v = (name) => css.getPropertyValue(name).trim();
+  document.querySelector('meta[name="theme-color"]').content = v("--bg-top");
+  // 파비콘도 테마 색 로고로 (data URI 안에서는 CSS 변수를 못 읽으니 실제 색을 넣는다)
+  const svg = logoMark({ a: v("--logo-a"), b: v("--logo-b"), peak: v("--logo-peak"), id: "fav" });
+  document.querySelector('link[rel="icon"]').href = `data:image/svg+xml,${encodeURIComponent(svg)}`;
 }
 
-const sheet = document.getElementById("themeSheet");
-function openThemeSheet() {
-  document.getElementById("themeButtons").innerHTML = themeButtons(loadTheme());
-  sheet.hidden = false;
-}
-sheet.addEventListener("click", (e) => {
-  if (e.target === sheet) sheet.hidden = true;
-});
 
 // ── 클릭 (이벤트 위임) ─────────────────────────────
 document.addEventListener("click", (e) => {
   const hit = e.target.closest(".chart-hit");
-  if (hit && hit.closest('[data-chart="life"]')) {
-    lifeSelected = Number(hit.dataset.i);
+  if (hit && hit.closest('[data-chart="life"]')) { // 인생 그래프의 점: 고른 대운 풀이로 내려가 보여 준다
+    const i = Number(hit.dataset.i);
+    if (parseRoute().name === "home") {
+      pendingLife = i; // 홈에서는 운세 › 인생으로 가서 그 대운 풀이를 연다
+      location.hash = "#life";
+      return;
+    }
+    lifeSelected = i;
     rerenderKeepScroll();
+    showLifeDetail();
     return;
   }
   const btn = e.target.closest("[data-action]");
@@ -339,17 +375,18 @@ document.addEventListener("click", (e) => {
       navCount -= 2; // 뒤로 가기로 생기는 hashchange(+1)를 빼고 한 칸 줄인다
       history.back();
     } else location.hash = "#home";
-  } else if (action === "theme") {
-    openThemeSheet();
   } else if (action === "set-theme") {
     const themeId = btn.dataset.themeId;
     saveTheme(themeId);
     applyTheme(themeId);
     document.querySelectorAll('[data-action="set-theme"]').forEach((b) => b.classList.toggle("on", b.dataset.themeId === themeId));
-    if (!sheet.hidden) setTimeout(() => (sheet.hidden = true), 180);
-  } else if (action === "chart-mode") {
-    saveChartMode(btn.dataset.mode);
-    render();
+  } else if (action === "cal-move") {
+    const step = Number(btn.dataset.step);
+    calOffset = step === 0 ? 0 : calOffset + step;
+    rerenderKeepScroll();
+  } else if (action === "intro-start" || action === "intro-browse") {
+    saveIntroSeen();
+    location.hash = action === "intro-start" ? "#manse/new" : "#home";
   } else if (action === "login") {
     if (!authApi) return;
     // 팝업이 막히지 않도록 다른 await 없이 바로 부른다
@@ -392,14 +429,24 @@ document.addEventListener("change", (e) => {
   rerenderKeepScroll();
 });
 
+let pendingLife = null; // 홈 그래프에서 고른 대운 (운세 › 인생으로 넘어가며 쓴다)
+const showLifeDetail = () => document.querySelector(".view:not([hidden]) .life-detail")?.scrollIntoView({ behavior: "smooth", block: "start" });
+
 window.addEventListener("hashchange", () => {
   navCount++;
-  if (parseRoute().name !== "life") lifeSelected = -1;
+  lifeSelected = pendingLife ?? -1; // 화면을 옮기면 인생 그래프 선택을 지운다 (홈에서 고른 대운만 이어받음)
+  const fromHome = pendingLife !== null;
+  pendingLife = null;
   render();
   window.scrollTo(0, 0);
+  if (fromHome) showLifeDetail();
+  // 영역 탭(#monthly/…)을 누르면 올해 화면의 월별 흐름 자리로
+  if (parseRoute().name === "monthly") document.querySelector(".view:not([hidden]) [data-month-flow]")?.scrollIntoView({ block: "start" });
 });
 
 // 탭바 아이콘
 document.querySelectorAll("[data-icon]").forEach((el) => (el.outerHTML = icon(el.dataset.icon)));
 applyTheme(loadTheme());
+// 처음 온 사람(저장한 명식도 없고 인트로도 안 본)은 인트로부터
+if (!location.hash && !loadIntroSeen() && !loadLocalCharts().length) history.replaceState(null, "", "#intro");
 render();

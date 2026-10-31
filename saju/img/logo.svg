@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- 팔자도(八字圖) 로고: 만세력 표처럼 천간(위) · 지지(아래) 두 칸씩 쌓인 네 기둥 = 여덟 글자.
+       기둥 높이가 달라 그대로 막대그래프가 되고, 마지막 천간 칸(분홍)이 정점이다 -->
+  <defs>
+    <linearGradient id="pjBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8b6cf6"/>
+      <stop offset="1" stop-color="#4b2fc9"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="15" fill="url(#pjBg)"/>
+  <g fill="#fff">
+    <rect x="11" y="44" width="8" height="8" rx="2.5" fill-opacity=".45"/>
+    <rect x="11" y="34" width="8" height="8" rx="2.5" fill-opacity=".92"/>
+    <rect x="23" y="38" width="8" height="8" rx="2.5" fill-opacity=".45"/>
+    <rect x="23" y="28" width="8" height="8" rx="2.5" fill-opacity=".92"/>
+    <rect x="35" y="41" width="8" height="8" rx="2.5" fill-opacity=".45"/>
+    <rect x="35" y="31" width="8" height="8" rx="2.5" fill-opacity=".92"/>
+    <rect x="47" y="32" width="8" height="8" rx="2.5" fill-opacity=".45"/>
+  </g>
+  <rect x="47" y="22" width="8" height="8" rx="2.5" fill="#ff5f9e"/>
+  <path d="M15 27 27 21 39 24 51 14" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".9"/>
+</svg>

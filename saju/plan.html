@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>그래프로 보는 사주 · 개발 계획서</title>
+<title>팔자도 · 그래프로 보는 사주 · 개발 계획서</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <style>
 /* 발표용 개발 계획서. 슬라이드 1장 = 1280×720, 화면 크기에 맞춰 통째로 줄이고 늘린다.
@@ -98,6 +98,7 @@ td b { color: var(--accent); }
 .cover .lead { font-size: 24px; max-width: 640px; }
 .cover-meta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
 .cover-meta span { background: var(--surface); border-radius: 999px; padding: 10px 18px; font-size: 16px; font-weight: 600; box-shadow: 0 6px 18px rgba(91, 63, 217, 0.1); }
+.cover-logo { width: 72px; height: 72px; border-radius: 18px; margin-bottom: 14px; box-shadow: 0 12px 30px rgba(75, 47, 201, 0.28); }
 .cover-art { position: absolute; right: 70px; top: 130px; width: 430px; }
 
 /* ── 흐름 화살표 ───────── */
@@ -201,7 +202,7 @@ td b { color: var(--accent); }
   <button class="menu-btn" id="menuBtn" aria-label="목차 열기" aria-expanded="false" aria-controls="drawer">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
   </button>
-  <div class="title-pill" id="titlePill"><span>그래프로 보는 사주</span>개발 계획서</div>
+  <div class="title-pill" id="titlePill"><span>팔자도</span>개발 계획서</div>
   <div class="counter" id="counter" aria-live="polite">1 / 1</div>
 </div>
 
@@ -216,7 +217,7 @@ td b { color: var(--accent); }
 
 <div class="drawer-back" id="drawerBack"></div>
 <aside class="drawer" id="drawer" aria-label="목차">
-  <header><b>그래프로 보는 사주</b><small>개발 계획서 · 목차</small></header>
+  <header><b>팔자도 · 그래프로 보는 사주</b><small>개발 계획서 · 목차</small></header>
   <nav id="toc"></nav>
 </aside>
 
@@ -225,8 +226,9 @@ td b { color: var(--accent); }
 
 <!-- 1. 표지 -->
 <section class="slide cover" data-title="표지" data-group="시작">
+  <img class="cover-logo" src="./img/logo.svg" alt="팔자도 로고">
   <p class="kicker">개발 계획서 · 2026. 10. 12</p>
-  <h1>그래프로 보는<br><em>사주</em></h1>
+  <h1>팔자도<br><em>그래프로 보는 사주</em></h1>
   <p class="lead">생년월일시로 사주 명식을 풀어 인생 · 재물 · 관계 · 일 · 건강의 흐름을 그래프로 보여주고, 지금 할 일까지 제안하는 웹 서비스</p>
   <div class="cover-meta">
     <span>웹 MVP 배포 완료</span>

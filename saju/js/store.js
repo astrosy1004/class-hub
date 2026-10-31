@@ -6,7 +6,7 @@ const KEY = {
   charts: "saju:charts", // 이 기기에 저장한 명식 목록 [{ id, name, relation, gender, calendar, leap, date, time, city, longitude, applyDst, nightZi, consent, updatedAt }]
   currentId: "saju:currentId", // 지금 보고 있는 명식 id
   legacyProfile: "saju:profile", // 5단계까지 쓰던 명식 1개 (목록으로 옮긴 뒤 지운다)
-  chartMode: "saju:chartMode", // 명식 결과 "table" | "icon"
+  introSeen: "saju:introSeen", // 인트로를 보고 시작했는지
   matchId: "saju:matchId", // 궁합에서 마지막으로 고른 상대 명식 id
   theme: "sajuTheme", // 화면 테마 lavender | mint | peach | dark
 };
@@ -60,8 +60,8 @@ export function deleteLocalChart(id) {
 
 export const loadCurrentId = () => read(KEY.currentId, null);
 export const saveCurrentId = (id) => write(KEY.currentId, id);
-export const loadChartMode = () => read(KEY.chartMode, "table");
-export const saveChartMode = (m) => write(KEY.chartMode, m);
+export const loadIntroSeen = () => read(KEY.introSeen, false);
+export const saveIntroSeen = () => write(KEY.introSeen, true);
 export const loadMatchId = () => read(KEY.matchId, null);
 export const saveMatchId = (id) => write(KEY.matchId, id);
 export const loadTheme = () => read(KEY.theme, "lavender");
