@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-11-01T17:23:18.792Z",
+  "updatedAt": "2026-11-01T21:28:45.020Z",
   "categories": [
     {
       "id": "job",
@@ -178,14 +178,6 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "경기도, ‘SW융합코딩강사 양성과정’ 교육생 모집 - 메이킹뉴스",
-          "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE1mUHBMM0lScnBVM29kbjF5WjA2SU9jcUJDYl9EV2w1NEdyLUxyQmJzVmVoaFBtd19VS241YjZ6Z1NXMEtBNEtNb2Z2cXBRbXVVSklOcVh0NXhmVlBVXzFJ?oc=5",
-          "date": "2019-07-28T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiX0FVX3lxTE1mUHBMM0lScnBVM29kbjF5WjA2SU9jcUJDYl9EV2w1NEdyLUxyQmJzVmVoaFBtd19VS241YjZ6Z1NXMEtBNEtNb2Z2cXBRbXVVSklOcVh0NXhmVlBVXzFJ?o",
-          "source": "메이킹뉴스",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
           "title": "광명시, 'SW정보화교육강사 양성과정' 수료식 개최 - 뉴스웍스",
           "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9ZWHJxZGE4LU9yeTBTSXFJSXZiSGF6d29aTmphdkpfTGhQdHdKVURtU1RxelBsVlBXc1JqODYtWU5JNjN4ZUNaRzdjSFRBblQtQW12TXpOeDgwTzRka2ZkMk9CbXlEbUhMSGhteUFPd9IBc0FVX3lxTE9oM0EweWFvR1RUNDBxd3NpOEM5YmxGOG14NFlHNnFTQy0tdnBzcWdpX0FRdjNlV0VaT21kSS1RMWNSMGhfeTZnODExR2JManNlSGhTeGd5TWFkYzVoU3lKeHU4a2w3V3RuQldUR0w1bzBvaTg?oc=5",
           "date": "2019-07-10T07:00:00.000Z",
@@ -207,6 +199,14 @@ window.MYNEWS_DATA = {
           "date": "2018-12-06T08:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTFB6RzVpTnJsVmxZWkVTTGlOSlM2Y0lXUmZPY1docEhnSEEwUzFpTEl5TURNOEowVHU0MjNQamczZW9tXzV0UEw5cTBHUTJnV1BYaGFIQ2hMa3NwdEZwVUp3WX",
           "source": "한국금융경제신문",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "2018 코딩강사 양성과정 '시원하게 코딩' - 브런치",
+          "link": "https://news.google.com/rss/articles/CBMiTEFVX3lxTE11Smh5R3BLNHNFODRFd2E1M2Y0UTBXT2dBM2k0UERGN053ZlJveVJEc096OUtmX3F0TkdGenRFcTFZOWVJWVJ4Z0VqaTE?oc=5",
+          "date": "2018-10-30T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiTEFVX3lxTE11Smh5R3BLNHNFODRFd2E1M2Y0UTBXT2dBM2k0UERGN053ZlJveVJEc096OUtmX3F0TkdGenRFcTFZOWVJWVJ4Z0VqaTE?oc=5\" target=\"_blank\">2018",
+          "source": "브런치",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
