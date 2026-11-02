@@ -13,16 +13,21 @@ export function confidenceOf(a) {
   const minus = (n, text) => { pts -= n; reasons.push({ text, minus: n }); };
   const { score, pop, comp, baseline, industry } = a;
 
-  const missing = score.items.filter((i) => i.score == null);
+  // 임대료는 매물을 넣을 때만 쓰는 선택 항목이라 빠져도 감점하지 않는다
+  const missing = score.items.filter((i) => i.score == null && i.key !== "rent");
   if (missing.length) minus(10 * missing.length, `${missing.map((i) => i.short).join(" · ")} 자료가 없어 ${score.used}개 항목으로 계산했어요`);
   if (!pop) minus(40, "생활인구 자료가 없어 고객 · 유동인구 · 성장성을 볼 수 없어요");
   else if (pop.level === "gu") minus(25, "생활인구가 동이 아닌 자치구 단위예요 (예시 표본)");
   else if (baseline?.level === "gu") minus(10, "비교 기준이 동 단위가 아닌 자치구 표본이에요");
-  if (pop && (pop.monthly?.length || 0) < 6) minus(5, `추이 자료가 ${pop.monthly?.length || 0}개월분이라 성장성이 흔들릴 수 있어요`);
+  if (pop && (pop.monthly?.length || 0) < 6) minus(5, `생활인구 추이가 ${pop.monthly?.length || 0}개월분이라 성장성이 흔들릴 수 있어요`);
+  // 폐업 위험: 서울시 상권분석서비스 최근 4분기. 자료가 없거나 점포가 적어 비교에서 빠진 경우를 알린다
+  const cl = a.closure, qn = (q) => `${String(q).slice(0, 4)}년 ${String(q).slice(4)}분기`;
+  if (!cl) { if (!industry.custom) reasons.push({ text: "이 동네는 개폐업 자료가 없어 폐업 위험을 빼고 계산했어요", minus: 0 }); }
+  else if (cl.pct == null) reasons.push({ text: `이 동네 ${industry.name} 점포가 적어 폐업률 비교에서 빠졌어요 (자료 적음)`, minus: 0 });
+  else reasons.push({ text: `폐업 위험은 ${qn(cl.quarters?.[0] ?? cl.asOf)}~${qn(cl.asOf)} 서울 개폐업 실제 자료예요`, minus: 0 });
   if (!CALIBRATED_BANDS.includes(industry.baseKey || industry.key)) minus(15, `${industry.name}의 경쟁 기준표는 실측 표본이 아닌 초안이에요`);
   if (!comp.live) minus(15, "경쟁 점포가 실제 검색이 아닌 예시예요");
   else if (comp.capped) minus(5, "점포 검색이 한도에 닿아 실제보다 적게 셌을 수 있어요");
-  if (a.rent?.source === "input" && a.rent.score != null) minus(5, "임대료는 직접 넣은 매물 값이고, 매출 대비 부담 기준표는 초안이에요");
   if (!SCORE_VALIDATED) reasons.push({ text: "점수 규칙을 실제 개폐업 결과로 검증하기 전이에요", minus: 0 });
 
   let level = pts >= 80 ? "high" : pts >= 55 ? "mid" : "low";

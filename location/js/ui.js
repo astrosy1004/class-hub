@@ -22,10 +22,11 @@ const brandMark = `<img class="brand-mark" src="./assets/jarijapso-logo.png" alt
 // 기준일 · 출처 · 단위 표기 (모든 결과 화면 하단)
 function sourceFoot(a) {
   const { pop, comp } = a;
-  if (!pop) return `<div class="foot">생활인구: 자료 없음<br>경쟁 점포: ${esc(comp.source)}</div>`;
+  const capNote = comp.capped ? " · 조회 한도에 닿아 실제는 더 많을 수 있음" : ""; // 예전 "분석의 한계" 상자의 점포 한도 안내를 출처 줄로
+  if (!pop) return `<div class="foot">생활인구: 자료 없음<br>경쟁 점포: ${esc(comp.source)}${capNote}</div>`;
   const unit = pop.level === "gu" ? "자치구 단위" : "행정동 단위";
   const cl = a.closure ? `<br>개폐업: 서울시 상권분석서비스(점포-행정동) · ${String(a.closure.asOf).slice(0, 4)}년 ${String(a.closure.asOf).slice(4)}분기까지 4분기` : "";
-  return `<div class="foot">생활인구: ${esc(pop.source || "서울 열린데이터광장")} · ${unit} · 기준일 ${esc(pop.asOf)}<br>경쟁 점포: ${esc(comp.source)}${cl}<br>생활인구는 방문객 · 구매자 · 매출과 다른 개념입니다</div>`;
+  return `<div class="foot">생활인구: ${esc(pop.source || "서울 열린데이터광장")} · ${unit} · 기준일 ${esc(pop.asOf)}<br>경쟁 점포: ${esc(comp.source)}${capNote}${cl}<br>생활인구는 방문객 · 구매자 · 매출과 다른 개념입니다</div>`;
 }
 const modeBanner = () => (popMode() === "sample"
   ? `<div class="banner soft">예시 자료로 계산한 결과예요. 동 단위 생활인구가 연결되면 실제 값으로 바뀌어요.</div>`
@@ -142,7 +143,7 @@ export function homeHtml({ recent, industryKey, error, moreOpen = false, q = "",
   const cta = homeCtaLabel(q, industryKey);
   return `
   <div class="brand-head"><a class="brand-logo" href="./intro.html" aria-label="자리잡소 소개 보기">${brandMark}</a></div>
-  <h1 class="step-title">어떤 가게를, 어디에서<br>시작하시나요?</h1>
+  <h1 class="step-title">어떤 가게를, 어디에서 시작하시나요?</h1>
   ${modeBanner()}
   <section class="step done" aria-labelledby="st1">
     <div class="step-h"><span class="step-i">${icon("store")}</span><h2 id="st1">업종 선택</h2><span class="cap">${esc(cur.name)} 선택됨</span></div>
@@ -465,7 +466,6 @@ export function reportHtml(a) {
   <div class="card" style="background:var(--accent-soft);box-shadow:none"><h3 class="tone-h" style="color:var(--accent)">${icon("target")}종합 의견</h3><div style="font-size:13px;line-height:1.6;margin-top:4px">${esc(r.overall)}</div></div>
   <a class="btn" href="${hashOf("pdf", a)}">${icon("doc")}결과 보고서(PDF) 만들기</a>
   <div class="cap" style="text-align:center;margin:6px 0 10px">항목별 산출 근거 · 그래프 · 점포 목록 · 현장 답사 체크리스트까지 담은 A4 보고서예요</div>
-  ${r.limits.length ? `<div class="card"><h3>분석의 한계</h3><ul style="margin:6px 0 0;padding-left:18px;font-size:13px;line-height:1.6;color:var(--muted)">${r.limits.map((l) => `<li>${esc(l)}</li>`).join("")}</ul></div>` : ""}
   ${sourceFoot(a)}`;
 }
 
@@ -474,24 +474,25 @@ export function compareHtml(list) {
   if (!list.length) {
     return `${head("후보 비교", { back: false })}<div class="card"><div class="empty">후보지가 없어요.<br>분석 결과 화면 오른쪽 위 ☆를 눌러 최대 3곳을 담아 보세요.</div></div><a class="btn ghost" href="#home">지역 검색하러 가기</a>`;
   }
-  const names = ITEMS.map((i) => i.short);
+  const CMP = ITEMS.filter((it) => it.key !== "rent"); // 임대료는 선택 항목이라 비교에서 뺀다
+  const names = CMP.map((i) => i.short);
   const cls = ["r1", "r2", "r3"];
   const lcls = ["i2", "i3", "i5"];
   // 항목은 key 로 찾는다 (예전에 담은 후보는 항목 수 · 순서가 다를 수 있다)
   const sOf = (a, key) => a.score.items.find((x) => x.key === key)?.score ?? null;
-  const best = ITEMS.map((it) => Math.max(...list.map((a) => sOf(a, it.key) ?? -1)));
+  const best = CMP.map((it) => Math.max(...list.map((a) => sOf(a, it.key) ?? -1)));
   return `
   ${head("후보 비교", { back: false, right: `<button class="ib" id="printBtn" aria-label="PDF로 저장">${icon("doc")}</button>` })}
   ${modeBanner()}
   <section class="card cand-card" aria-labelledby="candH">
-    <h3 id="candH">담은 후보 <span class="cap">${list.length}/3</span></h3>
+    <h3 id="candH">담은 후보 <span class="cap">${list.length}곳 · 최대 3곳</span></h3>
     ${list.map((a, i) => `<div class="cand"><a class="cand-l" href="${hashOf("result", a)}"><span class="score-dot">${a.score.total ?? "-"}</span><b>${esc(a.place.name)} ${esc(a.industry.name)}<small>${a.score.grade ? esc(a.score.grade.name) : "점수 없음"} · 결과 보기 ›</small></b></a><button type="button" class="cand-x" data-unsave="${esc(a.key)}" aria-label="${esc(a.place.name)} ${esc(a.industry.name)} 후보에서 빼기">✕</button></div>`).join("")}
     ${list.length < 2 ? `<div class="cap" style="margin-top:8px">다른 동네도 담으면 아래에서 나란히 비교해요. 검색하기에서 검색한 뒤 결과 화면 오른쪽 위 ☆를 눌러 보세요.</div>` : ""}
   </section>
-  <div class="card"><h3>항목별 레이더</h3><div style="width:260px;max-width:100%;margin:6px auto 0">${radar({ names, sets: list.map((a, i) => ({ values: ITEMS.map((it) => sOf(a, it.key)), cls: cls[i] })) })}</div>
+  <div class="card"><h3>항목별 레이더</h3><div style="width:260px;max-width:100%;margin:6px auto 0">${radar({ names, sets: list.map((a, i) => ({ values: CMP.map((it) => sOf(a, it.key)), cls: cls[i] })) })}</div>
     <div class="legend" style="justify-content:center">${list.map((a, i) => `<span><i class="${lcls[i]}"></i>${esc(a.place.name)} ${esc(a.industry.name)} ${a.score.total ?? "-"}</span>`).join("")}</div></div>
   <div class="card"><h3>항목별 비교</h3><table class="cmp"><tr><th></th>${list.map((a) => `<th>${esc(a.place.name)}<br>${esc(a.industry.name)}</th>`).join("")}</tr>
-    ${ITEMS.map((it, i) => `<tr><td>${it.short}</td>${list.map((a) => { const s = sOf(a, it.key); return `<td>${s == null ? "<span class='cap'>자료 없음</span>" : s === best[i] && list.length > 1 ? `<b class="best">${s}</b>` : s}</td>`; }).join("")}</tr>`).join("")}
+    ${CMP.map((it, i) => `<tr><td>${it.short}</td>${list.map((a) => { const s = sOf(a, it.key); return `<td>${s == null ? "<span class='cap'>자료 없음</span>" : s === best[i] && list.length > 1 ? `<b class="best">${s}</b>` : s}</td>`; }).join("")}</tr>`).join("")}
     <tr><td>종합</td>${list.map((a) => `<td><b>${a.score.total ?? "-"}</b></td>`).join("")}</tr>
     <tr><td>등급</td>${list.map((a) => `<td>${a.score.grade ? `<span class="chip ${a.score.grade.cls}">${a.score.grade.name}</span>` : "-"}</td>`).join("")}</tr></table></div>
   <div class="foot">자료가 없는 항목은 점수에서 제외됩니다 · ${DISCLAIMER}</div>`;
@@ -519,10 +520,10 @@ export function meHtml({ saved, theme, autoLocate = true, user = null, authOk = 
   return `
   ${head("내 정보", { back: false })}
   ${accountHtml({ user, authOk, syncing })}
-  <div class="card"><h3>담아 둔 후보지 <span class="cap">${saved.length}/3</span></h3>${saved.length ? saved.map((s) => `
+  <div class="card"><h3>담아 둔 후보지 <span class="cap">${saved.length}곳 · 최대 3곳</span></h3>${saved.length ? saved.map((s) => `
     <a class="li" href="#result/${encodeURIComponent(s.place.name)}/${s.industryKey}"><div class="score-dot">${s.total ?? "-"}</div><b>${esc(s.place.name)} ${esc(s.industryName)}<small>${esc(s.grade || "")}</small></b>›</a>`).join("") : `<div class="empty">담아 둔 후보지가 없어요</div>`}
     ${saved.length ? `<a class="btn" href="#compare">후보지 비교하기</a>` : ""}</div>
-  <div class="card"><h3>화면 테마</h3><div class="chips flat" id="themeChips" style="margin-bottom:0"><button class="c ${theme !== "dark" ? "on" : ""}" data-theme="">블루</button><button class="c ${theme === "dark" ? "on" : ""}" data-theme="dark">다크</button></div></div>
+  <div class="card"><h3>화면 테마</h3><div class="chips flat" id="themeChips" style="margin-bottom:0"><button class="c ${theme !== "dark" ? "on" : ""}" data-theme="">화이트</button><button class="c ${theme === "dark" ? "on" : ""}" data-theme="dark">다크</button></div></div>
   <div class="card"><h3>시작할 때 현재 위치로 검색</h3><div class="chips flat" id="autoChips" style="margin-bottom:0"><button class="c ${autoLocate ? "on" : ""}" data-auto="1">켜기</button><button class="c ${!autoLocate ? "on" : ""}" data-auto="0">끄기</button></div>
     <div class="cap" style="margin-top:8px;line-height:1.5">앱을 열면 브라우저의 위치 권한을 요청하고, 지금 있는 동네를 바로 분석해요. 위치는 이 기기에서만 쓰고 저장하지 않으며, 행정동 확인을 위해 좌표가 Kakao 지도 서비스에 전달돼요.</div></div>
   <div class="card"><h3>연결 상태 <button type="button" class="explain-link" data-probe style="margin:0 0 0 auto">다시 확인</button></h3><div class="conn" id="connBox">

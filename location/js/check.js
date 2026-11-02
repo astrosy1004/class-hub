@@ -222,7 +222,7 @@ async function run() {
   const withRent = { ...full, rent: ri, score: computeScore(full.metrics, full.industry, full.baseline, full.pop, ri.score) };
   withRent.report = buildReport(withRent);
   check("임대료", "넣으면 5개 항목 기준 · 리포트 한계에 직접 입력 명시", withRent.score.used === full.score.used + 1 && withRent.report.limits.some((l) => l.includes("직접 넣은")));
-  check("임대료", "신뢰도 이유에 직접 입력 표시", confidenceOf(withRent).reasons.some((x) => x.text.includes("직접 넣은")));
+  check("임대료", "신뢰도 이유에 임대료 문구 없음 (선택 항목이라 감점 · 안내하지 않음)", ![confidenceOf(withRent), confidenceOf(full)].some((c) => c.reasons.some((x) => x.text.includes("임대료"))));
   check("임대료", "설명 화면: 계산식과 부담률 표시", explainHtml(withRent, "rent").includes("환산 월") && explainHtml(withRent, "rent").includes("10%"));
   const heavy = { ...full, rent: rentInfo({ monthly: "500", sales: "2000" }) };
   heavy.score = computeScore(full.metrics, full.industry, full.baseline, full.pop, heavy.rent.score);

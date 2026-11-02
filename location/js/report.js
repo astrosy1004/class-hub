@@ -114,9 +114,8 @@ export function buildReport(a) {
   const limits = [];
   if (a.baseline && a.baseline.level !== pop.level) limits.push("점수의 비교 기준이 자치구 표본 분포라 동 단위 값과 눈금이 다를 수 있습니다.");
   if (pop.level === "gu") limits.push("생활인구는 동이 아니라 자치구 단위 표본입니다.");
-  if (!rent) limits.push("임대료 자료가 없어 점수에서 제외했습니다. 알아본 매물의 월세를 넣으면 반영됩니다.");
-  else if (rent.score == null) limits.push("예상 월매출을 넣지 않아 임대료는 점수에서 제외했습니다.");
-  else if (rent.source === "input") limits.push("임대료는 직접 넣은 매물 값과 예상 매출로 계산했고, 부담 기준표는 초안입니다.");
+  if (rent?.source === "input" && rent.score != null) limits.push("임대료는 직접 넣은 매물 값과 예상 매출로 계산했고, 부담 기준표는 초안입니다.");
+  if (!a.closure) limits.push("이 동네는 개폐업 자료가 없어 폐업 위험을 점수에서 제외했습니다.");
   if (comp && !comp.live) limits.push("경쟁 점포는 예시 값입니다 (Kakao 키 설정 전).");
   if (comp && comp.capped) limits.push("경쟁 점포 수가 조회 한도(45곳)에 닿아 실제는 더 많을 수 있습니다.");
 

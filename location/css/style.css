@@ -76,7 +76,7 @@ svg { display: block; width: 100%; height: auto; }
 .banner { background: var(--warn-soft); color: var(--warn); border-radius: 14px; padding: 10px 12px; font-size: 12.5px; font-weight: 700; margin-bottom: 12px; line-height: 1.45; }
 
 /* 홈: 2단계 선택 (1 업종 타일 → 2 지역) + 하단 고정 분석 버튼 */
-.step-title { margin: 4px 0 14px; font-size: 23px; line-height: 1.32; font-weight: 900; letter-spacing: -0.05em; }
+.step-title { margin: 4px 0 14px; font-size: clamp(16px, 5.4vw, 23px); line-height: 1.32; font-weight: 900; letter-spacing: -0.05em; white-space: nowrap; } /* 한 줄: 좁은 화면에서는 글자를 줄인다 */
 .step { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 14px 16px 16px; margin-bottom: 12px; box-shadow: 0 8px 20px rgba(53,106,230,.08); }
 /* 업종 · 지역 카드는 같은 모양: 테두리 강조 없이, 머리에 같은 크기의 아이콘 칸 */
 .step-i { width: 28px; height: 28px; border-radius: 9px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; flex: none; }
@@ -169,6 +169,7 @@ svg { display: block; width: 100%; height: auto; }
 .chips .c { background: var(--surface); box-shadow: var(--shadow); padding: 8px 13px; border-radius: 999px; font-size: 13px; font-weight: 700; }
 .chips .c.on { background: var(--accent); color: var(--on-accent); }
 .chips.flat .c { box-shadow: none; background: var(--surface-2); }
+.chips.flat .c.on { background: var(--accent); color: var(--on-accent); } /* 선택된 칩이 회색 배경에 흰 글씨로 묻히던 문제 */
 .li { display: flex; align-items: center; gap: 12px; padding: 11px 0; border-top: 1px solid var(--line); font-size: 14px; }
 .li:first-of-type { border-top: 0; }
 .li b { flex: 1; display: block; } .li small { color: var(--muted); display: block; font-weight: 500; font-size: 12px; margin-top: 1px; }
