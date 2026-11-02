@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>자리잡소 · 배경색 목업</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+/* 그레이 배경 목업: 실제 앱 화면을 iframe 으로 띄우고 색 변수만 덮어써 비교한다 (로컬 서버에서 열 것) */
+* { box-sizing: border-box; }
+body { margin: 0; background: #dfe2e7; font-family: Pretendard, -apple-system, "Malgun Gothic", sans-serif; color: #0f2040; word-break: keep-all; }
+header { max-width: 1280px; margin: 0 auto; padding: 28px 20px 8px; display: flex; flex-wrap: wrap; align-items: flex-end; gap: 16px; justify-content: space-between; }
+h1 { margin: 0; font-size: 24px; letter-spacing: -0.03em; }
+header p { margin: 4px 0 0; font-size: 14px; color: #5b6475; }
+.seg { display: inline-flex; background: #fff; border-radius: 999px; padding: 4px; box-shadow: 0 4px 14px rgba(20, 40, 80, 0.08); }
+.seg button { border: 0; background: none; font: inherit; font-weight: 700; font-size: 14px; padding: 8px 16px; border-radius: 999px; color: #5b6475; cursor: pointer; }
+.seg button.on { background: #2563eb; color: #fff; }
+.row { max-width: 1280px; margin: 0 auto; padding: 16px 20px 40px; display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; }
+figure { margin: 0; text-align: center; }
+figcaption { font-size: 13px; font-weight: 700; color: #5b6475; margin-top: 10px; }
+iframe { width: 390px; height: 760px; border: 0; border-radius: 26px; background: #fff; box-shadow: 0 20px 50px rgba(20, 40, 80, 0.18); }
+.note { max-width: 1280px; margin: 0 auto; padding: 0 20px 40px; font-size: 13px; color: #5b6475; line-height: 1.7; }
+.note code { background: #fff; border-radius: 6px; padding: 1px 6px; }
+</style>
+</head>
+<body>
+<header>
+  <div><h1>배경색 목업</h1><p>실제 앱 화면에 색만 바꿔 입힌 미리보기예요. 아래 버튼으로 지금 색과 번갈아 비교할 수 있어요.</p></div>
+  <div class="seg" role="group" aria-label="배경색"><button type="button" data-t="slate" class="on">① 블루그레이 (추천)</button><button type="button" data-t="gray">② 쿨 그레이</button><button type="button" data-t="warm">③ 웜 화이트</button><button type="button" data-t="blue">지금 (연하늘)</button></div>
+</header>
+<div class="row">
+  <figure><iframe src="./index.html#home" title="검색하기"></iframe><figcaption>검색하기</figcaption></figure>
+  <figure><iframe src="./index.html#result/성수1가1동/gym" title="분석 결과"></iframe><figcaption>분석 결과 (성수1가1동 · 헬스장)</figcaption></figure>
+  <figure><iframe src="./index.html#report/성수1가1동/gym" title="AI 의견"></iframe><figcaption>AI 컨설턴트 의견</figcaption></figure>
+</div>
+<p class="note">① 블루그레이 <code>#F1F4F8</code> (추천) · ② 쿨 그레이 <code>#F2F3F5</code> · ③ 웜 화이트 <code>#F7F6F3</code>. 셋 다 강조 파랑 <code>#2563EB</code> 과 남색 결론 카드는 그대로예요.</p>
+<script>
+  // 그레이 색 변수: 앱 css/style.css 의 :root 값을 이 값으로 덮어쓴다
+  const THEMES = {
+    slate: ":root{--bg:#f1f4f8;--bg-top:#e3e9f1;--surface-2:#eef2f7;--line:#e2e8f0}", // 남색 · 파랑 브랜드와 같은 차가운 기운이 살짝 도는 회색
+    gray: ":root{--bg:#f2f3f5;--bg-top:#e6e8ec;--surface-2:#f1f3f6;--line:#e5e7eb}",  // 완전 중립 회색
+    warm: ":root{--bg:#f7f6f3;--bg-top:#ece9e3;--surface-2:#f3f2ee;--line:#e8e5df}",  // 종이 느낌의 따뜻한 흰색
+    blue: "",
+  };
+  let theme = "slate";
+  const apply = (f) => {
+    try {
+      const d = f.contentDocument;
+      if (!d || !d.head) return;
+      let s = d.getElementById("mock-theme");
+      if (!s) { s = d.createElement("style"); s.id = "mock-theme"; d.head.appendChild(s); }
+      s.textContent = THEMES[theme];
+    } catch (e) { /* 다른 출처에서 열면 덮어쓸 수 없음 — 로컬 서버(localhost:5530)에서 여세요 */ }
+  };
+  const frames = [...document.querySelectorAll("iframe")];
+  frames.forEach((f) => f.addEventListener("load", () => apply(f)));
+  setInterval(() => frames.forEach(apply), 1000); // 앱이 화면을 다시 그려도 색이 유지되도록
+  document.querySelectorAll(".seg button").forEach((b) => b.addEventListener("click", () => {
+    theme = b.dataset.t;
+    document.querySelectorAll(".seg button").forEach((x) => x.classList.toggle("on", x === b));
+    frames.forEach(apply);
+  }));
+</script>
+</body>
+</html>
