@@ -112,6 +112,11 @@ export async function syncClosure(db) {
   const { quarters, rows } = await fetchLatest();
   if (!quarters.length) { console.log("개폐업: 받은 분기가 없어 건너뜀"); return; }
   const ref = buildClosureRef(rows, quarters);
+  // 확인용 요약 (로그): 연남동 · 성수동 카페
+  for (const [d, name] of Object.entries({ 11440710: "연남동", 11200650: "성수1가1동", 11200660: "성수1가2동", 11200670: "성수2가1동", 11200690: "성수2가3동" })) {
+    const v = ref.docs[d]?.cafe;
+    if (v) console.log(`  ${name} 카페: 폐업률 ${(v.rate * 100).toFixed(2)}% (서울 중간 ${(v.median * 100).toFixed(2)}%) · 백분위 ${v.pct} → 점수 ${v.pct == null ? "-" : 100 - v.pct} · 점포 ${v.stores}`);
+  }
   if (known === ref.asOf) { console.log(`개폐업: ${ref.asOf} 그대로`); return; }
   const ids = Object.keys(ref.docs);
   for (let i = 0; i < ids.length; i += 400) {

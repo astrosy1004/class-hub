@@ -141,7 +141,7 @@ export function homeHtml({ recent, industryKey, error, moreOpen = false, q = "",
   const tiles = TILE_KEYS.map((k) => industryByKey(k));
   const cta = homeCtaLabel(q, industryKey);
   return `
-  <div class="brand-head"><a class="brand-logo" href="./intro.html" aria-label="자리잡소 소개 보기">${brandMark}</a><span class="trust-badge">2단계면 끝나요</span></div>
+  <div class="brand-head"><a class="brand-logo" href="./intro.html" aria-label="자리잡소 소개 보기">${brandMark}</a></div>
   <h1 class="step-title">어떤 가게를, 어디에서<br>시작하시나요?</h1>
   ${modeBanner()}
   <section class="step done" aria-labelledby="st1">
