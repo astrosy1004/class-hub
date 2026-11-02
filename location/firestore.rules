@@ -15,6 +15,16 @@ service cloud.firestore {
       allow get: if true;
       allow list, write: if false;
     }
+    // 공개 임대료 참고 자료(한국부동산원 상권 평균): 누구나 읽기, 쓰기는 수집기만
+    match /rentRef/{id} {
+      allow get: if true;
+      allow list, write: if false;
+    }
+    // 동별 개폐업 요약(서울시 상권분석서비스, 분기 갱신): 누구나 1건 읽기, 쓰기는 수집기만
+    match /closureRef/{id} {
+      allow get: if true;
+      allow list, write: if false;
+    }
     // 수집기 전용 (일별 원자료 · 수집 상태): 클라이언트 접근 불가
     match /{document=**} {
       allow read, write: if false;

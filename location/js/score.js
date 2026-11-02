@@ -2,6 +2,7 @@
 // - 고객 일치 · 유동인구 규모 · 성장성: 기준 분포(지금은 서울 25개 구 표본)에서의 백분위
 //   (동 단위 자료는 수집기가 만든 동 기준 분포를 쓴다. 기준 분포 단위가 자료와 다르면 규모는 제외)
 // - 경쟁 강도: 반경 내 동종 점포 수를 업종별 구간표로 환산 (낮을수록 높은 점수)
+// - 폐업 위험: 같은 업종의 최근 4분기 폐업률을 서울 행정동끼리 비교 (서울시 상권분석서비스, 수집기가 분기마다 저장)
 // - 임대료: 자료가 없으면 점수에서 빼고 나머지 비중을 다시 나눔
 import { INDUSTRIES } from "./area-data.js";
 import { computeMetrics } from "./metrics.js";
@@ -36,11 +37,13 @@ export function competitionScore(count, bands) {
 
 export const gradeOf = (score) => GRADES.find((g) => score >= g.min);
 
-export function computeScore(metrics, ind, baseline, pop, rent = null) {
+// closure: 폐업 위험 점수(0~100, 수집기가 계산한 서울 동 백분위를 뒤집은 값) 또는 null
+export function computeScore(metrics, ind, baseline, pop, rent = null, closure = null) {
   const raw = {
     customer: pop && baseline ? percentile(baseline.customer, metrics.customerMatch) : null,
     size: pop && baseline && baseline.level === pop.level ? percentile(baseline.size, metrics.sizeHours) : null, // 규모는 자료 단위(자치구/동)와 기준 분포 단위가 같을 때만
     competition: metrics.compCount == null ? null : competitionScore(metrics.compCount, ind.bands),
+    closure: closure == null ? null : closure,
     rent: rent == null ? null : rent,
     growth: pop && baseline ? percentile(baseline.growth, metrics.growth) : null,
   };

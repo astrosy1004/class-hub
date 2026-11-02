@@ -58,6 +58,11 @@ export const DEMO_PLACES = [
 ];
 
 export const SUGGESTIONS = ["연남동 카페", "성수동 카페", "합정동 음식점", "망원동 편의점", "서촌 술집"];
+// 홈 2단계(지역 선택)의 인기 지역 칩: 이름은 검색어로 그대로 쓴다 (예시 모드에서도 찾을 수 있는 이름)
+export const POPULAR_AREAS = [
+  { name: "연남동", gu: "마포구" }, { name: "성수동", gu: "성동구" }, { name: "합정동", gu: "마포구" },
+  { name: "망원동", gu: "마포구" }, { name: "역삼동", gu: "강남구" }, { name: "서촌", gu: "종로구" },
+];
 
 function range(a, b) {
   const r = [];
@@ -96,6 +101,19 @@ export const EXTRA_INDUSTRIES = [
   mk("karaoke", "노래방", "🎤", ["코인노래방"], { keyword: "노래방" }, [18, 19, 20, 21, 22, 23, 0], [0.05, 0.4, 0.3, 0.15, 0.1], 0.1),
   mk("pcroom", "PC방", "🖥", ["피씨방", "게임방"], { keyword: "PC방" }, [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 0], [0.1, 0.5, 0.25, 0.1, 0.05], 0.1),
 ];
+
+// 폐업 위험: 앱 업종 → 서울시 상권분석서비스(점포-행정동) 서비스 업종 코드. 여러 코드는 합쳐서 본다. 직접 입력 업종은 없음
+export const CLOSURE_CODES = {
+  cafe: ["CS100010"], // 커피-음료
+  restaurant: ["CS100001", "CS100002", "CS100003", "CS100004", "CS100006", "CS100008"], // 한식 · 중식 · 일식 · 양식 · 패스트푸드 · 분식
+  bar: ["CS100009"], // 호프-간이주점
+  cvs: ["CS300002"], // 편의점
+  hospital: ["CS200006", "CS200007", "CS200008"], // 일반의원 · 치과의원 · 한의원
+  korean: ["CS100001"], chinese: ["CS100002"], japanese: ["CS100003"], western: ["CS100004"],
+  snack: ["CS100008"], chicken: ["CS100007"], bakery: ["CS100005"],
+  salon: ["CS200028"], gym: ["CS200024"], pharmacy: ["CS300018"], laundry: ["CS200031"],
+  academy: ["CS200001", "CS200002", "CS200003", "CS200004"], realty: ["CS200033"], karaoke: ["CS200037"], pcroom: ["CS200019"],
+};
 
 // 화면의 "세부 업종" 메뉴 묶음 (key 목록)
 export const EXTRA_GROUPS = [

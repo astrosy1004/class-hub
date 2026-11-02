@@ -2,6 +2,7 @@
 // 반환은 HTML 문자열이고, 지도 화면의 항목을 눌렀을 때 펼쳐진다. (ui.js 에서 사용)
 import { AGE_GROUPS } from "./area-data.js";
 import { monthLabel } from "./metrics.js";
+import { RENT_RULES } from "./score-rules.js";
 
 const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const pct = (x, d = 0) => `${(x * 100).toFixed(d)}%`;
@@ -72,8 +73,23 @@ function competition(a, it) {
 }
 
 function rent(a, it) {
-  return `<p class="dtxt">같은 업종 월 임대료를 <b>서울 평균과 비교</b>해 낮을수록 높은 점수를 줄 계획이에요.</p>
-  <div class="dnote">아직 동 단위로 조회할 수 있는 <b>공개 임대료 자료를 확인하지 못해</b> 점수에서 제외했어요. 대신 나머지 항목의 비중(기본 25·20·20·15%)이 합 100%가 되도록 다시 나뉘어 적용됩니다.</div>
+  const r = a.rent;
+  const rows = RENT_RULES.bands.map(([max, sc], i) => {
+    const lo = i ? RENT_RULES.bands[i - 1][0] : 0;
+    const label = max === Infinity ? `${Math.round(lo * 100)}% 초과` : `${Math.round(max * 100)}% 이하`;
+    const on = r?.burden != null && r.burden > lo && r.burden <= max;
+    return `<div class="drow band ${on ? "on" : ""}"><span>${label}</span><div class="dbar"><i class="${on ? "r" : "t"}" style="width:${sc}%"></i></div><span class="dnum">${sc}점</span></div>`;
+  }).join("");
+  if (!r) return `<p class="dtxt">알아본 매물의 <b>월 임대료가 예상 월매출의 몇 %인지</b>로 점수를 매겨요. 낮을수록 높은 점수예요.</p>
+  <div class="dnote">아직 매물 정보가 없어 점수에서 제외했어요. 아래 <b>알아본 매물 월세 넣기</b>에 보증금 · 월세 · 예상 월매출을 넣으면 바로 반영돼요. 나머지 항목의 비중은 합 100%가 되도록 다시 나뉘어 있어요.</div>
+  ${contribution(it)}`;
+  const w = (n) => n.toLocaleString("ko-KR");
+  const calc = `월세 ${w(r.monthly)}만원${r.fee ? ` + 관리비 ${w(r.fee)}만원` : ""}${r.deposit ? ` + 보증금 ${w(r.deposit)}만원 × 12% ÷ 12` : ""} = 환산 월 <b>${w(r.total)}만원</b>`;
+  if (r.burden == null) return `<p class="dtxt">${calc}</p>
+  <div class="dnote">예상 월매출을 넣지 않아 점수에서는 제외했어요. 매출을 넣으면 <b>매출 대비 임대료 비율</b>로 점수를 매겨요.</div>${contribution(it)}`;
+  return `<p class="dtxt">월 임대료가 <b>예상 월매출의 몇 %인지</b>로 점수를 매겨요. 통상 10% 안팎이면 무리가 적은 편이에요.</p>
+  <div class="dcalc">${calc}<br>÷ 예상 월매출 ${w(r.sales)}만원 → <b>${Math.round(r.burden * 100)}%</b> → <b>${it.score}점</b></div>${rows}
+  <div class="dnote cap">보증금은 연 12%로 월세에 환산했어요 (서울시 우리마을가게 방식). 직접 넣은 값이라 이 기기에만 저장돼요. 구간별 점수는 초안이에요 (검수 전).</div>
   ${contribution(it)}`;
 }
 
@@ -102,11 +118,27 @@ function total(a) {
   <div class="dnote cap">등급: 85점 이상 추천 · 70~84 조건부 추천 · 55~69 신중 검토 · 55 미만 재검토. 항목 비중과 구간은 초안이며 상담사 검수로 보정할 예정이에요.</div>`;
 }
 
-const BUILDERS = { customer, size, competition, rent, growth };
+function closure(a, it) {
+  const c = a.closure, ind = a.industry;
+  if (!c) return `<p class="dtxt">같은 업종 가게가 최근 1년 동안 <b>얼마나 문을 닫았는지</b>를 서울 다른 동과 비교해요.</p>
+  <div class="dnote">${ind.custom ? "직접 입력한 업종은 서울시 업종 분류와 맞출 수 없어 이 항목을 계산하지 않았어요." : "이 지역의 개폐업 자료가 없어(서울 밖이거나 수집 전) 점수에서 제외했어요."}</div>${contribution(it)}`;
+  const q = (c.quarters || []).map((x) => `${String(x).slice(2, 4)}년 ${String(x).slice(4)}분기`).join(" · ");
+  const bar = (v, cls) => `<div class="dbar"><i class="${cls}" style="width:${Math.min(100, Math.round(v * 1000))}%"></i></div>`;
+  return `<p class="dtxt">이 동네 <b>${esc(ind.name)}</b> 가게가 최근 4분기 동안 <b>얼마나 문을 닫았는지</b>를 서울 다른 동과 비교해요. 폐업이 적을수록 높은 점수예요.</p>
+  <div class="drow"><span>이 동네</span>${bar(c.rate, "r")}<span class="dnum">${pct(c.rate, 1)}</span></div>
+  <div class="drow"><span>서울 중간</span>${bar(c.median ?? 0, "t")}<span class="dnum">${c.median == null ? "-" : pct(c.median, 1)}</span></div>
+  <div class="dcalc">폐업 ${c.closed}곳 ÷ 점포 수(4분기 합) ${c.base}곳 = <b>${pct(c.rate, 1)}</b>${c.pct == null ? " · 점포가 적어 비교에서 제외" : ` → 서울 ${c.n}개 동 중 폐업이 적은 쪽 ${c.pct}% → <b>${it.score}점</b>`}</div>
+  <div class="dnote cap">현재 점포 ${c.stores}곳 (프랜차이즈 ${c.frc}곳) · 개업 ${c.opened}곳 · 출처: 서울시 상권분석서비스(점포-행정동) ${q}</div>
+  ${contribution(it)}`;
+}
+
+const BUILDERS = { customer, size, competition, closure, rent, growth };
 
 // key: "customer" | "size" | "competition" | "rent" | "growth" | "total"
-export function explainHtml(a, key) {
+// brief: 결과 화면 "왜 이런 결과인가요?"용 — 설명 · 그래프만 두고 계산식 · 순위 · 비중 같은 근거 줄(dcalc · dnote)은 뺀다
+export function explainHtml(a, key, { brief = false } = {}) {
   if (key === "total") return total(a);
   const it = a.score.items.find((i) => i.key === key);
-  return it ? BUILDERS[key](a, it) : "";
+  const html = it ? BUILDERS[key](a, it) : "";
+  return brief ? html.replace(/<div class="(dcalc|dnote)[^"]*">[\s\S]*?<\/div>/g, "") : html;
 }

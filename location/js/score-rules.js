@@ -1,13 +1,19 @@
 // 입지 적합도 규칙표 (초안 — 출시 전 창업 상담사 검수로 보정). 숫자 수정은 이 파일만.
 
-// 5개 평가항목과 초기 비중 (합 1)
+// 6개 평가항목과 초기 비중 (합 1). 자료가 없는 항목은 빼고 나머지 비중을 다시 나눈다 (임대료는 매물을 넣었을 때만)
 export const ITEMS = [
   { key: "customer", name: "목표 고객 일치도", short: "고객 일치", weight: 0.25 },
   { key: "size", name: "유동인구 규모", short: "유동인구", weight: 0.2 },
-  { key: "competition", name: "경쟁 강도", short: "경쟁 강도", weight: 0.2 },
-  { key: "rent", name: "임대료 부담", short: "임대료", weight: 0.2 },
-  { key: "growth", name: "성장 가능성", short: "성장성", weight: 0.15 },
+  { key: "competition", name: "경쟁 강도", short: "경쟁 강도", weight: 0.15 },
+  { key: "closure", name: "폐업 위험", short: "폐업 위험", weight: 0.2 },
+  { key: "rent", name: "임대료 부담", short: "임대료", weight: 0.1 },
+  { key: "growth", name: "성장 가능성", short: "성장성", weight: 0.1 },
 ];
+
+// 폐업 위험: 같은 업종의 최근 4분기 폐업률을 서울 행정동끼리 비교한 백분위를 뒤집어 점수로 (폐업이 적을수록 높음)
+export const CLOSURE_RULES = {
+  minBase: 20, // 4분기 유사 업종 점포 수 합이 이보다 적으면(분기 평균 5곳 미만) 비율이 흔들려 점수에서 뺀다
+};
 
 // 등급 구간 (점수 이상)
 export const GRADES = [
@@ -16,6 +22,12 @@ export const GRADES = [
   { min: 55, name: "신중 검토", cls: "warn", icon: "🔎" },
   { min: 0, name: "재검토", cls: "now", icon: "⚠" },
 ];
+
+// 임대료 부담: 환산 월 임대료 ÷ 예상 월매출 (초안 — 통상 "임대료는 매출의 10% 안팎" 기준. 백테스트 · 상담사 검수로 보정)
+export const RENT_RULES = {
+  depositRate: 0.12, // 보증금 연 환산율 (서울시 우리마을가게 환산임대료와 같은 12%)
+  bands: [[0.08, 90], [0.1, 75], [0.13, 60], [0.16, 45], [0.2, 30], [0.25, 15], [Infinity, 5]], // [부담률 이하, 점수]
+};
 
 // 리포트 문장 규칙의 기준값
 export const REPORT_RULES = {

@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>자리잡소 · AI 의견 화면 개선 목업</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+/* AI 컨설턴트 의견 화면 개선 목업 (예시 값 · 합정동 미용실). 앱 css/style.css 의 색 변수를 그대로 쓴다. */
+:root {
+  --bg: #f3f8ff; --bg-top: #cfe2ff; --surface: #ffffff; --surface-2: #eef4fd;
+  --text: #0f2040; --muted: #6b7f9e; --line: #e1eaf6;
+  --accent: #2563eb; --accent-2: #60a5fa; --accent-soft: #e0ecff; --navy: #13244a;
+  --now: #ef5a7a; --now-soft: #fde6ec; --up: #0f9d78; --up-soft: #dcf6ee; --warn: #e3862b; --warn-soft: #fff1e3;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: #e9edf3; font-family: Pretendard, -apple-system, "Malgun Gothic", sans-serif; color: var(--text); word-break: keep-all; }
+.wrap { display: flex; gap: 40px; justify-content: center; align-items: flex-start; padding: 32px 16px 48px; flex-wrap: wrap; }
+.note { max-width: 360px; }
+.note h1 { font-size: 24px; margin: 0 0 6px; letter-spacing: -0.03em; }
+.note p { color: var(--muted); font-size: 14px; line-height: 1.6; margin: 0 0 14px; }
+.note ol { margin: 0; padding-left: 18px; font-size: 14px; line-height: 1.6; }
+.note li + li { margin-top: 8px; }
+.note b { color: var(--accent); }
+
+/* 휴대폰 화면 */
+.phone { width: 390px; background: linear-gradient(180deg, var(--bg-top), var(--bg) 220px); border-radius: 28px; overflow: hidden; box-shadow: 0 24px 60px rgba(20, 50, 110, 0.18); position: relative; padding-bottom: 76px; }
+.top { display: flex; align-items: center; gap: 12px; padding: 18px 16px 12px; }
+.back, .pdf { width: 40px; height: 40px; border-radius: 12px; background: #fff; display: grid; place-items: center; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.08); }
+.back svg, .pdf svg { width: 18px; height: 18px; stroke: var(--text); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.top .t { flex: 1; }
+.crumb { display: inline-block; font-size: 11.5px; font-weight: 700; color: var(--accent); background: rgba(255, 255, 255, 0.7); border-radius: 999px; padding: 3px 9px; }
+.top h1 { margin: 3px 0 0; font-size: 21px; letter-spacing: -0.03em; }
+.tabs { margin: 0 16px; background: #fff; border-radius: 18px; display: grid; grid-template-columns: repeat(4, 1fr); padding: 6px; gap: 4px; box-shadow: 0 6px 18px rgba(37, 99, 235, 0.07); }
+.tabs span { text-align: center; font-size: 12px; font-weight: 700; color: var(--muted); padding: 9px 0; border-radius: 12px; }
+.tabs span.on { background: var(--accent-soft); color: var(--accent); }
+.body { padding: 14px 16px 0; display: grid; gap: 12px; }
+
+/* AI 요약 카드: 차분한 남색 + 반짝임 엠블럼 */
+.hero { background: linear-gradient(150deg, #1b3a7a, var(--navy)); color: #fff; border-radius: 22px; padding: 18px; position: relative; overflow: hidden; }
+.hero::after { content: ""; position: absolute; right: -40px; top: -40px; width: 160px; height: 160px; border-radius: 50%; background: radial-gradient(circle, rgba(96, 165, 250, 0.35), transparent 70%); }
+.hero-h { display: flex; align-items: center; gap: 10px; }
+.ai-mark { width: 38px; height: 38px; border-radius: 12px; background: linear-gradient(140deg, #4f8bff, #2563eb 55%, #5b5cf0); display: grid; place-items: center; box-shadow: 0 6px 16px rgba(37, 99, 235, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.35); flex: none; }
+.ai-mark svg { width: 26px; height: 26px; }
+.hero-h b { font-size: 14px; }
+.hero-h small { display: block; font-size: 11.5px; color: #b9c9ea; font-weight: 600; margin-top: 1px; }
+.verdict { font-size: 19px; line-height: 1.45; font-weight: 800; letter-spacing: -0.03em; margin: 14px 0 14px; position: relative; z-index: 1; }
+.verdict em { font-style: normal; color: #9cc3ff; }
+.meta { display: grid; grid-template-columns: repeat(3, 1fr); background: rgba(255, 255, 255, 0.08); border-radius: 14px; position: relative; z-index: 1; }
+.meta div { padding: 10px 12px; }
+.meta div + div { border-left: 1px solid rgba(255, 255, 255, 0.12); }
+.meta small { display: block; font-size: 11px; color: #b9c9ea; }
+.meta b { font-size: 15px; }
+.meta .g { color: #ffd38a; }
+
+/* 한눈에 개수 */
+.count { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.count a { background: #fff; border-radius: 16px; padding: 10px 12px; text-decoration: none; color: inherit; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.06); display: flex; align-items: center; gap: 8px; }
+.count i { width: 26px; height: 26px; border-radius: 8px; display: grid; place-items: center; font-style: normal; font-size: 13px; font-weight: 800; }
+.count b { font-size: 18px; }
+.count small { display: block; font-size: 11px; color: var(--muted); }
+
+/* 섹션 카드 */
+.sec { background: #fff; border-radius: 20px; padding: 16px; box-shadow: 0 6px 18px rgba(37, 99, 235, 0.06); }
+.sec-h { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.sec-h i { width: 24px; height: 24px; border-radius: 8px; display: grid; place-items: center; font-style: normal; }
+.sec-h i svg { width: 15px; height: 15px; fill: none; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.sec-h h2 { margin: 0; font-size: 15.5px; flex: 1; }
+.sec-h span { font-size: 11.5px; color: var(--muted); font-weight: 600; }
+.good i { background: var(--up-soft); } .good i svg { stroke: var(--up); }
+.bad i { background: var(--warn-soft); } .bad i svg { stroke: var(--warn); }
+.tip i { background: var(--accent-soft); } .tip i svg { stroke: var(--accent); }
+.item { padding: 11px 0; border-top: 1px solid var(--line); }
+.item:first-of-type { border-top: 0; padding-top: 2px; }
+.item p { margin: 0 0 8px; font-size: 14px; line-height: 1.5; font-weight: 600; }
+.ev { display: flex; align-items: center; gap: 8px; background: var(--surface-2); border-radius: 10px; padding: 7px 10px; font-size: 12px; color: var(--muted); }
+.ev b { color: var(--text); font-size: 12.5px; white-space: nowrap; }
+.ev .bar { flex: 1; height: 6px; background: #dfe8f6; border-radius: 6px; overflow: hidden; }
+.ev .bar i { display: block; height: 100%; border-radius: 6px; }
+.ev .tag { font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 999px; white-space: nowrap; }
+.steps { list-style: none; margin: 0; padding: 0; counter-reset: s; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 26px 1fr; gap: 10px; padding: 10px 0; border-top: 1px solid var(--line); }
+.steps li:first-child { border-top: 0; padding-top: 2px; }
+.steps li::before { content: counter(s); width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 12px; font-weight: 800; display: grid; place-items: center; }
+.steps p { margin: 0 0 6px; font-size: 14px; line-height: 1.5; font-weight: 600; }
+.steps small { font-size: 12px; color: var(--muted); }
+.how { background: var(--surface-2); border-radius: 18px; padding: 14px 16px; font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+.how h3 { margin: 0 0 6px; font-size: 13px; color: var(--text); display: flex; align-items: center; gap: 6px; }
+.how ul { margin: 0; padding-left: 16px; }
+.nav { position: absolute; left: 0; right: 0; bottom: 0; height: 72px; background: #fff; border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(4, 1fr); align-items: center; text-align: center; font-size: 11.5px; font-weight: 700; color: var(--muted); }
+.nav svg { display: block; margin: 0 auto 4px; width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.nav .on { color: var(--accent); }
+.badge-mock { position: absolute; top: 10px; right: 64px; font-size: 10px; font-weight: 800; color: #fff; background: var(--now); border-radius: 6px; padding: 2px 6px; z-index: 2; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="note">
+  <h1>AI 의견 화면 개선 목업</h1>
+  <p>지적: 로봇 이모지가 가볍고 장난스러워 보이고, 결과가 문장 나열이라 무엇이 중요한지 한눈에 안 들어옴. 값은 예시(합정동 미용실)입니다.</p>
+  <ol>
+    <li><b>AI 아이콘</b> — 로봇 이모지 → 파란 그라데이션 사각 엠블럼 안의 반짝임(✦) 기호. 금융 · 업무 앱에서 쓰는 차분한 "AI 분석" 표식으로 신뢰감.</li>
+    <li><b>결론 먼저</b> — 남색 요약 카드에 한 줄 결론 + 종합 점수 · 신뢰도 · 기준일을 한 줄로.</li>
+    <li><b>한눈에 개수</b> — 강점 · 주의 · 실행 전략 개수 칩으로 전체 모양을 먼저 보여 줌.</li>
+    <li><b>근거를 숫자 막대로</b> — "근거 · …" 회색 글자 대신 항목 이름 · 점수 막대 · 수치.</li>
+    <li><b>전략은 번호 체크리스트</b> — 무엇을 / 언제 할지 두 줄로.</li>
+    <li><b>만든 방법 공개</b> — 숫자는 공공데이터로 계산, 문장은 규칙으로 생성 · 출처 · 고지를 맨 아래에.</li>
+  </ol>
+</div>
+
+<div class="phone">
+  <div class="top">
+    <span class="back"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></span>
+    <div class="t"><span class="crumb">분석 결과 · 합정동 미용실</span><h1>AI 컨설턴트 의견</h1></div>
+    <span class="pdf"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></span>
+  </div>
+  <div class="tabs"><span>지도</span><span>데이터 분석</span><span>통계</span><span class="on">AI 의견</span></div>
+
+  <div class="body">
+    <section class="hero">
+      <div class="hero-h">
+        <span class="ai-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5c.5 3.6 1.9 5 5.5 5.5-3.6.5-5 1.9-5.5 5.5-.5-3.6-1.9-5-5.5-5.5 3.6-.5 5-1.9 5.5-5.5z" fill="#fff"/><path d="M18 14.5c.3 1.7.9 2.3 2.5 2.5-1.6.3-2.2.9-2.5 2.5-.3-1.6-.9-2.2-2.5-2.5 1.6-.2 2.2-.8 2.5-2.5z" fill="#cfe0ff"/></svg></span>
+        <div><b>AI 분석 요약</b><small>공공데이터 4종 · 근거 지표 6개로 작성</small></div>
+      </div>
+      <p class="verdict">강점과 약점이 섞여 있어요.<br><em>성장성</em>을 현장에서 먼저 확인해 보세요.</p>
+      <div class="meta">
+        <div><small>종합 점수</small><b>63점</b></div>
+        <div><small>등급</small><b class="g">신중 검토</b></div>
+        <div><small>신뢰도 · 기준일</small><b>보통</b> <small style="display:inline">10-28</small></div>
+      </div>
+    </section>
+
+    <div class="count">
+      <a href="#g"><i style="background:var(--up-soft);color:var(--up)">+</i><div><b>1</b><small>강점</small></div></a>
+      <a href="#b"><i style="background:var(--warn-soft);color:var(--warn)">!</i><div><b>1</b><small>주의</small></div></a>
+      <a href="#t"><i style="background:var(--accent-soft);color:var(--accent)">✓</i><div><b>3</b><small>실행 전략</small></div></a>
+    </div>
+
+    <section class="sec good" id="g">
+      <div class="sec-h"><i><svg viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></svg></i><h2>강점</h2><span>점수 70 이상</span></div>
+      <div class="item">
+        <p>미용실의 목표 고객층과 이 지역 생활인구 구성이 잘 맞습니다.</p>
+        <div class="ev"><b>고객 일치</b><span class="bar"><i style="width:95%;background:var(--up)"></i></span><b>95점</b><span class="tag" style="background:var(--up-soft);color:var(--up)">50대 이상 37%</span></div>
+      </div>
+    </section>
+
+    <section class="sec bad" id="b">
+      <div class="sec-h"><i><svg viewBox="0 0 24 24"><path d="M12 8v5M12 16.5v.5"/><circle cx="12" cy="12" r="9"/></svg></i><h2>주의할 점</h2><span>점수 40 미만 · 추세</span></div>
+      <div class="item">
+        <p>최근 3개월 생활인구가 직전보다 조금 줄었습니다.</p>
+        <div class="ev"><b>성장성</b><span class="bar"><i style="width:31%;background:var(--warn)"></i></span><b>31점</b><span class="tag" style="background:var(--warn-soft);color:var(--warn)">-2.4%</span></div>
+      </div>
+      <div class="item">
+        <p>임대료는 아직 넣지 않아 점수에 빠져 있어요. 알아본 매물을 넣으면 함께 판단합니다.</p>
+        <div class="ev"><b>임대료</b><span class="bar"></span><b>자료 없음</b></div>
+      </div>
+    </section>
+
+    <section class="sec tip" id="t">
+      <div class="sec-h"><i><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg></i><h2>실행 전략</h2><span>근거와 함께</span></div>
+      <ol class="steps">
+        <li><div><p>30대 방문층이 선호하는 서비스 · 가격 구성을 검토하세요.</p><small>근거 · 30대 비중 25% (서울 동 평균보다 높음)</small></div></li>
+        <li><div><p>영업 시간대 중 가장 붐비는 18시 전후에 인력을 맞추세요.</p><small>근거 · 평일 18시 생활인구 최고</small></div></li>
+        <li><div><p>현장 답사에서 주변 미용실 3곳의 가격 · 대기 상황을 비교하세요.</p><small>근거 · 반경 500m 미용실 42곳</small></div></li>
+      </ol>
+    </section>
+
+    <div class="how">
+      <h3><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 4 6v6c0 4.5 3.4 8 8 9 4.6-1 8-4.5 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg>이 의견은 이렇게 만들었어요</h3>
+      <ul>
+        <li>숫자는 공공데이터로 먼저 계산하고, 문장은 정해진 규칙으로 만듭니다.</li>
+        <li>출처: 서울 생활인구(기준일 2026-10-28) · Kakao 점포 검색</li>
+        <li>참고 자료이며 성공을 보장하지 않습니다.</li>
+      </ul>
+    </div>
+  </div>
+
+  <nav class="nav">
+    <span><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>검색하기</span>
+    <span class="on"><svg viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>분석 결과</span>
+    <span><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>후보 비교</span>
+    <span><svg viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>내 정보</span>
+  </nav>
+</div>
+
+</div>
+</body>
+</html>
