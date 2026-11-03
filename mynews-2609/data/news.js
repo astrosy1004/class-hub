@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-11-03T17:25:33.828Z",
+  "updatedAt": "2026-11-03T22:41:16.723Z",
   "categories": [
     {
       "id": "job",
@@ -186,14 +186,6 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "여수에도 코딩협동조합이! '펀SW융합코딩협동조합' 오픈 - 여수넷통뉴스",
-          "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE03blpoMXZBcjRmWjlhdG9pelo1WHFndDhROHdpOURmZjJyVWE3SHZFLWxpMkJsSHR3LUJraUl0ckRRVV9BNzNzRk4tY09HcWtkbWdDd3pkN0VlazZxck9WNDZ2TjV1RTNs?oc=5",
-          "date": "2019-11-20T08:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiaEFVX3lxTE03blpoMXZBcjRmWjlhdG9pelo1WHFndDhROHdpOURmZjJyVWE3SHZFLWxpMkJsSHR3LUJraUl0ckRRVV9BNzNzRk4tY09HcWtkbWdDd3pkN0VlazZxck9WND",
-          "source": "여수넷통뉴스",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
           "title": "LG CNS 경력보유여성, 중학교 코딩 강사로 새출발! - 테크월드",
           "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE95SFZKYmVucDVKM3MtaGlFcDhEN0dmZ3k0LTJHamdFUHp3dnV0cFo4eUlxRDhHYkxXNUx5bGpaT2dPX0tzMnlVMWN4S09RMG9iN1NDYUQtVE1nQjQ0VGVtd294eGtlNE0?oc=5",
           "date": "2019-08-27T07:00:00.000Z",
@@ -207,6 +199,14 @@ window.MYNEWS_DATA = {
           "date": "2019-07-28T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiZkFVX3lxTE9vNExZeUdBWk5hVjlScUhQUnpRSnFieC15ektOUGhkQlhBVzkteE1hWUVaYTloVlFjYzdON0c4Ymhxem41c2huMktOUmZXZFlUWTltOE14RmZkWlQ2QW43RV",
           "source": "메이킹뉴스",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "광명시, 'SW정보화교육강사 양성과정' 수료식 개최 - 뉴스웍스",
+          "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9ZWHJxZGE4LU9yeTBTSXFJSXZiSGF6d29aTmphdkpfTGhQdHdKVURtU1RxelBsVlBXc1JqODYtWU5JNjN4ZUNaRzdjSFRBblQtQW12TXpOeDgwTzRka2ZkMk9CbXlEbUhMSGhteUFPd9IBc0FVX3lxTE9oM0EweWFvR1RUNDBxd3NpOEM5YmxGOG14NFlHNnFTQy0tdnBzcWdpX0FRdjNlV0VaT21kSS1RMWNSMGhfeTZnODExR2JManNlSGhTeGd5TWFkYzVoU3lKeHU4a2w3V3RuQldUR0w1bzBvaTg?oc=5",
+          "date": "2019-07-10T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMib0FVX3lxTE9ZWHJxZGE4LU9yeTBTSXFJSXZiSGF6d29aTmphdkpfTGhQdHdKVURtU1RxelBsVlBXc1JqODYtWU5JNjN4ZUNaRzdjSFRBblQtQW12TXpOeDgwTzRka2ZkMk",
+          "source": "뉴스웍스",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
