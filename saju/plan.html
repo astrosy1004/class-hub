@@ -406,7 +406,7 @@ td b { color: var(--accent); }
   <div class="grid g3">
     <div class="card"><div class="num">±0.6분</div><h3>24절기 시각</h3><p>Meeus 고정밀 방법(VSOP87 축약 + 장동 · 광행차). 공개 절입 시각 8건과 최대 0.6분 차이 (처음 쓴 간이 공식은 10분 오차라 교체)</p></div>
     <div class="card"><div class="num">0건</div><h3>한국 음력 왕복 오류</h3><p>합삭 시각을 한국시간으로 계산해 음력 달을 직접 구성. 1900~2100년 전 날짜 양력→음력→양력 왕복 오류 0, 1966년 설날처럼 중국 음력과 다른 달도 맞춤</p></div>
-    <div class="card"><div class="num">21/21</div><h3>검증 사례 일치</h3><p>절기 경계 · 자시 · 시간 모름 · 음력 입력 · 서머타임 사례 9건과 설날 · 추석 · 윤달 12건</p></div>
+    <div class="card"><div class="num">30/30</div><h3>외부 엔진 대조</h3><p>공개 만세력 엔진 6tail lunar_python과 가상 30건(절기 경계 · 자시 · 윤달 · 서머타임 · UTC+8:30 포함) 네 기둥 · 음력 · 대운 방향 모두 일치. 손계산 · 설날 · 추석 21건도 일치</p></div>
   </div>
   <div class="grid g2" style="margin-top:18px">
     <div class="card soft"><h3>계산 기준</h3><ul><li>연주 입춘 시각, 월주 12절 시각 기준</li><li>일주 23시(자시)부터 다음 날 · 야자시 선택 가능</li><li>시주는 서울 기준 지방시(약 32분 보정)</li><li>대운 = 절입까지 날수 ÷ 3, 양남음녀 순행 · 시작 나이 100세 이하까지(보통 10개)</li></ul></div>
@@ -528,12 +528,13 @@ td b { color: var(--accent); }
 <section class="slide" data-title="검증 · 완료 기준" data-group="5. 일정">
   <p class="kicker">5. 일정</p>
   <h2>검증 · 완료 기준</h2>
-  <p class="lead">기획서의 1주 MVP 완료 기준과 지금 상태입니다.</p>
+  <p class="lead">기획서의 1주 MVP 완료 기준과 지금 상태입니다. 엔진 계산은 외부 엔진 대조 30/30을 통과했습니다.</p>
   <ul class="checks">
     <li><span class="chip done">완료</span><span class="t">휴대폰 화면(360~390px)에서 입력부터 그래프까지 가로 넘침 없이 이동 · 라벤더 / 다크 테마 확인</span></li>
     <li><span class="chip done">완료</span><span class="t">모든 결과 화면에 참고용 고지 · 건강 화면에 "의학적 진단 아님" 문구</span></li>
     <li><span class="chip done">완료</span><span class="t">절기 시각 8건 ±0.6분 · 음력 왕복 오류 0 · 검증 사례 21건 일치 · 배포 사이트 콘솔 오류 없음</span></li>
-    <li><span class="chip now">진행</span><span class="t">명식 30건(절기 경계일 · 윤달 · 시간 모름 포함)이 기존 만세력 앱과 일치 — 현재 0/30, 대운수(반올림 · 나이 기준) 확정 필요</span></li>
+    <li><span class="chip done">완료</span><span class="t">외부 만세력 엔진(6tail lunar_python 1.4.8)과 30건 대조 — 네 기둥 30/30 · 음력 4/4 · 대운 방향 30/30 일치, 대운수는 13건 같고 17건 1 차이(반올림 vs 버림 기준)</span></li>
+    <li><span class="chip now">진행</span><span class="t">기존 한국 만세력 앱과 명식 30건 대조 (서머타임 · 지방시 같은 한국 보정 확인) — 현재 0/30, 대운수 기준(반올림 · 버림) 확정 필요</span></li>
     <li><span class="chip now">진행</span><span class="t">구글 로그인 · 계정 저장 실제 사용자 확인 (미리보기 창은 팝업이 막혀 직접 확인 필요)</span></li>
     <li><span class="chip next">예정</span><span class="t">한국천문연구원 음양력 · 절기 자료와 1900~2100년 전수 대조 (공공데이터포털 API 키 필요)</span></li>
     <li><span class="chip next">예정</span><span class="t">배포 주소로 지인 10명이 각자 명식 조회 완료</span></li>

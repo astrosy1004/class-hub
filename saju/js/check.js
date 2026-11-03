@@ -116,6 +116,8 @@ function renderCases() {
   let pass = 0;
   let appTotal = 0;
   let appPass = 0;
+  let refTotal = 0;
+  let refPass = 0;
   const rows = CASES.map((c) => {
     const r = calculateSaju(c);
     const got = r.error ?? fourPillarsText(r);
@@ -126,6 +128,10 @@ function renderCases() {
     if (c.source.startsWith("앱:")) {
       appTotal++;
       if (ok) appPass++;
+    }
+    if (c.source.startsWith("엔진:")) {
+      refTotal++;
+      if (ok) refPass++;
     }
     const daeunNumber = r.daeun?.number ?? "-";
     const daeunCell = c.daeun == null ? daeunNumber : `${daeunNumber} / 기대 ${c.daeun}`;
@@ -141,7 +147,7 @@ function renderCases() {
   }).join("");
   $("#caseTable").innerHTML = `
     <tr><th class="left">사례</th><th>입력</th><th>계산</th><th>기대</th><th>대운수</th><th>결과</th><th class="left">출처</th></tr>${rows}`;
-  $("#caseSummary").textContent = `${pass}/${CASES.length} 일치 · 관문 ${appPass}/30`;
+  $("#caseSummary").textContent = `${pass}/${CASES.length} 일치 · 외부 엔진 대조 ${refPass}/${refTotal} · 기존 앱 관문 ${appPass}/30`;
 }
 
 // ── 음력 변환 ─────────────────────────────
