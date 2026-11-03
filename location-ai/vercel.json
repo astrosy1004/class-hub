@@ -1,0 +1,5 @@
+{
+  "functions": {
+    "api/opinion.js": { "maxDuration": 30 }
+  }
+}

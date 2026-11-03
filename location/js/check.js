@@ -16,6 +16,8 @@ import { toStore } from "./kmap.js";
 import { pdfReportHtml, reportFileName, checklist } from "./pdf-report.js";
 import { rentInfo, matchRentRef, fmtRentUnit } from "./rent.js";
 import { confidenceOf } from "./confidence.js";
+import { buildPayload, requestOpinion, failText } from "./ai-opinion.js";
+import { allowedNumbers, validateOpinion } from "./ai-guard.js";
 
 const out = document.getElementById("out");
 const results = [];
@@ -235,6 +237,34 @@ async function run() {
   check("임대료 참고", "단위 환산: 19.0천원/㎡ ≈ 평당 6.3만원", fmtRentUnit(19) === "㎡당 19.0천원 (평당 약 6.3만원)", fmtRentUnit(19));
   const sumR = buildReport(full).summary;
   check("결과 보고서", "요약의 연령층 표현이 가장 많은 층과 어긋나지 않음", !/중심 전략/.test(sumR) && (sumR.includes(AGE_GROUPS.find((g) => g.key === full.metrics.topAge).name) || !sumR.includes("공략")), sumR);
+
+  // AI 전문가 의견 (모의 서버 응답으로 — 실제 OpenRouter 를 부르지 않는다)
+  const payload = buildPayload(full);
+  check("AI 의견", "보내는 요약에 좌표 · 개인정보 칸 없음", !/"lat"|"lng"|uid|email/.test(JSON.stringify(payload)) && payload.items.length >= 3);
+  const allow = allowedNumbers(payload);
+  const sc0 = payload.items[0];
+  const good = { strengths: [`${sc0.name} ${sc0.score}점으로 강점입니다.`], cautions: ["현장 확인이 필요합니다."], strategies: ["평일 현장을 둘러보세요.", "경쟁 점포와 겹치지 않는 메뉴를 준비하세요."], overall: `${payload.asOf} 기준 자료입니다. 현장 확인 후 판단하세요.` };
+  check("AI 의견", "입력 숫자만 쓴 답변은 통과", validateOpinion(good, allow).ok);
+  check("AI 의견", "입력에 없는 숫자(예상 매출 3200만원)는 거부", !validateOpinion({ ...good, cautions: ["예상 월매출은 3200만원입니다."] }, allow).ok);
+  const realFetch = window.fetch;
+  try {
+    localStorage.removeItem("aiOpinion");
+    localStorage.setItem("dev:aiUrl", "http://localhost:5530/__mock_ai");
+    window.fetch = async () => new Response(JSON.stringify({ opinion: { ...good, overall: "월 매출 5000만원이 예상됩니다." }, model: "mock" }), { status: 200 });
+    const bad = await requestOpinion({ ...full, key: "mock-bad" });
+    check("AI 의견", "서버가 지어낸 숫자를 보내도 앱이 거부 → 기본 의견 유지", !bad.ok && bad.reason === "unverified_numbers");
+    window.fetch = async () => new Response(JSON.stringify({ opinion: good, model: "mock" }), { status: 200 });
+    const ok = await requestOpinion({ ...full, key: "mock-ok" });
+    const again = await requestOpinion({ ...full, key: "mock-ok" });
+    check("AI 의견", "정상 답변 표시 · 같은 결과는 기기에 저장해 다시 묻지 않음", ok.ok && again.cached === true);
+    window.fetch = async () => new Response(JSON.stringify({ error: "rate_limited" }), { status: 429 });
+    const lim = await requestOpinion({ ...full, key: "mock-429" });
+    check("AI 의견", "호출 제한 응답은 안내 문장으로", !lim.ok && failText(lim.reason).includes("잠시 후"));
+  } finally {
+    window.fetch = realFetch;
+    localStorage.removeItem("dev:aiUrl");
+    localStorage.removeItem("aiOpinion");
+  }
 }
 
 run().then(() => {

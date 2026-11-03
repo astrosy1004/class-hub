@@ -1,4 +1,5 @@
 // 화면 그리기: 분석 결과 · 상태를 받아 HTML 문자열을 돌려준다 (이벤트 처리는 main.js).
+import { aiUrl } from "./ai-opinion.js";
 import { AGE_GROUPS, INDUSTRIES, EXTRA_INDUSTRIES, EXTRA_GROUPS, POPULAR_AREAS, industryByKey } from "./area-data.js";
 import { parseQuery } from "./place.js";
 import { confidenceOf, itemWord } from "./confidence.js";
@@ -119,6 +120,8 @@ const ICON_PATHS = {
   scale: '<path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/>',
   layers: '<path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m6.08 9.5-3.5 1.6a1 1 0 0 0 0 1.81l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9a1 1 0 0 0 0-1.83l-3.5-1.59"/><path d="m6.08 14.5-3.5 1.6a1 1 0 0 0 0 1.81l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9a1 1 0 0 0 0-1.83l-3.5-1.59"/>',
   competition: '<polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" x2="19" y1="19" y2="13"/><line x1="16" x2="20" y1="16" y2="20"/><line x1="19" x2="21" y1="21" y2="19"/><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"/><line x1="5" x2="9" y1="14" y2="18"/><line x1="7" x2="4" y1="17" y2="20"/><line x1="3" x2="5" y1="19" y2="21"/>', // Lucide swords
+  chat: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M13 8H7"/><path d="M17 12H7"/>', // Lucide message-square-text
+  spin: '<path d="M21 12a9 9 0 1 1-6.219-8.56"/>', // Lucide loader-circle
   closure: '<path d="M18 20V6a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v14"/><path d="M2 20h20"/><path d="M14 12v.01"/>', // Lucide door-closed
   star: '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
   // 홈 카드 머리 아이콘: Lucide (lucide.dev, ISC) store · map-pin
@@ -460,6 +463,8 @@ export function reportHtml(a) {
   ${subnav(a, "report")}
   ${modeBanner()}
   <div class="bubble"><div class="bot">${subIcon("report")}</div><p>${esc(r.summary)}</p></div>
+  ${aiUrl() ? `<section class="card ai-card" aria-labelledby="aiH"><div class="ai-h"><span class="ai-mark">${subIcon("report")}</span><div><h3 id="aiH">전문가 의견 (AI)</h3><small>아래 분석 숫자만 근거로 AI 컨설턴트가 다시 정리해요 · 참고용</small></div></div>
+    <button type="button" class="btn" data-ai>${icon("chat")}전문가 의견 받기</button><div id="aiOut" aria-live="polite"></div></section>` : ""}
   <div class="tone good"><h3>${icon("good")}강점</h3><ul>${r.strengths.map(li).join("")}</ul></div>
   <div class="tone bad"><h3>${icon("alert")}위험 요소</h3><ul>${r.risks.map(li).join("")}</ul></div>
   <div class="tone tip"><h3>${icon("idea")}추천 전략</h3><ul>${r.strategies.map(li).join("")}</ul></div>
@@ -467,6 +472,21 @@ export function reportHtml(a) {
   <a class="btn" href="${hashOf("pdf", a)}">${icon("doc")}결과 보고서(PDF) 만들기</a>
   <div class="cap" style="text-align:center;margin:6px 0 10px">항목별 산출 근거 · 그래프 · 점포 목록 · 현장 답사 체크리스트까지 담은 A4 보고서예요</div>
   ${sourceFoot(a)}`;
+}
+
+// AI 전문가 의견 결과 (ai-opinion.js 의 requestOpinion 결과). 실패면 안내만 하고 위의 규칙 기반 의견은 그대로 둔다
+export function aiOpinionHtml(res, failText) {
+  if (res === "loading") return `<div class="ai-wait">${icon("spin")}분석 숫자로 의견을 쓰는 중이에요…</div>`;
+  if (!res.ok) return `<div class="ai-fail">${icon("caution")}${esc(failText(res.reason))} 위의 기본 의견을 참고해 주세요.</div>`;
+  const o = res.opinion;
+  const ul = (arr) => `<ul>${arr.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>`;
+  return `<div class="ai-res">
+    ${o.strengths.length ? `<h4>${icon("good")}강점</h4>${ul(o.strengths)}` : ""}
+    ${o.cautions.length ? `<h4>${icon("alert")}주의할 점</h4>${ul(o.cautions)}` : ""}
+    ${o.strategies.length ? `<h4>${icon("idea")}추천 전략</h4>${ul(o.strategies)}` : ""}
+    <h4>${icon("target")}종합 의견</h4><p>${esc(o.overall)}</p>
+    <div class="ai-tag">${subIcon("report")}AI가 작성 · 참고용${res.model ? ` · ${esc(res.model)}` : ""}${res.cached ? " · 저장된 의견" : ""}</div>
+  </div>`;
 }
 
 // ── 후보 비교 ────────────────────────────────────

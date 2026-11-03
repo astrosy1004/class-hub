@@ -1,0 +1,4 @@
+# 비밀값 · 설치 파일 · Vercel 로컬 설정은 올리지 않는다
+.env*
+node_modules/
+.vercel/

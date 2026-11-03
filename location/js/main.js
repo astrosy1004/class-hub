@@ -1,6 +1,7 @@
 // 화면 전환(#주소) · 검색 · 이벤트. 계산은 analysis.js, 그리기는 ui.js.
 // 주소 형식: #home · #result/연남동/cafe (분석 결과) → #map/… · #analysis/… · #trend/… · #report/… (4단계) · #compare · #me
 import { INDUSTRIES, industryByKey } from "./area-data.js";
+import { requestOpinion, failText } from "./ai-opinion.js";
 import { parseQuery, resolvePlace, resolveCurrent } from "./place.js";
 import { analyze, applyRent } from "./analysis.js";
 import { drawMap, ensureKakao, kakaoReady, kakaoState } from "./kmap.js";
@@ -385,6 +386,17 @@ document.addEventListener("click", (e) => {
   } else if (t.dataset.store !== undefined) {
     state.mapCtrl?.select(Number(t.dataset.store));
     document.getElementById("mapSec")?.scrollIntoView({ behavior: "smooth", block: "start" }); // 지도와 상세 카드가 보이도록
+  } else if (t.dataset.ai !== undefined) {
+    // AI 전문가 의견: 누를 때만 서버에 묻는다. 실패해도 위의 규칙 기반 의견은 그대로
+    const out = document.getElementById("aiOut");
+    if (!out || !state.current) return;
+    t.disabled = true;
+    out.innerHTML = ui.aiOpinionHtml("loading");
+    requestOpinion(state.current).then((res) => {
+      out.innerHTML = ui.aiOpinionHtml(res, failText);
+      t.disabled = false;
+      if (res.ok) t.remove(); // 받은 뒤에는 버튼을 숨긴다 (같은 결과는 기기에 6시간 저장)
+    });
   } else if (t.dataset.indcmp !== undefined) {
     compareIndustries(t);
   } else if (t.dataset.probe !== undefined) {

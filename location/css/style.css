@@ -574,3 +574,23 @@ svg .rad.r1 { fill: var(--c2); stroke: var(--c2); } svg .rad.r2 { fill: var(--c3
 .conn-r > span { flex: none; color: var(--muted); }
 .conn-r b { text-align: right; font-weight: 700; min-width: 0; }
 .cn-ok { color: var(--up); } .cn-bad { color: var(--now); } .cn-wait, .cn-no { color: var(--muted); font-weight: 600; }
+
+/* AI 전문가 의견 카드 */
+.ai-card { display: grid; gap: 12px; }
+.ai-h { display: flex; gap: 10px; align-items: center; }
+.ai-h h3 { margin: 0; }
+.ai-h small { display: block; font-size: 12px; color: var(--muted); margin-top: 2px; }
+.ai-mark { width: 36px; height: 36px; border-radius: 11px; flex: none; display: grid; place-items: center; color: #fff; background: linear-gradient(140deg, #4f8bff, var(--accent) 55%, #5b5cf0); }
+.ai-mark .ico { width: 20px; height: 20px; }
+.ai-card .btn { margin-top: 0; }
+.ai-wait, .ai-fail { display: flex; gap: 8px; align-items: center; font-size: 13px; color: var(--muted); }
+.ai-wait .ico { width: 18px; height: 18px; animation: ai-spin 0.9s linear infinite; }
+.ai-fail .ico { width: 18px; height: 18px; color: var(--warn); flex: none; }
+@keyframes ai-spin { to { transform: rotate(360deg); } }
+.ai-res h4 { display: flex; gap: 6px; align-items: center; margin: 10px 0 4px; font-size: 14px; }
+.ai-res h4:first-child { margin-top: 0; }
+.ai-res h4 .ico { width: 16px; height: 16px; color: var(--accent); }
+.ai-res ul { margin: 0; padding-left: 18px; font-size: 13.5px; line-height: 1.6; }
+.ai-res p { margin: 0; font-size: 13.5px; line-height: 1.6; }
+.ai-tag { display: inline-flex; gap: 6px; align-items: center; margin-top: 10px; font-size: 11.5px; font-weight: 700; color: var(--accent); background: var(--accent-soft); border-radius: 999px; padding: 4px 10px; }
+.ai-tag .ico { width: 13px; height: 13px; }

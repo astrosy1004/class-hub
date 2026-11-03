@@ -1,0 +1,12 @@
+{
+  "name": "location-ai",
+  "private": true,
+  "type": "module",
+  "description": "자리잡소 AI 전문가 의견 중계 함수 (Vercel)",
+  "scripts": {
+    "test": "node test.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
