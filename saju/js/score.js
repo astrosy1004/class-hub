@@ -293,7 +293,7 @@ export function pillarsOfDate(dateStr) {
 const pad = (n) => String(n).padStart(2, "0");
 export const dateKey = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 
-/** 인생 그래프: 대운 8개 점수 + 현재 위치 */
+/** 인생 그래프: 대운(100세까지) 점수 + 현재 위치 */
 export function lifeGraph(saju, natal) {
   const points = saju.daeun.list.map((d) => {
     const s = scorePillar(natal, d, "total");

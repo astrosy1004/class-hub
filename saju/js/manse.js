@@ -213,7 +213,7 @@ export function calculateSaju(input) {
   const monthIndex = ganzhiIndex(monthPillar.stem, monthPillar.branch);
   const koreanAge = today.getFullYear() - year + 1; // 대운 나이는 세는 나이로 표기
   const daeunList = [];
-  for (let k = 1; k <= SETTINGS.daeunCount; k++) {
+  for (let k = 1; daeunNumber + (k - 1) * 10 <= SETTINGS.daeunUntilAge; k++) {
     const p = ganzhi(monthIndex + (forward ? k : -k));
     const startAge = daeunNumber + (k - 1) * 10;
     daeunList.push({

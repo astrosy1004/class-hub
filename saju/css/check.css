@@ -80,7 +80,7 @@ td.left, th.left { text-align: left; }
 .meta div { background: var(--bg); border-radius: 10px; padding: 8px 10px; }
 .meta b { display: block; font-size: 12px; color: var(--muted); font-weight: 600; }
 
-.daeun { display: grid; grid-template-columns: repeat(8, minmax(64px, 1fr)); gap: 6px; margin-top: 16px; overflow-x: auto; }
+.daeun { display: grid; grid-template-columns: repeat(10, minmax(64px, 1fr)); gap: 6px; margin-top: 16px; overflow-x: auto; }
 .daeun div { border: 1px solid var(--border); border-radius: 10px; padding: 6px 4px; text-align: center; font-size: 12px; }
 .daeun div.now { border-color: var(--now); background: var(--now-bg); }
 .daeun strong { display: block; font-size: 18px; }

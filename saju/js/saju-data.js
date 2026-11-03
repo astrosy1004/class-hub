@@ -115,7 +115,7 @@ export const SETTINGS = {
   defaultLongitude: 126.98,
   // 대운수 = (출생 ~ 절입까지 날수) / 3. 소수점은 반올림하고 최소 1로 둔다.
   daeunRound: (years) => Math.max(1, Math.round(years)),
-  daeunCount: 8,
+  daeunUntilAge: 100, // 대운은 시작 나이가 이 나이 이하인 것까지 (인생 그래프를 100세까지)
   // 결과가 갈릴 수 있어 안내를 띄우는 기준
   jieBoundaryHours: 2, // 절입 시각과 이 시간 안이면 안내
   hourBoundaryMinutes: 10, // 시주가 바뀌는 시각과 이 분 안이면 안내

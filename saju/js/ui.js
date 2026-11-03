@@ -910,7 +910,7 @@ export function renderChart(model, calOffset = 0) {
     </section>
     <section class="card">
       <div class="card-head"><h2>대운</h2><span class="sub">대운수 ${saju.daeun.number} · ${saju.daeun.forward ? "순행" : "역행"}</span></div>
-      <div class="daeun-strip">${daeunDesc.map((d) => `
+      <div class="daeun-strip" style="grid-template-columns:repeat(${daeunDesc.length},1fr)">${daeunDesc.map((d) => `
         <div class="col ${d.current ? "now" : ""}"><div class="age">${d.startAge}</div>
           <div class="cell bg-${STEMS[d.stem].element} el-${STEMS[d.stem].element}">${STEMS[d.stem].ko}</div>
           <div class="cell bg-${BRANCHES[d.branch].element} el-${BRANCHES[d.branch].element}">${BRANCHES[d.branch].ko}</div></div>`).join("")}
