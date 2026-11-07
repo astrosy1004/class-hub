@@ -208,7 +208,7 @@ const lessons = [
     description: "11/7 선생님 무료 연수 · 바이브 코딩 · 시뮬레이션 · 프롬프트 교안 · 로보독 SDK 링크 모음",
     links: [
       { label: "🏠 연수 메인", url: "https://astrosy1004.github.io/robodog/" },
-      { label: "📝 프롬프트 교안", url: "https://astrosy1004.github.io/robodog/로보독_바이브코딩_교안.html" },
+      { label: "📝 프롬프트 교안", url: "https://astrosy1004.github.io/robodog/로보독_PART4_프롬프트_슬라이드.html" },
       { label: "📚 로보독 SDK", url: "https://astrosy1004.github.io/robodog/로보독_SDK_문서.html" },
     ],
   },
