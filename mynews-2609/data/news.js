@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-11-07T01:26:08.714Z",
+  "updatedAt": "2026-11-07T07:58:33.226Z",
   "categories": [
     {
       "id": "job",
@@ -98,19 +98,19 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
+          "title": "지역 주민이 AI·코딩 강사로…양구군 전문인력 양성 - 강원일보",
+          "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBQSWV3QWd4bUNVd2FXVFN1OHNpeHUzX1YyeFFhOXJtWFFKVURQTlBRanlzRFJJT0ZvelI3ZW5ma0pBQk8tZ1ZKdEhkcXUyODNHQWg5RENIbEpxT1k?oc=5",
+          "date": "2026-05-17T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiW0FVX3lxTFBQSWV3QWd4bUNVd2FXVFN1OHNpeHUzX1YyeFFhOXJtWFFKVURQTlBRanlzRFJJT0ZvelI3ZW5ma0pBQk8tZ1ZKdEhkcXUyODNHQWg5RENIbEpxT1k?oc=5\" ",
+          "source": "강원일보",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
           "title": "한신대 디지털새싹사업단, ‘AI 아트 코딩 강사 워크숍’ 개최 - 기독일보",
           "link": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE5OU1ZlZG1oVk5aLV9ZUWg0T2FqdTdFUVFGVDA1X0Rrb1hWZW12bXhGRE1KbGJBakQ2RF9ucER6N200bE9pYmVjMU8zbzNGUDJBQXZ3MV9PMNIBXEFVX3lxTE5CMjFiMmZrX0FETDhLclEzZTU1TXRsNTRFTTM5NFEwZmxuMVJCYndETG02N0J2eGIyYkQtQnJCOTRhaE9uN3JrUC14WVhWdXZuSkhVZ1FRVC03LXN2?oc=5",
           "date": "2024-07-26T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiV0FVX3lxTE5OU1ZlZG1oVk5aLV9ZUWg0T2FqdTdFUVFGVDA1X0Rrb1hWZW12bXhGRE1KbGJBakQ2RF9ucER6N200bE9pYmVjMU8zbzNGUDJBQXZ3MV9PMNIBXEFVX3lxTE",
           "source": "기독일보",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
-          "title": "한신대, ‘2024 여름방학 디지털새싹 캠프 AI 아트 코딩 강사 워크숍’ - 대학저널",
-          "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTFBZeDdhQzJwTGMtVEdLLTdWd0VZX2tHeTZwWE56aFVPLWVwOTgzTUpwTnBBTHBmNVA1eURwSUhEbXVac3owc3BxOVZJdjM2Qmx5RzluTlMwRUg5cUpLU3fSAWpBVV95cUxPWS00XzZUSmF2Z1ZEYlVlckZjUDVvc19HamR6VGVLcXlHeDZzOW1rcmdlX0gyZ0JYUkdOdmQ5bU1EMFpyVVpJWHUyQzdib0ZSOVh6Z3lKMmRqRUZmdEUzY2JUODMyVl9Nc1VR?oc=5",
-          "date": "2024-07-25T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiXkFVX3lxTFBZeDdhQzJwTGMtVEdLLTdWd0VZX2tHeTZwWE56aFVPLWVwOTgzTUpwTnBBTHBmNVA1eURwSUhEbXVac3owc3BxOVZJdjM2Qmx5RzluTlMwRUg5cUpLU3fSAW",
-          "source": "대학저널",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -127,14 +127,6 @@ window.MYNEWS_DATA = {
           "date": "2022-07-07T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiYEFVX3lxTE5Ca2lsbnBkTEZMd0lYRFJJZXRkTFVQWTBuVGF6Y29PQndtajBsYVotN281bUNkM21EZ2ZLY2ZLdFo1bmh1ZWFEOG1pRDdjV2Y0U3RkcDF0LTJwQXBnRmFNMt",
           "source": "뉴시스",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
-          "title": "[인터뷰] 오지 마을의 코딩 전도사 ‘숲속엄마’ 송미선 강사 - 쿠키뉴스",
-          "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5xblVYb0s1LUNYTTZYLUNVdXVhZVYxemtxRW9icWsxd0ZESUt6bXdvazlMd05oeWVBcUVoTExQekZaV1RpWDE3RTB4YWhUazdlQ3I5NDF3MEZfY2VxTG5HMTNQMA?oc=5",
-          "date": "2021-11-29T08:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiY0FVX3lxTE5xblVYb0s1LUNYTTZYLUNVdXVhZVYxemtxRW9icWsxd0ZESUt6bXdvazlMd05oeWVBcUVoTExQekZaV1RpWDE3RTB4YWhUazdlQ3I5NDF3MEZfY2VxTG5HMT",
-          "source": "쿠키뉴스",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -159,6 +151,14 @@ window.MYNEWS_DATA = {
           "date": "2020-07-08T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTE1IS3NTSHV4N2FidTlTVHB6SUdHMFpFU0htdzYzbFF3YkZSV3BXUUtnVVhST3JZX0NtWFpLZEpMSVJBcm9tY282RHBLS3pNQVpfVjM4RnYwaWp2SjVmalJXMW",
           "source": "AI타임스",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "안랩, SW코딩강사 무료 교육 프로그램 ‘안랩샘’ 10기 개강 - 보안뉴스",
+          "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE80NkNHaVVWSjJnOGp6U1dYU21PVVFyeVpUblYxelhlS1g1YzNZSEE4ZFEzbzE4MHdkSkNFXzU4UnJHOEQ2aDlHcWozTlJYMW5KMkhxaGJKenBucVRVOUZBeHJiNUNYZ1pl?oc=5",
+          "date": "2020-03-19T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiaEFVX3lxTE80NkNHaVVWSjJnOGp6U1dYU21PVVFyeVpUblYxelhlS1g1YzNZSEE4ZFEzbzE4MHdkSkNFXzU4UnJHOEQ2aDlHcWozTlJYMW5KMkhxaGJKenBucVRVOUZBeH",
+          "source": "보안뉴스",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
