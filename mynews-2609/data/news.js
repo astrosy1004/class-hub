@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-11-07T14:41:18.279Z",
+  "updatedAt": "2026-11-07T19:43:57.308Z",
   "categories": [
     {
       "id": "job",
@@ -114,14 +114,6 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "한신대, ‘2024 여름방학 디지털새싹 캠프 AI 아트 코딩 강사 워크숍’ - 대학저널",
-          "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTFBZeDdhQzJwTGMtVEdLLTdWd0VZX2tHeTZwWE56aFVPLWVwOTgzTUpwTnBBTHBmNVA1eURwSUhEbXVac3owc3BxOVZJdjM2Qmx5RzluTlMwRUg5cUpLU3fSAWpBVV95cUxPWS00XzZUSmF2Z1ZEYlVlckZjUDVvc19HamR6VGVLcXlHeDZzOW1rcmdlX0gyZ0JYUkdOdmQ5bU1EMFpyVVpJWHUyQzdib0ZSOVh6Z3lKMmRqRUZmdEUzY2JUODMyVl9Nc1VR?oc=5",
-          "date": "2024-07-25T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiXkFVX3lxTFBZeDdhQzJwTGMtVEdLLTdWd0VZX2tHeTZwWE56aFVPLWVwOTgzTUpwTnBBTHBmNVA1eURwSUhEbXVac3owc3BxOVZJdjM2Qmx5RzluTlMwRUg5cUpLU3fSAW",
-          "source": "대학저널",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
           "title": "도 일자리재단, ‘3C코딩 강사 양성과정’ 교육생 25명 모집 - 경기도뉴스포털",
           "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPU19CR1BFSlZLeVNaT0dWcWx6QXpoUDZjcmhMaTNsNTJ6QjV6N1VlekdNelVia3ZfTkpMMnM3MW5Kc1dfdkRIRUpVRlhpSmZBM0hhYmlsaWt0TzB0Y1NxdUptQURXeGxBaHZWMWhHaXRIRGFubG9fX21ONmNyTzNSaWRLWDQ?oc=5",
           "date": "2022-08-27T13:31:50.000Z",
@@ -207,6 +199,14 @@ window.MYNEWS_DATA = {
           "date": "2019-05-17T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTFBzaDJTQS0wZi01d0t1ZktvZHI3VDVrYWtUd05CMjBjV3k1ZzZpUnItcjhxdERhbVhBRkhaMkhpa0ZmTWRZTUptdTRtUTJIZVF4MzJLSmFxOWdzY3FCMDZkSF",
           "source": "보안뉴스",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "한국교육능력진흥원㈜, ㈜소리보따리와 유아코딩지도사 코딩교육 콘텐츠제휴계약 체결 - 한국금융경제신문",
+          "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTFB6RzVpTnJsVmxZWkVTTGlOSlM2Y0lXUmZPY1docEhnSEEwUzFpTEl5TURNOEowVHU0MjNQamczZW9tXzV0UEw5cTBHUTJnV1BYaGFIQ2hMa3NwdEZwVUp3WXN6dUdPb3dLZUpPQ9IBcEFVX3lxTE1NMU9zZnh6TEFNNGlfdkVHLVhNMU0tSWthcjljMXkwYmJvMEpNVXZyVG14WFpHUkNIOW85N0RpeHU5Tk9nUGhxV3ZPQThjZjF6NUZiUWN2X1RsZzNlWUQyd01CT1ZrcXZMVTlCVUhxcHE?oc=5",
+          "date": "2018-12-06T08:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTFB6RzVpTnJsVmxZWkVTTGlOSlM2Y0lXUmZPY1docEhnSEEwUzFpTEl5TURNOEowVHU0MjNQamczZW9tXzV0UEw5cTBHUTJnV1BYaGFIQ2hMa3NwdEZwVUp3WX",
+          "source": "한국금융경제신문",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
