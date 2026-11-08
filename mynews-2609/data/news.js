@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-11-08T17:22:45.507Z",
+  "updatedAt": "2026-11-08T21:27:56.051Z",
   "categories": [
     {
       "id": "job",
@@ -19,7 +19,7 @@ window.MYNEWS_DATA = {
           "source": "Google 뉴스 교육청 코딩강사 채용",
           "url": "https://news.google.com/rss/search?q=%28%22%EC%BD%94%EB%94%A9%EA%B0%95%EC%82%AC%22+OR+%22%EC%BD%94%EB%94%A9+%EA%B0%95%EC%82%AC%22+OR+%22SW%EA%B0%95%EC%82%AC%22+OR+%22%EC%A0%95%EB%B3%B4%EA%B0%95%EC%82%AC%22%29+%28%EA%B5%90%EC%9C%A1%EC%B2%AD+OR+%EB%B0%A9%EA%B3%BC%ED%9B%84+OR+%EB%8A%98%EB%B4%84%ED%95%99%EA%B5%90+OR+%ED%95%99%EA%B5%90%29+%28%EC%B1%84%EC%9A%A9+OR+%EB%AA%A8%EC%A7%91+OR+%EA%B5%AC%EC%9D%B8%29+-%EC%88%98%EA%B0%95%EC%83%9D+-%EC%B0%B8%EA%B0%80%EC%9E%90+when%3A30d&hl=ko&gl=KR&ceid=KR:ko",
           "count": 0,
-          "error": "HTTP 503"
+          "error": "항목 없음"
         }
       ],
       "error": null,
@@ -44,8 +44,7 @@ window.MYNEWS_DATA = {
           "source": "Google 뉴스 코딩강사 역량강화",
           "url": "https://news.google.com/rss/search?q=%22%EC%BD%94%EB%94%A9%EA%B0%95%EC%82%AC%22+%EC%97%AD%EB%9F%89%EA%B0%95%ED%99%94+OR+%EC%97%B0%EC%88%98+OR+%EA%B5%90%EC%9C%A1&hl=ko&gl=KR&ceid=KR:ko",
           "count": 20,
-          "error": "HTTP 503",
-          "stale": true
+          "error": null
         }
       ],
       "error": null,
@@ -131,14 +130,6 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "경력단절여성, 코딩강사로 양성한다…'SW 꿈이음 특강' - 뉴시스",
-          "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFBiU2FPLWQxNHlQbTJJenh0TE1ySDluWjRjdlhCQXpBdXpXVG5BNDdRTGZRbjFzRnZtMDVaZjFJRTY2b1Y5UlJRTmdKZmpTRGFYM1Zyd3BSOWVvczc2V2JLSNIBeEFVX3lxTE9mT21zbmlxTHlaVy04MTZLOXU1ejFpbkZKR1JRWFVJZmV5TUdGbGFDd2pjRTRGSWpabXpKaC1fOUpSVDVqNDIwal82cXVHcjh5UjY2T0FpYWVEUDVvNTdwc09qODdDNTh1OHhmY0x5aGUwelNObWstdA?oc=5",
-          "date": "2021-07-23T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiYEFVX3lxTFBiU2FPLWQxNHlQbTJJenh0TE1ySDluWjRjdlhCQXpBdXpXVG5BNDdRTGZRbjFzRnZtMDVaZjFJRTY2b1Y5UlJRTmdKZmpTRGFYM1Zyd3BSOWVvczc2V2JLSN",
-          "source": "뉴시스",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
           "title": "아이씨뱅큐, 마이크로비트 코딩 강사 기초 연수 전액 무료 진행 - 테크월드",
           "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE1VMnRwdTdZRkE4aU4yUzZ2MjVzQmJJRTQxYUlRaGx6WmltY056cjFfMEtHX21ob0ZkM1F3UGZNZmg5Um54MmhTd09DMXNEZTNUSzE4WEZuYjdTdk5scWhuYS1SUFBaUEYx?oc=5",
           "date": "2021-05-28T07:00:00.000Z",
@@ -208,6 +199,14 @@ window.MYNEWS_DATA = {
           "date": "2018-12-06T08:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTFB6RzVpTnJsVmxZWkVTTGlOSlM2Y0lXUmZPY1docEhnSEEwUzFpTEl5TURNOEowVHU0MjNQamczZW9tXzV0UEw5cTBHUTJnV1BYaGFIQ2hMa3NwdEZwVUp3WX",
           "source": "한국금융경제신문",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "2018 코딩강사 양성과정 '시원하게 코딩' - 브런치",
+          "link": "https://news.google.com/rss/articles/CBMiTEFVX3lxTE11Smh5R3BLNHNFODRFd2E1M2Y0UTBXT2dBM2k0UERGN053ZlJveVJEc096OUtmX3F0TkdGenRFcTFZOWVJWVJ4Z0VqaTE?oc=5",
+          "date": "2018-10-30T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiTEFVX3lxTE11Smh5R3BLNHNFODRFd2E1M2Y0UTBXT2dBM2k0UERGN053ZlJveVJEc096OUtmX3F0TkdGenRFcTFZOWVJWVJ4Z0VqaTE?oc=5\" target=\"_blank\">2018",
+          "source": "브런치",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
