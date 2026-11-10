@@ -353,6 +353,10 @@ svg {
   text-decoration: none;
 }
 
+.plan-button + .plan-button {
+  margin-left: 8px;
+}
+
 .plan-button:hover {
   border-color: var(--accent);
 }

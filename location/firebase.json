@@ -19,6 +19,7 @@
       "**/*.pem",
       "**/.env*",
       "plan.html",
+      "pitch.html",
       "brand-mockup.html",
       "ai-mockup.html",
       "home-mockup.html",

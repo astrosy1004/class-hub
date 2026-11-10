@@ -46,6 +46,7 @@ const toneOptions = [
 // 기본 프로그램 목록. 화면의 "프로그램 등록" 으로 추가한 항목은 이 브라우저(localStorage)에 따로 저장됩니다.
 // url 은 https 주소 또는 이 폴더 기준 상대 경로(../폴더/index.html)를 씁니다.
 // plan 은 개발 계획서 주소(선택). 적어 두면 메뉴와 카드에 📋 개발 계획서 링크가 생깁니다.
+// pitch 는 발표 자료 주소(선택). 적어 두면 메뉴와 카드에 🎤 발표 자료 링크가 생깁니다.
 const programs = [
   {
     id: "location",
@@ -56,6 +57,7 @@ const programs = [
     tone: "blue",
     url: "https://location-app-sykim.web.app",
     plan: "../location/plan.html",
+    pitch: "../location/pitch.html",
     description: "지역과 업종을 입력하면 생활인구 · 고객층 · 경쟁 점포 · 임대료를 한 화면에 모아 입지 적합도와 근거를 알려주는 AI 입지분석 웹앱",
     features: ["동 단위 검색 · 현재 위치 · 세부 업종", "점수와 근거 · 신뢰도를 한눈에 (답부터 보는 결과 화면)", "Kakao 지도 경쟁 점포 · 생활인구 추이 · AI 의견", "후보 비교 · PDF 보고서 · 구글 로그인 저장"],
     tags: ["상권분석", "Kakao", "Firebase"],
@@ -390,9 +392,12 @@ function renderMenus() {
     .map((program) => {
       const url = safeUrl(program.url);
       const plan = safeUrl(program.plan);
+      const pitch = safeUrl(program.pitch);
       const main = `<a class="menu-item" href="${esc(url || "#programs")}" ${url ? 'target="_blank" rel="noopener noreferrer"' : ""}><span aria-hidden="true">${esc(program.icon || "✦")}</span>${esc(program.title)}</a>`;
-      if (!plan) return main;
-      return `<div class="menu-row">${main}<a class="plan-icon" href="${esc(plan)}" target="_blank" rel="noopener noreferrer" title="개발 계획서" aria-label="${esc(program.title)} 개발 계획서">📋</a></div>`;
+      if (!plan && !pitch) return main;
+      const planIcon = plan ? `<a class="plan-icon" href="${esc(plan)}" target="_blank" rel="noopener noreferrer" title="개발 계획서" aria-label="${esc(program.title)} 개발 계획서">📋</a>` : "";
+      const pitchIcon = pitch ? `<a class="plan-icon" href="${esc(pitch)}" target="_blank" rel="noopener noreferrer" title="발표 자료" aria-label="${esc(program.title)} 발표 자료">🎤</a>` : "";
+      return `<div class="menu-row">${main}${planIcon}${pitchIcon}</div>`;
     })
     .join("");
   $("#programMenu").innerHTML = `${items}<hr /><button type="button" class="menu-item menu-register" data-register>＋ 프로그램 등록</button>`;
@@ -560,6 +565,7 @@ function setupCarousels() {
 function programCard(program) {
   const url = safeUrl(program.url);
   const plan = safeUrl(program.plan);
+  const pitch = safeUrl(program.pitch);
   const features = program.features || [];
   const status = programStatuses.find((item) => item.id === program.status) ? program.status : "local";
   return `
@@ -574,6 +580,7 @@ function programCard(program) {
         <p class="program-desc">${esc(program.description || "")}</p>
         ${features.length ? `<p class="program-features">${features.slice(0, 3).map(esc).join(" · ")}${features.length > 3 ? ` 외 ${features.length - 3}개` : ""}</p>` : ""}
         ${plan ? `<a class="plan-button" href="${esc(plan)}" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">📋</span>개발 계획서</a>` : ""}
+        ${pitch ? `<a class="plan-button" href="${esc(pitch)}" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">🎤</span>발표 자료</a>` : ""}
         <div class="program-foot">
           <span class="tag-row">${(program.tags || []).map((tag) => `#${esc(tag)}`).join(" ")}</span>
           ${
