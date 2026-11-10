@@ -1,5 +1,5 @@
 // 화면 그리기: 분석 결과 · 상태를 받아 HTML 문자열을 돌려준다 (이벤트 처리는 main.js).
-import { aiUrl, ASK_KEYS, askLabels } from "./ai-opinion.js";
+import { aiUrl, ASK_KEYS, askLabels, cachedOpinion } from "./ai-opinion.js";
 import { AGE_GROUPS, INDUSTRIES, EXTRA_INDUSTRIES, EXTRA_GROUPS, POPULAR_AREAS, industryByKey } from "./area-data.js";
 import { parseQuery } from "./place.js";
 import { confidenceOf, itemWord } from "./confidence.js";
@@ -466,8 +466,6 @@ export function reportHtml(a) {
   ${subnav(a, "report")}
   ${modeBanner()}
   <div class="bubble"><div class="bot">${icon("compass")}</div><p>${esc(r.summary)}</p></div>
-  ${aiUrl() ? `<section class="card ai-card" aria-labelledby="aiH"><div class="ai-h"><span class="ai-mark">${icon("expert")}</span><div><h3 id="aiH">전문가 의견 (AI)</h3><small>아래 분석 숫자만 근거로 AI 컨설턴트가 다시 정리해요 · 참고용</small></div></div>
-    <button type="button" class="btn" data-ai>${icon("chat")}전문가 의견 받기</button><div id="aiOut" aria-live="polite"></div></section>` : ""}
   <div class="tone good"><h3>${icon("good")}강점</h3><ul>${r.strengths.map(li).join("")}</ul></div>
   <div class="tone bad"><h3>${icon("alert")}위험 요소</h3><ul>${r.risks.map(li).join("")}</ul></div>
   <div class="tone tip"><h3>${icon("idea")}추천 전략</h3><ul>${r.strategies.map(li).join("")}</ul></div>
@@ -478,11 +476,16 @@ export function reportHtml(a) {
   ${sourceFoot(a)}`;
 }
 
-// "이 결과에 물어보기": 정해진 질문 칩 3개만 (자유 입력 없음). 답은 조회된 분석 숫자만 근거로
+// AI 대화: 맨 위 "전문가 의견 받기" → 첫 말풍선에 전문가 의견, 이어서 정해진 질문 칩 3개 (자유 입력 없음)
+// 답은 조회된 분석 숫자만 근거로 한다. 이미 받은 의견(기기에 6시간 저장)은 화면에 들어올 때 바로 보여 준다
+export const opinionFail = (text) => `<div class="msg ai fail expert"><span class="av">${icon("expert")}</span><p>${esc(text)} 위의 규칙 기반 의견을 참고하세요.</p></div>`;
+export const opinionBubble = (res) => `<div class="msg ai wide expert"><span class="av">${icon("expert")}</span><div class="mb">${aiOpinionHtml(res, () => "")}</div></div>`;
 function askHtml(a) {
   const labels = askLabels(a);
-  return `<section class="card ask-card" aria-labelledby="askH"><div class="ai-h"><span class="ai-mark ask">${icon("ask")}</span><div><h3 id="askH">이 결과에 물어보기</h3><small>질문을 고르면 이 동네 분석 숫자로 답해요 · AI가 작성 · 참고용</small></div></div>
-    <div class="chat" id="chatLog" aria-live="polite"><div class="msg ai"><span class="av">${subIcon("report")}</span><p>${esc(a.place.name)} ${esc(a.industry.name)} 결과에 대해 궁금한 점을 골라 주세요.</p></div></div>
+  const saved = cachedOpinion(a);
+  return `<section class="card ask-card" aria-labelledby="askH"><div class="ai-h"><span class="ai-mark ask">${icon("ask")}</span><div><h3 id="askH">AI 컨설턴트에게 묻기</h3><small>이 동네 분석 숫자만 근거로 답해요 · AI가 작성 · 참고용</small></div></div>
+    ${saved ? "" : `<button type="button" class="btn" data-ai>${icon("expert")}전문가 의견 받기</button>`}
+    <div class="chat" id="chatLog" aria-live="polite">${saved ? opinionBubble(saved) : ""}<div class="msg ai"><span class="av">${subIcon("report")}</span><p>${esc(a.place.name)} ${esc(a.industry.name)} 결과에 대해 궁금한 점을 골라 주세요.</p></div></div>
     <div class="chips" id="askChips">${ASK_KEYS.map((k) => `<button type="button" class="chip" data-ask="${k}">${esc(labels[k])}</button>`).join("")}</div></section>`;
 }
 export const chatUser = (text) => `<div class="msg me"><p>${esc(text)}</p><span class="av">${icon("user")}</span></div>`;
@@ -550,7 +553,7 @@ function accountHtml({ user, authOk, syncing }) {
   if (!authOk) return `<div class="card"><h3>계정</h3><div class="cap" style="margin-top:6px;line-height:1.5">로그인 기능을 불러오지 못했어요. 네트워크를 확인하고 새로고침해 주세요. 로그인 없이도 이 기기에서는 모든 기능을 쓸 수 있어요.</div></div>`;
   return `<div class="card"><h3>계정</h3>
     <div class="cap" style="margin-top:6px;line-height:1.5">구글로 로그인하면 후보지와 최근 검색이 계정에 저장돼 다른 기기에서도 볼 수 있어요. 로그인하지 않아도 이 기기에서는 그대로 쓸 수 있어요.</div>
-    <button type="button" class="btn" data-signin>G 구글로 로그인</button>
+    <button type="button" class="btn gbtn" data-signin><svg class="gmark" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>구글로 로그인</button>
     <div class="cap" style="margin-top:8px;line-height:1.5">저장되는 것은 후보지 · 최근 검색(지역 이름, 업종, 점수)뿐이고, 현재 위치의 정확한 좌표는 올리지 않아요.</div></div>`;
 }
 

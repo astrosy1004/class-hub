@@ -55,6 +55,14 @@ function writeCache(key, data) {
   } catch (e) { /* 저장 못 해도 결과는 보여 준다 */ }
 }
 
+// 이미 받아 둔 의견(기기에 6시간 저장)이 있으면 바로 돌려준다. 없으면 null (서버에 묻지 않음)
+export function cachedOpinion(a) {
+  if (!aiUrl()) return null;
+  const payload = buildPayload(a);
+  const hit = readCache(`${a.key}|${payload.asOf}|${payload.total}`);
+  return hit ? { ...hit, cached: true } : null;
+}
+
 // { ok: true, opinion, model, cached } 또는 { ok: false, reason }. 예외를 던지지 않는다
 export async function requestOpinion(a) {
   const url = aiUrl();

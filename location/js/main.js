@@ -387,13 +387,17 @@ document.addEventListener("click", (e) => {
     state.mapCtrl?.select(Number(t.dataset.store));
     document.getElementById("mapSec")?.scrollIntoView({ behavior: "smooth", block: "start" }); // 지도와 상세 카드가 보이도록
   } else if (t.dataset.ai !== undefined) {
-    // AI 전문가 의견: 누를 때만 서버에 묻는다. 실패해도 위의 규칙 기반 의견은 그대로
-    const out = document.getElementById("aiOut");
-    if (!out || !state.current) return;
+    // AI 전문가 의견: 누를 때만 서버에 묻고, 답은 AI 대화창 맨 위 말풍선으로. 실패해도 위의 규칙 기반 의견은 그대로
+    const log = document.getElementById("chatLog");
+    if (!log || !state.current) return;
+    const a = state.current;
     t.disabled = true;
-    out.innerHTML = ui.aiOpinionHtml("loading");
-    requestOpinion(state.current).then((res) => {
-      out.innerHTML = ui.aiOpinionHtml(res, failText);
+    log.querySelector(".expert")?.remove();
+    log.insertAdjacentHTML("afterbegin", ui.chatTyping().replace('class="msg ai typing"', 'class="msg ai typing expert"'));
+    requestOpinion(a).then((res) => {
+      if (state.current !== a) return;
+      log.querySelector(".expert")?.remove();
+      log.insertAdjacentHTML("afterbegin", res.ok ? ui.opinionBubble(res) : ui.opinionFail(failText(res.reason)));
       t.disabled = false;
       if (res.ok) t.remove(); // 받은 뒤에는 버튼을 숨긴다 (같은 결과는 기기에 6시간 저장)
     });

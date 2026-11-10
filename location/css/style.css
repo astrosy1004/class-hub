@@ -594,6 +594,9 @@ svg .rad.r1 { fill: var(--c2); stroke: var(--c2); } svg .rad.r2 { fill: var(--c3
 .msg.me p { background: var(--accent); color: #fff; border-radius: 16px 16px 4px 16px; font-weight: 700; }
 .msg.me .av { background: var(--muted); }
 .msg.fail p { background: #fff4e5; color: #8a4b00; }
+.msg.wide .mb { flex: 1; min-width: 0; padding: 12px 14px; border-radius: 16px 16px 16px 4px; background: var(--surface-2, #f2f4f7); }
+.msg.expert .av { background: linear-gradient(140deg, #4f8bff, var(--accent) 55%, #5b5cf0); }
+.ask-card > .btn { margin-top: 0; }
 .msg.typing p { display: flex; gap: 4px; align-items: center; min-height: 38px; }
 .msg.typing i { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); animation: dot 1s infinite; }
 .msg.typing i:nth-child(2) { animation-delay: .15s; } .msg.typing i:nth-child(3) { animation-delay: .3s; }
@@ -618,3 +621,10 @@ svg .rad.r1 { fill: var(--c2); stroke: var(--c2); } svg .rad.r2 { fill: var(--c3
 .ai-res p { margin: 0; font-size: 13.5px; line-height: 1.6; }
 .ai-tag { display: inline-flex; gap: 6px; align-items: center; margin-top: 10px; font-size: 11.5px; font-weight: 700; color: var(--accent); background: var(--accent-soft); border-radius: 999px; padding: 4px 10px; }
 .ai-tag .ico { width: 13px; height: 13px; }
+
+/* 구글 로그인 버튼: 구글 가이드 표준 모양 (흰 바탕 · 회색 테두리 · 4색 G 로고는 색 그대로) */
+.btn.gbtn { display: flex; align-items: center; justify-content: center; background: #fff; color: #1f1f1f; border: 1px solid #747775; box-shadow: none; font-weight: 600; gap: 10px; }
+.btn.gbtn:hover { background: #f8f9fa; }
+.btn.gbtn .gmark { width: 20px; height: 20px; flex: none; }
+[data-theme="dark"] .btn.gbtn { background: #131314; color: #e3e3e3; border-color: #8e918f; }
+[data-theme="dark"] .btn.gbtn:hover { background: #1f1f20; }
