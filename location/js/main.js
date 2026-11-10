@@ -401,6 +401,8 @@ document.addEventListener("click", (e) => {
       t.disabled = false;
       if (res.ok) t.remove(); // 받은 뒤에는 버튼을 숨긴다 (같은 결과는 기기에 6시간 저장)
     });
+  } else if (t.dataset.rtab) {
+    selectReportTab(t.dataset.rtab);
   } else if (t.dataset.ask) {
     askQuestion(t);
   } else if (t.dataset.indcmp !== undefined) {
@@ -499,6 +501,23 @@ function closeMore(focus) {
 }
 document.addEventListener("click", (e) => { if (state.moreOpen && !e.target.closest("#morePanel, [data-more]")) closeMore(false); });
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeMore(true); });
+// AI 의견 화면 탭: 누른 탭만 보이고, 선택은 같은 결과를 보는 동안 유지
+function selectReportTab(k, focus = false) {
+  if (!state.current) return;
+  ui.setReportTab(state.current, k);
+  document.querySelectorAll("[data-rtab]").forEach((b) => { const on = b.dataset.rtab === k; b.setAttribute("aria-selected", on); b.tabIndex = on ? 0 : -1; if (on && focus) b.focus(); });
+  document.querySelectorAll(".rpanel").forEach((p) => (p.hidden = p.id !== `rp-${k}`));
+}
+// 탭 목록에서 ← → Home End 로 이동 (접근성)
+document.addEventListener("keydown", (e) => {
+  const t = e.target.closest?.("[data-rtab]");
+  if (!t || !["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)) return;
+  const all = [...document.querySelectorAll("[data-rtab]")], i = all.indexOf(t);
+  const j = e.key === "Home" ? 0 : e.key === "End" ? all.length - 1 : (i + (e.key === "ArrowRight" ? 1 : -1) + all.length) % all.length;
+  e.preventDefault();
+  selectReportTab(all[j].dataset.rtab, true);
+});
+
 // "이 결과에 물어보기": 칩을 누르면 내 질문 → 입력 중 → 답. 같은 질문은 기기에 저장된 답을 다시 보여 준다
 const asked = new Set();
 async function askQuestion(chip) {

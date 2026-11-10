@@ -121,6 +121,7 @@ const ICON_PATHS = {
   layers: '<path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m6.08 9.5-3.5 1.6a1 1 0 0 0 0 1.81l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9a1 1 0 0 0 0-1.83l-3.5-1.59"/><path d="m6.08 14.5-3.5 1.6a1 1 0 0 0 0 1.81l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9a1 1 0 0 0 0-1.83l-3.5-1.59"/>',
   competition: '<polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" x2="19" y1="19" y2="13"/><line x1="16" x2="20" y1="16" y2="20"/><line x1="19" x2="21" y1="21" y2="19"/><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"/><line x1="5" x2="9" y1="14" y2="18"/><line x1="7" x2="4" y1="17" y2="20"/><line x1="3" x2="5" y1="19" y2="21"/>', // Lucide swords
   chat: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M13 8H7"/><path d="M17 12H7"/>', // Lucide message-square-text
+  bulb: '<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>', // Lucide lightbulb
   compass: '<path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/><circle cx="12" cy="12" r="10"/>', // Lucide compass (자리잡소 한 줄 결론)
   expert: '<path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/>', // Lucide graduation-cap (전문가 의견)
   ask: '<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>', // Lucide message-circle-question
@@ -465,16 +466,33 @@ export function reportHtml(a) {
   ${head("AI 컨설턴트 의견", { eyebrow: resultEyebrow(a, placeLine(a)), backHref: hashOf("result", a), backLabel: "분석 결과로", right: `<a class="ib" href="${hashOf("pdf", a)}" aria-label="결과 보고서(PDF) 만들기">${icon("doc")}</a>` })}
   ${subnav(a, "report")}
   ${modeBanner()}
-  <div class="bubble"><div class="bot">${icon("compass")}</div><p>${esc(r.summary)}</p></div>
-  <div class="tone good"><h3>${icon("good")}강점</h3><ul>${r.strengths.map(li).join("")}</ul></div>
-  <div class="tone bad"><h3>${icon("alert")}위험 요소</h3><ul>${r.risks.map(li).join("")}</ul></div>
-  <div class="tone tip"><h3>${icon("idea")}추천 전략</h3><ul>${r.strategies.map(li).join("")}</ul></div>
-  <div class="card" style="background:var(--accent-soft);box-shadow:none"><h3 class="tone-h" style="color:var(--accent)">${icon("target")}종합 의견</h3><div style="font-size:13px;line-height:1.6;margin-top:4px">${esc(r.overall)}</div></div>
-  ${aiUrl() ? askHtml(a) : ""}
+  ${reportHero(a)}
+  ${reportTabs(a)}
   <a class="btn" href="${hashOf("pdf", a)}">${icon("doc")}결과 보고서(PDF) 만들기</a>
   <div class="cap" style="text-align:center;margin:6px 0 10px">항목별 산출 근거 · 그래프 · 점포 목록 · 현장 답사 체크리스트까지 담은 A4 보고서예요</div>
   ${sourceFoot(a)}`;
 }
+
+// AI 의견 화면 (탭 정리형): 위에 점수 링 + 등급 + 한 줄 결론 고정, 아래 [강점 | 위험 | 전략 | AI 대화] 탭
+function reportHero(a) {
+  const s = a.score, g = s.grade, t = s.total;
+  return `<div class="card rhero"><div class="rring ${g?.cls || "warn"}" style="--p:${t ?? 0}"><b>${t ?? "-"}</b></div>
+    <div class="rh-b">${g ? `<span class="v-grade ${g.cls}">${g.name}</span>` : `<span class="v-grade warn">점수 없음</span>`}<p>${esc(a.report.summary)}</p></div>
+    <small class="rh-d">${esc(DISCLAIMER)}</small></div>`;
+}
+const RTABS = [["good", "강점", "good", "strengths"], ["bad", "위험", "alert", "risks"], ["tip", "전략", "bulb", "strategies"]];
+function reportTabs(a) {
+  const r = a.report, ai = !!aiUrl(), sel = rtabOf(a);
+  const row = (x, cls) => `<li class="ri"><span class="rdot ${cls}">${icon(cls === "good" ? "good" : cls === "bad" ? "alert" : "bulb")}</span><div><p>${esc(x.text)}</p><span class="ev">근거 · ${esc(x.ev)}</span></div></li>`;
+  const tabs = [...RTABS.map(([k, name, ic, key]) => ({ k, label: `${name} ${r[key].length}`, ic })), ...(ai ? [{ k: "ai", label: "AI 대화", ic: "expert", dot: !!cachedOpinion(a) }] : [])];
+  return `<div class="rtabs" role="tablist" aria-label="AI 의견 보기">${tabs.map((x) => `<button type="button" role="tab" id="rt-${x.k}" aria-controls="rp-${x.k}" aria-selected="${x.k === sel}" tabindex="${x.k === sel ? 0 : -1}" data-rtab="${x.k}">${icon(x.ic)}${x.label}${x.dot ? '<i class="rdotmark" aria-label="받은 의견 있음"></i>' : ""}</button>`).join("")}</div>
+  ${RTABS.map(([k, , , key]) => `<section class="card rpanel" role="tabpanel" id="rp-${k}" aria-labelledby="rt-${k}" ${k === sel ? "" : "hidden"}><ul class="rlist">${r[key].length ? r[key].map((x) => row(x, k)).join("") : `<li class="empty">해당 항목이 없어요</li>`}</ul></section>`).join("")}
+  ${ai ? `<section class="rpanel" role="tabpanel" id="rp-ai" aria-labelledby="rt-ai" ${sel === "ai" ? "" : "hidden"}>${askHtml(a)}</section>` : ""}`;
+}
+// 선택한 탭은 같은 결과를 보는 동안 유지 (다른 동네 · 업종이면 "강점"부터)
+let rtabState = { key: "", tab: "good" };
+const rtabOf = (a) => (rtabState.key === a.key ? rtabState.tab : "good");
+export function setReportTab(a, tab) { rtabState = { key: a.key, tab }; }
 
 // AI 대화: 맨 위 "전문가 의견 받기" → 첫 말풍선에 전문가 의견, 이어서 정해진 질문 칩 3개 (자유 입력 없음)
 // 답은 조회된 분석 숫자만 근거로 한다. 이미 받은 의견(기기에 6시간 저장)은 화면에 들어올 때 바로 보여 준다
@@ -486,7 +504,7 @@ function askHtml(a) {
   return `<section class="card ask-card" aria-labelledby="askH"><div class="ai-h"><span class="ai-mark ask">${icon("ask")}</span><div><h3 id="askH">AI 컨설턴트에게 묻기</h3><small>이 동네 분석 숫자만 근거로 답해요 · AI가 작성 · 참고용</small></div></div>
     ${saved ? "" : `<button type="button" class="btn" data-ai>${icon("expert")}전문가 의견 받기</button>`}
     <div class="chat" id="chatLog" aria-live="polite">${saved ? opinionBubble(saved) : ""}<div class="msg ai"><span class="av">${subIcon("report")}</span><p>${esc(a.place.name)} ${esc(a.industry.name)} 결과에 대해 궁금한 점을 골라 주세요.</p></div></div>
-    <div class="chips" id="askChips">${ASK_KEYS.map((k) => `<button type="button" class="chip" data-ask="${k}">${esc(labels[k])}</button>`).join("")}</div></section>`;
+    <div class="chips sticky" id="askChips">${ASK_KEYS.map((k) => `<button type="button" class="chip" data-ask="${k}">${esc(labels[k])}</button>`).join("")}</div></section>`;
 }
 export const chatUser = (text) => `<div class="msg me"><p>${esc(text)}</p><span class="av">${icon("user")}</span></div>`;
 export const chatTyping = () => `<div class="msg ai typing"><span class="av">${subIcon("report")}</span><p><i></i><i></i><i></i><span class="sr">입력 중…</span></p></div>`;
