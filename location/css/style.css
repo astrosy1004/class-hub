@@ -630,17 +630,20 @@ svg .rad.r1 { fill: var(--c2); stroke: var(--c2); } svg .rad.r2 { fill: var(--c3
 [data-theme="dark"] .btn.gbtn:hover { background: #1f1f20; }
 
 /* AI 의견 화면 (탭 정리형) */
-.rhero { display: grid; grid-template-columns: 72px 1fr; gap: 14px; align-items: center; }
-.rring { --c: var(--up); width: 72px; height: 72px; border-radius: 50%; background: conic-gradient(var(--c) calc(var(--p) * 1%), var(--surface-2) 0); display: grid; place-items: center; }
-.rring.warn { --c: var(--warn); } .rring.now { --c: var(--now); }
-.rring b { width: 56px; height: 56px; border-radius: 50%; background: var(--surface); display: grid; place-items: center; font-size: 22px; font-weight: 800; }
+.rhero { display: grid; gap: 10px; }
 .rh-b p { margin: 6px 0 0; font-size: 14.5px; font-weight: 800; line-height: 1.45; }
 .rh-d { grid-column: 1 / -1; font-size: 11.5px; color: var(--muted); line-height: 1.5; border-top: 1px solid var(--line); padding-top: 8px; }
-.rtabs { display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); gap: 4px; background: var(--surface-2); border-radius: 14px; padding: 4px; margin-bottom: 12px; }
-.rtabs button { position: relative; border: 0; background: transparent; border-radius: 10px; padding: 9px 2px; font: inherit; font-size: 12.5px; font-weight: 700; color: var(--muted); display: flex; gap: 4px; align-items: center; justify-content: center; cursor: pointer; transition: background .15s, color .15s; }
-.rtabs button .ico { width: 15px; height: 15px; }
-.rtabs button[aria-selected="true"] { background: var(--surface); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,.08); }
-.rdotmark { position: absolute; top: 5px; right: 6px; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+.rtabs { display: flex; gap: 5px; overflow-x: auto; scrollbar-width: none; padding: 2px 1px 4px; margin-bottom: 10px; }
+.rtabs button { --c: var(--accent); position: relative; flex: 1 0 auto; border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 7px 8px; font: inherit; font-size: 12.5px; font-weight: 700; color: var(--text); display: flex; gap: 3px; align-items: center; justify-content: center; white-space: nowrap; cursor: pointer; transition: background .15s, color .15s, border-color .15s; }
+.rtabs button[data-rtab="good"] { --c: #2F8F63; } .rtabs button[data-rtab="bad"] { --c: #C64560; } .rtabs button[data-rtab="tip"] { --c: #3F5BD8; } .rtabs button[data-rtab="ai"] { --c: #5b4bd6; }
+.rtabs button .ico { width: 13px; height: 13px; color: var(--c); }
+.rtabs .cnt { font-size: 11px; font-weight: 800; min-width: 16px; text-align: center; border-radius: 999px; padding: 0 4px; background: color-mix(in srgb, var(--c) 14%, transparent); color: var(--c); }
+.rtabs .crown .ico { width: 14px; height: 14px; color: #d39b00; fill: #f5c542; }
+.rtabs button[aria-selected="true"] { background: var(--c); border-color: var(--c); color: #fff; box-shadow: 0 4px 10px color-mix(in srgb, var(--c) 35%, transparent); }
+.rtabs button[aria-selected="true"] .ico { color: #fff; }
+.rtabs button[aria-selected="true"] .cnt { background: rgba(255,255,255,.25); color: #fff; }
+.rtabs button[aria-selected="true"] .crown .ico { color: #ffe08a; fill: #ffd54a; }
+.rdotmark { position: absolute; top: -2px; right: -2px; border: 2px solid var(--surface); width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
 .rpanel[hidden] { display: none; }
 .rlist { list-style: none; margin: 0; padding: 0; }
 .ri { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); }
@@ -652,3 +655,4 @@ svg .rad.r1 { fill: var(--c2); stroke: var(--c2); } svg .rad.r2 { fill: var(--c3
 .ri .ev { display: inline-block; margin-top: 4px; }
 .chips.sticky { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; position: sticky; bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom)); background: var(--surface); padding: 10px 0 4px; z-index: 5; box-shadow: 0 -8px 12px -8px rgba(0,0,0,.12); }
 .chips.sticky .chip { flex: none; }
+@media (max-width: 374px) { .rtabs { gap: 4px; } .rtabs button { padding: 7px 5px; gap: 2px; font-size: 12px; } }

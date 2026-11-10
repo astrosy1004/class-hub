@@ -121,6 +121,7 @@ const ICON_PATHS = {
   layers: '<path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m6.08 9.5-3.5 1.6a1 1 0 0 0 0 1.81l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9a1 1 0 0 0 0-1.83l-3.5-1.59"/><path d="m6.08 14.5-3.5 1.6a1 1 0 0 0 0 1.81l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9a1 1 0 0 0 0-1.83l-3.5-1.59"/>',
   competition: '<polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" x2="19" y1="19" y2="13"/><line x1="16" x2="20" y1="16" y2="20"/><line x1="19" x2="21" y1="21" y2="19"/><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"/><line x1="5" x2="9" y1="14" y2="18"/><line x1="7" x2="4" y1="17" y2="20"/><line x1="3" x2="5" y1="19" y2="21"/>', // Lucide swords
   chat: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M13 8H7"/><path d="M17 12H7"/>', // Lucide message-square-text
+  crown: '<path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"/><path d="M5 21h14"/>', // Lucide crown (유료 기능 표시)
   bulb: '<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>', // Lucide lightbulb
   compass: '<path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/><circle cx="12" cy="12" r="10"/>', // Lucide compass (자리잡소 한 줄 결론)
   expert: '<path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/>', // Lucide graduation-cap (전문가 의견)
@@ -475,8 +476,8 @@ export function reportHtml(a) {
 
 // AI 의견 화면 (탭 정리형): 위에 점수 링 + 등급 + 한 줄 결론 고정, 아래 [강점 | 위험 | 전략 | AI 대화] 탭
 function reportHero(a) {
-  const s = a.score, g = s.grade, t = s.total;
-  return `<div class="card rhero"><div class="rring ${g?.cls || "warn"}" style="--p:${t ?? 0}"><b>${t ?? "-"}</b></div>
+  const g = a.score.grade;
+  return `<div class="card rhero">
     <div class="rh-b">${g ? `<span class="v-grade ${g.cls}">${g.name}</span>` : `<span class="v-grade warn">점수 없음</span>`}<p>${esc(a.report.summary)}</p></div>
     <small class="rh-d">${esc(DISCLAIMER)}</small></div>`;
 }
@@ -484,8 +485,8 @@ const RTABS = [["good", "강점", "good", "strengths"], ["bad", "위험", "alert
 function reportTabs(a) {
   const r = a.report, ai = !!aiUrl(), sel = rtabOf(a);
   const row = (x, cls) => `<li class="ri"><span class="rdot ${cls}">${icon(cls === "good" ? "good" : cls === "bad" ? "alert" : "bulb")}</span><div><p>${esc(x.text)}</p><span class="ev">근거 · ${esc(x.ev)}</span></div></li>`;
-  const tabs = [...RTABS.map(([k, name, ic, key]) => ({ k, label: `${name} ${r[key].length}`, ic })), ...(ai ? [{ k: "ai", label: "AI 대화", ic: "expert", dot: !!cachedOpinion(a) }] : [])];
-  return `<div class="rtabs" role="tablist" aria-label="AI 의견 보기">${tabs.map((x) => `<button type="button" role="tab" id="rt-${x.k}" aria-controls="rp-${x.k}" aria-selected="${x.k === sel}" tabindex="${x.k === sel ? 0 : -1}" data-rtab="${x.k}">${icon(x.ic)}${x.label}${x.dot ? '<i class="rdotmark" aria-label="받은 의견 있음"></i>' : ""}</button>`).join("")}</div>
+  const tabs = [...RTABS.map(([k, name, ic, key]) => ({ k, label: name, n: r[key].length, ic })), ...(ai ? [{ k: "ai", label: "AI 대화", ic: "expert", pro: true, dot: !!cachedOpinion(a) }] : [])];
+  return `<div class="rtabs" role="tablist" aria-label="AI 의견 보기">${tabs.map((x) => `<button type="button" role="tab" id="rt-${x.k}" aria-controls="rp-${x.k}" aria-selected="${x.k === sel}" tabindex="${x.k === sel ? 0 : -1}" data-rtab="${x.k}">${icon(x.ic)}${x.label}${x.n != null ? `<span class="cnt">${x.n}</span>` : ""}${x.pro ? `<span class="crown" title="유료 기능 예정" aria-label="유료 기능 예정">${icon("crown")}</span>` : ""}${x.dot ? '<i class="rdotmark" aria-label="받은 의견 있음"></i>' : ""}</button>`).join("")}</div>
   ${RTABS.map(([k, , , key]) => `<section class="card rpanel" role="tabpanel" id="rp-${k}" aria-labelledby="rt-${k}" ${k === sel ? "" : "hidden"}><ul class="rlist">${r[key].length ? r[key].map((x) => row(x, k)).join("") : `<li class="empty">해당 항목이 없어요</li>`}</ul></section>`).join("")}
   ${ai ? `<section class="rpanel" role="tabpanel" id="rp-ai" aria-labelledby="rt-ai" ${sel === "ai" ? "" : "hidden"}>${askHtml(a)}</section>` : ""}`;
 }
