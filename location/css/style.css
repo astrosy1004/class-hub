@@ -656,3 +656,19 @@ svg .rad.r1 { fill: var(--c2); stroke: var(--c2); } svg .rad.r2 { fill: var(--c3
 .chips.sticky { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; position: sticky; bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom)); background: var(--surface); padding: 10px 0 4px; z-index: 5; box-shadow: 0 -8px 12px -8px rgba(0,0,0,.12); }
 .chips.sticky .chip { flex: none; }
 @media (max-width: 374px) { .rtabs { gap: 4px; } .rtabs button { padding: 7px 5px; gap: 2px; font-size: 12px; } }
+
+/* AI 대화 영역은 퍼플로 통일 (AI 대화 칩과 같은 색). 강점 · 위험 같은 의미 색은 그대로 */
+.ask-card { --ai: #5b4bd6; --ai2: #7a6cf0; --ai-ink: #5b4bd6; --ai-soft: #ecebff; }
+[data-theme="dark"] .ask-card { --ai-ink: #b3a9ff; --ai-soft: rgba(139, 124, 246, .18); }
+.ai-mark.ask, .ask-card .msg .av, .ask-card .msg.expert .av { background: linear-gradient(140deg, var(--ai2), var(--ai)); }
+.ask-card .msg.me .av { background: var(--muted); }
+.ask-card > .btn { background: linear-gradient(140deg, var(--ai2), var(--ai)); box-shadow: 0 6px 16px rgba(91, 75, 214, .3); }
+.ask-card .msg.me p { background: var(--ai); }
+.ask-card .ai-tag { color: var(--ai-ink); background: var(--ai-soft); }
+.ask-card .ai-res h4 .ico { color: var(--ai-ink); }
+.ask-card .msg.typing i { background: var(--ai-ink); }
+.ask-card .chips .chip { border-color: var(--ai-ink); color: var(--ai-ink); padding: 7px 8px; font-size: 12px; }
+.ask-card .chips .chip.done { border-color: var(--line); color: var(--muted); }
+.ask-card .chips .chip.next { background: var(--ai); border-color: var(--ai); color: #fff; }
+.ask-card .chips.sticky { gap: 5px; }
+@media (max-width: 374px) { .ask-card .chips .chip { padding: 6px 6px; font-size: 11.5px; } .ask-card .chips.sticky { gap: 4px; } }

@@ -101,6 +101,12 @@ export function askLabels(a) {
   };
 }
 
+// 하단 칩에 쓰는 짧은 이름 (말풍선에는 askLabels 의 긴 문장을 쓴다)
+export function askShort(a) {
+  const comp = a.score.items.find((i) => i.key === "competition")?.score;
+  return { risk: "가장 큰 위험은?", differentiate: comp != null && comp < 50 ? "경쟁 이기려면?" : "차별화하려면?", checklist: "계약 전 확인할 것은?" };
+}
+
 // { ok: true, answer, model, cached } 또는 { ok: false, reason }. 예외를 던지지 않는다
 export async function requestAnswer(a, question) {
   const url = aiUrl();

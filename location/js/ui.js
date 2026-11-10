@@ -1,5 +1,5 @@
 // 화면 그리기: 분석 결과 · 상태를 받아 HTML 문자열을 돌려준다 (이벤트 처리는 main.js).
-import { aiUrl, ASK_KEYS, askLabels, cachedOpinion } from "./ai-opinion.js";
+import { aiUrl, ASK_KEYS, askLabels, askShort, cachedOpinion } from "./ai-opinion.js";
 import { AGE_GROUPS, INDUSTRIES, EXTRA_INDUSTRIES, EXTRA_GROUPS, POPULAR_AREAS, industryByKey } from "./area-data.js";
 import { parseQuery } from "./place.js";
 import { confidenceOf, itemWord } from "./confidence.js";
@@ -500,12 +500,12 @@ export function setReportTab(a, tab) { rtabState = { key: a.key, tab }; }
 export const opinionFail = (text) => `<div class="msg ai fail expert"><span class="av">${icon("expert")}</span><p>${esc(text)} 위의 규칙 기반 의견을 참고하세요.</p></div>`;
 export const opinionBubble = (res) => `<div class="msg ai wide expert"><span class="av">${icon("expert")}</span><div class="mb">${aiOpinionHtml(res, () => "")}</div></div>`;
 function askHtml(a) {
-  const labels = askLabels(a);
+  const labels = askLabels(a), short = askShort(a);
   const saved = cachedOpinion(a);
   return `<section class="card ask-card" aria-labelledby="askH"><div class="ai-h"><span class="ai-mark ask">${icon("ask")}</span><div><h3 id="askH">AI 컨설턴트에게 묻기</h3><small>이 동네 분석 숫자만 근거로 답해요 · AI가 작성 · 참고용</small></div></div>
     ${saved ? "" : `<button type="button" class="btn" data-ai>${icon("expert")}전문가 의견 받기</button>`}
     <div class="chat" id="chatLog" aria-live="polite">${saved ? opinionBubble(saved) : ""}<div class="msg ai"><span class="av">${subIcon("report")}</span><p>${esc(a.place.name)} ${esc(a.industry.name)} 결과에 대해 궁금한 점을 골라 주세요.</p></div></div>
-    <div class="chips sticky" id="askChips">${ASK_KEYS.map((k) => `<button type="button" class="chip" data-ask="${k}">${esc(labels[k])}</button>`).join("")}</div></section>`;
+    <div class="chips sticky" id="askChips">${ASK_KEYS.map((k) => `<button type="button" class="chip" data-ask="${k}" title="${esc(labels[k])}">${esc(short[k])}</button>`).join("")}</div></section>`;
 }
 export const chatUser = (text) => `<div class="msg me"><p>${esc(text)}</p><span class="av">${icon("user")}</span></div>`;
 export const chatTyping = () => `<div class="msg ai typing"><span class="av">${subIcon("report")}</span><p><i></i><i></i><i></i><span class="sr">입력 중…</span></p></div>`;
