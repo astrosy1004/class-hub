@@ -64,6 +64,17 @@ r = await handle(req(), { env, fetchImpl: async () => { const e = new Error("t")
 check("시간 초과는 504", r.status === 504);
 check("응답 · 코드에 키 값이 나오지 않음", !JSON.stringify(r).includes("test-key-not-real"));
 
+// "이 결과에 물어보기" (질문 3종 고정)
+r = await handle(req({ body: { ...body, question: "risk" } }), { env, fetchImpl: llm({ answer: "최근 1년 폐업률이 4.3%로 서울 중간 3.9%보다 높습니다. 현장에서 주변 점포의 영업 상태를 확인해 보세요." }) });
+check("질문: 정해진 질문 키는 200 + answer", r.status === 200 && r.json.question === "risk" && r.json.answer.includes("4.3%"));
+r = await handle(req({ body: { ...body, question: "anything" } }), { env, fetchImpl: llm(good) });
+check("질문: 정해진 3개 외 키는 400 (자유 질문 없음)", r.status === 400 && r.json.error === "bad_question");
+{ let sent2;
+  r = await handle(req({ body: { ...body, question: "checklist" } }), { env, fetchImpl: async (url, o) => { sent2 = JSON.parse(o.body).messages; return llm({ answer: "평일 19시 전후 현장을 확인해 보세요. 경쟁 점포 247곳과 메뉴가 겹치지 않는지도 보세요." })(); } });
+  check("질문: 서버에 고정된 질문 문장으로 묻고, 사용자 문장은 받지 않음", r.status === 200 && /계약 전에 현장에서/.test(sent2[1].content) && sent2.length === 2); }
+r = await handle(req({ body: { ...body, question: "differentiate" } }), { env, fetchImpl: llm({ answer: "월 매출 3200만원을 목표로 차별화하세요." }) });
+check("질문: 답변에도 숫자 · 개념 검사 적용 (매출 · 지어낸 숫자면 422)", r.status === 422);
+
 // 앱 쪽 검증기(location/js/ai-guard.js)와 규칙이 같은지
 const appGuard = await import(new URL("../location/js/ai-guard.js", import.meta.url));
 check("앱 검증기와 결과가 같음", appGuard.validateOpinion(invented, appGuard.allowedNumbers(s)).ok === false && appGuard.validateOpinion(good, appGuard.allowedNumbers(s), src).ok === true && appGuard.validateOpinion({ ...good, cautions: ["매출 감소"] }, appGuard.allowedNumbers(s), src).reason === "unverified_concepts");
