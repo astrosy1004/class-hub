@@ -463,7 +463,7 @@ td b { color: var(--accent); }
 <section class="slide" data-title="목차" data-group="시작">
   <p class="kicker">CONTENTS</p>
   <h2>목차</h2>
-  <p class="lead">기획서를 검토하고 · 확정한 결정을 반영해 · 무엇을 어떻게 만들었는지 (10. 30 현재)</p>
+  <p class="lead">기획서를 검토하고 · 확정한 결정을 반영해 · 무엇을 어떻게 만들었는지 (11. 10 현재)</p>
   <div class="grid g4" id="contentsGrid"></div>
 </section>
 
@@ -675,6 +675,7 @@ td b { color: var(--accent); }
       <div class="mod"><code>charts.js</code><span>SVG 그래프</span></div>
       <div class="mod"><code>kmap.js</code><span>Kakao 지도 · 점포 상세</span></div>
       <div class="mod"><code>explain.js</code><span>점수 산출 근거 설명</span></div>
+      <div class="mod"><code>ai-opinion.js</code><span>AI 의견 · AI 대화 요청</span></div>
     </div>
     <div class="layer"><h3>⚙ 분석 엔진 (브라우저)</h3>
       <div class="mod"><code>place.js</code><span>검색 · 현재 위치 → 행정동</span></div>
@@ -685,6 +686,8 @@ td b { color: var(--accent); }
       <div class="mod"><code>report.js</code><span>강점 · 위험 · 전략 문장</span></div>
       <div class="mod"><code>rent.js</code><span>매물 임대료 부담 · 상권 평균</span></div>
       <div class="mod"><code>confidence.js</code><span>점수 신뢰도</span></div>
+      <div class="mod"><code>compare-note.js</code><span>후보 비교 해설 문장</span></div>
+      <div class="mod"><code>ai-guard.js</code><span>AI 답변 숫자 · 개념 검사</span></div>
     </div>
     <div class="layer"><h3>☁ 수집 · 저장</h3>
       <div class="mod"><code>collector/</code><span>매일 Actions → Firestore</span></div>
@@ -694,9 +697,10 @@ td b { color: var(--accent); }
       <div class="mod"><code>users/{uid}</code><span>후보지 · 최근 검색 (본인만)</span></div>
       <div class="mod"><code>firestore.rules</code><span>접근 제어</span></div>
       <div class="mod"><code>Hosting</code><span>location-app-sykim</span></div>
+      <div class="mod"><code>location-ai</code><span>AI 중계 서버 (Vercel)</span></div>
     </div>
   </div>
-  <div class="foot"><span>개발용: <code>check.html</code> 검증 · <code>collector/</code> 수집기 (배포 제외)</span><span>JS 24개 (js/)</span></div>
+  <div class="foot"><span>개발용: <code>check.html</code> 검증 · <code>collector/</code> 수집기 (배포 제외)</span><span>JS 27개 (js/)</span></div>
 </section>
 
 <!-- 12. 지표 엔진 -->
@@ -753,7 +757,43 @@ td b { color: var(--accent); }
   <div class="grid g3" style="margin-top:16px">
     <div class="card soft"><h3>항상 붙는 것</h3><p>데이터 기준일 · 출처 · "참고자료이며 성공을 보장하지 않습니다" 고지</p></div>
     <div class="card soft"><h3>금지 표현</h3><p>"반드시 · 확실히 성공 · 무조건" 같은 단정. 확인 못 한 항목은 "자료 없음"으로 표기</p></div>
-    <div class="card soft"><h3>2단계: LLM 다듬기</h3><p>키 노출을 막기 위해 서버 함수를 경유해야 함 (후속). 계산된 지표 JSON만 입력하고, 출력에 없는 숫자가 있으면 폐기</p></div>
+    <div class="card soft"><h3>2단계: LLM 연동 <span class="chip done">구현됨</span></h3><p>중계 서버(Vercel)를 거쳐 계산된 지표 요약만 보내고, 입력에 없는 숫자 · 개념이 나오면 폐기 → 다음 장</p></div>
+  </div>
+</section>
+
+<!-- AI API 연동 -->
+<section class="slide dense" data-title="AI API 연동" data-group="3. 엔진">
+  <p class="kicker">3. 엔진</p>
+  <h2>AI API 연동 · 키는 <em>서버에만</em>, 숫자는 <em>입력에서만</em></h2>
+  <style>.ai-arch { grid-template-columns: 1fr 1.25fr 1fr; } .ai-arch .mod code { white-space: nowrap; font-family: inherit; font-weight: 700; letter-spacing: 0; }</style>
+  <p class="lead">규칙 기반 결과는 그대로 두고, 원하는 사람만 "전문가 의견 받기"와 정해진 질문 3개로 AI에게 물어봅니다. AI 답이 검사를 통과하지 못하면 규칙 기반 의견을 보여 줍니다.</p>
+  <div class="arch ai-arch">
+    <div class="layer"><h3>🖥 앱 (브라우저)</h3>
+      <div class="mod"><code>AI 대화 탭</code><span>강점 · 위험 · 전략 옆, 유료 예정 왕관</span></div>
+      <div class="mod"><code>전문가 의견</code><span>첫 말풍선: 강점 · 주의 · 전략 · 종합</span></div>
+      <div class="mod"><code>질문 칩 3개</code><span>가장 큰 위험 · 차별화 · 계약 전 확인</span></div>
+      <div class="mod"><code>6시간 캐시</code><span>같은 결과는 기기에 저장해 다시 묻지 않음</span></div>
+      <div class="mod"><code>보내는 것</code><span>점수 · 근거 요약만 (좌표 · 개인정보 없음)</span></div>
+    </div>
+    <div class="layer"><h3>🛡 중계 서버 location-ai (Vercel)</h3>
+      <div class="mod"><code>키 보관</code><span>OpenRouter 키는 서버 환경변수에만</span></div>
+      <div class="mod"><code>CORS</code><span>허용 목록(자리잡소 주소)만 호출 가능</span></div>
+      <div class="mod"><code>호출 제한</code><span>IP당 시간당 40회 · 응답 700토큰</span></div>
+      <div class="mod"><code>질문 고정</code><span>risk · differentiate · checklist 키만 받음</span></div>
+      <div class="mod"><code>가드</code><span>입력에 없는 숫자 · 개념 · 단정 표현 거부</span></div>
+      <div class="mod"><code>1회 재시도</code><span>걸린 표현을 알려 다시 요청 → 또 걸리면 거부</span></div>
+    </div>
+    <div class="layer"><h3>🤖 모델 (OpenRouter)</h3>
+      <div class="mod"><code>openai/gpt-4o-mini</code><span>기본 모델 (환경변수로 교체 가능)</span></div>
+      <div class="mod"><code>temperature 0.2</code><span>JSON 형식으로만 답</span></div>
+      <div class="mod"><code>금지 개념</code><span>매출 · 임대료 · 연 단위 기간 등 자료에 없는 말</span></div>
+      <div class="mod"><code>대체</code><span>실패 · 시간 초과면 규칙 기반 의견 + 다시 시도</span></div>
+    </div>
+  </div>
+  <div class="grid g3" style="margin-top:14px">
+    <div class="card soft"><h3>비용</h3><p>결과 하나에 의견 1번 + 질문 3개 = 최대 4번 호출. 캐시와 호출 제한으로 반복 비용을 막고, 이후 유료 기능으로 전환 예정</p></div>
+    <div class="card soft"><h3>한계</h3><p>AI 문장은 참고용입니다. 매출 · 임대료처럼 앱에 없는 자료는 답하지 않게 막았고, 숫자는 화면에 있는 값만 씁니다</p></div>
+    <div class="card soft"><h3>검증</h3><p>서버 테스트 27개(허용 출처 · 호출 제한 · 가드 · 재시도) + 앱 <code>check.html</code> 의 AI 항목. 앱과 서버의 가드 파일은 같은 내용으로 유지</p></div>
   </div>
 </section>
 
@@ -954,6 +994,34 @@ td b { color: var(--accent); }
     </ul></div>
   </div>
   <div class="card soft" style="margin-top:18px"><p><b>개폐업 자료</b> — 수집기가 새 분기가 나올 때 서울시 상권분석서비스(점포-행정동) 4분기를 받아 행정동 425곳의 업종별 폐업률 · 서울 백분위를 <code>closureRef/{동}</code> 에 저장합니다 (11. 2 첫 수집). 상권 평균 임대료(R-ONE)는 점수에 넣지 않는 참고 자료입니다.</p></div>
+</section>
+
+<!-- 11. 2 이후 업데이트 -->
+<section class="slide" data-title="11. 2 이후 업데이트" data-group="7. 업데이트 내용">
+  <p class="kicker">7. 업데이트 내용 · 11. 2 → 11. 10</p>
+  <h2><em>AI 대화</em>를 붙이고, 비교 결과를 <em>문장으로</em> 풀었습니다</h2>
+  <p class="lead">AI API 연동(중계 서버 · 가드), AI 의견 화면 개편, 후보 비교 해설, 로그인 버튼 정리.</p>
+  <div class="grid g3">
+    <div class="card"><h3>AI API 연동 <span class="chip done">배포됨</span></h3><ul>
+      <li>앱 → <b>Vercel 중계 서버</b> → OpenRouter (gpt-4o-mini)</li>
+      <li><b>전문가 의견</b> + 정해진 <b>질문 3개</b> (위험 · 차별화 · 계약 전 확인)</li>
+      <li>숫자 · 개념 가드, 1회 재시도, 실패 시 규칙 기반 의견</li>
+      <li>키는 서버에만 · 허용 출처 · IP당 시간당 40회 · 6시간 캐시</li>
+    </ul></div>
+    <div class="card"><h3>AI 의견 화면 <span class="chip done">배포됨</span></h3><ul>
+      <li>결론 카드 + <b>알약 칩 탭</b>: 강점 · 위험 · 전략(개수 배지) · AI 대화</li>
+      <li>AI 대화는 <b>퍼플</b>로 통일, 유료 예정 <b>왕관</b> 표시</li>
+      <li>전문가 의견이 첫 말풍선, 질문 칩은 화면 아래 고정</li>
+      <li>로그인 버튼에 <b>Google 로고</b></li>
+    </ul></div>
+    <div class="card"><h3>후보 비교 해설 <span class="chip next">배포 전</span></h3><ul>
+      <li>표 아래 <b>한 줄 총평</b> + 항목별 한 줄 (점수 차 · 근거 수치 칩)</li>
+      <li>5점 이하 차이는 "비슷해요", 자료 없으면 "자료 적음"</li>
+      <li>상황별 추천 최대 3줄, 업종이 다르면 직접 비교 안내</li>
+      <li>규칙 기반: 서버 · AI 호출 없음, 같은 입력이면 같은 문장</li>
+    </ul></div>
+  </div>
+  <div class="card soft" style="margin-top:18px"><p><b>검증</b> — 앱 <code>check.html</code> 131개 · 중계 서버 테스트 27개 통과. 공개 앱에서 휴대폰 폭으로 AI 의견 · 질문 답변을 실제 호출해 확인했습니다.</p></div>
 </section>
 
 <!-- 22. 마무리 -->
