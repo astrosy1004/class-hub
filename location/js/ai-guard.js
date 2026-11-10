@@ -49,6 +49,18 @@ export function validateOpinion(raw, allowed, source = "") {
   return { ok: true, opinion };
 }
 
+// "이 결과에 물어보기" 답변 검사: { answer: "3~4문장" } 모양 + 같은 숫자 · 단정 표현 · 개념 규칙
+export function validateAnswer(raw, allowed, source = "") {
+  const answer = raw && typeof raw.answer === "string" ? raw.answer.trim().slice(0, 500) : "";
+  if (answer.length < 10) return { ok: false, reason: "shape", bad: [] };
+  const bad = [...new Set(numbersIn(answer).filter((n) => !allowed.has(n)))];
+  if (bad.length) return { ok: false, reason: "unverified_numbers", bad };
+  if (/반드시|무조건|확실히 성공|100% 성공|보장합니다/.test(answer)) return { ok: false, reason: "forbidden_words", bad: [] };
+  const off = unknownConcepts(answer, source);
+  if (off.length) return { ok: false, reason: "unverified_concepts", bad: off };
+  return { ok: true, answer };
+}
+
 // 모델 응답 문자열에서 JSON 을 꺼낸다 (```json 울타리가 붙어 와도)
 export function parseJsonLoose(content) {
   const s = String(content || "").replace(/^```(?:json)?\s*/i, "").replace(/```\s*$/, "").trim();

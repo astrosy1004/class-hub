@@ -582,6 +582,30 @@ svg .rad.r1 { fill: var(--c2); stroke: var(--c2); } svg .rad.r2 { fill: var(--c3
 .ai-h small { display: block; font-size: 12px; color: var(--muted); margin-top: 2px; }
 .ai-mark { width: 36px; height: 36px; border-radius: 11px; flex: none; display: grid; place-items: center; color: #fff; background: linear-gradient(140deg, #4f8bff, var(--accent) 55%, #5b5cf0); }
 .ai-mark .ico { width: 20px; height: 20px; }
+.ai-mark.ask { background: linear-gradient(140deg, #22b07d, #0f9d78); }
+.ask-card { display: grid; gap: 12px; }
+.chat { display: grid; gap: 10px; }
+.msg { display: flex; gap: 8px; align-items: flex-end; }
+.msg .av { width: 30px; height: 30px; border-radius: 10px; flex: none; display: grid; place-items: center; color: #fff; background: linear-gradient(140deg, #4f8bff, var(--accent) 55%, #5b5cf0); }
+.msg .av .ico { width: 17px; height: 17px; }
+.msg p { margin: 0; padding: 10px 12px; border-radius: 16px 16px 16px 4px; background: var(--surface-2, #f2f4f7); font-size: 13.5px; line-height: 1.6; max-width: 85%; }
+.msg p small { display: block; margin-top: 4px; font-size: 11px; color: var(--muted); }
+.msg.me { justify-content: flex-end; }
+.msg.me p { background: var(--accent); color: #fff; border-radius: 16px 16px 4px 16px; font-weight: 700; }
+.msg.me .av { background: var(--muted); }
+.msg.fail p { background: #fff4e5; color: #8a4b00; }
+.msg.typing p { display: flex; gap: 4px; align-items: center; min-height: 38px; }
+.msg.typing i { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); animation: dot 1s infinite; }
+.msg.typing i:nth-child(2) { animation-delay: .15s; } .msg.typing i:nth-child(3) { animation-delay: .3s; }
+@keyframes dot { 0%, 80%, 100% { opacity: .3; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-3px); } }
+@media (prefers-reduced-motion: reduce) { .msg.typing i { animation: none; } }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chips .chip { border: 1px solid var(--accent); color: var(--accent); background: var(--surface); border-radius: 999px; padding: 8px 12px; font-size: 13px; font-weight: 700; text-decoration: none; cursor: pointer; }
+.chips .chip.done { border-color: var(--line, #dfe3ea); color: var(--muted); }
+.chips .chip.retry { border-color: #d9781f; color: #b5600f; }
+.chips .chip.next { background: var(--accent); color: #fff; }
+.chips .chip:disabled { opacity: .5; cursor: default; }
 .ai-card .btn { margin-top: 0; }
 .ai-wait, .ai-fail { display: flex; gap: 8px; align-items: center; font-size: 13px; color: var(--muted); }
 .ai-wait .ico { width: 18px; height: 18px; animation: ai-spin 0.9s linear infinite; }

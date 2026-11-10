@@ -3,7 +3,7 @@
 import { CONFIG } from "./config.js";
 import { AGE_GROUPS } from "./area-data.js";
 import { fmtPct, fmtAgePct } from "./metrics.js";
-import { allowedNumbers, validateOpinion } from "./ai-guard.js";
+import { allowedNumbers, validateOpinion, validateAnswer } from "./ai-guard.js";
 
 const CACHE_KEY = "aiOpinion";
 const CACHE_MS = 6 * 3600000; // 같은 결과는 6시간 동안 다시 묻지 않는다
@@ -73,6 +73,44 @@ export async function requestOpinion(a) {
     const v = validateOpinion(j.opinion, allowedNumbers(payload), JSON.stringify(payload));
     if (!v.ok) return { ok: false, reason: v.reason };
     const data = { ok: true, opinion: v.opinion, model: j.model || "" };
+    writeCache(key, data);
+    return data;
+  } catch (e) {
+    return { ok: false, reason: e?.name === "AbortError" ? "timeout" : "network" };
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+// "이 결과에 물어보기": 질문은 서버에 고정된 세 가지 키로만 보낸다 (자유 입력 없음)
+export const ASK_KEYS = ["risk", "differentiate", "checklist"];
+export function askLabels(a) {
+  const comp = a.score.items.find((i) => i.key === "competition")?.score;
+  return {
+    risk: "이 자리에서 가장 큰 위험은 뭐예요?",
+    differentiate: comp != null && comp < 50 ? "경쟁이 치열한데 어떻게 차별화할까요?" : "어떤 점으로 차별화하면 좋을까요?",
+    checklist: "계약 전에 현장에서 뭘 확인해야 하나요?",
+  };
+}
+
+// { ok: true, answer, model, cached } 또는 { ok: false, reason }. 예외를 던지지 않는다
+export async function requestAnswer(a, question) {
+  const url = aiUrl();
+  if (!url) return { ok: false, reason: "off" };
+  if (!ASK_KEYS.includes(question)) return { ok: false, reason: "bad_question" };
+  const payload = buildPayload(a);
+  const key = `${a.key}|${payload.asOf}|${payload.total}|q:${question}`;
+  const hit = readCache(key);
+  if (hit) return { ...hit, cached: true };
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
+  try {
+    const r = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...payload, question }), signal: ctrl.signal });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) return { ok: false, reason: j.error || `http_${r.status}` };
+    const v = validateAnswer(j, allowedNumbers(payload), JSON.stringify(payload));
+    if (!v.ok) return { ok: false, reason: v.reason };
+    const data = { ok: true, answer: v.answer, model: j.model || "" };
     writeCache(key, data);
     return data;
   } catch (e) {

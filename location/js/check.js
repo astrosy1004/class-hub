@@ -16,8 +16,8 @@ import { toStore } from "./kmap.js";
 import { pdfReportHtml, reportFileName, checklist } from "./pdf-report.js";
 import { rentInfo, matchRentRef, fmtRentUnit } from "./rent.js";
 import { confidenceOf } from "./confidence.js";
-import { buildPayload, requestOpinion, failText } from "./ai-opinion.js";
-import { allowedNumbers, validateOpinion } from "./ai-guard.js";
+import { buildPayload, requestOpinion, failText, requestAnswer, askLabels, ASK_KEYS } from "./ai-opinion.js";
+import { allowedNumbers, validateOpinion, validateAnswer } from "./ai-guard.js";
 
 const out = document.getElementById("out");
 const results = [];
@@ -248,6 +248,8 @@ async function run() {
   check("AI 의견", "자료에 없는 개념(매출 감소 · 3년간)은 거부", validateOpinion({ ...good, cautions: ["매출이 감소세입니다."] }, allow, JSON.stringify(payload)).reason === "unverified_concepts" && validateOpinion({ ...good, cautions: ["최근 3년간 줄었습니다."] }, allow, JSON.stringify(payload)).reason === "unverified_concepts");
   check("AI 의견", "근거 문장에 대상 · 기간이 들어감 (생활인구 직전 3개월)", payload.items.some((it) => /생활인구 직전 3개월 대비/.test(it.basis)));
   check("AI 의견", "입력에 없는 숫자(예상 매출 3200만원)는 거부", !validateOpinion({ ...good, cautions: ["예상 월매출은 3200만원입니다."] }, allow).ok);
+  check("이 결과에 물어보기", "질문은 정해진 3개 키 · 문구가 모두 있음", ASK_KEYS.length === 3 && ASK_KEYS.every((k) => askLabels(full)[k]?.endsWith("?")));
+  check("이 결과에 물어보기", "답변에도 숫자 · 개념 검사 (매출 · 지어낸 숫자 거부)", validateAnswer({ answer: `${sc0.name} ${sc0.score}점이 강점입니다. 현장 확인을 권합니다.` }, allow, JSON.stringify(payload)).ok && !validateAnswer({ answer: "월 매출 5000만원이 예상됩니다." }, allow, JSON.stringify(payload)).ok);
   const realFetch = window.fetch;
   try {
     localStorage.removeItem("aiOpinion");
@@ -259,6 +261,12 @@ async function run() {
     const ok = await requestOpinion({ ...full, key: "mock-ok" });
     const again = await requestOpinion({ ...full, key: "mock-ok" });
     check("AI 의견", "정상 답변 표시 · 같은 결과는 기기에 저장해 다시 묻지 않음", ok.ok && again.cached === true);
+    let askBody;
+    window.fetch = async (u, o) => { askBody = JSON.parse(o.body); return new Response(JSON.stringify({ answer: `${sc0.name} ${sc0.score}점이 가장 큰 강점입니다. 현장 확인을 권합니다.`, question: "risk", model: "mock" }), { status: 200 }); };
+    const ans = await requestAnswer({ ...full, key: "mock-ask" }, "risk");
+    check("이 결과에 물어보기", "칩 질문은 키만 보내고 답을 받음 (자유 문장 없음)", ans.ok && askBody.question === "risk" && !("text" in askBody) && !("message" in askBody));
+    const bogus = await requestAnswer({ ...full, key: "mock-ask" }, "anything");
+    check("이 결과에 물어보기", "정해진 3개 외 질문은 보내지 않음", !bogus.ok && bogus.reason === "bad_question");
     window.fetch = async () => new Response(JSON.stringify({ error: "rate_limited" }), { status: 429 });
     const lim = await requestOpinion({ ...full, key: "mock-429" });
     check("AI 의견", "호출 제한 응답은 안내 문장으로", !lim.ok && failText(lim.reason).includes("잠시 후"));

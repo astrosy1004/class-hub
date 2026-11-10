@@ -1,7 +1,7 @@
 // 화면 전환(#주소) · 검색 · 이벤트. 계산은 analysis.js, 그리기는 ui.js.
 // 주소 형식: #home · #result/연남동/cafe (분석 결과) → #map/… · #analysis/… · #trend/… · #report/… (4단계) · #compare · #me
 import { INDUSTRIES, industryByKey } from "./area-data.js";
-import { requestOpinion, failText } from "./ai-opinion.js";
+import { requestOpinion, failText, requestAnswer, askLabels, ASK_KEYS } from "./ai-opinion.js";
 import { parseQuery, resolvePlace, resolveCurrent } from "./place.js";
 import { analyze, applyRent } from "./analysis.js";
 import { drawMap, ensureKakao, kakaoReady, kakaoState } from "./kmap.js";
@@ -397,6 +397,8 @@ document.addEventListener("click", (e) => {
       t.disabled = false;
       if (res.ok) t.remove(); // 받은 뒤에는 버튼을 숨긴다 (같은 결과는 기기에 6시간 저장)
     });
+  } else if (t.dataset.ask) {
+    askQuestion(t);
   } else if (t.dataset.indcmp !== undefined) {
     compareIndustries(t);
   } else if (t.dataset.probe !== undefined) {
@@ -493,6 +495,31 @@ function closeMore(focus) {
 }
 document.addEventListener("click", (e) => { if (state.moreOpen && !e.target.closest("#morePanel, [data-more]")) closeMore(false); });
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeMore(true); });
+// "이 결과에 물어보기": 칩을 누르면 내 질문 → 입력 중 → 답. 같은 질문은 기기에 저장된 답을 다시 보여 준다
+const asked = new Set();
+async function askQuestion(chip) {
+  const a = state.current, log = document.getElementById("chatLog");
+  if (!a || !log || chip.disabled) return;
+  const key = chip.dataset.ask;
+  document.querySelectorAll("#askChips .chip").forEach((c) => (c.disabled = true));
+  if (!chip.classList.contains("retry")) log.insertAdjacentHTML("beforeend", ui.chatUser(askLabels(a)[key]));
+  log.insertAdjacentHTML("beforeend", ui.chatTyping());
+  log.lastElementChild.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  const res = await requestAnswer(a, key);
+  if (state.current !== a) return; // 기다리는 동안 다른 화면으로 갔으면 그리지 않는다
+  log.querySelector(".typing")?.remove();
+  log.insertAdjacentHTML("beforeend", ui.chatAnswer(res));
+  const chips = document.getElementById("askChips");
+  chips.querySelector(".retry")?.remove();
+  if (res.ok) { asked.add(`${a.key}|${key}`); chip.classList.add("done"); }
+  else chips.insertAdjacentHTML("afterbegin", `<button type="button" class="chip retry" data-ask="${key}">다시 시도</button>`);
+  chips.querySelectorAll(".chip").forEach((c) => (c.disabled = false));
+  if (ASK_KEYS.every((k) => asked.has(`${a.key}|${k}`)) && !chips.querySelector(".next")) {
+    chips.insertAdjacentHTML("beforeend", `<a class="chip next" href="#compare">다른 후보도 비교해 보세요</a>`);
+  }
+  log.lastElementChild.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
 window.addEventListener("hashchange", route);
 applyTheme(getTheme());
 route();

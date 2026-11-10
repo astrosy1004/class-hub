@@ -1,5 +1,5 @@
 // 화면 그리기: 분석 결과 · 상태를 받아 HTML 문자열을 돌려준다 (이벤트 처리는 main.js).
-import { aiUrl } from "./ai-opinion.js";
+import { aiUrl, ASK_KEYS, askLabels } from "./ai-opinion.js";
 import { AGE_GROUPS, INDUSTRIES, EXTRA_INDUSTRIES, EXTRA_GROUPS, POPULAR_AREAS, industryByKey } from "./area-data.js";
 import { parseQuery } from "./place.js";
 import { confidenceOf, itemWord } from "./confidence.js";
@@ -43,13 +43,13 @@ const resultEyebrow = (a, sub = "", label = "분석 결과") => `${RESULT_MARK}$
 const placeLine = (a) => `${a.place.name} ${a.industry.name}`;
 
 // 자세히 보기 단계 메뉴: 아이콘 + 이름 (지금 화면은 채운 아이콘)
-// 아이콘: Lucide (lucide.dev, ISC) map · gauge · chart-no-axes-column · trending-up · sparkles
+// 아이콘: Lucide (lucide.dev, ISC) map · gauge · chart-no-axes-column · trending-up · bot
 const SUB_ICONS = {
   map: '<path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/>',
   result: '<path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/>',
   analysis: '<line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/>',
   trend: '<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>',
-  report: '<path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/>',
+  report: '<path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/>', // bot
 };
 const subIcon = (k) => `<svg class="ico" viewBox="0 0 24 24" aria-hidden="true">${SUB_ICONS[k]}</svg>`;
 export function subnav(a, active) {
@@ -121,6 +121,10 @@ const ICON_PATHS = {
   layers: '<path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m6.08 9.5-3.5 1.6a1 1 0 0 0 0 1.81l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9a1 1 0 0 0 0-1.83l-3.5-1.59"/><path d="m6.08 14.5-3.5 1.6a1 1 0 0 0 0 1.81l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9a1 1 0 0 0 0-1.83l-3.5-1.59"/>',
   competition: '<polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" x2="19" y1="19" y2="13"/><line x1="16" x2="20" y1="16" y2="20"/><line x1="19" x2="21" y1="21" y2="19"/><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"/><line x1="5" x2="9" y1="14" y2="18"/><line x1="7" x2="4" y1="17" y2="20"/><line x1="3" x2="5" y1="19" y2="21"/>', // Lucide swords
   chat: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M13 8H7"/><path d="M17 12H7"/>', // Lucide message-square-text
+  compass: '<path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/><circle cx="12" cy="12" r="10"/>', // Lucide compass (자리잡소 한 줄 결론)
+  expert: '<path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/>', // Lucide graduation-cap (전문가 의견)
+  ask: '<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>', // Lucide message-circle-question
+  user: '<circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/>', // Lucide user-round
   spin: '<path d="M21 12a9 9 0 1 1-6.219-8.56"/>', // Lucide loader-circle
   closure: '<path d="M18 20V6a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v14"/><path d="M2 20h20"/><path d="M14 12v.01"/>', // Lucide door-closed
   star: '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
@@ -461,16 +465,31 @@ export function reportHtml(a) {
   ${head("AI 컨설턴트 의견", { eyebrow: resultEyebrow(a, placeLine(a)), backHref: hashOf("result", a), backLabel: "분석 결과로", right: `<a class="ib" href="${hashOf("pdf", a)}" aria-label="결과 보고서(PDF) 만들기">${icon("doc")}</a>` })}
   ${subnav(a, "report")}
   ${modeBanner()}
-  <div class="bubble"><div class="bot">${subIcon("report")}</div><p>${esc(r.summary)}</p></div>
-  ${aiUrl() ? `<section class="card ai-card" aria-labelledby="aiH"><div class="ai-h"><span class="ai-mark">${subIcon("report")}</span><div><h3 id="aiH">전문가 의견 (AI)</h3><small>아래 분석 숫자만 근거로 AI 컨설턴트가 다시 정리해요 · 참고용</small></div></div>
+  <div class="bubble"><div class="bot">${icon("compass")}</div><p>${esc(r.summary)}</p></div>
+  ${aiUrl() ? `<section class="card ai-card" aria-labelledby="aiH"><div class="ai-h"><span class="ai-mark">${icon("expert")}</span><div><h3 id="aiH">전문가 의견 (AI)</h3><small>아래 분석 숫자만 근거로 AI 컨설턴트가 다시 정리해요 · 참고용</small></div></div>
     <button type="button" class="btn" data-ai>${icon("chat")}전문가 의견 받기</button><div id="aiOut" aria-live="polite"></div></section>` : ""}
   <div class="tone good"><h3>${icon("good")}강점</h3><ul>${r.strengths.map(li).join("")}</ul></div>
   <div class="tone bad"><h3>${icon("alert")}위험 요소</h3><ul>${r.risks.map(li).join("")}</ul></div>
   <div class="tone tip"><h3>${icon("idea")}추천 전략</h3><ul>${r.strategies.map(li).join("")}</ul></div>
   <div class="card" style="background:var(--accent-soft);box-shadow:none"><h3 class="tone-h" style="color:var(--accent)">${icon("target")}종합 의견</h3><div style="font-size:13px;line-height:1.6;margin-top:4px">${esc(r.overall)}</div></div>
+  ${aiUrl() ? askHtml(a) : ""}
   <a class="btn" href="${hashOf("pdf", a)}">${icon("doc")}결과 보고서(PDF) 만들기</a>
   <div class="cap" style="text-align:center;margin:6px 0 10px">항목별 산출 근거 · 그래프 · 점포 목록 · 현장 답사 체크리스트까지 담은 A4 보고서예요</div>
   ${sourceFoot(a)}`;
+}
+
+// "이 결과에 물어보기": 정해진 질문 칩 3개만 (자유 입력 없음). 답은 조회된 분석 숫자만 근거로
+function askHtml(a) {
+  const labels = askLabels(a);
+  return `<section class="card ask-card" aria-labelledby="askH"><div class="ai-h"><span class="ai-mark ask">${icon("ask")}</span><div><h3 id="askH">이 결과에 물어보기</h3><small>질문을 고르면 이 동네 분석 숫자로 답해요 · AI가 작성 · 참고용</small></div></div>
+    <div class="chat" id="chatLog" aria-live="polite"><div class="msg ai"><span class="av">${subIcon("report")}</span><p>${esc(a.place.name)} ${esc(a.industry.name)} 결과에 대해 궁금한 점을 골라 주세요.</p></div></div>
+    <div class="chips" id="askChips">${ASK_KEYS.map((k) => `<button type="button" class="chip" data-ask="${k}">${esc(labels[k])}</button>`).join("")}</div></section>`;
+}
+export const chatUser = (text) => `<div class="msg me"><p>${esc(text)}</p><span class="av">${icon("user")}</span></div>`;
+export const chatTyping = () => `<div class="msg ai typing"><span class="av">${subIcon("report")}</span><p><i></i><i></i><i></i><span class="sr">입력 중…</span></p></div>`;
+export function chatAnswer(res) {
+  if (!res.ok) return `<div class="msg ai fail"><span class="av">${subIcon("report")}</span><p>지금은 답변을 불러오지 못했어요. 위의 규칙 기반 의견을 참고하세요.</p></div>`;
+  return `<div class="msg ai"><span class="av">${subIcon("report")}</span><p>${esc(res.answer)}<small>AI가 작성 · 참고용${res.cached ? " · 저장된 답변" : ""}</small></p></div>`;
 }
 
 // AI 전문가 의견 결과 (ai-opinion.js 의 requestOpinion 결과). 실패면 안내만 하고 위의 규칙 기반 의견은 그대로 둔다
