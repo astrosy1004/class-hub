@@ -41,6 +41,9 @@ export function buildMessages(s) {
   const system = [
     "당신은 서울 소상공인 창업 입지를 상담하는 컨설턴트입니다.",
     "아래 JSON 의 숫자와 사실만 근거로 의견을 씁니다. JSON 에 없는 숫자(매출, 임대료, 인구 수 등)는 절대 만들어 쓰지 않습니다.",
+    "생활인구는 그 시간 그 동네에 머문 사람 수의 추정치입니다. 매출, 수익, 방문객, 손님 수로 바꿔 말하지 않습니다. 매출 · 임대료 자료는 없습니다.",
+    "items 의 name 은 점수 항목, basis 는 그 항목의 근거입니다. 근거 숫자는 그 항목에만 쓰고, 다른 항목에 붙이지 않습니다.",
+    "숫자를 쓸 때는 basis 에 적힌 대상 · 기간 · 단위를 그대로 붙입니다. 예: '생활인구 직전 3개월 대비 -1.4%'를 '3년간'이나 '매출 감소'로 바꾸지 않습니다.",
     "성공을 보장하거나 단정하는 표현(반드시, 무조건, 확실히 성공 등)을 쓰지 않습니다.",
     "자료 기준일을 한 번 언급하고, 현장 확인을 권합니다. 한국어 존댓말로 짧고 구체적으로 씁니다.",
     '응답은 JSON 하나만: {"strengths":[문장 1~3개],"cautions":[문장 1~3개],"strategies":[문장 2~3개],"overall":"3문장 이내 종합 의견"}',
@@ -75,7 +78,7 @@ export async function handle(req, { env = {}, fetchImpl = fetch, now = Date.now(
       method: "POST",
       signal: ctrl.signal,
       headers: { Authorization: `Bearer ${env.OPENROUTER_API_KEY}`, "Content-Type": "application/json", "HTTP-Referer": origin, "X-Title": "jarijapso" },
-      body: JSON.stringify({ model, messages: buildMessages(summary), max_tokens: MAX_TOKENS, temperature: 0.3, response_format: { type: "json_object" } }),
+      body: JSON.stringify({ model, messages: buildMessages(summary), max_tokens: MAX_TOKENS, temperature: 0.2, response_format: { type: "json_object" } }),
     });
     if (!r.ok) return out(502, { error: "upstream_error", status: r.status });
     const j = await r.json();
@@ -86,7 +89,7 @@ export async function handle(req, { env = {}, fetchImpl = fetch, now = Date.now(
     clearTimeout(timer);
   }
 
-  const v = validateOpinion(parseJsonLoose(content), allowedNumbers(summary));
+  const v = validateOpinion(parseJsonLoose(content), allowedNumbers(summary), JSON.stringify(summary));
   if (!v.ok) return out(422, { error: v.reason, bad: v.bad });
   return out(200, { opinion: v.opinion, model, asOf: summary.asOf });
 }

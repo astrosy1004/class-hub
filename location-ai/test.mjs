@@ -24,15 +24,24 @@ const req = (over = {}) => ({ method: "POST", origin: "https://location-app-syki
 
 const s = sanitize(body);
 check("좌표 칸은 버린다", !("lat" in s) && !("lng" in s));
-check("허용 숫자: 입력 숫자는 통과", validateOpinion(good, allowedNumbers(s)).ok);
+check("허용 숫자: 입력 숫자는 통과", validateOpinion(good, allowedNumbers(s), JSON.stringify(s)).ok);
 const invented = { ...good, cautions: ["예상 월매출은 3200만원입니다."] };
 check("입력에 없는 숫자(3200)는 거부", !validateOpinion(invented, allowedNumbers(s)).ok);
+const src = JSON.stringify(s);
+check("자료에 없는 개념: '매출이 감소세'는 거부", validateOpinion({ ...good, cautions: ["상권 내 매출이 감소세를 보입니다."] }, allowedNumbers(s), src).reason === "unverified_concepts");
+check("기간 바꿔치기: '최근 3년간'은 거부", validateOpinion({ ...good, cautions: ["최근 3년간 생활인구가 줄었습니다."] }, allowedNumbers(s), src).reason === "unverified_concepts");
+check("연도(2026년)는 허용", validateOpinion({ ...good, overall: "2026년 10월 29일 기준 자료입니다. 현장 확인 후 판단하세요." }, allowedNumbers(s), src).ok);
+check("입력에 있는 개념은 허용 (근거에 '방문객'이 있으면 통과)", validateOpinion({ ...good, strengths: ["방문객 흐름이 좋습니다."] }, allowedNumbers(s), src + "방문객").ok);
 check("단정 표현은 거부", !validateOpinion({ ...good, overall: "반드시 성공합니다. 2026-10-29 기준." }, allowedNumbers(s)).ok);
 
 let r = await handle(req(), { env, fetchImpl: llm(good) });
 check("정상: 200 + 의견", r.status === 200 && r.json.opinion.strategies.length === 2);
 r = await handle(req(), { env, fetchImpl: llm("```json\n" + JSON.stringify(good) + "\n```") });
 check("```json 울타리가 붙어도 읽음", r.status === 200);
+r = await handle(req(), { env, fetchImpl: llm({ ...good, cautions: ["매출이 감소세를 보이고 있습니다."] }) });
+check("서버: 매출처럼 자료에 없는 개념이면 422", r.status === 422 && r.json.error === "unverified_concepts" && r.json.bad.includes("매출"));
+await handle(req(), { env, fetchImpl: async (url, o) => { const m = JSON.parse(o.body).messages[0].content; r = /매출, 수익, 방문객/.test(m) && /기간/.test(m); return llm(good)(); } });
+check("지시문에 생활인구 ≠ 매출 · 기간 그대로 쓰기 규칙이 있음", r === true);
 r = await handle(req(), { env, fetchImpl: llm(invented) });
 check("지어낸 숫자면 422 (앱은 규칙 의견을 그대로 보여 줌)", r.status === 422 && r.json.bad.includes("3200"));
 r = await handle(req({ origin: "https://evil.example" }), { env, fetchImpl: llm(good) });
@@ -54,7 +63,7 @@ check("응답 · 코드에 키 값이 나오지 않음", !JSON.stringify(r).incl
 
 // 앱 쪽 검증기(location/js/ai-guard.js)와 규칙이 같은지
 const appGuard = await import(new URL("../location/js/ai-guard.js", import.meta.url));
-check("앱 검증기와 결과가 같음", appGuard.validateOpinion(invented, appGuard.allowedNumbers(s)).ok === false && appGuard.validateOpinion(good, appGuard.allowedNumbers(s)).ok === true);
+check("앱 검증기와 결과가 같음", appGuard.validateOpinion(invented, appGuard.allowedNumbers(s)).ok === false && appGuard.validateOpinion(good, appGuard.allowedNumbers(s), src).ok === true && appGuard.validateOpinion({ ...good, cautions: ["매출 감소"] }, appGuard.allowedNumbers(s), src).reason === "unverified_concepts");
 check("앱 검증기 파일이 서버와 같은 규칙(본문 동일)", readFileSync(new URL("../location/js/ai-guard.js", import.meta.url), "utf8").split("\n").slice(2).join("\n") === readFileSync(new URL("./lib/guard.js", import.meta.url), "utf8").split("\n").slice(2).join("\n"));
 
 console.log(`\n${pass} 통과 · ${fail} 실패`);
