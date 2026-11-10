@@ -244,7 +244,9 @@ async function run() {
   const allow = allowedNumbers(payload);
   const sc0 = payload.items[0];
   const good = { strengths: [`${sc0.name} ${sc0.score}점으로 강점입니다.`], cautions: ["현장 확인이 필요합니다."], strategies: ["평일 현장을 둘러보세요.", "경쟁 점포와 겹치지 않는 메뉴를 준비하세요."], overall: `${payload.asOf} 기준 자료입니다. 현장 확인 후 판단하세요.` };
-  check("AI 의견", "입력 숫자만 쓴 답변은 통과", validateOpinion(good, allow).ok);
+  check("AI 의견", "입력 숫자만 쓴 답변은 통과", validateOpinion(good, allow, JSON.stringify(payload)).ok);
+  check("AI 의견", "자료에 없는 개념(매출 감소 · 3년간)은 거부", validateOpinion({ ...good, cautions: ["매출이 감소세입니다."] }, allow, JSON.stringify(payload)).reason === "unverified_concepts" && validateOpinion({ ...good, cautions: ["최근 3년간 줄었습니다."] }, allow, JSON.stringify(payload)).reason === "unverified_concepts");
+  check("AI 의견", "근거 문장에 대상 · 기간이 들어감 (생활인구 직전 3개월)", payload.items.some((it) => /생활인구 직전 3개월 대비/.test(it.basis)));
   check("AI 의견", "입력에 없는 숫자(예상 매출 3200만원)는 거부", !validateOpinion({ ...good, cautions: ["예상 월매출은 3200만원입니다."] }, allow).ok);
   const realFetch = window.fetch;
   try {

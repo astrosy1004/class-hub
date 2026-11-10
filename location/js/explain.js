@@ -100,9 +100,8 @@ function growth(a, it) {
   const recent = months.slice(-3).map(monthLabel).join("·");
   const before = months.slice(-6, -3).map(monthLabel).join("·") || "-";
   return `<p class="dtxt"><b>최근 3개월</b> 월평균 생활인구가 <b>직전 3개월</b>보다 얼마나 늘었는지 봅니다.</p>
-  <div class="dcalc">최근 ${recent}월 ÷ 직전 ${before}월 → <b>${m.growth >= 0 ? "+" : ""}${(m.growth * 100).toFixed(1)}%</b></div>
+  <div class="dcalc">최근 ${recent} ÷ 직전 ${before} → <b>${m.growth >= 0 ? "+" : ""}${(m.growth * 100).toFixed(1)}%</b></div>
   ${ranking("growth", m.growth, it.score, a.baseline, (v) => `${v >= 0 ? "+" : ""}${(v * 100).toFixed(1)}%`)}
-  <div class="dnote cap">자료 기간이 ${months.length}개월이라 짧아요. 마지막 달은 일부 날짜만 포함될 수 있고, 계절 영향도 섞여 있어요. 기간이 쌓이면 더 정확해집니다.</div>
   ${contribution(it)}`;
 }
 

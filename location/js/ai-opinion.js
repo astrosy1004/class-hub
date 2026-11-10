@@ -22,11 +22,11 @@ export function buildPayload(a) {
   const m = a.metrics, s = a.score;
   const topAge = a.pop ? AGE_GROUPS.find((g) => g.key === m.topAge) : null;
   const basis = {
-    customer: topAge ? `주요 고객 ${topAge.name} ${fmtAgePct(m.age[m.topAge])}` : "",
-    size: a.pop ? `영업시간 중 평일 ${m.openPeakHour}시가 가장 붐빔` : "",
+    customer: topAge ? `생활인구 연령 중 가장 많은 층 ${topAge.name} ${fmtAgePct(m.age[m.topAge])}` : "",
+    size: a.pop ? `생활인구 기준 영업시간 중 평일 ${m.openPeakHour}시가 가장 붐빔` : "",
     competition: `반경 ${CONFIG.RADIUS_M}m 동종 점포 ${a.comp.count}${a.comp.capped ? "곳 이상" : "곳"}`,
     closure: a.closure ? `최근 4분기 폐업률 ${r1(a.closure.rate)}% (서울 행정동 중간 ${r1(a.closure.median ?? 0)}%)` : "",
-    growth: a.pop ? `직전 3개월 대비 ${fmtPct(m.growth)}` : "",
+    growth: a.pop ? `생활인구 직전 3개월 대비 ${fmtPct(m.growth)}` : "",
   };
   return {
     place: a.place.name, gu: a.place.guName || "", industry: a.industry.name,
@@ -70,7 +70,7 @@ export async function requestOpinion(a) {
     const j = await r.json().catch(() => ({}));
     if (!r.ok) return { ok: false, reason: j.error || `http_${r.status}` };
     // 서버가 검사했더라도 앱에서 한 번 더 확인한다 (입력에 없는 숫자가 있으면 버림)
-    const v = validateOpinion(j.opinion, allowedNumbers(payload));
+    const v = validateOpinion(j.opinion, allowedNumbers(payload), JSON.stringify(payload));
     if (!v.ok) return { ok: false, reason: v.reason };
     const data = { ok: true, opinion: v.opinion, model: j.model || "" };
     writeCache(key, data);
@@ -87,6 +87,7 @@ export const failText = (reason) => ({
   rate_limited: "잠시 후 다시 시도해 주세요 (시간당 요청 수를 넘었어요).",
   unverified_numbers: "AI 답변에 분석에 없는 숫자가 섞여 있어 보여 드리지 않았어요.",
   forbidden_words: "AI 답변에 단정적인 표현이 있어 보여 드리지 않았어요.",
+  unverified_concepts: "AI 답변에 분석 자료에 없는 내용(매출 등)이 섞여 있어 보여 드리지 않았어요.",
   timeout: "응답이 늦어 중단했어요. 잠시 후 다시 시도해 주세요.",
   not_configured: "AI 서버 설정이 아직 끝나지 않았어요.",
 }[reason] || "AI 의견을 받지 못했어요.");

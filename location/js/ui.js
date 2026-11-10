@@ -433,11 +433,10 @@ export function trendHtml(a, state) {
   const slots = [[6, 9], [9, 12], [12, 15], [15, 18], [18, 21], [21, 24]];
   const slotAvg = (arr) => slots.map(([s, e]) => arr.slice(s, e).reduce((x, y) => x + y, 0) / (e - s));
   const growthCls = m.growth >= 0 ? "up" : "down";
-  const small = all < 6 ? `<div class="banner">추이 자료가 ${all}개월분입니다. (API는 최근 기간만 제공해, 일별 수집이 쌓이면 기간이 늘어납니다)</div>` : "";
   return `
   ${head("추이 통계", { eyebrow: resultEyebrow(a, placeLine(a)), backHref: hashOf("result", a), backLabel: "분석 결과로" })}
   ${subnav(a, "trend")}
-  ${modeBanner()}${small}
+  ${modeBanner()}
   <div class="card"><h3>월별 생활인구 추이 <span class="seg" id="rangeSeg">${[[3, "3개월"], [6, "6개월"], [0, "전체"]].map(([v, t]) => `<button data-r="${v}" class="${(state.range || 0) === v ? "on" : ""}">${t}</button>`).join("")}</span></h3>
     <div class="cap">월 평균 (만 명/시간) · 전월 대비 ${fmtPct(m.mom)}</div>
     <div style="margin-top:8px">${lineChart({ values: vals.map((v) => Math.round(v / 100) / 100), labels: labels.map((t, i) => (vals.length <= 6 || i % 2 === 0 ? t : "")), hi: vals.length - 1, fmt: (v) => Number(v).toFixed(Number(v) >= 10 ? 1 : 2) })}</div>

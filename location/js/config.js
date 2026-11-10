@@ -15,5 +15,5 @@ export const CONFIG = {
   SAMPLE_URL: "./data/sample-gu.json",
   // AI 전문가 의견 중계 서버 주소 (location-ai 를 Vercel 에 배포한 뒤 예: "https://<프로젝트>.vercel.app/api/opinion"). 비어 있으면 버튼을 숨긴다.
   // OpenRouter 키는 여기 넣지 않는다 (Vercel 환경변수에만).
-  AI_URL: "",
+  AI_URL: "https://class-hub-location-ai.vercel.app/api/opinion",
 };
