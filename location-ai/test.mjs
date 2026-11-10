@@ -42,6 +42,9 @@ r = await handle(req(), { env, fetchImpl: llm({ ...good, cautions: ["매출이 �
 check("서버: 매출처럼 자료에 없는 개념이면 422", r.status === 422 && r.json.error === "unverified_concepts" && r.json.bad.includes("매출"));
 await handle(req(), { env, fetchImpl: async (url, o) => { const m = JSON.parse(o.body).messages[0].content; r = /매출, 수익, 방문객/.test(m) && /기간/.test(m); return llm(good)(); } });
 check("지시문에 생활인구 ≠ 매출 · 기간 그대로 쓰기 규칙이 있음", r === true);
+{ let calls = 0, second;
+  r = await handle(req(), { env, fetchImpl: async (url, o) => { calls++; if (calls === 2) second = JSON.parse(o.body).messages.at(-1).content; return llm(calls === 1 ? { ...good, cautions: ["매출이 줄고 있습니다."] } : good)(); } });
+  check("한 번 걸리면 걸린 표현을 알려 주고 다시 물어 200", r.status === 200 && calls === 2 && /매출/.test(second)); }
 r = await handle(req(), { env, fetchImpl: llm(invented) });
 check("지어낸 숫자면 422 (앱은 규칙 의견을 그대로 보여 줌)", r.status === 422 && r.json.bad.includes("3200"));
 r = await handle(req({ origin: "https://evil.example" }), { env, fetchImpl: llm(good) });

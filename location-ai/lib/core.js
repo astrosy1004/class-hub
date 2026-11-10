@@ -44,6 +44,7 @@ export function buildMessages(s) {
     "생활인구는 그 시간 그 동네에 머문 사람 수의 추정치입니다. 매출, 수익, 방문객, 손님 수로 바꿔 말하지 않습니다. 매출 · 임대료 자료는 없습니다.",
     "items 의 name 은 점수 항목, basis 는 그 항목의 근거입니다. 근거 숫자는 그 항목에만 쓰고, 다른 항목에 붙이지 않습니다.",
     "숫자를 쓸 때는 basis 에 적힌 대상 · 기간 · 단위를 그대로 붙입니다. 예: '생활인구 직전 3개월 대비 -1.4%'를 '3년간'이나 '매출 감소'로 바꾸지 않습니다.",
+    "'서울 행정동 중간'은 평균이 아니라 중간값입니다. '매출', '수익', '방문객', '임대료'라는 낱말은 쓰지 않습니다.",
     "성공을 보장하거나 단정하는 표현(반드시, 무조건, 확실히 성공 등)을 쓰지 않습니다.",
     "자료 기준일을 한 번 언급하고, 현장 확인을 권합니다. 한국어 존댓말로 짧고 구체적으로 씁니다.",
     '응답은 JSON 하나만: {"strengths":[문장 1~3개],"cautions":[문장 1~3개],"strategies":[문장 2~3개],"overall":"3문장 이내 종합 의견"}',
@@ -72,24 +73,32 @@ export async function handle(req, { env = {}, fetchImpl = fetch, now = Date.now(
   const model = env.OPENROUTER_MODEL || DEFAULT_MODEL;
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
-  let content;
+  // 검사에 걸리면 걸린 표현을 알려 주고 한 번만 다시 묻는다 (두 번째도 걸리면 422 → 앱은 규칙 기반 의견을 보여 줌)
+  const messages = buildMessages(summary);
+  const allowed = allowedNumbers(summary), source = JSON.stringify(summary);
+  let v;
   try {
-    const r = await fetchImpl("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
-      signal: ctrl.signal,
-      headers: { Authorization: `Bearer ${env.OPENROUTER_API_KEY}`, "Content-Type": "application/json", "HTTP-Referer": origin, "X-Title": "jarijapso" },
-      body: JSON.stringify({ model, messages: buildMessages(summary), max_tokens: MAX_TOKENS, temperature: 0.2, response_format: { type: "json_object" } }),
-    });
-    if (!r.ok) return out(502, { error: "upstream_error", status: r.status });
-    const j = await r.json();
-    content = j?.choices?.[0]?.message?.content;
+    for (let attempt = 0; attempt < 2; attempt++) {
+      const r = await fetchImpl("https://openrouter.ai/api/v1/chat/completions", {
+        method: "POST",
+        signal: ctrl.signal,
+        headers: { Authorization: `Bearer ${env.OPENROUTER_API_KEY}`, "Content-Type": "application/json", "HTTP-Referer": origin, "X-Title": "jarijapso" },
+        body: JSON.stringify({ model, messages, max_tokens: MAX_TOKENS, temperature: 0.2, response_format: { type: "json_object" } }),
+      });
+      if (!r.ok) return out(502, { error: "upstream_error", status: r.status });
+      const j = await r.json();
+      const content = j?.choices?.[0]?.message?.content;
+      v = validateOpinion(parseJsonLoose(content), allowed, source);
+      if (v.ok || v.reason === "shape") break;
+      messages.push({ role: "assistant", content: String(content || "").slice(0, 2000) });
+      messages.push({ role: "user", content: `다음 표현은 입력 자료에 없으니 빼고, 같은 JSON 형식으로 다시 써 주세요: ${v.bad.length ? v.bad.join(", ") : "단정 표현"}` });
+    }
   } catch (e) {
     return out(e?.name === "AbortError" ? 504 : 502, { error: e?.name === "AbortError" ? "timeout" : "upstream_error" });
   } finally {
     clearTimeout(timer);
   }
 
-  const v = validateOpinion(parseJsonLoose(content), allowedNumbers(summary), JSON.stringify(summary));
   if (!v.ok) return out(422, { error: v.reason, bad: v.bad });
   return out(200, { opinion: v.opinion, model, asOf: summary.asOf });
 }
