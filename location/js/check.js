@@ -18,6 +18,7 @@ import { rentInfo, matchRentRef, fmtRentUnit } from "./rent.js";
 import { confidenceOf } from "./confidence.js";
 import { buildPayload, requestOpinion, failText, requestAnswer, askLabels, ASK_KEYS } from "./ai-opinion.js";
 import { allowedNumbers, validateOpinion, validateAnswer } from "./ai-guard.js";
+import { compareNarrative, NEAR_GAP } from "./compare-note.js";
 
 const out = document.getElementById("out");
 const results = [];
@@ -248,6 +249,36 @@ async function run() {
   check("AI 의견", "자료에 없는 개념(매출 감소 · 3년간)은 거부", validateOpinion({ ...good, cautions: ["매출이 감소세입니다."] }, allow, JSON.stringify(payload)).reason === "unverified_concepts" && validateOpinion({ ...good, cautions: ["최근 3년간 줄었습니다."] }, allow, JSON.stringify(payload)).reason === "unverified_concepts");
   check("AI 의견", "근거 문장에 대상 · 기간이 들어감 (생활인구 직전 3개월)", payload.items.some((it) => /생활인구 직전 3개월 대비/.test(it.basis)));
   check("AI 의견", "입력에 없는 숫자(예상 매출 3200만원)는 거부", !validateOpinion({ ...good, cautions: ["예상 월매출은 3200만원입니다."] }, allow).ok);
+  // 후보 비교 해설
+  {
+    const cand = (name, ind, sc, total, extra = {}) => ({ key: name + ind, place: { name }, industry: { key: ind, name: ind === "cafe" ? "카페" : "술집" },
+      score: { total, items: Object.entries(sc).map(([key, score]) => ({ key, score })) },
+      metrics: { sizeHours: 1200, growth: 0.02, topAge: "g20", age: { g20: 0.3 } }, comp: { count: 27, capped: false }, closure: { rate: 0.014, median: 0.03 }, ...extra });
+    const A = cand("성수동", "cafe", { customer: 80, size: 70, closure: 90, competition: 30, growth: 60 }, 72);
+    const B = cand("연남동", "cafe", { customer: 60, size: 68, closure: 40, competition: 75, growth: null }, 58, { comp: { count: 83, capped: false }, closure: { rate: 0.043, median: 0.03 } });
+    const C = cand("망원동", "cafe", { customer: 78, size: 50, closure: 88, competition: 50, growth: 55 }, 69);
+    const n2 = compareNarrative([A, B]);
+    const txt = (n) => [n.total, ...n.rows.map((r) => r.text), ...n.recs].join(" ");
+    check("후보 비교 해설", "같은 입력이면 같은 문장", JSON.stringify(compareNarrative([A, B])) === JSON.stringify(n2));
+    check("후보 비교 해설", "단정 · 보장 표현 없음", ![n2, compareNarrative([A, B, C])].some((n) => FORBIDDEN.some((w) => txt(n).includes(w))));
+    check("후보 비교 해설", "총평: 더 높은 후보와 점수 차", /성수동이 14점 높아요/.test(n2.total), n2.total);
+    check("후보 비교 해설", "항목 순서: 고객 일치 · 유동인구 · 폐업 위험 · 경쟁 강도 · 성장성", n2.rows.map((r) => r.key).join() === "customer,size,closure,competition,growth");
+    const cl = n2.rows.find((r) => r.key === "closure");
+    check("후보 비교 해설", "근거 칩: 폐업률 · 동종 점포 수", cl.chips.map((c) => c.text).join() === "폐업률 1.4%,폐업률 4.3%" && n2.rows.find((r) => r.key === "competition").chips.map((c) => c.text).join() === "동종 27곳,동종 83곳");
+    check("후보 비교 해설", `근소 차(${NEAR_GAP}점 이하)는 '비슷해요'`, n2.rows.find((r) => r.key === "size").kind === "near" && /비슷해요/.test(n2.rows.find((r) => r.key === "size").text));
+    check("후보 비교 해설", "점수 없는 항목은 '자료 적음'", n2.rows.find((r) => r.key === "growth").kind === "few" && n2.rows.find((r) => r.key === "growth").chips.some((c) => c.low));
+    const tie = compareNarrative([A, { ...C, score: { ...C.score, total: 72 } }]);
+    check("후보 비교 해설", "동점이면 총평도 '비슷해요'", /성수동과 망원동의 종합 점수가 비슷해요/.test(tie.total), tie.total);
+    const mixed = compareNarrative([A, cand("성수동", "bar", { customer: 50, size: 50, closure: 50, competition: 50, growth: 50 }, 50)]);
+    check("후보 비교 해설", "업종이 다르면 직접 비교 안내 · 추천 없음", mixed.mixed && /업종이 달라 점수를 직접 비교하기 어려워요/.test(mixed.total) && !mixed.recs.length && mixed.rows.every((r) => r.kind !== "lead"));
+    check("후보 비교 해설", "후보 1곳이면 안내만", compareNarrative([A]).single && /2곳 이상/.test(compareNarrative([A]).hint));
+    const n3 = compareNarrative([A, B, C]);
+    const D = cand("합정동", "cafe", { customer: 95, size: 95, closure: 95, competition: 20, growth: 20 }, 85);
+    const recD = compareNarrative([D, B]).recs;
+    check("후보 비교 해설", "추천은 앞선 후보가 여럿이면 골고루 (한 후보만 3줄 아님)", recD.length === 3 && recD.some((x) => x.includes("연남동")), recD.join(" / "));
+    const n3b = compareNarrative([A, B, { ...C, score: { ...C.score, total: 60 } }]);
+    check("후보 비교 해설", "3곳: 가장 높은 후보 · 1·2위가 근소하면 '비슷해요' · 추천 최대 3줄", /성수동이 가장 높아요/.test(n3b.total) && /성수동과 망원동의 종합 점수가 비슷해요/.test(n3.total) && n3.recs.length >= 1 && n3.recs.length <= 3, n3.total + " / " + n3.recs.join(" / "));
+  }
   check("이 결과에 물어보기", "질문은 정해진 3개 키 · 문구가 모두 있음", ASK_KEYS.length === 3 && ASK_KEYS.every((k) => askLabels(full)[k]?.endsWith("?")));
   check("이 결과에 물어보기", "답변에도 숫자 · 개념 검사 (매출 · 지어낸 숫자 거부)", validateAnswer({ answer: `${sc0.name} ${sc0.score}점이 강점입니다. 현장 확인을 권합니다.` }, allow, JSON.stringify(payload)).ok && !validateAnswer({ answer: "월 매출 5000만원이 예상됩니다." }, allow, JSON.stringify(payload)).ok);
   const realFetch = window.fetch;

@@ -1,5 +1,6 @@
 // 화면 그리기: 분석 결과 · 상태를 받아 HTML 문자열을 돌려준다 (이벤트 처리는 main.js).
 import { aiUrl, ASK_KEYS, askLabels, askShort, cachedOpinion } from "./ai-opinion.js";
+import { compareNarrative } from "./compare-note.js";
 import { AGE_GROUPS, INDUSTRIES, EXTRA_INDUSTRIES, EXTRA_GROUPS, POPULAR_AREAS, industryByKey } from "./area-data.js";
 import { parseQuery } from "./place.js";
 import { confidenceOf, itemWord } from "./confidence.js";
@@ -555,7 +556,20 @@ export function compareHtml(list) {
     ${CMP.map((it, i) => `<tr><td>${it.short}</td>${list.map((a) => { const s = sOf(a, it.key); return `<td>${s == null ? "<span class='cap'>자료 없음</span>" : s === best[i] && list.length > 1 ? `<b class="best">${s}</b>` : s}</td>`; }).join("")}</tr>`).join("")}
     <tr><td>종합</td>${list.map((a) => `<td><b>${a.score.total ?? "-"}</b></td>`).join("")}</tr>
     <tr><td>등급</td>${list.map((a) => `<td>${a.score.grade ? `<span class="chip ${a.score.grade.cls}">${a.score.grade.name}</span>` : "-"}</td>`).join("")}</tr></table></div>
+  ${compareNoteHtml(list)}
   <div class="foot">자료가 없는 항목은 점수에서 제외됩니다 · ${DISCLAIMER}</div>`;
+}
+
+// 항목별 비교 해설 (규칙 기반 문장)
+function compareNoteHtml(list) {
+  const n = compareNarrative(list);
+  if (n.single) return `<div class="card cnote"><h3>${icon("bulb")}항목별 비교 해설</h3><div class="cap">${esc(n.hint)}</div></div>`;
+  return `<section class="card cnote" aria-labelledby="cnoteH"><h3 id="cnoteH">${icon("bulb")}항목별 비교 해설</h3>
+    <p class="cn-total${n.mixed ? " warn" : ""}">${esc(n.total)}</p>
+    <ul class="cn-rows">${n.rows.map((r) => `<li class="cn-${r.kind}"><div class="cn-h"><b>${esc(r.name)}</b><span>${esc(r.text)}</span></div>
+      <div class="cn-chips">${r.chips.map((c) => `<span class="cn-chip${c.low ? " low" : ""}"><i>${esc(c.who)}</i>${esc(c.text)}</span>`).join("")}</div></li>`).join("")}</ul>
+    ${n.recs.length ? `<h4>상황별로 보면</h4><ul class="cn-recs">${n.recs.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
+    <div class="cap">점수와 공공데이터 수치로 만든 참고 문장이에요.</div></section>`;
 }
 
 // ── 내 정보 ──────────────────────────────────────
