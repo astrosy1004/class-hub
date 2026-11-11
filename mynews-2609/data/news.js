@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-11-11T00:18:56.515Z",
+  "updatedAt": "2026-11-11T08:37:42.868Z",
   "categories": [
     {
       "id": "job",
@@ -55,14 +55,6 @@ window.MYNEWS_DATA = {
           "date": "2026-10-21T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTE55cTR1M1VWVUZCN3U3YUdjcGFKWFMyZDdsUkx3T2NsZnpUMWpxOGg0OHl5eDlqY3hMNmtBSTNnVDB0bEpydFdtRDlwSmEzZ3Y0S2NHa2pTeE1udGNPazhETV",
           "source": "파이낸스투데이",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
-          "title": "국립공주대, ‘AI·코딩 강사 14명’ 집중 양성 - 공뉴스",
-          "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBUSHYxWEt2S3JIbXhGNUlyeVp4bG1HYVdrTEZRVnA3MzBsXzNVNW5RU05qQ29HRFVyaTRzeEt5QVEtOGZ6Q2MtMzJlRmNhUEhGQmJpSWRvYzVpSWMwMW5tTXJpN2NyclZTV2ZVVA?oc=5",
-          "date": "2026-09-01T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTFBUSHYxWEt2S3JIbXhGNUlyeVp4bG1HYVdrTEZRVnA3MzBsXzNVNW5RU05qQ29HRFVyaTRzeEt5QVEtOGZ6Q2MtMzJlRmNhUEhGQmJpSWRvYzVpSWMwMW5tTX",
-          "source": "공뉴스",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -207,6 +199,14 @@ window.MYNEWS_DATA = {
           "date": "2018-10-30T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiTEFVX3lxTE11Smh5R3BLNHNFODRFd2E1M2Y0UTBXT2dBM2k0UERGN053ZlJveVJEc096OUtmX3F0TkdGenRFcTFZOWVJWVJ4Z0VqaTE?oc=5\" target=\"_blank\">2018",
           "source": "브런치",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "안랩, 코딩강사 교육 사회공헌 프로그램 ‘안랩샘’ 7기 수강생 모집 - 보안뉴스",
+          "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5ETkZsR0tCYndsZ0xHZFg0cGVRY0FjVXo3MnE5Mndobm1FRXdNdWVuRDR5Tl82YXBubUptSjNfRW8zc1VMcHhKQ05Xa3lCMWJ3TTVxZlN2OHl3WDhUTzJnUVp3Wmlua0JuVVE?oc=5",
+          "date": "2018-09-10T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTE5ETkZsR0tCYndsZ0xHZFg0cGVRY0FjVXo3MnE5Mndobm1FRXdNdWVuRDR5Tl82YXBubUptSjNfRW8zc1VMcHhKQ05Xa3lCMWJ3TTVxZlN2OHl3WDhUTzJnUV",
+          "source": "보안뉴스",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
