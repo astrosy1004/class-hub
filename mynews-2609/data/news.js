@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-11-14T00:32:49.815Z",
+  "updatedAt": "2026-11-14T08:17:25.922Z",
   "categories": [
     {
       "id": "job",
@@ -122,6 +122,14 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
+          "title": "LG CNS 신입사원, 초등학교 일일 '코딩 강사'로 나서다 - 전자신문",
+          "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE5ZXzMtY0MwZ2RfYllTV0VCUkhnb2hhMzlhSm14WGZlWmVYaHViNHlPNUhXQ25RcUhxTVIxVXozZmZYVVBSSWZXMEV5ZUhlUQ?oc=5",
+          "date": "2023-09-21T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiTkFVX3lxTE5ZXzMtY0MwZ2RfYllTV0VCUkhnb2hhMzlhSm14WGZlWmVYaHViNHlPNUhXQ25RcUhxTVIxVXozZmZYVVBSSWZXMEV5ZUhlUQ?oc=5\" target=\"_blank\">L",
+          "source": "전자신문",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
           "title": "[인터뷰] 오지 마을의 코딩 전도사 ‘숲속엄마’ 송미선 강사 - 쿠키뉴스",
           "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5xblVYb0s1LUNYTTZYLUNVdXVhZVYxemtxRW9icWsxd0ZESUt6bXdvazlMd05oeWVBcUVoTExQekZaV1RpWDE3RTB4YWhUazdlQ3I5NDF3MEZfY2VxTG5HMTNQMA?oc=5",
           "date": "2021-11-29T08:00:00.000Z",
@@ -199,14 +207,6 @@ window.MYNEWS_DATA = {
           "date": "2018-09-10T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTE5ETkZsR0tCYndsZ0xHZFg0cGVRY0FjVXo3MnE5Mndobm1FRXdNdWVuRDR5Tl82YXBubUptSjNfRW8zc1VMcHhKQ05Xa3lCMWJ3TTVxZlN2OHl3WDhUTzJnUV",
           "source": "보안뉴스",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
-          "title": "학교 코딩 강사, 강아지 산책시키는 ‘도그 워커’ 등 이색 노인일자리 주목받아 - 백세시대",
-          "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTFBDSV9iQlQxNTlWQWliLTZXeWlTbm1BV29MdUVQT1R0QURWc0haWHZpdTRRUHJlVVh0MkdLQkpZRlVVd1Q2Y1RPRWZKWmhzM2xLUUhpRjFja1NmSmpvZFlLem5iOHEteGJSLUE?oc=5",
-          "date": "2018-03-23T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTFBDSV9iQlQxNTlWQWliLTZXeWlTbm1BV29MdUVQT1R0QURWc0haWHZpdTRRUHJlVVh0MkdLQkpZRlVVd1Q2Y1RPRWZKWmhzM2xLUUhpRjFja1NmSmpvZFlLem",
-          "source": "백세시대",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
