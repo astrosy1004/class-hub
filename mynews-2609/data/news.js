@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-11-14T16:13:44.731Z",
+  "updatedAt": "2026-11-14T21:47:59.286Z",
   "categories": [
     {
       "id": "job",
@@ -146,14 +146,6 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "김포시, ‘코딩강사 양성과정’ 일자리 협력망 회의 개최 - 엔디엔뉴스",
-          "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBmYms5Q1k4MU1lYU9HeTNpeVBaOGl4N09ZWHpKQkQ3MDZ6Z2UtaDhTemV3cTJoYkZNMUtoY1YzaVdYYmJZYzF3dEZXZ3NqLWdmU3hVNzdDLXhuTGYyeklhNFhaZzN2OEZ0a1ZCdNIBcEFVX3lxTE4waWE0bTdMWlBHTTc5bWg4ZzNXQXo3VHVlOTFuR0N0QXBiR05meXdrQkJNOU55bXFfX0FKb1k1bXdzS1lSSW1Yc1haQTVERTlhNWNwS0ZwWUN2aHZuVXpNSTkxZjlrX0pjNlFFamtnLWw?oc=5",
-          "date": "2020-11-17T08:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTFBmYms5Q1k4MU1lYU9HeTNpeVBaOGl4N09ZWHpKQkQ3MDZ6Z2UtaDhTemV3cTJoYkZNMUtoY1YzaVdYYmJZYzF3dEZXZ3NqLWdmU3hVNzdDLXhuTGYyeklhNF",
-          "source": "엔디엔뉴스",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
           "title": "여성 AI 전문가 양성 현장을 가다 - AI타임스",
           "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1IS3NTSHV4N2FidTlTVHB6SUdHMFpFU0htdzYzbFF3YkZSV3BXUUtnVVhST3JZX0NtWFpLZEpMSVJBcm9tY282RHBLS3pNQVpfVjM4RnYwaWp2SjVmalJXMW9LNzhvZEpwdkE?oc=5",
           "date": "2020-07-08T07:00:00.000Z",
@@ -207,6 +199,14 @@ window.MYNEWS_DATA = {
           "date": "2018-09-10T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTE5ETkZsR0tCYndsZ0xHZFg0cGVRY0FjVXo3MnE5Mndobm1FRXdNdWVuRDR5Tl82YXBubUptSjNfRW8zc1VMcHhKQ05Xa3lCMWJ3TTVxZlN2OHl3WDhUTzJnUV",
           "source": "보안뉴스",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "학교 코딩 강사, 강아지 산책시키는 ‘도그 워커’ 등 이색 노인일자리 주목받아 - 백세시대",
+          "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTFBDSV9iQlQxNTlWQWliLTZXeWlTbm1BV29MdUVQT1R0QURWc0haWHZpdTRRUHJlVVh0MkdLQkpZRlVVd1Q2Y1RPRWZKWmhzM2xLUUhpRjFja1NmSmpvZFlLem5iOHEteGJSLUE?oc=5",
+          "date": "2018-03-23T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTFBDSV9iQlQxNTlWQWliLTZXeWlTbm1BV29MdUVQT1R0QURWc0haWHZpdTRRUHJlVVh0MkdLQkpZRlVVd1Q2Y1RPRWZKWmhzM2xLUUhpRjFja1NmSmpvZFlLem",
+          "source": "백세시대",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
