@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-11-14T21:47:59.286Z",
+  "updatedAt": "2026-11-15T01:25:38.659Z",
   "categories": [
     {
       "id": "job",
@@ -114,14 +114,6 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "한신대, ‘2024 여름방학 디지털새싹 캠프 AI 아트 코딩 강사 워크숍’ - 대학저널",
-          "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTFBZeDdhQzJwTGMtVEdLLTdWd0VZX2tHeTZwWE56aFVPLWVwOTgzTUpwTnBBTHBmNVA1eURwSUhEbXVac3owc3BxOVZJdjM2Qmx5RzluTlMwRUg5cUpLU3fSAWpBVV95cUxPWS00XzZUSmF2Z1ZEYlVlckZjUDVvc19HamR6VGVLcXlHeDZzOW1rcmdlX0gyZ0JYUkdOdmQ5bU1EMFpyVVpJWHUyQzdib0ZSOVh6Z3lKMmRqRUZmdEUzY2JUODMyVl9Nc1VR?oc=5",
-          "date": "2024-07-25T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiXkFVX3lxTFBZeDdhQzJwTGMtVEdLLTdWd0VZX2tHeTZwWE56aFVPLWVwOTgzTUpwTnBBTHBmNVA1eURwSUhEbXVac3owc3BxOVZJdjM2Qmx5RzluTlMwRUg5cUpLU3fSAW",
-          "source": "대학저널",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
           "title": "LG CNS 신입사원, 초등학교 일일 '코딩 강사'로 나서다 - 전자신문",
           "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE5ZXzMtY0MwZ2RfYllTV0VCUkhnb2hhMzlhSm14WGZlWmVYaHViNHlPNUhXQ25RcUhxTVIxVXozZmZYVVBSSWZXMEV5ZUhlUQ?oc=5",
           "date": "2023-09-21T07:00:00.000Z",
@@ -143,6 +135,14 @@ window.MYNEWS_DATA = {
           "date": "2021-05-28T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiaEFVX3lxTE1VMnRwdTdZRkE4aU4yUzZ2MjVzQmJJRTQxYUlRaGx6WmltY056cjFfMEtHX21ob0ZkM1F3UGZNZmg5Um54MmhTd09DMXNEZTNUSzE4WEZuYjdTdk5scWhuYS",
           "source": "테크월드",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "김포시, ‘코딩강사 양성과정’ 일자리 협력망 회의 개최 - 엔디엔뉴스",
+          "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBmYms5Q1k4MU1lYU9HeTNpeVBaOGl4N09ZWHpKQkQ3MDZ6Z2UtaDhTemV3cTJoYkZNMUtoY1YzaVdYYmJZYzF3dEZXZ3NqLWdmU3hVNzdDLXhuTGYyeklhNFhaZzN2OEZ0a1ZCdNIBcEFVX3lxTE4waWE0bTdMWlBHTTc5bWg4ZzNXQXo3VHVlOTFuR0N0QXBiR05meXdrQkJNOU55bXFfX0FKb1k1bXdzS1lSSW1Yc1haQTVERTlhNWNwS0ZwWUN2aHZuVXpNSTkxZjlrX0pjNlFFamtnLWw?oc=5",
+          "date": "2020-11-17T08:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTFBmYms5Q1k4MU1lYU9HeTNpeVBaOGl4N09ZWHpKQkQ3MDZ6Z2UtaDhTemV3cTJoYkZNMUtoY1YzaVdYYmJZYzF3dEZXZ3NqLWdmU3hVNzdDLXhuTGYyeklhNF",
+          "source": "엔디엔뉴스",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
