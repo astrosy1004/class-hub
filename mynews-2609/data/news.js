@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-11-15T16:42:36.823Z",
+  "updatedAt": "2026-11-15T22:16:01.045Z",
   "categories": [
     {
       "id": "job",
@@ -12,14 +12,14 @@ window.MYNEWS_DATA = {
           "source": "Google 뉴스 코딩강사 구인",
           "url": "https://news.google.com/rss/search?q=%28%22%EC%BD%94%EB%94%A9%EA%B0%95%EC%82%AC%22+OR+%22%EC%BD%94%EB%94%A9+%EA%B0%95%EC%82%AC%22%29+%28%EC%B1%84%EC%9A%A9+OR+%EA%B5%AC%EC%9D%B8+OR+%EB%AA%A8%EC%A7%91%29+-%EC%88%98%EA%B0%95%EC%83%9D+-%EC%B0%B8%EA%B0%80%EC%9E%90+-%ED%95%99%EC%83%9D+when%3A30d&hl=ko&gl=KR&ceid=KR:ko",
           "count": 1,
-          "error": "HTTP 503",
+          "error": "항목 없음",
           "stale": true
         },
         {
           "source": "Google 뉴스 교육청 코딩강사 채용",
           "url": "https://news.google.com/rss/search?q=%28%22%EC%BD%94%EB%94%A9%EA%B0%95%EC%82%AC%22+OR+%22%EC%BD%94%EB%94%A9+%EA%B0%95%EC%82%AC%22+OR+%22SW%EA%B0%95%EC%82%AC%22+OR+%22%EC%A0%95%EB%B3%B4%EA%B0%95%EC%82%AC%22%29+%28%EA%B5%90%EC%9C%A1%EC%B2%AD+OR+%EB%B0%A9%EA%B3%BC%ED%9B%84+OR+%EB%8A%98%EB%B4%84%ED%95%99%EA%B5%90+OR+%ED%95%99%EA%B5%90%29+%28%EC%B1%84%EC%9A%A9+OR+%EB%AA%A8%EC%A7%91+OR+%EA%B5%AC%EC%9D%B8%29+-%EC%88%98%EA%B0%95%EC%83%9D+-%EC%B0%B8%EA%B0%80%EC%9E%90+when%3A30d&hl=ko&gl=KR&ceid=KR:ko",
           "count": 0,
-          "error": "HTTP 503"
+          "error": "항목 없음"
         }
       ],
       "error": null,
@@ -44,8 +44,7 @@ window.MYNEWS_DATA = {
           "source": "Google 뉴스 코딩강사 역량강화",
           "url": "https://news.google.com/rss/search?q=%22%EC%BD%94%EB%94%A9%EA%B0%95%EC%82%AC%22+%EC%97%AD%EB%9F%89%EA%B0%95%ED%99%94+OR+%EC%97%B0%EC%88%98+OR+%EA%B5%90%EC%9C%A1&hl=ko&gl=KR&ceid=KR:ko",
           "count": 20,
-          "error": "HTTP 503",
-          "stale": true
+          "error": null
         }
       ],
       "error": null,
@@ -104,14 +103,6 @@ window.MYNEWS_DATA = {
           "date": "2024-07-26T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiV0FVX3lxTE5OU1ZlZG1oVk5aLV9ZUWg0T2FqdTdFUVFGVDA1X0Rrb1hWZW12bXhGRE1KbGJBakQ2RF9ucER6N200bE9pYmVjMU8zbzNGUDJBQXZ3MV9PMNIBXEFVX3lxTE",
           "source": "기독일보",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
-          "title": "한신대, ‘2024 여름방학 디지털새싹 캠프 AI 아트 코딩 강사 워크숍’ - 대학저널",
-          "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTFBZeDdhQzJwTGMtVEdLLTdWd0VZX2tHeTZwWE56aFVPLWVwOTgzTUpwTnBBTHBmNVA1eURwSUhEbXVac3owc3BxOVZJdjM2Qmx5RzluTlMwRUg5cUpLU3fSAWpBVV95cUxPWS00XzZUSmF2Z1ZEYlVlckZjUDVvc19HamR6VGVLcXlHeDZzOW1rcmdlX0gyZ0JYUkdOdmQ5bU1EMFpyVVpJWHUyQzdib0ZSOVh6Z3lKMmRqRUZmdEUzY2JUODMyVl9Nc1VR?oc=5",
-          "date": "2024-07-25T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiXkFVX3lxTFBZeDdhQzJwTGMtVEdLLTdWd0VZX2tHeTZwWE56aFVPLWVwOTgzTUpwTnBBTHBmNVA1eURwSUhEbXVac3owc3BxOVZJdjM2Qmx5RzluTlMwRUg5cUpLU3fSAW",
-          "source": "대학저널",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -208,6 +199,14 @@ window.MYNEWS_DATA = {
           "date": "2017-12-21T08:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiWkFVX3lxTE5DdVNDUlJkc2NGbmpEbVg2NVQyODYyLXF1S1pSTnRhQVB0RmFyR25IUG1VRGt4Tk5teWZISUhhZGk1cFRDQXZRRU9rX2xvMEZMNThqS2s3OExldw?oc=5\" t",
           "source": "뉴스1",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "성동구, 경단녀 코딩강사 양성 - 아시아경제",
+          "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE9FbXRRc2prdGJkR2ZMLUIzaWpWWDdqYzZteXlVSWRmaURVSmRoQm1ZM3k3SzZteEx1QnNSWkVHUl9xV3MzMmhfa1BENEZwd21XN09TYkNMcE4yc1VYVHFwUQ?oc=5",
+          "date": "2017-12-04T08:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiYEFVX3lxTE9FbXRRc2prdGJkR2ZMLUIzaWpWWDdqYzZteXlVSWRmaURVSmRoQm1ZM3k3SzZteEx1QnNSWkVHUl9xV3MzMmhfa1BENEZwd21XN09TYkNMcE4yc1VYVHFwUQ",
+          "source": "아시아경제",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
