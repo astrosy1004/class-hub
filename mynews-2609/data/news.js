@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-11-16T12:15:29.216Z",
+  "updatedAt": "2026-11-16T23:06:27.832Z",
   "categories": [
     {
       "id": "job",
@@ -12,14 +12,14 @@ window.MYNEWS_DATA = {
           "source": "Google 뉴스 코딩강사 구인",
           "url": "https://news.google.com/rss/search?q=%28%22%EC%BD%94%EB%94%A9%EA%B0%95%EC%82%AC%22+OR+%22%EC%BD%94%EB%94%A9+%EA%B0%95%EC%82%AC%22%29+%28%EC%B1%84%EC%9A%A9+OR+%EA%B5%AC%EC%9D%B8+OR+%EB%AA%A8%EC%A7%91%29+-%EC%88%98%EA%B0%95%EC%83%9D+-%EC%B0%B8%EA%B0%80%EC%9E%90+-%ED%95%99%EC%83%9D+when%3A30d&hl=ko&gl=KR&ceid=KR:ko",
           "count": 1,
-          "error": "HTTP 503",
+          "error": "항목 없음",
           "stale": true
         },
         {
           "source": "Google 뉴스 교육청 코딩강사 채용",
           "url": "https://news.google.com/rss/search?q=%28%22%EC%BD%94%EB%94%A9%EA%B0%95%EC%82%AC%22+OR+%22%EC%BD%94%EB%94%A9+%EA%B0%95%EC%82%AC%22+OR+%22SW%EA%B0%95%EC%82%AC%22+OR+%22%EC%A0%95%EB%B3%B4%EA%B0%95%EC%82%AC%22%29+%28%EA%B5%90%EC%9C%A1%EC%B2%AD+OR+%EB%B0%A9%EA%B3%BC%ED%9B%84+OR+%EB%8A%98%EB%B4%84%ED%95%99%EA%B5%90+OR+%ED%95%99%EA%B5%90%29+%28%EC%B1%84%EC%9A%A9+OR+%EB%AA%A8%EC%A7%91+OR+%EA%B5%AC%EC%9D%B8%29+-%EC%88%98%EA%B0%95%EC%83%9D+-%EC%B0%B8%EA%B0%80%EC%9E%90+when%3A30d&hl=ko&gl=KR&ceid=KR:ko",
           "count": 0,
-          "error": "HTTP 503"
+          "error": "항목 없음"
         }
       ],
       "error": null,
@@ -44,8 +44,7 @@ window.MYNEWS_DATA = {
           "source": "Google 뉴스 코딩강사 역량강화",
           "url": "https://news.google.com/rss/search?q=%22%EC%BD%94%EB%94%A9%EA%B0%95%EC%82%AC%22+%EC%97%AD%EB%9F%89%EA%B0%95%ED%99%94+OR+%EC%97%B0%EC%88%98+OR+%EA%B5%90%EC%9C%A1&hl=ko&gl=KR&ceid=KR:ko",
           "count": 20,
-          "error": "HTTP 503",
-          "stale": true
+          "error": null
         }
       ],
       "error": null,
@@ -115,6 +114,14 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
+          "title": "관악여성새로일하기센터, `AI인공지능 로봇코딩 전문가과정` 개설 - 에너지경제신문",
+          "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9pVlpTeGhscWEzTlBmdTV0UGVpd3hYbDdQcm03dDctcTFnb2F0QW00emstNHltY0RtcXdUdW1CUnp4bGsySktsRkx1RzZMemx5UzROYXQ3Z0ZxeDg?oc=5",
+          "date": "2023-04-12T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiW0FVX3lxTE9pVlpTeGhscWEzTlBmdTV0UGVpd3hYbDdQcm03dDctcTFnb2F0QW00emstNHltY0RtcXdUdW1CUnp4bGsySktsRkx1RzZMemx5UzROYXQ3Z0ZxeDg?oc=5\" ",
+          "source": "에너지경제신문",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
           "title": "[인터뷰] 오지 마을의 코딩 전도사 ‘숲속엄마’ 송미선 강사 - 쿠키뉴스",
           "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5xblVYb0s1LUNYTTZYLUNVdXVhZVYxemtxRW9icWsxd0ZESUt6bXdvazlMd05oeWVBcUVoTExQekZaV1RpWDE3RTB4YWhUazdlQ3I5NDF3MEZfY2VxTG5HMTNQMA?oc=5",
           "date": "2021-11-29T08:00:00.000Z",
@@ -179,35 +186,27 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
+          "title": "부천시 인생이모작지원센터, 코딩(스크래치 프로그래밍) 강사 심화과정 개설 - 한국강사신문",
+          "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1XeDNUQ21CNUNXeXlYRTdLbWNrSjRIRzI2VTNsbXpxaTJlcWozaVdUVm1KaE82Wm5RQlp1VnZ4WFBNQnE2RElaOEpGNzdTUnBRaWpNNk9lMEVGV09odThmVzdsNU1EUW5lZktudQ?oc=5",
+          "date": "2018-07-10T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTE1XeDNUQ21CNUNXeXlYRTdLbWNrSjRIRzI2VTNsbXpxaTJlcWozaVdUVm1KaE82Wm5RQlp1VnZ4WFBNQnE2RElaOEpGNzdTUnBRaWpNNk9lMEVGV09odThmVz",
+          "source": "한국강사신문",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "김포새일센터 '코딩강사 양성과정' 수료식 - 일간경기",
+          "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTFA4d3pPR1ZfSWNIZDdUclc3Ylh5ODV6TGpmQ2RCUlVPbDdDS29CTjRxVDhIUGprNWExTUJ3cTN5Rl9rNVlkTjZnNmczeXY3OUdZbWJCN3d2cVBWTWNvYnZhcm80RjFINm1v?oc=5",
+          "date": "2018-06-13T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiaEFVX3lxTFA4d3pPR1ZfSWNIZDdUclc3Ylh5ODV6TGpmQ2RCUlVPbDdDS29CTjRxVDhIUGprNWExTUJ3cTN5Rl9rNVlkTjZnNmczeXY3OUdZbWJCN3d2cVBWTWNvYnZhcm",
+          "source": "일간경기",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
           "title": "학교 코딩 강사, 강아지 산책시키는 ‘도그 워커’ 등 이색 노인일자리 주목받아 - 백세시대",
           "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTFBDSV9iQlQxNTlWQWliLTZXeWlTbm1BV29MdUVQT1R0QURWc0haWHZpdTRRUHJlVVh0MkdLQkpZRlVVd1Q2Y1RPRWZKWmhzM2xLUUhpRjFja1NmSmpvZFlLem5iOHEteGJSLUE?oc=5",
           "date": "2018-03-23T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTFBDSV9iQlQxNTlWQWliLTZXeWlTbm1BV29MdUVQT1R0QURWc0haWHZpdTRRUHJlVVh0MkdLQkpZRlVVd1Q2Y1RPRWZKWmhzM2xLUUhpRjFja1NmSmpvZFlLem",
           "source": "백세시대",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
-          "title": "4차 산업 혁명, 사회와 공감하는 코딩교육이 필요하다 - OhmyNews",
-          "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE8tM0FwdTdZQ2pRaUtwWGQtSUg5c3h1VFBrM1JZcXl2SDdYSDU2WS1GU2FRRnVrUUptNHllMUdYQUp6cGNqei1DREJOSnFzdnFJNkZNVzZtYUFWWFNLQ2xuVW5zVFI0QllqQXRYcW1WRE1jeUxyM21n?oc=5",
-          "date": "2018-02-20T08:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMid0FVX3lxTE8tM0FwdTdZQ2pRaUtwWGQtSUg5c3h1VFBrM1JZcXl2SDdYSDU2WS1GU2FRRnVrUUptNHllMUdYQUp6cGNqei1DREJOSnFzdnFJNkZNVzZtYUFWWFNLQ2xuVW",
-          "source": "OhmyNews",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
-          "title": "비욘드코딩, 미스코리아녹원회와 코딩교육 봉사활동 - 뉴스1",
-          "link": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5DdVNDUlJkc2NGbmpEbVg2NVQyODYyLXF1S1pSTnRhQVB0RmFyR25IUG1VRGt4Tk5teWZISUhhZGk1cFRDQXZRRU9rX2xvMEZMNThqS2s3OExldw?oc=5",
-          "date": "2017-12-21T08:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiWkFVX3lxTE5DdVNDUlJkc2NGbmpEbVg2NVQyODYyLXF1S1pSTnRhQVB0RmFyR25IUG1VRGt4Tk5teWZISUhhZGk1cFRDQXZRRU9rX2xvMEZMNThqS2s3OExldw?oc=5\" t",
-          "source": "뉴스1",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
-          "title": "성동구, 경단녀 코딩강사 양성 - 아시아경제",
-          "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE9FbXRRc2prdGJkR2ZMLUIzaWpWWDdqYzZteXlVSWRmaURVSmRoQm1ZM3k3SzZteEx1QnNSWkVHUl9xV3MzMmhfa1BENEZwd21XN09TYkNMcE4yc1VYVHFwUQ?oc=5",
-          "date": "2017-12-04T08:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiYEFVX3lxTE9FbXRRc2prdGJkR2ZMLUIzaWpWWDdqYzZteXlVSWRmaURVSmRoQm1ZM3k3SzZteEx1QnNSWkVHUl9xV3MzMmhfa1BENEZwd21XN09TYkNMcE4yc1VYVHFwUQ",
-          "source": "아시아경제",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
