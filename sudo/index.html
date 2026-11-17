@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>라즈베리파이 프로젝트 전시관</title>
+    <meta name="description" content="라즈베리파이 수업 6개 팀의 작품을 VR 전시관처럼 둘러보고 동작 영상과 발표 자료를 볼 수 있는 웹 전시관" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <link rel="stylesheet" href="./assets/styles.css" />
+  </head>
+  <body>
+    <div class="stage" id="stage" aria-label="3D 전시관 화면">
+      <div class="world" id="world"></div>
+    </div>
+
+    <header class="hud hud-top">
+      <a class="brand" href="#" id="brand" aria-label="로비로 이동">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span class="brand-name">RASPBERRY PI EXPO</span>
+      </a>
+      <div class="where" id="where">로비</div>
+      <button class="hud-btn" id="themeToggle" type="button" aria-label="테마 변경"><span id="themeIcon">☾</span></button>
+    </header>
+
+    <div class="hint" id="hint">드래그해서 둘러보기 · 휠로 앞뒤 이동 · ← → 키로 회전</div>
+
+    <nav class="hud hud-bottom" aria-label="전시관 메뉴" id="dock">
+      <button class="hud-btn" data-nav="lobby" type="button">로비</button>
+      <button class="hud-btn primary" data-nav="class" type="button" id="navClassLobby">수업 전시실</button>
+      <button class="hud-btn primary" data-open="class" type="button" id="navClass" hidden>수업 자료 보기</button>
+      <button class="hud-btn" data-nav="prev" type="button" id="navPrev">◀ 이전 팀</button>
+      <button class="hud-btn primary" data-open="video" type="button" id="navVideo">▶ 동작 영상</button>
+      <button class="hud-btn primary" data-open="slides" type="button" id="navSlides">PPT 보기</button>
+      <button class="hud-btn" data-nav="next" type="button" id="navNext">다음 팀 ▶</button>
+      <button class="hud-btn" id="fsToggle" type="button" aria-label="전체 화면">⛶</button>
+    </nav>
+
+    <div class="fade" id="fade"></div>
+
+    <div class="modal" id="modal" hidden>
+      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-head">
+          <div class="modal-title" id="modalTitle"></div>
+          <div class="tabs" role="tablist">
+            <button class="tab" role="tab" data-tab="video" type="button">동작 영상</button>
+            <button class="tab" role="tab" data-tab="slides" type="button">발표 PPT</button>
+          </div>
+          <button class="hud-btn" id="modalClose" type="button" aria-label="닫기">✕</button>
+        </div>
+        <div class="modal-body" id="modalBody"></div>
+      </div>
+    </div>
+
+    <script src="./assets/class-data.js"></script>
+    <script src="./assets/app.js"></script>
+  </body>
+</html>
