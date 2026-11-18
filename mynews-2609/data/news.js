@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-11-17T23:14:53.735Z",
+  "updatedAt": "2026-11-18T05:05:16.155Z",
   "categories": [
     {
       "id": "job",
@@ -95,6 +95,14 @@ window.MYNEWS_DATA = {
           "date": "2026-05-17T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiW0FVX3lxTFBQSWV3QWd4bUNVd2FXVFN1OHNpeHUzX1YyeFFhOXJtWFFKVURQTlBRanlzRFJJT0ZvelI3ZW5ma0pBQk8tZ1ZKdEhkcXUyODNHQWg5RENIbEpxT1k?oc=5\" ",
           "source": "강원일보",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "양구군, AI 로봇 코딩 강사 양성…지역 기반 일자리 창출 나서 - 신아일보",
+          "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9qQ1ZfaHVLZHpVaVFMMGx6VWtycUhKWlhIYmo3TG90bTdWOXpKOFRvZWw0akFHSTJEbHM4el9qUVZrNUpmcmNMUmtvczN6SnFIX1hvT1laVlBydjdkbTFGMDAwZm8wSmY5M1Q0Q1FKLVA?oc=5",
+          "date": "2026-04-09T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMicEFVX3lxTE9qQ1ZfaHVLZHpVaVFMMGx6VWtycUhKWlhIYmo3TG90bTdWOXpKOFRvZWw0akFHSTJEbHM4el9qUVZrNUpmcmNMUmtvczN6SnFIX1hvT1laVlBydjdkbTFGMD",
+          "source": "신아일보",
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
@@ -199,14 +207,6 @@ window.MYNEWS_DATA = {
           "date": "2018-07-26T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMib0FVX3lxTE5Kd0FaUlp3MGEzM2NjT2JFRVNhNFRTaXB2YUhLeGs4enZFdXBmaTAwMFVwblh4QjZFX2FRclRCa0xDWm1CZlNBOUpnd1FyMHRQUGpnUU5HVi14cGltWHNJLV",
           "source": "뉴스와이어",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
-          "title": "부천시 인생이모작지원센터, 코딩(스크래치 프로그래밍) 강사 심화과정 개설 - 한국강사신문",
-          "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1XeDNUQ21CNUNXeXlYRTdLbWNrSjRIRzI2VTNsbXpxaTJlcWozaVdUVm1KaE82Wm5RQlp1VnZ4WFBNQnE2RElaOEpGNzdTUnBRaWpNNk9lMEVGV09odThmVzdsNU1EUW5lZktudQ?oc=5",
-          "date": "2018-07-10T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTE1XeDNUQ21CNUNXeXlYRTdLbWNrSjRIRzI2VTNsbXpxaTJlcWozaVdUVm1KaE82Wm5RQlp1VnZ4WFBNQnE2RElaOEpGNzdTUnBRaWpNNk9lMEVGV09odThmVz",
-          "source": "한국강사신문",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
