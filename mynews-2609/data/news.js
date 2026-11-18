@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-11-18T05:05:16.155Z",
+  "updatedAt": "2026-11-18T14:47:00.794Z",
   "categories": [
     {
       "id": "job",
@@ -178,6 +178,14 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
+          "title": "안랩, SW 코딩강사 양성 무료교육 프로그램 ‘안랩샘 8기’ 수료식 - 보안뉴스",
+          "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTFBzaDJTQS0wZi01d0t1ZktvZHI3VDVrYWtUd05CMjBjV3k1ZzZpUnItcjhxdERhbVhBRkhaMkhpa0ZmTWRZTUptdTRtUTJIZVF4MzJLSmFxOWdzY3FCMDZkSFc5c0t1b2stZ0E?oc=5",
+          "date": "2019-05-17T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTFBzaDJTQS0wZi01d0t1ZktvZHI3VDVrYWtUd05CMjBjV3k1ZzZpUnItcjhxdERhbVhBRkhaMkhpa0ZmTWRZTUptdTRtUTJIZVF4MzJLSmFxOWdzY3FCMDZkSF",
+          "source": "보안뉴스",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
           "title": "한국교육능력진흥원㈜, ㈜소리보따리와 유아코딩지도사 코딩교육 콘텐츠제휴계약 체결 - 한국금융경제신문",
           "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTFB6RzVpTnJsVmxZWkVTTGlOSlM2Y0lXUmZPY1docEhnSEEwUzFpTEl5TURNOEowVHU0MjNQamczZW9tXzV0UEw5cTBHUTJnV1BYaGFIQ2hMa3NwdEZwVUp3WXN6dUdPb3dLZUpPQ9IBcEFVX3lxTE1NMU9zZnh6TEFNNGlfdkVHLVhNMU0tSWthcjljMXkwYmJvMEpNVXZyVG14WFpHUkNIOW85N0RpeHU5Tk9nUGhxV3ZPQThjZjF6NUZiUWN2X1RsZzNlWUQyd01CT1ZrcXZMVTlCVUhxcHE?oc=5",
           "date": "2018-12-06T08:00:00.000Z",
@@ -199,14 +207,6 @@ window.MYNEWS_DATA = {
           "date": "2018-09-10T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTE5ETkZsR0tCYndsZ0xHZFg0cGVRY0FjVXo3MnE5Mndobm1FRXdNdWVuRDR5Tl82YXBubUptSjNfRW8zc1VMcHhKQ05Xa3lCMWJ3TTVxZlN2OHl3WDhUTzJnUV",
           "source": "보안뉴스",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
-          "title": "마르시스, 코딩 전문 강사 교육 과정 및 어린이 코딩 캠프 개강 - 뉴스와이어",
-          "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE5Kd0FaUlp3MGEzM2NjT2JFRVNhNFRTaXB2YUhLeGs4enZFdXBmaTAwMFVwblh4QjZFX2FRclRCa0xDWm1CZlNBOUpnd1FyMHRQUGpnUU5HVi14cGltWHNJLVF5QTBPVy02ZjVUOFVGVQ?oc=5",
-          "date": "2018-07-26T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMib0FVX3lxTE5Kd0FaUlp3MGEzM2NjT2JFRVNhNFRTaXB2YUhLeGs4enZFdXBmaTAwMFVwblh4QjZFX2FRclRCa0xDWm1CZlNBOUpnd1FyMHRQUGpnUU5HVi14cGltWHNJLV",
-          "source": "뉴스와이어",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
