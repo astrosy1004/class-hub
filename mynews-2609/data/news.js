@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-11-20T22:25:57.392Z",
+  "updatedAt": "2026-11-21T04:44:35.799Z",
   "categories": [
     {
       "id": "job",
@@ -146,14 +146,6 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "달아오르는 코딩교육시장…광주 지역대학·지자체, 교육 프로그램 일제히 운영 - AI타임스",
-          "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5KTHIyMmhNOENYblRYdkFmYlZtbW15Z1RkME1tN05uYkh1TEMtVnJwTUdnMG9nNjNqUnBPMEVsb2dhckkyTDFNb0hZY1FtUDhxbTExb0s1LVIza0xPVmVNSVV4d3hJRFhydmc?oc=5",
-          "date": "2020-09-02T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTE5KTHIyMmhNOENYblRYdkFmYlZtbW15Z1RkME1tN05uYkh1TEMtVnJwTUdnMG9nNjNqUnBPMEVsb2dhckkyTDFNb0hZY1FtUDhxbTExb0s1LVIza0xPVmVNSV",
-          "source": "AI타임스",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
           "title": "여성 AI 전문가 양성 현장을 가다 - AI타임스",
           "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1IS3NTSHV4N2FidTlTVHB6SUdHMFpFU0htdzYzbFF3YkZSV3BXUUtnVVhST3JZX0NtWFpLZEpMSVJBcm9tY282RHBLS3pNQVpfVjM4RnYwaWp2SjVmalJXMW9LNzhvZEpwdkE?oc=5",
           "date": "2020-07-08T07:00:00.000Z",
@@ -207,6 +199,14 @@ window.MYNEWS_DATA = {
           "date": "2018-09-10T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTE5ETkZsR0tCYndsZ0xHZFg0cGVRY0FjVXo3MnE5Mndobm1FRXdNdWVuRDR5Tl82YXBubUptSjNfRW8zc1VMcHhKQ05Xa3lCMWJ3TTVxZlN2OHl3WDhUTzJnUV",
           "source": "보안뉴스",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "김포새일센터 '코딩강사 양성과정' 수료식 - 일간경기",
+          "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTFA4d3pPR1ZfSWNIZDdUclc3Ylh5ODV6TGpmQ2RCUlVPbDdDS29CTjRxVDhIUGprNWExTUJ3cTN5Rl9rNVlkTjZnNmczeXY3OUdZbWJCN3d2cVBWTWNvYnZhcm80RjFINm1v?oc=5",
+          "date": "2018-06-13T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiaEFVX3lxTFA4d3pPR1ZfSWNIZDdUclc3Ylh5ODV6TGpmQ2RCUlVPbDdDS29CTjRxVDhIUGprNWExTUJ3cTN5Rl9rNVlkTjZnNmczeXY3OUdZbWJCN3d2cVBWTWNvYnZhcm",
+          "source": "일간경기",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
