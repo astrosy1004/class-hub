@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-11-22T01:46:35.876Z",
+  "updatedAt": "2026-11-22T09:01:26.069Z",
   "categories": [
     {
       "id": "job",
@@ -122,6 +122,14 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
+          "title": "경력단절여성, 코딩강사로 양성한다…'SW 꿈이음 특강' - 뉴시스",
+          "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFBiU2FPLWQxNHlQbTJJenh0TE1ySDluWjRjdlhCQXpBdXpXVG5BNDdRTGZRbjFzRnZtMDVaZjFJRTY2b1Y5UlJRTmdKZmpTRGFYM1Zyd3BSOWVvczc2V2JLSNIBeEFVX3lxTE9mT21zbmlxTHlaVy04MTZLOXU1ejFpbkZKR1JRWFVJZmV5TUdGbGFDd2pjRTRGSWpabXpKaC1fOUpSVDVqNDIwal82cXVHcjh5UjY2T0FpYWVEUDVvNTdwc09qODdDNTh1OHhmY0x5aGUwelNObWstdA?oc=5",
+          "date": "2021-07-23T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiYEFVX3lxTFBiU2FPLWQxNHlQbTJJenh0TE1ySDluWjRjdlhCQXpBdXpXVG5BNDdRTGZRbjFzRnZtMDVaZjFJRTY2b1Y5UlJRTmdKZmpTRGFYM1Zyd3BSOWVvczc2V2JLSN",
+          "source": "뉴시스",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
           "title": "아이씨뱅큐, 마이크로비트 코딩 강사 기초 연수 전액 무료 진행 - 테크월드",
           "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE1VMnRwdTdZRkE4aU4yUzZ2MjVzQmJJRTQxYUlRaGx6WmltY056cjFfMEtHX21ob0ZkM1F3UGZNZmg5Um54MmhTd09DMXNEZTNUSzE4WEZuYjdTdk5scWhuYS1SUFBaUEYx?oc=5",
           "date": "2021-05-28T07:00:00.000Z",
@@ -199,14 +207,6 @@ window.MYNEWS_DATA = {
           "date": "2018-09-10T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTE5ETkZsR0tCYndsZ0xHZFg0cGVRY0FjVXo3MnE5Mndobm1FRXdNdWVuRDR5Tl82YXBubUptSjNfRW8zc1VMcHhKQ05Xa3lCMWJ3TTVxZlN2OHl3WDhUTzJnUV",
           "source": "보안뉴스",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
-          "title": "김포새일센터 '코딩강사 양성과정' 수료식 - 일간경기",
-          "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTFA4d3pPR1ZfSWNIZDdUclc3Ylh5ODV6TGpmQ2RCUlVPbDdDS29CTjRxVDhIUGprNWExTUJ3cTN5Rl9rNVlkTjZnNmczeXY3OUdZbWJCN3d2cVBWTWNvYnZhcm80RjFINm1v?oc=5",
-          "date": "2018-06-13T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiaEFVX3lxTFA4d3pPR1ZfSWNIZDdUclc3Ylh5ODV6TGpmQ2RCUlVPbDdDS29CTjRxVDhIUGprNWExTUJ3cTN5Rl9rNVlkTjZnNmczeXY3OUdZbWJCN3d2cVBWTWNvYnZhcm",
-          "source": "일간경기",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
