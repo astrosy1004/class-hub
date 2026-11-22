@@ -1,6 +1,6 @@
 // 이 파일은 .github/workflows/mynews-collect.yml 이 2시간마다 자동 생성합니다. 직접 수정하지 마세요.
 window.MYNEWS_DATA = {
-  "updatedAt": "2026-11-21T20:17:46.142Z",
+  "updatedAt": "2026-11-22T01:46:35.876Z",
   "categories": [
     {
       "id": "job",
@@ -90,14 +90,6 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
-          "title": "AI 콘텐츠마케팅부터 드론 코딩까지…전북도 여성 창업교육 강화 - 아시아투데이",
-          "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE40RGxrc01feU5tandPa2gyOU5JSVYtd21JOWVwUTdnT3FfcEtXcjYzUHBFOGRXQlNnZHJuUHR6aWVCZXlhV19Sc3ZIUUxYMzNvYmpPZWhzTDFfV3VSOFVHVHVwd09fV2Z1T1hSdWd3?oc=5",
-          "date": "2026-06-04T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMibkFVX3lxTE40RGxrc01feU5tandPa2gyOU5JSVYtd21JOWVwUTdnT3FfcEtXcjYzUHBFOGRXQlNnZHJuUHR6aWVCZXlhV19Sc3ZIUUxYMzNvYmpPZWhzTDFfV3VSOFVHVH",
-          "source": "아시아투데이",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
           "title": "지역 주민이 AI·코딩 강사로…양구군 전문인력 양성 - 강원일보",
           "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBQSWV3QWd4bUNVd2FXVFN1OHNpeHUzX1YyeFFhOXJtWFFKVURQTlBRanlzRFJJT0ZvelI3ZW5ma0pBQk8tZ1ZKdEhkcXUyODNHQWg5RENIbEpxT1k?oc=5",
           "date": "2026-05-17T07:00:00.000Z",
@@ -162,6 +154,22 @@ window.MYNEWS_DATA = {
           "via": "Google 뉴스 코딩강사 역량강화"
         },
         {
+          "title": "LG CNS 경력보유여성, 중학교 코딩 강사로 새출발! - 테크월드",
+          "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE95SFZKYmVucDVKM3MtaGlFcDhEN0dmZ3k0LTJHamdFUHp3dnV0cFo4eUlxRDhHYkxXNUx5bGpaT2dPX0tzMnlVMWN4S09RMG9iN1NDYUQtVE1nQjQ0VGVtd294eGtlNE0?oc=5",
+          "date": "2019-08-27T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiZ0FVX3lxTE95SFZKYmVucDVKM3MtaGlFcDhEN0dmZ3k0LTJHamdFUHp3dnV0cFo4eUlxRDhHYkxXNUx5bGpaT2dPX0tzMnlVMWN4S09RMG9iN1NDYUQtVE1nQjQ0VGVtd2",
+          "source": "테크월드",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
+          "title": "광명시, 'SW정보화교육강사 양성과정' 수료식 개최 - 뉴스웍스",
+          "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9ZWHJxZGE4LU9yeTBTSXFJSXZiSGF6d29aTmphdkpfTGhQdHdKVURtU1RxelBsVlBXc1JqODYtWU5JNjN4ZUNaRzdjSFRBblQtQW12TXpOeDgwTzRka2ZkMk9CbXlEbUhMSGhteUFPd9IBc0FVX3lxTE9oM0EweWFvR1RUNDBxd3NpOEM5YmxGOG14NFlHNnFTQy0tdnBzcWdpX0FRdjNlV0VaT21kSS1RMWNSMGhfeTZnODExR2JManNlSGhTeGd5TWFkYzVoU3lKeHU4a2w3V3RuQldUR0w1bzBvaTg?oc=5",
+          "date": "2019-07-10T07:00:00.000Z",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMib0FVX3lxTE9ZWHJxZGE4LU9yeTBTSXFJSXZiSGF6d29aTmphdkpfTGhQdHdKVURtU1RxelBsVlBXc1JqODYtWU5JNjN4ZUNaRzdjSFRBblQtQW12TXpOeDgwTzRka2ZkMk",
+          "source": "뉴스웍스",
+          "via": "Google 뉴스 코딩강사 역량강화"
+        },
+        {
           "title": "안랩, SW 코딩강사 양성 무료교육 프로그램 ‘안랩샘 8기’ 수료식 - 보안뉴스",
           "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTFBzaDJTQS0wZi01d0t1ZktvZHI3VDVrYWtUd05CMjBjV3k1ZzZpUnItcjhxdERhbVhBRkhaMkhpa0ZmTWRZTUptdTRtUTJIZVF4MzJLSmFxOWdzY3FCMDZkSFc5c0t1b2stZ0E?oc=5",
           "date": "2019-05-17T07:00:00.000Z",
@@ -199,14 +207,6 @@ window.MYNEWS_DATA = {
           "date": "2018-06-13T07:00:00.000Z",
           "summary": "<a href=\"https://news.google.com/rss/articles/CBMiaEFVX3lxTFA4d3pPR1ZfSWNIZDdUclc3Ylh5ODV6TGpmQ2RCUlVPbDdDS29CTjRxVDhIUGprNWExTUJ3cTN5Rl9rNVlkTjZnNmczeXY3OUdZbWJCN3d2cVBWTWNvYnZhcm",
           "source": "일간경기",
-          "via": "Google 뉴스 코딩강사 역량강화"
-        },
-        {
-          "title": "학교 코딩 강사, 강아지 산책시키는 ‘도그 워커’ 등 이색 노인일자리 주목받아 - 백세시대",
-          "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTFBDSV9iQlQxNTlWQWliLTZXeWlTbm1BV29MdUVQT1R0QURWc0haWHZpdTRRUHJlVVh0MkdLQkpZRlVVd1Q2Y1RPRWZKWmhzM2xLUUhpRjFja1NmSmpvZFlLem5iOHEteGJSLUE?oc=5",
-          "date": "2018-03-23T07:00:00.000Z",
-          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTFBDSV9iQlQxNTlWQWliLTZXeWlTbm1BV29MdUVQT1R0QURWc0haWHZpdTRRUHJlVVh0MkdLQkpZRlVVd1Q2Y1RPRWZKWmhzM2xLUUhpRjFja1NmSmpvZFlLem",
-          "source": "백세시대",
           "via": "Google 뉴스 코딩강사 역량강화"
         }
       ]
