@@ -49,6 +49,18 @@ const toneOptions = [
 // pitch 는 발표 자료 주소(선택). 적어 두면 메뉴와 카드에 🎤 발표 자료 링크가 생깁니다.
 const programs = [
   {
+    id: "eeplan",
+    type: "webapp",
+    status: "live",
+    title: "전기기사 필기 합격 플래너",
+    icon: "⚡",
+    tone: "blue",
+    url: "https://claude.ai/artifact/VoEW8TPXNx5eHi7QJoGXPn",
+    description: "2027년 2월 28일 전기기사 1차(필기) 시험일에 맞춰 학습 계획을 짜고, 단원별 강의 영상을 추천하고, AI 요약 노트를 써 주는 시험 준비 웹앱",
+    features: ["D-day · 이론 → 기출 → 실전 3단계 계획 자동 생성", "밀린 과제 모아 보기 · 오늘부터 다시 짜기", "단원별 YouTube 강의 검색 · 무료 강의 추천 · 내 영상 저장", "Claude AI 요약 노트 자동 작성 · 핵심 공식 카드", "모의고사 점수 기록과 과락 · 평균 판정"],
+    tags: ["전기기사", "자격증", "Claude"],
+  },
+  {
     id: "location",
     type: "webapp",
     status: "live",
