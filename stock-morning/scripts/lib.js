@@ -153,10 +153,9 @@ async function claudeJSON({ system, user, schema, maxTokens = 32000, effort = 'h
   const key = process.env.ANTHROPIC_API_KEY;
   if (!key) return { error: 'ANTHROPIC_API_KEY 없음' };
   const body = JSON.stringify({
-    model: 'claude-opus-5-5',
+    // 비용이 가장 낮은 모델. 품질을 높이려면 'claude-sonnet-5-5' 또는 'claude-opus-5-5' 로 바꾼다.
+    model: 'claude-haiku-5-5',
     max_tokens: maxTokens,
-    // 안전 분류기가 요청을 거절하면 서버가 다른 모델로 자동 재시도한다.
-    fallbacks: 'default',
     output_config: { effort, format: { type: 'json_schema', schema } },
     system,
     messages: [{ role: 'user', content: user }],
@@ -172,7 +171,6 @@ async function claudeJSON({ system, user, schema, maxTokens = 32000, effort = 'h
             'content-type': 'application/json',
             'x-api-key': key,
             'anthropic-version': '2026-10-21',
-            'anthropic-beta': 'server-side-fallback-2026-07-01',
           },
           body,
         });

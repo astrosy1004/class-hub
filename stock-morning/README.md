@@ -87,8 +87,9 @@ node stock-morning/scripts/daily.js --dry --date 2026-11-20   # 지난 거래일
 
 ## 비용
 
-AI 원고는 하루 1회 Claude API(`claude-opus-5-5`) 호출입니다. 입력이 시세 요약과 뉴스 제목 수백 건이라
-호출당 대략 300~700원 안팎입니다 (Console 사용량에서 확인). 요청이 안전 필터에 걸리면 서버가 다른 모델로
-자동 재시도하도록(`fallbacks: "default"`) 설정해 두었습니다.
+AI 원고는 하루 1회 Claude API 호출이며, 가장 저렴한 `claude-haiku-5-5` 를 씁니다.
+입력 약 2.5만·출력 약 1.5만 토큰 기준 하루 약 13원, 한 달(평일 22회) 약 300원으로 추정합니다 (실제는 Console 사용량에서 확인).
+해설 품질을 높이고 싶으면 `scripts/lib.js` 의 `model` 을 `claude-sonnet-5-5`(한 달 약 6천원) 또는 `claude-opus-5-5`(약 1.2만원)로 바꾸면 됩니다.
+`ANTHROPIC_API_KEY` 를 등록하지 않으면 AI 해설 없이 데이터만으로 리포트와 메일이 나갑니다 (비용 0원).
 
 > 공부용 정보 정리이며 투자 권유가 아닙니다.
