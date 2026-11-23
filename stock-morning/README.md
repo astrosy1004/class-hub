@@ -1,0 +1,94 @@
+# ☀️ 모닝 마켓 브리핑 (stock-morning/)
+
+평일 아침 7시(KST)에 **전일 장 분석 리포트 + 주식 공부 30일 전략**을 메일로 보냅니다.
+휴대폰 Gmail 앱 알림으로 받아 요약을 바로 읽고, 전체 리포트는 첨부 HTML 파일이나 웹 링크로 엽니다.
+
+🔗 https://astrosy1004.github.io/class-hub/stock-morning/
+
+## 받는 것
+
+**맨 위 핵심 요약 (메일·리포트·웹페이지 공통)** — 📌 오늘 꼭 알아야 할 3가지 + 🔁 지난 리포트들과 비교해 여러 날 반복된 재료(해시태그)와 계속 등장하는 종목(처음 언급된 날 이후 등락률). 매일 저장되는 AI 원고(`analysis/*.json`)를 최근 10개까지 모아 계산합니다.
+
+**메일 본문 (요약)** — 지수·수급, 시장 요약, TODAY ISSUE, 오늘의 공부(30일 전략), 섹터별 정리
+
+**전체 리포트** (`analysis/YYYY-MM-DD.html`, 메일 첨부 + 웹 게시)
+
+| 구역 | 내용 |
+|---|---|
+| 전일 시장 정리 | 섹터별 묶음 — 해시태그(재료), 종목별 등락률·거래대금, 움직인 이유 |
+| TODAY ISSUE | 하루를 압축한 핵심 이슈 3~4개 |
+| 전일 시장 주도 종목 | 거래대금 상위·역행 강세 종목과 이유 |
+| After market & 해외 | NXT 시간외 급등락 종목(정규장 종가 대비), 미국·아시아 지수, 원자재·코인 |
+| 주간 일정 / 일정 Check | 뉴스에서 날짜가 확인된 앞으로의 일정, 계속 추적할 재료 |
+| 차트상 관심주 | 0·1·2일차 큰 양봉, 5~8·15·33~45·120일선 부근, 급락 — 미니 차트(40일 종가·20일선) |
+| 섹터별 뉴스 | 분야별 헤드라인과 원문 링크 |
+| 공부 노트 | 그날 리포트로 배우는 개념 + 30일 전략 오늘 과제 |
+
+### 숫자와 문장은 어디서 오나
+
+- **숫자는 AI가 만들지 않습니다.** 상장 전 종목(약 2,660개)의 정규장 일봉을 스크립트가 받아 등락률·거래대금·이동평균을 계산합니다. AI는 종목 *이름*만 고르고, 화면의 숫자는 데이터에서 채웁니다. 데이터에 없는 종목 이름은 자동으로 버립니다.
+- **이유는 뉴스 제목에서만.** 시장·섹터 검색어와 크게 움직인 종목명으로 Google 뉴스를 모아 AI에 넘기고, 근거가 없으면 "확인 안 됨"으로 쓰게 합니다. 매수·매도 권유는 금지되어 있습니다.
+- 거래대금은 (고가+저가+종가)/3 × 거래량으로 추정한 값입니다.
+- 보고서 날짜는 **실제 마지막 거래일** 기준입니다 (월요일 메일 = 금요일 장). 한국장 휴장일에는 메일을 건너뜁니다.
+- AI 호출이 실패해도 데이터만으로 리포트와 메일은 나갑니다.
+
+## 처음 한 번 설정 (GitHub Secrets)
+
+저장소 **Settings → Secrets and variables → Actions → New repository secret** 에서 4개를 추가합니다.
+(키와 비밀번호는 여기에만 넣고, 코드나 채팅에 붙여 넣지 마세요.)
+
+| 이름 | 값 |
+|---|---|
+| `ANTHROPIC_API_KEY` | [Claude Console](https://console.anthropic.com/) → API Keys 에서 발급한 키 |
+| `MAIL_USERNAME` | 보내는 Gmail 주소 |
+| `MAIL_PASSWORD` | Gmail **앱 비밀번호** 16자리 (Google 계정 → 보안 → 2단계 인증 켠 뒤 → 앱 비밀번호) |
+| `MAIL_TO` | 받을 메일 주소 (여러 명이면 쉼표로 구분) |
+
+설정 후 **Actions → 모닝 마켓 브리핑 메일 → Run workflow** 로 바로 한 번 보내 볼 수 있습니다.
+같은 거래일을 다시 보내려면 `force` 를 체크하세요. 실행에는 3~6분 걸립니다.
+
+## 구성
+
+```
+stock-morning/
+  index.html, assets/         웹페이지 (지난 리포트 목록 + 30일 공부 전략)
+  analysis/YYYY-MM-DD.html    전체 장 분석 리포트 (자동 생성, .json 은 AI 원고 원본)
+  reports/YYYY-MM-DD.html     메일 본문 (자동 생성)
+  data/study.js               30일 공부 내용 — 메일과 웹페이지가 함께 사용
+  data/reports.js             리포트 목록 (자동 생성)
+  data/listing.json           상장 종목 목록 저장본 (KRX KIND 접속 실패 시 사용)
+  scripts/config.js           해외 지표·뉴스 검색어·종목 선정 기준 ← 내용 수정은 여기서
+  scripts/lib.js              수집 함수 (Yahoo·네이버·KIND·Google 뉴스·Claude API)
+  scripts/scan.js             전 종목 스캔, 애프터마켓, 차트 관심주 분류
+  scripts/writer.js           AI 원고 (출력 형식·작성 규칙·종목명 검증)
+  scripts/report.js           전체 리포트 HTML
+  scripts/render.js           메일 본문 HTML (인라인 스타일, 600px)
+  scripts/daily.js            전체 실행
+.github/workflows/stock-morning.yml   평일 07시 실행 → 메일(본문+첨부) 발송 → 리포트 커밋
+```
+
+## 수정 방법
+
+- **선정 기준**: `scripts/config.js` 의 `SCREEN` (큰 양봉 기준, 거래대금 기준, 이평선 범위 등)
+- **뉴스 검색어·해외 지표**: `scripts/config.js` 의 `NEWS_TOPICS`, `GLOBALS`
+- **리포트 문체·구성**: `scripts/writer.js` 의 `SYSTEM` 프롬프트
+- **공부 내용**: `data/study.js` 의 `STUDY_PLAN`. 시작일은 `config.js` 의 `STUDY_START`
+- **발송 시각**: 워크플로의 `cron` (UTC 기준. 07시 KST = 전날 22시 UTC). GitHub 스케줄은 수 분~수십 분 늦게 실행될 수 있습니다.
+
+## 로컬 확인
+
+```bash
+node stock-morning/scripts/daily.js --dry                     # AI·메일 없이 실제 데이터로 미리보기
+node stock-morning/scripts/daily.js --dry --date 2026-11-20   # 지난 거래일로 미리보기
+```
+
+`analysis/preview.html`(전체 리포트)과 `reports/preview.html`(메일 본문)을 브라우저로 엽니다.
+`--draft 원고.json` 을 붙이면 저장해 둔 AI 원고로 다시 그릴 수 있습니다.
+
+## 비용
+
+AI 원고는 하루 1회 Claude API(`claude-opus-5-5`) 호출입니다. 입력이 시세 요약과 뉴스 제목 수백 건이라
+호출당 대략 300~700원 안팎입니다 (Console 사용량에서 확인). 요청이 안전 필터에 걸리면 서버가 다른 모델로
+자동 재시도하도록(`fallbacks: "default"`) 설정해 두었습니다.
+
+> 공부용 정보 정리이며 투자 권유가 아닙니다.

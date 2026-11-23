@@ -1,0 +1,82 @@
+/* 차트 공부 시트 — 색은 styles.css 의 CSS 변수를 그대로 씁니다. */
+
+.tabs a.on { color: var(--accent); border-bottom-color: var(--accent); }
+.muted { color: var(--sub); }
+.small { font-size: 13px; }
+
+.sheet-intro { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; margin-bottom: 14px; }
+.sheet-intro h2 { margin: 0 0 6px; font-size: 19px; }
+.sheet-intro p { margin: 0 0 10px; }
+.progress { height: 10px; background: var(--bg); border-radius: 999px; overflow: hidden; border: 1px solid var(--line); }
+.progress span { display: block; height: 100%; background: var(--accent); }
+
+.sheet-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.sheet-item { display: flex; gap: 14px; align-items: flex-start; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; color: var(--text); text-decoration: none; }
+a.sheet-item:hover { border-color: var(--accent); }
+.locked .sheet-item { opacity: .55; }
+.sheet-num { flex: none; width: 40px; height: 40px; border-radius: 10px; background: var(--accent-soft); color: var(--accent); font-weight: 800; display: grid; place-items: center; }
+.sheet-title { font-weight: 800; font-size: 16px; }
+.sheet-sum { font-size: 14px; margin: 2px 0; }
+.sheet-meta { font-size: 12.5px; color: var(--sub); }
+.badge-done { margin-left: 8px; font-size: 12px; color: var(--up); background: var(--note); border-radius: 999px; padding: 1px 8px; }
+
+.back { display: inline-block; margin: 0 0 10px; color: var(--accent); text-decoration: none; font-weight: 700; }
+.sheet-head { background: var(--accent-soft); border: 2px solid var(--accent); border-radius: 16px; padding: 16px 18px; margin-bottom: 12px; }
+.sheet-head h2 { margin: 2px 0 10px; font-size: 22px; }
+.goals { margin: 4px 0 0; padding-left: 20px; }
+
+.sheet-sec { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; margin: 0 0 12px; }
+.sheet-sec h3 { margin: 0 0 8px; font-size: 17px; }
+.sheet-sec p { margin: 0 0 8px; }
+.sheet-sec ul { margin: 0 0 8px; padding-left: 20px; }
+.sheet-sec li { margin: 3px 0; }
+
+.fig { display: block; width: 100%; max-width: 520px; margin: 10px auto 0; background: var(--bg); border-radius: 12px; }
+.f-body.f-up { fill: var(--up); }
+.f-body.f-dn { fill: var(--down); }
+.f-body.f-doji { fill: var(--sub); }
+.f-wick { stroke-width: 2; }
+.f-wick.f-up { stroke: var(--up); }
+.f-wick.f-dn { stroke: var(--down); }
+.f-wick.f-doji { stroke: var(--sub); }
+.f-prev { stroke: var(--sub); stroke-dasharray: 4 3; stroke-width: 1.2; }
+.f-guide { stroke: var(--sub); stroke-width: 1; }
+:root { --ma5: #e8590c; --ma20: #f59f00; --ma60: #2f9e44; --ma120: #7048e8; }
+[data-theme="dark"] { --ma5: #ff8a4c; --ma20: #ffc53d; --ma60: #51cf66; --ma120: #9775fa; }
+.f-price { fill: none; stroke: var(--text); stroke-width: 1.8; }
+.f-ma { fill: none; stroke-width: 2; }
+.f-ma5 { stroke: var(--ma5); }
+.f-ma20 { stroke: var(--ma20); stroke-dasharray: 5 3; }
+.f-ma60 { stroke: var(--ma60); }
+.f-ma120 { stroke: var(--ma120); }
+.f-mark { fill: var(--accent); }
+.f-vol { opacity: .75; }
+.f-vol.f-up { fill: var(--up); }
+.f-vol.f-dn { fill: var(--down); }
+.f-sep { stroke-dasharray: 2 3; opacity: .5; }
+.f-txt { fill: var(--text); font-size: 13px; }
+.f-lbl { fill: var(--sub); font-size: 13px; font-weight: 600; }
+
+.mini-table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 4px 0 6px; }
+.mini-table th, .mini-table td { border-bottom: 1px solid var(--line); padding: 7px 8px; text-align: left; vertical-align: top; }
+.mini-table th:nth-child(-n+2), .mini-table td:nth-child(-n+2) { white-space: nowrap; }
+.mini-table th { font-size: 12.5px; color: var(--sub); background: var(--bg); }
+.mini-table td.up { color: var(--up); font-weight: 700; white-space: nowrap; }
+.mini-table td.dn { color: var(--down); font-weight: 700; white-space: nowrap; }
+
+.calc { background: var(--accent-soft); border-radius: 10px; padding: 10px 12px; margin: 0 0 10px; font-size: 14.5px; }
+
+.q { padding: 10px 0; border-top: 1px dashed var(--line); }
+.q:first-of-type { border-top: 0; }
+.q-text { font-weight: 700; }
+.q-opts { display: grid; gap: 6px; }
+.q-opt { text-align: left; font: inherit; color: var(--text); background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 9px 12px; cursor: pointer; }
+.q-opt:hover:not(:disabled) { border-color: var(--accent); }
+.q-opt.right { border-color: var(--up); background: var(--note); font-weight: 700; }
+.q-opt.wrong { border-color: var(--down); text-decoration: line-through; }
+.q-exp { margin: 8px 0 0; font-size: 14px; background: var(--accent-soft); border-radius: 10px; padding: 10px 12px; }
+
+.practice { background: var(--note); }
+.btn { display: inline-block; font: inherit; font-weight: 700; color: #fff; background: var(--accent); border: 0; border-radius: 10px; padding: 10px 16px; text-decoration: none; cursor: pointer; margin: 4px 0; }
+.sheet-foot { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; margin: 4px 0 8px; }
+.next { color: var(--accent); font-weight: 700; text-decoration: none; }
