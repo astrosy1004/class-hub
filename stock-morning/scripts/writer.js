@@ -6,16 +6,21 @@ const str = { type: 'string' };
 const arr = (items) => ({ type: 'array', items });
 const obj = (props) => ({ type: 'object', additionalProperties: false, required: Object.keys(props), properties: props });
 
+const ids = arr({ type: 'integer' });
+const conf = { type: 'string', enum: ['direct', 'inferred', 'unknown'] };
+const fuStatus = { type: 'string', enum: ['continued', 'weakened', 'resolved', 'unknown'] };
+
 const SCHEMA = obj({
   headline: str,
   lead: str,
   key_points: arr(str),
   trend_summary: str,
   market_summary: str,
-  sectors: arr(obj({ title: str, hashtags: arr(str), items: arr(obj({ stocks: arr(str), text: str })) })),
-  issues: arr(obj({ tags: arr(str), body: str, impact: str })),
-  leaders: arr(obj({ name: str, reason: str })),
-  after_market: arr(obj({ name: str, reason: str })),
+  sectors: arr(obj({ title: str, hashtags: arr(str), items: arr(obj({ stocks: arr(str), text: str, ids, confidence: conf })) })),
+  issues: arr(obj({ tags: arr(str), body: str, impact: str, ids })),
+  followup: arr(obj({ item: str, result: str, status: fuStatus, ids })),
+  leaders: arr(obj({ name: str, reason: str, ids, confidence: conf })),
+  after_market: arr(obj({ name: str, reason: str, ids, confidence: conf })),
   overnight: arr(str),
   schedule: arr(obj({ date: str, events: arr(obj({ text: str, star: { type: 'boolean' } })) })),
   checks: arr(str),
@@ -32,6 +37,9 @@ const SYSTEM = `너는 한국 주식시장을 매일 정리하는 리포트 작�
 3. 이유: 등락의 이유는 입력 헤드라인에서만 찾는다. 근거가 없으면 "뚜렷한 재료 확인 안 됨"이라고 쓴다. 추측을 사실처럼 쓰지 않는다.
 4. 매수·매도·목표가 제시 같은 투자 권유를 하지 않는다.
 5. 쉬운 한국어로, 전문용어는 처음 나올 때 괄호로 짧게 풀어 쓴다. 문장은 간결하게.
+6. 근거 표시: sectors.items·issues·leaders·after_market·followup 의 ids 에는 그 문장의 근거가 된 헤드라인 id 를 1~3개 넣는다(근거가 없으면 빈 배열).
+   confidence 는 direct(헤드라인이 그 종목·재료와 등락을 직접 연결해 언급) / inferred(직접 언급은 없고 같은 날 헤드라인 정황으로 추정 — 문장을 "~로 보인다"로 끝낸다) /
+   unknown(재료 확인 안 됨 — 이때 문장은 "뚜렷한 재료 확인 안 됨"). direct 인데 ids 가 비면 안 된다.
 
 각 필드:
 - headline: 하루를 요약하는 제목 (30자 이내). lead: 부제 한 줄.
@@ -49,6 +57,8 @@ const SYSTEM = `너는 한국 주식시장을 매일 정리하는 리포트 작�
 - schedule: 헤드라인에서 날짜가 확인되는 앞으로 7일 이내 일정만. date 는 "MM/DD (요일)". 시장 전체에 영향이 큰 것은 star=true.
 - checks: 재료가 계속 살아 있는지 추적할 이슈 4~7개.
 - news_sections: 12~16개 분야(경제 일반, 미중 관계, 국제-미국, 국제-유럽·아시아, 원자재·코인, 정부 정책, 반도체, 전력·에너지, AI·로봇, 이차전지, 바이오, 조선·방산, 엔터·게임·화장품, IPO, 공시 등). 분야마다 관련 헤드라인 id 2~4개.
+- followup: 입력 previous_report.checks 의 항목마다 하나씩, 그 이슈가 오늘 어떻게 됐는지. item 은 어제 항목을 그대로, result 는 오늘 시세·헤드라인으로 확인된 결과 1~2문장
+  (근거가 없으면 "오늘 뉴스에서 확인 안 됨"). status: continued(이어짐) / weakened(약해짐) / resolved(마무리·해소) / unknown(확인 안 됨). previous_report 가 null 이면 빈 배열.
 - study_notes: 오늘 리포트 내용으로 배울 수 있는 개념 3~4개. 오늘 실제 사례를 들어 설명.`;
 
 const SIMPLE = (r) => ({ name: r.name, market: r.mkt, sector: r.sector, change_pct: r.d0.r, trading_value_eok: r.d0.tv });
@@ -69,20 +79,33 @@ function buildInput(ctx) {
     },
     after_market: after.slice(0, 10).map((r) => ({ name: r.name, regular_change_pct: r.d0.r, after_market_change_pct: r.nxt, headline_ids: stockNews[r.code] || [] })),
     recent_reports: ctx.recentReports || [],
+    previous_report: ctx.previousReport
+      ? { date: ctx.previousReport.date, headline: ctx.previousReport.headline, checks: ctx.previousReport.checks || [], issues: (ctx.previousReport.issues || []).map((i) => ({ tags: i.tags, impact: i.impact })) }
+      : null,
     recurring: ctx.recurringBefore || { tags: [], stocks: [] },
     headlines: headlines.map((h) => ({ id: h.id, title: h.title, source: h.source, time: h.when, topic: h.topic })),
   };
 }
 
-// AI가 쓴 이름을 실제 종목과 대조해 없는 것은 버린다.
-function validate(draft, names, headlineIds) {
+// AI가 쓴 이름을 실제 종목과 대조해 없는 것은 버리고, 근거 번호(ids)·확신도를 점검한다.
+function validate(draft, names, headlineIds, hasPrev = true) {
   const ok = (n) => names.has(n);
+  const fixIds = (x) => (Array.isArray(x.ids) ? x.ids.filter((i) => headlineIds.has(i)).slice(0, 3) : []);
+  // direct 인데 근거 번호가 없으면 inferred 로 낮춘다.
+  const withEvidence = (x) => {
+    const ids = fixIds(x);
+    let confidence = x.confidence;
+    if (confidence === 'direct' && !ids.length) confidence = 'inferred';
+    return { ...x, ids, confidence };
+  };
   draft.sectors = (draft.sectors || []).map((s) => ({
     ...s,
-    items: (s.items || []).map((it) => ({ ...it, stocks: (it.stocks || []).filter(ok) })).filter((it) => it.stocks.length || it.text),
+    items: (s.items || []).map((it) => withEvidence({ ...it, stocks: (it.stocks || []).filter(ok) })).filter((it) => it.stocks.length || it.text),
   })).filter((s) => s.items.length);
-  draft.leaders = (draft.leaders || []).filter((l) => ok(l.name));
-  draft.after_market = (draft.after_market || []).filter((l) => ok(l.name));
+  draft.issues = (draft.issues || []).map((i) => ({ ...i, ids: fixIds(i) }));
+  draft.leaders = (draft.leaders || []).filter((l) => ok(l.name)).map(withEvidence);
+  draft.after_market = (draft.after_market || []).filter((l) => ok(l.name)).map(withEvidence);
+  draft.followup = hasPrev ? (draft.followup || []).filter((f) => f.item && f.result).map((f) => ({ ...f, ids: fixIds(f) })) : [];
   draft.news_sections = (draft.news_sections || []).map((s) => ({ ...s, ids: (s.ids || []).filter((i) => headlineIds.has(i)) })).filter((s) => s.ids.length);
   return draft;
 }
@@ -98,6 +121,6 @@ async function writeReport(ctx) {
   return validateDraft(draft, ctx);
 }
 
-const validateDraft = (draft, ctx) => validate(draft, new Set(ctx.rows.map((r) => r.name)), new Set(ctx.headlines.map((h) => h.id)));
+const validateDraft = (draft, ctx) => validate(draft, new Set(ctx.rows.map((r) => r.name)), new Set(ctx.headlines.map((h) => h.id)), !!ctx.previousReport);
 
 module.exports = { writeReport, validateDraft };

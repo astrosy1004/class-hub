@@ -21,8 +21,14 @@ const card = (inner, extra = '') =>
 const h2 = (t) => `<div style="font-size:17px;font-weight:800;color:${C.text};margin:0 0 10px">${t}</div>`;
 const button = (href, label) => `<a href="${esc(href)}" style="display:inline-block;background:${C.accent};color:#fff;text-decoration:none;font-weight:700;font-size:15px;border-radius:10px;padding:12px 18px">${label}</a>`;
 
-function renderEmail({ date, sendDate, idx, globals, draft, study, siteUrl, fullUrl, rows, recur }) {
+function renderEmail({ date, sendDate, idx, globals, draft, study, siteUrl, fullUrl, rows, recur, headlines = [], previousReport }) {
   const hasAi = draft && !draft.error;
+  const H = {};
+  for (const h of headlines) H[h.id] = h;
+  const BADGE = { direct: ['직접 언급', '#2f9e44'], inferred: ['추정', '#e67700'], unknown: ['재료 불명', '#868e96'], continued: ['이어짐', '#2f9e44'], weakened: ['약해짐', '#e67700'], resolved: ['해소', '#3b5bdb'] };
+  const badge = (c) => (BADGE[c] ? `<span style="display:inline-block;font-size:11px;font-weight:700;color:${BADGE[c][1]};border:1px solid ${BADGE[c][1]};border-radius:999px;padding:0 6px;margin-left:4px;white-space:nowrap">${BADGE[c][0]}</span>` : '');
+  const refs = (ids) => (ids || []).map((i) => H[i]).filter(Boolean).slice(0, 3)
+    .map((h) => `<a href="${esc(h.link)}" style="color:${C.accent};text-decoration:none;font-size:12px;margin-left:3px">[${h.id}]</a>`).join('');
 
   // 맨 위 핵심 요약: 오늘 꼭 알아야 할 3가지 + 여러 날 반복되는 재료
   const points = hasAi && draft.key_points && draft.key_points.length ? draft.key_points : [];
@@ -59,14 +65,16 @@ function renderEmail({ date, sendDate, idx, globals, draft, study, siteUrl, full
   const issues = hasAi ? card(`${h2('📌 TODAY ISSUE')}${draft.issues.map((i) => `
     <div style="margin:0 0 12px">
       <div style="font-size:15px;font-weight:800;color:${C.accent}">${i.tags.map((t) => '#' + esc(String(t).replace(/^#/, ''))).join(' ')}</div>
-      <div style="font-size:15px;line-height:1.65;color:${C.text}">${esc(i.body)}</div>
+      <div style="font-size:15px;line-height:1.65;color:${C.text}">${esc(i.body)}${refs(i.ids)}</div>
     </div>`).join('')}`) : '';
+  const followup = hasAi && draft.followup && draft.followup.length ? card(`${h2('🔎 어제 확인할 것 → 오늘 결과')}${draft.followup.map((f) => `
+    <div style="margin:0 0 10px;font-size:14.5px;line-height:1.6;color:${C.text}"><b>${esc(f.item)}</b>${badge(f.status)}<br>${esc(f.result)}${refs(f.ids)}</div>`).join('')}`) : '';
 
   const stockLine = (n) => (by[n] ? `<span style="white-space:nowrap;margin-right:10px;font-size:14px"><b>${esc(n)}</b> ${pct(by[n].d0.r)}</span> ` : '');
   const sectors = hasAi ? draft.sectors.map((s) => card(`
     <div style="font-size:16px;font-weight:800;color:${C.text};margin:0 0 6px">${esc(s.title)}</div>
     <div style="margin:0 0 6px">${s.hashtags.map((t) => `<span style="display:inline-block;background:${C.soft};color:${C.accent};font-size:13px;font-weight:600;border-radius:999px;padding:2px 9px;margin:0 5px 5px 0">#${esc(String(t).replace(/^#/, ''))}</span>`).join('')}</div>
-    ${s.items.map((it) => `<div style="margin:8px 0 0">${it.stocks.map(stockLine).join('')}<div style="font-size:14.5px;line-height:1.6;color:${C.text};margin-top:3px">${esc(it.text)}</div></div>`).join('')}
+    ${s.items.map((it) => `<div style="margin:8px 0 0">${it.stocks.map(stockLine).join('')}<div style="font-size:14.5px;line-height:1.6;color:${C.text};margin-top:3px">${esc(it.text)}${badge(it.confidence)}${refs(it.ids)}</div></div>`).join('')}
   `)).join('') : '';
 
   const s = study.lesson;
@@ -95,6 +103,7 @@ function renderEmail({ date, sendDate, idx, globals, draft, study, siteUrl, full
   ${keyCard}
   ${card(`${h2('📈 시장 한눈에')}<table role="presentation" width="100%" cellpadding="0" cellspacing="0">${indexRows}</table>${flow}${summary}`)}
   ${issues}
+  ${followup}
   ${studyCard}
   ${sectors ? `<tr><td style="padding:6px 16px 10px"><div style="font-size:18px;font-weight:800;color:${C.text}">🗂️ 섹터별 정리</div></td></tr>${sectors}` : ''}
   <tr><td style="padding:4px 16px 18px" align="center">${button(fullUrl, '전체 리포트에서 주도 종목·애프터마켓·주간 일정·차트 보기')}</td></tr>

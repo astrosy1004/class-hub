@@ -107,6 +107,10 @@ function renderFull(ctx) {
     return `<span class="chip"><b>${esc(name)}</b> ${pct(r.d0.r)}<span class="tv">${won(r.d0.tv)}</span></span>`;
   };
   const card = (r, note) => `<a class="cc" href="https://finance.naver.com/item/fchart.naver?code=${esc(r.code)}" target="_blank" rel="noopener" title="네이버 차트 열기"><div class="cc-h"><b>${esc(r.name)}</b><span>${pct(r.d0.r)}</span></div>${spark(r)}<div class="cc-n">${note}</div></a>`;
+  const CONF = { direct: ['직접 언급', 'b-direct'], inferred: ['추정', 'b-inf'], unknown: ['재료 불명', 'b-unk'] };
+  const badge = (c) => (CONF[c] ? `<span class="cb ${CONF[c][1]}">${CONF[c][0]}</span>` : '');
+  const refs = (ids) => (ids || []).map((i) => H[i]).filter(Boolean).slice(0, 3)
+    .map((h) => `<a class="ref" href="${esc(h.link)}" target="_blank" rel="noopener" title="${esc(h.source + ' — ' + h.title)}">[${h.id}]</a>`).join('');
   const hlList = (ids) => '<ul class="hl">' + ids.map((i) => H[i]).filter(Boolean).map((h) =>
     `<li><a href="${esc(h.link)}" target="_blank" rel="noopener">${esc(h.title)}</a> <span class="src">${esc(h.source)}</span></li>`).join('') + '</ul>';
 
@@ -124,22 +128,30 @@ function renderFull(ctx) {
 
   // ---- 전일 시장 정리
   const recap = hasAi
-    ? draft.sectors.map((s) => `<section class="blk"><h3>${esc(s.title)}</h3><div class="tags">${s.hashtags.map((t) => `<span>#${esc(String(t).replace(/^#/, ''))}</span>`).join('')}</div>${s.items.map((it) => `<div class="it"><div class="chips">${it.stocks.map(chip).join('')}</div><p>${esc(it.text)}</p></div>`).join('')}</section>`).join('')
+    ? draft.sectors.map((s) => `<section class="blk"><h3>${esc(s.title)}</h3><div class="tags">${s.hashtags.map((t) => `<span>#${esc(String(t).replace(/^#/, ''))}</span>`).join('')}</div>${s.items.map((it) => `<div class="it"><div class="chips">${it.stocks.map(chip).join('')}</div><p>${esc(it.text)}${badge(it.confidence)}${refs(it.ids)}</p></div>`).join('')}</section>`).join('')
     : `<section class="blk"><h3>상승 상위</h3><div class="chips">${mv.gainers.slice(0, 20).map((r) => chip(r.name)).join('')}</div></section><section class="blk"><h3>하락 상위</h3><div class="chips">${mv.losers.slice(0, 20).map((r) => chip(r.name)).join('')}</div></section>`;
 
-  const issues = hasAi ? draft.issues.map((i) => `<div class="issue"><h3>${i.tags.map((t) => '#' + esc(String(t).replace(/^#/, ''))).join(' ')}</h3><p>${esc(i.body)}</p><p><b>시장 영향</b> ${esc(i.impact)}</p></div>`).join('') : '<p class="muted">AI 해설을 만들지 못한 날입니다. 아래 데이터를 참고하세요.</p>';
+  const issues = hasAi ? draft.issues.map((i) => `<div class="issue"><h3>${i.tags.map((t) => '#' + esc(String(t).replace(/^#/, ''))).join(' ')}</h3><p>${esc(i.body)}${refs(i.ids)}</p><p><b>시장 영향</b> ${esc(i.impact)}</p></div>`).join('') : '<p class="muted">AI 해설을 만들지 못한 날입니다. 아래 데이터를 참고하세요.</p>';
+
+  // ---- 어제 확인할 것 → 오늘 결과
+  const FU = { continued: ['이어짐', 'fu-c'], weakened: ['약해짐', 'fu-w'], resolved: ['해소', 'fu-r'], unknown: ['확인 안 됨', 'fu-u'] };
+  const followup = hasAi && draft.followup && draft.followup.length
+    ? `<h2 id="followup">어제 확인할 것 → 오늘 결과<small>${esc(ctx.previousReport ? ctx.previousReport.date : '')} 리포트가 "계속 추적하자"고 한 이슈가 오늘 어떻게 됐는지</small></h2>
+  <div class="blk"><ul class="fu">${draft.followup.map((f) => `<li><span class="cb ${(FU[f.status] || FU.unknown)[1]}">${(FU[f.status] || FU.unknown)[0]}</span> <b>${esc(f.item)}</b><br>${esc(f.result)}${refs(f.ids)}</li>`).join('')}</ul></div>`
+    : '';
 
   // ---- 주도 종목
   const leaderList = hasAi && draft.leaders.length ? draft.leaders : mv.topTv.slice(0, 15).map((r) => ({ name: r.name, reason: '' }));
   const leaderRows = leaderList.map((l) => {
     const r = by[l.name];
-    return `<tr><td><b>${esc(l.name)}</b><div class="mkt">${r.mkt}</div></td><td class="num">${pct(r.d0.r)}</td><td class="num">${won(r.d0.tv)}</td><td>${esc(l.reason)}</td></tr>`;
+    return `<tr><td><b>${esc(l.name)}</b><div class="mkt">${r.mkt}</div></td><td class="num">${pct(r.d0.r)}</td><td class="num">${won(r.d0.tv)}</td><td>${esc(l.reason)}${badge(l.confidence)}${refs(l.ids)}</td></tr>`;
   }).join('');
 
   // ---- 애프터마켓
   const amWhy = {};
-  if (hasAi) for (const a of draft.after_market) amWhy[a.name] = a.reason;
-  const afterRows = after.slice(0, 10).map((r) => `<tr><td><b>${esc(r.name)}</b></td><td class="num">${pct(r.d0.r)}</td><td class="num">${pct(r.nxt)}</td><td>${esc(amWhy[r.name] || '')}</td></tr>`).join('');
+  const amConf = {}, amIds = {};
+  if (hasAi) for (const a of draft.after_market) { amWhy[a.name] = a.reason; amConf[a.name] = a.confidence; amIds[a.name] = a.ids; }
+  const afterRows = after.slice(0, 10).map((r) => `<tr><td><b>${esc(r.name)}</b></td><td class="num">${pct(r.d0.r)}</td><td class="num">${pct(r.nxt)}</td><td>${esc(amWhy[r.name] || '')}${badge(amConf[r.name])}${refs(amIds[r.name])}</td></tr>`).join('');
 
   const gtbl = (group) => {
     const rowsG = globals.filter((g) => g.group === group);
@@ -263,6 +275,14 @@ ul.hl li{margin:3px 0;font-size:14px}
 ul.hl a{color:var(--text);text-decoration:none}
 ul.hl a:hover{color:var(--accent);text-decoration:underline}
 .src{color:var(--sub);font-size:12px}
+.ref{font-size:11px;color:var(--accent);text-decoration:none;margin-left:3px;vertical-align:super}
+.cb{display:inline-block;font-size:11px;font-weight:700;border-radius:999px;padding:1px 7px;margin-left:4px;white-space:nowrap;vertical-align:1px}
+.b-direct,.fu-c{background:rgba(47,158,68,.16);color:#2f9e44}
+.b-inf,.fu-w{background:rgba(240,140,0,.16);color:#e67700}
+.b-unk,.fu-u{background:rgba(134,142,150,.2);color:var(--sub)}
+.fu-r{background:rgba(59,91,219,.16);color:var(--accent)}
+ul.fu{margin:0;padding-left:0;list-style:none}
+ul.fu li{margin:8px 0;font-size:14px;line-height:1.6}
 .study{background:var(--card);border:2px solid var(--accent);border-radius:14px;padding:14px 16px;margin:10px 0}
 .study dt{font-weight:800;margin-top:8px}
 .study dd{margin:2px 0 0;font-size:14.5px}
@@ -278,7 +298,7 @@ footer{color:var(--sub);font-size:12px;padding:24px 0 36px;line-height:1.7}
   <h1>${esc(title)}</h1>
   <p class="lead">${hasAi ? esc(draft.headline + ' — ' + draft.lead) : '시세·뉴스 데이터 정리'}</p>
   <nav class="toc">
-    <a href="#recap">전일 시장 정리</a><a href="#issue">TODAY ISSUE</a><a href="#leaders">주도 종목</a><a href="#after">After market</a>
+    <a href="#recap">전일 시장 정리</a><a href="#issue">TODAY ISSUE</a>${followup ? '<a href="#followup">어제 이슈 결과</a>' : ''}<a href="#leaders">주도 종목</a><a href="#after">After market</a>
     <a href="#week">주간 일정</a><a href="#check">일정 Check</a><a href="#chart">차트상 관심주</a><a href="#news">섹터별 뉴스</a><a href="#study">공부</a>
   </nav>
 </div></header>
@@ -293,6 +313,8 @@ footer{color:var(--sub);font-size:12px;padding:24px 0 36px;line-height:1.7}
 
   <h2 id="issue">TODAY ISSUE<small>시간이 없다면 이 부분만이라도</small></h2>
   ${issues}
+
+  ${followup}
 
   <h2 id="leaders">전일 시장 주도 종목<small>거래대금이 큰 종목이 그날 시장의 주인공입니다.</small></h2>
   <div class="tablewrap"><table><thead><tr><th>종목</th><th class="num">등락률</th><th class="num">거래대금(억)</th><th>이유</th></tr></thead><tbody>${leaderRows}</tbody></table></div>

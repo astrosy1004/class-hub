@@ -140,6 +140,7 @@ async function main() {
   // 지난 리포트 누적: 반복된 재료·종목
   const hist = loadHistory(date);
   ctx.recentReports = briefHistory(hist);
+  ctx.previousReport = hist[0] || null;
   ctx.recurringBefore = recurring(hist, null, rows);
 
   let draft;
