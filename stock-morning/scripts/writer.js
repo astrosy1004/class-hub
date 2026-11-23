@@ -6,9 +6,10 @@ const str = { type: 'string' };
 const arr = (items) => ({ type: 'array', items });
 const obj = (props) => ({ type: 'object', additionalProperties: false, required: Object.keys(props), properties: props });
 
-const ids = arr({ type: 'integer' });
-const conf = { type: 'string', enum: ['direct', 'inferred', 'unknown'] };
-const fuStatus = { type: 'string', enum: ['continued', 'weakened', 'resolved', 'unknown'] };
+// 응답 문법(스키마)이 너무 커지면 API 가 거절하므로, 근거 번호·확신도·상태는 가벼운 문자열로 받고 아래 validate 에서 점검한다.
+const ids = str; // "3,17" 처럼 콤마로 구분한 헤드라인 id
+const conf = str; // direct | inferred | unknown
+const fuStatus = str; // continued | weakened | resolved | unknown
 
 const SCHEMA = obj({
   headline: str,
@@ -37,7 +38,7 @@ const SYSTEM = `너는 한국 주식시장을 매일 정리하는 리포트 작�
 3. 이유: 등락의 이유는 입력 헤드라인에서만 찾는다. 근거가 없으면 "뚜렷한 재료 확인 안 됨"이라고 쓴다. 추측을 사실처럼 쓰지 않는다.
 4. 매수·매도·목표가 제시 같은 투자 권유를 하지 않는다.
 5. 쉬운 한국어로, 전문용어는 처음 나올 때 괄호로 짧게 풀어 쓴다. 문장은 간결하게.
-6. 근거 표시: sectors.items·issues·leaders·after_market·followup 의 ids 에는 그 문장의 근거가 된 헤드라인 id 를 1~3개 넣는다(근거가 없으면 빈 배열).
+6. 근거 표시: sectors.items·issues·leaders·after_market·followup 의 ids 에는 그 문장의 근거가 된 헤드라인 id 를 1~3개, 콤마로 구분한 문자열로 넣는다(예 "3,17". 근거가 없으면 빈 문자열).
    confidence 는 direct(헤드라인이 그 종목·재료와 등락을 직접 연결해 언급) / inferred(직접 언급은 없고 같은 날 헤드라인 정황으로 추정 — 문장을 "~로 보인다"로 끝낸다) /
    unknown(재료 확인 안 됨 — 이때 문장은 "뚜렷한 재료 확인 안 됨"). direct 인데 ids 가 비면 안 된다.
 
@@ -90,11 +91,14 @@ function buildInput(ctx) {
 // AI가 쓴 이름을 실제 종목과 대조해 없는 것은 버리고, 근거 번호(ids)·확신도를 점검한다.
 function validate(draft, names, headlineIds, hasPrev = true) {
   const ok = (n) => names.has(n);
-  const fixIds = (x) => (Array.isArray(x.ids) ? x.ids.filter((i) => headlineIds.has(i)).slice(0, 3) : []);
+  const toIds = (v) => (Array.isArray(v) ? v : String(v == null ? '' : v).split(/[^0-9]+/).filter(Boolean)).map(Number);
+  const fixIds = (x) => toIds(x.ids).filter((i) => headlineIds.has(i)).slice(0, 3);
+  const CONF = new Set(['direct', 'inferred', 'unknown']);
+  const FU = new Set(['continued', 'weakened', 'resolved', 'unknown']);
   // direct 인데 근거 번호가 없으면 inferred 로 낮춘다.
   const withEvidence = (x) => {
     const ids = fixIds(x);
-    let confidence = x.confidence;
+    let confidence = CONF.has(x.confidence) ? x.confidence : 'unknown';
     if (confidence === 'direct' && !ids.length) confidence = 'inferred';
     return { ...x, ids, confidence };
   };
@@ -105,7 +109,7 @@ function validate(draft, names, headlineIds, hasPrev = true) {
   draft.issues = (draft.issues || []).map((i) => ({ ...i, ids: fixIds(i) }));
   draft.leaders = (draft.leaders || []).filter((l) => ok(l.name)).map(withEvidence);
   draft.after_market = (draft.after_market || []).filter((l) => ok(l.name)).map(withEvidence);
-  draft.followup = hasPrev ? (draft.followup || []).filter((f) => f.item && f.result).map((f) => ({ ...f, ids: fixIds(f) })) : [];
+  draft.followup = hasPrev ? (draft.followup || []).filter((f) => f.item && f.result).map((f) => ({ ...f, ids: fixIds(f), status: FU.has(f.status) ? f.status : 'unknown' })) : [];
   draft.news_sections = (draft.news_sections || []).map((s) => ({ ...s, ids: (s.ids || []).filter((i) => headlineIds.has(i)) })).filter((s) => s.ids.length);
   return draft;
 }

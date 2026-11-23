@@ -36,6 +36,7 @@ jobs:
         id: report
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ANTHROPIC_WORKSPACE_ID: ${{ secrets.ANTHROPIC_WORKSPACE_ID }}
         run: node stock-morning/scripts/daily.js ${{ inputs.force && '--force' || '' }}
 
       - name: 미리보기 파일 보관 (메일·커밋 없음)

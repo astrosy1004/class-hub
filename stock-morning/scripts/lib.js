@@ -171,6 +171,8 @@ async function claudeJSON({ system, user, schema, maxTokens = 32000, effort = 'h
             'content-type': 'application/json',
             'x-api-key': key,
             'anthropic-version': '2026-10-21',
+            // 워크스페이스에 묶이지 않은 키는 워크스페이스 ID(wrkspc_...)를 헤더로 보내야 한다.
+            ...(process.env.ANTHROPIC_WORKSPACE_ID ? { 'anthropic-workspace-id': process.env.ANTHROPIC_WORKSPACE_ID } : {}),
           },
           body,
         });
