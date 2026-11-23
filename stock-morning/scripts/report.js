@@ -106,7 +106,7 @@ function renderFull(ctx) {
     if (!r) return '';
     return `<span class="chip"><b>${esc(name)}</b> ${pct(r.d0.r)}<span class="tv">${won(r.d0.tv)}</span></span>`;
   };
-  const card = (r, note) => `<div class="cc"><div class="cc-h"><b>${esc(r.name)}</b><span>${pct(r.d0.r)}</span></div>${spark(r)}<div class="cc-n">${note}</div></div>`;
+  const card = (r, note) => `<a class="cc" href="https://finance.naver.com/item/fchart.naver?code=${esc(r.code)}" target="_blank" rel="noopener" title="네이버 차트 열기"><div class="cc-h"><b>${esc(r.name)}</b><span>${pct(r.d0.r)}</span></div>${spark(r)}<div class="cc-n">${note}</div></a>`;
   const hlList = (ids) => '<ul class="hl">' + ids.map((i) => H[i]).filter(Boolean).map((h) =>
     `<li><a href="${esc(h.link)}" target="_blank" rel="noopener">${esc(h.title)}</a> <span class="src">${esc(h.source)}</span></li>`).join('') + '</ul>';
 
@@ -248,7 +248,8 @@ td:first-child b{white-space:nowrap}
 .sched dd{margin:2px 0 8px 0;font-size:14.5px}
 .star{color:var(--up);font-weight:700}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px;margin:8px 0}
-.cc{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.cc{display:block;color:inherit;text-decoration:none;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.cc:hover{border-color:var(--accent)}
 .cc-h{display:flex;justify-content:space-between;font-size:13.5px;gap:6px}
 .cc-n{font-size:12px;color:var(--sub);margin-top:2px}
 .spark{width:100%;height:44px;display:block;margin-top:4px}
