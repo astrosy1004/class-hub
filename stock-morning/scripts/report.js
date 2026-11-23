@@ -195,11 +195,13 @@ function renderFull(ctx) {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(title)}</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
 :root{--bg:#f3f4f7;--card:#fff;--text:#1d2230;--sub:#667085;--line:#e6e8ee;--accent:#3b5bdb;--soft:#eef2ff;--up:#e03131;--dn:#1c7ed6;--note:#fff4e6;--ma:#f08c00}
 [data-theme="dark"]{--bg:#12151c;--card:#1b1f29;--text:#e8eaf0;--sub:#9aa3b5;--line:#2c3240;--accent:#7c95ff;--soft:#252c45;--up:#ff6b6b;--dn:#4dabf7;--note:#3a2f1f;--ma:#ffa94d}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif;line-height:1.6;font-size:15px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif;line-height:1.6;font-size:15px}
 .wrap{max-width:820px;margin:0 auto;padding:0 16px}
 header.top{background:var(--card);border-bottom:1px solid var(--line);padding:20px 0 14px}
 .date{color:var(--sub);font-size:13px}
@@ -288,6 +290,27 @@ ul.fu li{margin:8px 0;font-size:14px;line-height:1.6}
 .study dd{margin:2px 0 0;font-size:14.5px}
 .study a{color:var(--accent);font-weight:700;text-decoration:none}
 footer{color:var(--sub);font-size:12px;padding:24px 0 36px;line-height:1.7}
+/* 가독성: Pretendard · 한글 단어 단위 줄바꿈 · 넉넉한 행간 */
+body{font-size:16px;line-height:1.75;letter-spacing:-.012em;word-break:keep-all;overflow-wrap:break-word;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+p,li,dd{text-wrap:pretty}
+h1{font-size:26px;line-height:1.35;letter-spacing:-.025em;font-weight:800}
+h2{font-size:21px;line-height:1.4;letter-spacing:-.02em;font-weight:800;margin-top:38px}
+h2 small{font-size:13.5px;line-height:1.6;letter-spacing:-.01em}
+h3{letter-spacing:-.015em}
+.lead{font-size:15.5px}
+.it p,.issue p,.trend,.sched dd{font-size:15.5px;line-height:1.8}
+.issue p{margin:6px 0}
+ul.hl li,ul.fu li{font-size:15px;line-height:1.7;margin:5px 0}
+table{font-size:14.5px}
+td{line-height:1.65}
+th,td{padding:10px 12px}
+.guide{font-size:14.5px;line-height:1.7}
+.chip{font-size:14px}
+.cc-n,.mkt{line-height:1.5}
+.num,.kpi b,.chip,.up,.dn,.flat,.cc-h span{font-variant-numeric:tabular-nums}
+.key ol li{font-size:17px;line-height:1.6}
+.wrap{padding:0 18px}
+@media (max-width:480px){h1{font-size:23px}h2{font-size:19px}body{font-size:15.5px}}
 @media print{.theme,nav.toc{display:none}body{background:#fff}}
 </style>
 </head>
