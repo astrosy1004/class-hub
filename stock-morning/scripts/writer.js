@@ -123,4 +123,4 @@ async function writeReport(ctx) {
 
 const validateDraft = (draft, ctx) => validate(draft, new Set(ctx.rows.map((r) => r.name)), new Set(ctx.headlines.map((h) => h.id)), !!ctx.previousReport);
 
-module.exports = { writeReport, validateDraft };
+module.exports = { writeReport, validateDraft, buildInput, SYSTEM };

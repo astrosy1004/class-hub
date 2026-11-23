@@ -6,13 +6,14 @@
 //   node stock-morning/scripts/daily.js --force            # 같은 거래일 보고서가 있어도 다시 생성
 //   node stock-morning/scripts/daily.js --date 2026-11-20  # 지난 거래일 리포트 다시 만들기
 //   node stock-morning/scripts/daily.js --draft 원고.json  # 저장해 둔 AI 원고로 다시 그리기
+//   node stock-morning/scripts/daily.js --dump-input 입력.json  # AI 에게 넘길 입력만 저장하고 끝내기 (API 없이 원고를 따로 쓸 때)
 const fs = require('fs');
 const path = require('path');
 const { SITE_URL, STUDY_START, GLOBALS, NEWS_TOPICS } = require('./config');
 const { STUDY_WEEKS, STUDY_PLAN } = require('../data/study');
 const { pool, kstDate, yahooHistory, naverIndex, news } = require('./lib');
 const { scanMarket, afterMarket, screens, movers } = require('./scan');
-const { writeReport } = require('./writer');
+const { writeReport, buildInput, SYSTEM } = require('./writer');
 const { renderFull } = require('./report');
 const { renderEmail } = require('./render');
 const { loadHistory, recurring, briefHistory } = require('./history');
@@ -25,6 +26,8 @@ const DRY = flag('--dry');
 const FORCE = flag('--force');
 const DATE = opt('--date');
 const DRAFT = opt('--draft');
+const DUMP = opt('--dump-input');
+const HL_FILE = opt('--headlines'); // --dump-input 이 저장한 뉴스 스냅샷을 그대로 써서 헤드라인 번호를 고정한다
 
 const addDays = (d, n) => {
   const t = new Date(d + 'T00:00:00Z');
@@ -108,7 +111,7 @@ async function main() {
   const before1 = addDays(sendDate, 1);
   const from = Date.parse(date + 'T00:00:00+09:00') - 6 * 3600e3;
   const to = Date.parse(sendDate + 'T09:00:00+09:00');
-  const headlines = [];
+  let headlines = [];
   const seen = new Map();
   const add = (items, topic) => {
     const ids = [];
@@ -124,15 +127,16 @@ async function main() {
     }
     return ids;
   };
-  for (const [topic, q] of NEWS_TOPICS) {
+  if (!HL_FILE) for (const [topic, q] of NEWS_TOPICS) {
     add(await news(q, { after: after1, before: before1, limit: 12 }), topic);
   }
   // 크게 움직인 종목은 종목명으로 따로 검색해 등락 이유의 근거를 모은다.
   const notable = [...new Map([...mv.gainers.slice(0, 15), ...mv.losers.slice(0, 10), ...mv.topTv.slice(0, 12), ...after.slice(0, 8)].map((r) => [r.code, r])).values()];
-  const stockNews = {};
-  for (const r of notable) {
+  let stockNews = {};
+  if (!HL_FILE) for (const r of notable) {
     stockNews[r.code] = add(await news(`"${r.name}"`, { after: after1, before: before1, limit: 4 }), '종목');
   }
+  if (HL_FILE) ({ headlines, stockNews } = JSON.parse(fs.readFileSync(HL_FILE, 'utf8')).news);
   console.log(`헤드라인 ${headlines.length}건`);
 
   const idx = { kospi, kosdaq };
@@ -142,6 +146,12 @@ async function main() {
   ctx.recentReports = briefHistory(hist);
   ctx.previousReport = hist[0] || null;
   ctx.recurringBefore = recurring(hist, null, rows);
+
+  if (DUMP) {
+    fs.writeFileSync(DUMP, JSON.stringify({ system: SYSTEM, input: buildInput(ctx), news: { headlines, stockNews } }, null, 1));
+    console.log('AI 입력 저장:', DUMP);
+    return;
+  }
 
   let draft;
   if (DRAFT) draft = JSON.parse(fs.readFileSync(DRAFT, 'utf8'));
@@ -185,7 +195,7 @@ async function main() {
   output('skip', 'false');
   output('file', rel(outMail));
   output('attach', rel(fullFile));
-  output('subject', `☀️ [${date.slice(5).replace('-', '/')} 장 정리] ${headline} · 공부 ${ctx.study.lesson.day}일차`);
+  output('subject', `☀️ [${date.slice(5).replace('-', '/')} 장 정리] ${headline}`);
 }
 
 main().catch((e) => {

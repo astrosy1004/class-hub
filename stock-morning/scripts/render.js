@@ -77,16 +77,6 @@ function renderEmail({ date, sendDate, idx, globals, draft, study, siteUrl, full
     ${s.items.map((it) => `<div style="margin:8px 0 0">${it.stocks.map(stockLine).join('')}<div style="font-size:14.5px;line-height:1.6;color:${C.text};margin-top:3px">${esc(it.text)}${badge(it.confidence)}${refs(it.ids)}</div></div>`).join('')}
   `)).join('') : '';
 
-  const s = study.lesson;
-  const studyCard = card(`
-    <div style="font-size:13px;font-weight:700;color:${C.accent};margin:0 0 4px">📚 주식 공부 30일 전략 · ${study.round > 1 ? study.round + '회독 ' : ''}${s.day}일차 / 30</div>
-    <div style="font-size:13px;color:${C.sub};margin:0 0 8px">${esc(study.week.week)}주차 — ${esc(study.week.theme)}</div>
-    <div style="font-size:19px;font-weight:800;color:${C.text};margin:0 0 4px">${esc(s.title)}</div>
-    <div style="font-size:14px;color:${C.sub};margin:0 0 10px">목표: ${esc(s.goal)}</div>
-    <ul style="margin:0 0 12px;padding-left:18px;font-size:15px;line-height:1.7;color:${C.text}">${s.learn.map((l) => `<li>${esc(l)}</li>`).join('')}</ul>
-    <div style="background:${C.warn};border-radius:10px;padding:12px 14px;font-size:15px;line-height:1.6;color:${C.text}"><b>✍️ 오늘의 실습</b><br>${esc(s.practice)}</div>
-    <div style="margin:12px 0 0;font-size:14px"><a href="${esc(siteUrl)}#study" style="color:${C.accent};text-decoration:none;font-weight:700">30일 전체 계획 보기 →</a></div>
-  `, `border:2px solid ${C.accent}`);
 
   const title = hasAi ? draft.headline : '전일 시장 정리';
   return `<!doctype html>
@@ -104,7 +94,6 @@ function renderEmail({ date, sendDate, idx, globals, draft, study, siteUrl, full
   ${card(`${h2('📈 시장 한눈에')}<table role="presentation" width="100%" cellpadding="0" cellspacing="0">${indexRows}</table>${flow}${summary}`)}
   ${issues}
   ${followup}
-  ${studyCard}
   ${sectors ? `<tr><td style="padding:6px 16px 10px"><div style="font-size:18px;font-weight:800;color:${C.text}">🗂️ 섹터별 정리</div></td></tr>${sectors}` : ''}
   <tr><td style="padding:4px 16px 18px" align="center">${button(fullUrl, '전체 리포트에서 주도 종목·애프터마켓·주간 일정·차트 보기')}</td></tr>
   <tr><td style="padding:4px 20px 28px;font-size:12px;line-height:1.6;color:${C.sub}">
