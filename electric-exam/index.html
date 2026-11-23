@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>전기기사 필기 플래너</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE: 매일 여는 차분한 수험 도구. 오늘 할 일이 먼저, 설명은 짧게.
+   IDEA: 5심 전력 케이블 — 다섯 과목을 KEC 전선 식별색(L1 갈·L2 흑·L3 회·N 청·PE 녹황)으로.
+   PICTURE: 오늘부터 시험일까지 하루 한 칸씩 이어진 케이블 띠. 그날 공부할 과목 색 심선으로 채워지고 끝은 '시험' 단자.
+   COLOUR and TYPE: 흰 바탕·먹색 글자, N선 청색이 주조색, 안전 노랑은 '오늘' 표시에만. IBM Plex Sans KR.
+   LAYOUT: 상단 D-day와 케이블, 탭(오늘·계획·영상·노트·시험정보), 1120px 한 단, 600px 이하 세로 정렬. */
+:root{color-scheme:light dark;
+--bg:light-dark(#ffffff,#0e1114);--ink:light-dark(#15181b,#e7eaee);--mut:light-dark(#5b646e,#9ba4ae);
+--line:light-dark(#e1e5e9,#262c34);--soft:light-dark(#f3f5f7,#161a20);--card:light-dark(#ffffff,#12161b);
+--blue:light-dark(#1d55c8,#79a0ff);--bsoft:light-dark(#e9f0fe,#17233d);--yel:#f6c517;
+--ok:light-dark(#18783c,#5cc483);--bad:light-dark(#c2382a,#ff8274);
+--c-em:light-dark(#8b5a2b,#c58d58);--c-pw:light-dark(#1b1d20,#d3d8de);--c-mc:light-dark(#8e959d,#717a84);
+--c-cc:light-dark(#1d55c8,#79a0ff);--c-kec:repeating-linear-gradient(-45deg,#2e9a43 0 5px,#f3c51a 5px 10px)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+[hidden]{display:none!important}
+html{scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "IBM Plex Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;overflow-x:clip;word-break:keep-all;overflow-wrap:anywhere}
+a{color:var(--blue)}
+.wrap{max-width:1120px;margin:0 auto;padding:0 max(4vw,16px)}
+.top{padding:26px 0 14px}
+.hero{display:flex;gap:22px 28px;align-items:flex-end;flex-wrap:wrap;margin-bottom:22px}
+.dday{font-size:clamp(52px,9vw,88px);font-weight:700;line-height:.95;letter-spacing:-.03em;color:var(--blue);font-variant-numeric:tabular-nums}
+.ddsub{font-weight:500;margin-top:6px}
+.htxt{flex:1 1 320px}
+h1{font-size:clamp(24px,3.2vw,34px);line-height:1.1;margin:0 0 6px;text-wrap:balance}
+h2{font-size:22px;line-height:1.25;margin:0 0 12px}
+h3{font-size:17px;margin:22px 0 8px}
+p{margin:0 0 10px}
+.mut{color:var(--mut)}
+.sync{font-size:13px;color:var(--mut);margin:4px 0 0}
+.sync b{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--mut);margin-right:6px}
+.sync.ok b{background:var(--ok)}.sync.err b{background:var(--bad)}
+/* cable */
+.cbl{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:4px}
+.phrow,.mrow{position:relative;height:28px}
+.mrow{height:22px}
+.ph{position:absolute;top:0;height:24px;border-left:2px solid var(--ink);border-bottom:2px solid var(--ink);padding:0 6px;font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:18px}
+.mo{position:absolute;top:4px;font-size:13px;color:var(--mut);white-space:nowrap;border-left:1px solid var(--mut);padding-left:4px;line-height:14px}
+.track{position:relative;display:flex;gap:1px;height:60px;padding:5px;background:var(--soft);border-radius:14px 0 0 14px;box-shadow:inset 0 0 0 1px var(--line)}
+.c{flex:1 1 0;display:flex;flex-direction:column;gap:1px;border-radius:2px;overflow:hidden;cursor:pointer}
+.c i{flex:1;display:block}
+.c.fut,.c.miss{opacity:.3}.c.miss{box-shadow:inset 0 -4px 0 var(--bad)}
+.c.rev{background:var(--line)}
+.c.now{opacity:1;outline:2px solid var(--yel);outline-offset:1px;z-index:1}
+.pin{position:absolute;top:-12px;transform:translateX(-50%);background:var(--yel);color:#1b1b1b;font-size:12px;font-weight:700;line-height:18px;padding:0 6px;border-radius:9px;white-space:nowrap;z-index:2;pointer-events:none}
+.term{display:grid;place-items:center;text-align:center;background:var(--ink);color:var(--bg);border-radius:0 14px 14px 0;padding:0 12px;font-size:13px;font-weight:700;line-height:1.2}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:6px;font-size:13px;color:var(--mut)}
+.legend>span{display:inline-flex;align-items:center;gap:6px}
+.sw{flex:none;display:inline-flex;flex-direction:column;gap:1px;width:14px;height:18px;border-radius:3px;overflow:hidden;vertical-align:middle}
+.sw i{flex:1}.sw.rev{background:var(--line)}
+/* tabs */
+.tabs{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg);z-index:5}
+@media(min-width:900px){.tabs{position:sticky;top:0}}
+.tabs .wrap{display:flex;gap:4px;overflow-x:auto}
+.tabs a{flex:none;padding:12px 14px;color:var(--mut);text-decoration:none;font-weight:500;border-bottom:3px solid transparent;min-height:44px}
+.tabs a[aria-current=page]{color:var(--ink);border-bottom-color:var(--blue)}
+main{padding:26px 0 60px}
+.view[hidden]{display:none}
+.card{border:1px solid var(--line);border-radius:14px;padding:20px;background:var(--card);margin-bottom:18px}
+.cols{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:18px;align-items:start}
+@media(max-width:860px){.cols{grid-template-columns:minmax(0,1fr)}}
+/* tasks */
+.tasks{list-style:none;margin:0;padding:0}
+.task{border-top:1px solid var(--line);padding:12px 0}
+.task:first-child{border-top:0}
+.task label{display:flex;gap:12px;align-items:flex-start;cursor:pointer}
+.task input{flex:none;width:22px;height:22px;margin:2px 0 0;accent-color:var(--blue)}
+.task .sw{margin-top:3px}
+.tt{display:flex;flex-direction:column}
+.tt b{font-weight:500}.tt em{font-style:normal;font-size:13px;color:var(--bad)}
+.tt small{font-size:13px;color:var(--mut)}
+.task.done .tt b{text-decoration:line-through;color:var(--mut)}
+.acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;align-items:center}
+.task .acts{padding-left:60px}
+button,.btn{font:inherit;font-size:15px;min-height:44px;padding:8px 16px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+button:hover,.btn:hover{border-color:var(--blue)}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,.c:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.pri{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:500}
+.mini{min-height:36px;padding:4px 12px;font-size:14px}
+.ghost{border-color:transparent;color:var(--mut)}
+.armed{border-color:var(--bad);color:var(--bad)}
+button:disabled{opacity:.5;cursor:not-allowed}
+.vp{margin:10px 0 0 60px;padding:12px 14px;background:var(--soft);border-radius:10px;font-size:14px}
+.vp[hidden]{display:none}
+.vp a{display:inline-block;margin:2px 12px 2px 0}
+.vp ul{margin:6px 0 0;padding-left:18px}
+.big{font-size:15px;color:var(--mut);margin:-6px 0 14px}
+.warn{background:light-dark(#fff6d6,#2a2410);border:1px solid light-dark(#f0d77a,#5a4b16);border-radius:10px;padding:10px 14px;font-size:14px}
+/* meters */
+.meter{display:grid;grid-template-columns:7.5em minmax(0,1fr) 4.2em;gap:10px;align-items:center;font-size:14px;margin:8px 0}
+.bar{height:12px;background:var(--soft);border-radius:6px;overflow:hidden;box-shadow:inset 0 0 0 1px var(--line)}
+.bar i{display:block;height:100%}
+.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+/* plan */
+.setf .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+label.f{display:flex;flex-direction:column;gap:4px;font-size:14px;font-weight:500}
+input,select,textarea{font:inherit;font-size:16px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);min-height:44px;width:100%}
+textarea{resize:vertical;line-height:1.5}
+fieldset{border:0;padding:0;margin:14px 0 0}
+legend{font-size:14px;font-weight:500;margin-bottom:6px;padding:0}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips label{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:6px 12px;min-height:40px;cursor:pointer;font-size:14px}
+.chips input{width:18px;height:18px;min-height:0;accent-color:var(--blue)}
+.chips label:has(input:checked){border-color:var(--blue);background:var(--bsoft)}
+.phases{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:18px}
+.phases div{border-left:4px solid var(--blue);padding:4px 12px}
+.phases b{display:block}.phases span{font-size:14px;color:var(--mut)}
+.wk h3{font-size:15px;color:var(--mut);font-weight:500;margin:26px 0 4px}
+.drow{display:grid;grid-template-columns:4.2em minmax(0,1fr);gap:12px;padding:10px 0;border-top:1px solid var(--line)}
+.drow.now{background:light-dark(#fffbe6,#221f10);box-shadow:-8px 0 0 light-dark(#fffbe6,#221f10),8px 0 0 light-dark(#fffbe6,#221f10)}
+.dt{font-variant-numeric:tabular-nums;line-height:1.2}.dt b{display:block;font-size:20px}.dt span{font-size:13px;color:var(--mut)}
+.drow .task{padding:6px 0;border:0}.drow .task .acts{display:none}
+.scf{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;align-items:end}
+.srow{display:grid;grid-template-columns:6.5em minmax(0,1fr) auto;gap:12px;align-items:center;border-top:1px solid var(--line);padding:10px 0;font-size:14px}
+.sbars{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.sbars div{font-size:12px;color:var(--mut)}
+.verdict{font-weight:700;white-space:nowrap}.verdict.ok{color:var(--ok)}.verdict.no{color:var(--bad)}
+/* videos */
+.filter{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.filter button[aria-pressed=true]{border-color:var(--blue);background:var(--bsoft)}
+.pick{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px 12px;padding:12px 0;border-top:1px solid var(--line)}
+.pick a{font-weight:500}.pick small{display:block;color:var(--mut);font-size:13px}
+.trow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 14px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.trow .links{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:14px}
+.blk{margin:22px 0 4px;font-size:15px;display:flex;gap:8px;align-items:center}
+/* notes */
+.gen .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:12px}
+.gen label.f{margin-bottom:12px}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.out{min-height:0}
+.out:not(:empty){border:1px solid var(--line);border-radius:14px;padding:6px 20px 16px;margin-top:16px}
+.md h3{font-size:18px;margin:18px 0 6px}.md h4{font-size:16px;margin:14px 0 6px}
+.md ul,.md ol{padding-left:22px;margin:6px 0 10px}
+.md table{border-collapse:collapse;width:100%;font-size:14px;margin:8px 0}
+.md th,.md td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.md th{background:var(--soft)}
+.md code{background:var(--soft);padding:1px 5px;border-radius:5px;font-size:.92em}
+.md blockquote{margin:8px 0;padding:6px 12px;border-left:3px solid var(--blue);background:var(--soft)}
+.md hr{border:0;border-top:1px solid var(--line);margin:14px 0}
+.nlist details{border-top:1px solid var(--line);padding:10px 0}
+.nlist summary{cursor:pointer;display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;min-height:36px}
+.nlist summary span{font-size:13px;color:var(--mut)}
+.fc{display:grid;grid-template-columns:minmax(0,1fr);gap:2px;padding:10px 0;border-top:1px solid var(--line);font-size:15px}
+.fc b{font-weight:500}.fc code{display:block;font-family:inherit;font-weight:500;color:var(--blue)}
+.fc small{display:block;color:var(--mut);font-size:13px}
+details.sub{border-top:1px solid var(--line);padding:6px 0}
+details.sub>summary{cursor:pointer;font-weight:500;min-height:44px;display:flex;align-items:center;gap:10px}
+/* info */
+table.info{border-collapse:collapse;width:100%;font-size:15px}
+table.info th,table.info td{border-bottom:1px solid var(--line);padding:10px 8px;text-align:left;vertical-align:top}
+table.info th{width:9em;font-weight:500;color:var(--mut)}
+.scroll{overflow-x:auto}
+@media(max-width:600px){
+ .hero{gap:10px}.track{height:52px}.ph{font-size:12px}
+ .task .acts,.vp{padding-left:0;margin-left:0}
+ .srow{grid-template-columns:minmax(0,1fr) auto}.srow>div{grid-column:1/-1;grid-row:2}
+ .meter{grid-template-columns:6em minmax(0,1fr) 3.8em}
+ table.info th{width:6.5em}
+}
+@media(prefers-reduced-motion:no-preference){.c.now{animation:glow 2.4s ease-in-out infinite}@keyframes glow{50%{outline-color:transparent}}}
+</style>
+</head>
+<body>
+<header class="top">
+ <div class="wrap">
+  <div class="hero">
+   <div><div class="dday" id="dday">D-</div><div class="ddsub" id="ddsub"></div></div>
+   <div class="htxt">
+    <h1>전기기사 필기 합격 플래너</h1>
+    <p class="mut" id="hline">계획을 만드는 중…</p>
+    <p class="sync" id="sync"><b></b><span>이 브라우저에 저장 중</span></p>
+   </div>
+  </div>
+  <div id="cable"></div>
+  <div class="legend" id="legend"></div>
+ </div>
+</header>
+<nav class="tabs" aria-label="메뉴"><div class="wrap">
+ <a href="#today">오늘</a><a href="#plan">학습 계획</a><a href="#videos">영상 추천</a><a href="#notes">요약 노트</a><a href="#info">시험 정보</a>
+</div></nav>
+<main class="wrap">
+
+<section class="view" id="v-today"></section>
+
+<section class="view" id="v-plan" hidden>
+ <form id="setf" class="card setf">
+  <h2>계획 설정</h2>
+  <div class="grid">
+   <label class="f">시험일<input type="date" id="s-exam" required></label>
+   <label class="f">공부 시작일<input type="date" id="s-start" required></label>
+   <label class="f">하루 공부 시간<select id="s-hours"></select></label>
+   <label class="f">지금 수준<select id="s-level"><option value="non">비전공 · 처음 준비</option><option value="major">전공자 · 재도전</option></select></label>
+  </div>
+  <fieldset><legend>주간 복습일 (새 진도 없이 그 주 복습만)</legend><div class="chips" id="s-rev"></div></fieldset>
+  <div class="acts">
+   <button class="pri" type="submit">이 설정으로 계획 만들기</button>
+   <button type="button" data-act="replan">남은 과제로 오늘부터 다시 짜기</button>
+   <button type="button" class="ghost" data-act="reset">진도·점수 기록 지우기</button>
+  </div>
+  <p class="mut" id="s-msg" style="margin-top:10px;font-size:14px"></p>
+ </form>
+ <div id="planbody"></div>
+ <section class="card" id="scorecard">
+  <h2>모의고사 · 기출 점수 기록</h2>
+  <p class="mut">과목별로 맞힌 문항 수(20문항 중)를 넣으면 과락과 평균을 바로 판정해요. 과목당 8문항(40점) 이상, 전체 60문항(평균 60점) 이상이 합격선이에요.</p>
+  <form id="scf" class="scf">
+   <label class="f">날짜<input type="date" id="sc-date" required></label>
+  </form>
+  <div id="sclist"></div>
+ </section>
+</section>
+
+<section class="view" id="v-videos" hidden>
+ <h2>영상 추천</h2>
+ <p class="big">단원마다 YouTube 검색 바로가기(개념 강의 · 기출 풀이 · 최신순)를 달아 두었어요. 보고 괜찮았던 영상은 ‘내 영상’에 저장해 두면 오늘 할 일에서 바로 열려요.</p>
+ <div class="cols">
+  <div>
+   <div class="filter" id="vfilter"></div>
+   <div id="vtopics"></div>
+  </div>
+  <div>
+   <div class="card">
+    <h3 style="margin-top:0">검색으로 확인한 무료 공개 강의</h3>
+    <p class="mut" style="font-size:14px">2026년 11월에 공개 상태를 확인한 영상이에요. KEC(전기설비기술기준)는 2021년 이후 영상만 보세요 — 그 전 ‘판단기준’ 강의는 내용이 달라요.</p>
+    <div id="vpicks"></div>
+   </div>
+   <form class="card" id="mvf">
+    <h3 style="margin-top:0">내 영상 저장</h3>
+    <label class="f">영상 주소<input id="mv-url" type="url" placeholder="https://www.youtube.com/watch?v=…" required></label>
+    <label class="f" style="margin-top:10px">제목 (선택)<input id="mv-title" placeholder="예: 3상 교류 Y-Δ 변환 정리"></label>
+    <label class="f" style="margin-top:10px">단원<select id="mv-topic"></select></label>
+    <div class="acts"><button class="pri" type="submit">저장</button><span class="mut" id="mv-msg" style="font-size:14px"></span></div>
+    <div id="mvlist"></div>
+   </form>
+  </div>
+ </div>
+</section>
+
+<section class="view" id="v-notes" hidden>
+ <div class="cols">
+  <div>
+   <div class="card gen">
+    <h2>AI 요약 노트 만들기</h2>
+    <p class="mut" style="font-size:15px">단원을 고르면 시험용 요약(핵심 개념 · 필수 공식 · 기출 함정 · 셀프 체크)을 써 줘요. 강의 필기나 영상 자막, 틀린 문제를 붙여넣으면 그 내용을 중심으로 정리해요.</p>
+    <div class="row">
+     <label class="f">과목<select id="g-subj"></select></label>
+     <label class="f">단원<select id="g-topic"></select></label>
+    </div>
+    <label class="f">주제 직접 입력 (선택)<input id="g-custom" placeholder="예: 1선 지락전류를 대칭좌표법으로 구하기"></label>
+    <label class="f">내 자료 붙여넣기 (선택)<textarea id="g-src" rows="5" placeholder="강의 필기, 영상 자막, 교재 문단, 틀린 문제와 해설…"></textarea></label>
+    <fieldset><legend>형태</legend><div class="chips seg" id="g-style">
+     <label><input type="radio" name="gs" value="brief" checked>핵심 요약</label>
+     <label><input type="radio" name="gs" value="detail">자세한 정리</label>
+     <label><input type="radio" name="gs" value="cards">암기 카드</label>
+    </div></fieldset>
+    <div class="acts" style="margin-top:14px">
+     <button class="pri" id="g-go" type="button">요약 노트 만들기</button>
+     <button id="g-stop" type="button" hidden>중지</button>
+     <span class="mut" id="g-msg" style="font-size:14px"></span>
+    </div>
+    <div class="warn" id="g-alt" style="margin-top:14px" hidden>이 주소에서는 AI가 바로 쓰지 못해요. <b>프롬프트 복사</b> → Claude 채팅에 붙여넣기 → 받은 답을 아래 ‘직접 노트 쓰기’에 붙여 저장하세요. <a href="https://claude.ai/artifact/VoEW8TPXNx5eHi7QJoGXPn" target="_blank" rel="noopener">Claude 버전</a>에서 열면 바로 만들어져요.
+     <div class="acts"><button type="button" data-act="copyprompt">프롬프트 복사</button><span id="cp-msg" style="font-size:14px"></span></div></div>
+    <article id="g-out" class="md out" aria-live="polite"></article>
+   </div>
+   <div class="card">
+    <h2>내 노트</h2>
+    <input id="n-q" type="search" placeholder="노트 검색 (예: 단락비, 접지)" aria-label="노트 검색">
+    <div class="nlist" id="nlist"></div>
+    <details class="sub" style="margin-top:12px"><summary>직접 노트 쓰기</summary>
+     <label class="f">제목<input id="m-title" placeholder="예: 변압기 병렬운전 조건 암기법"></label>
+     <label class="f" style="margin-top:10px">내용<textarea id="m-body" rows="6" placeholder="마크다운(- 목록, **굵게**, 표)도 쓸 수 있어요."></textarea></label>
+     <div class="acts"><button type="button" class="pri" data-act="savemanual">노트 저장</button><span class="mut" id="m-msg" style="font-size:14px"></span></div>
+    </details>
+   </div>
+  </div>
+  <div class="card">
+   <h2>기본 제공 핵심 공식 카드</h2>
+   <p class="mut" style="font-size:14px">AI 없이도 볼 수 있는 과목별 최빈출 공식이에요. KEC 수치는 개정될 수 있으니 시험일 기준 최신 고시본·교재로 한 번 더 확인하세요.</p>
+   <div id="fcards"></div>
+  </div>
+ </div>
+</section>
+
+<section class="view" id="v-info" hidden>
+ <div class="cols">
+  <div>
+   <div class="card">
+    <h2>전기기사 필기 한눈에</h2>
+    <div class="scroll"><table class="info">
+     <tr><th>과목</th><td>전기자기학 · 전력공학 · 전기기기 · 회로이론 및 제어공학 · 전기설비기술기준 (5과목)</td></tr>
+     <tr><th>문항 · 시간</th><td>과목당 20문항, 총 100문항 · 4지 택일 · CBT · 과목당 30분 (총 150분)</td></tr>
+     <tr><th>합격 기준</th><td>과목마다 40점(8문항) 이상 <b>그리고</b> 전 과목 평균 60점(총 60문항) 이상. 한 과목이라도 7문항 이하면 평균과 관계없이 불합격이에요.</td></tr>
+     <tr><th>출제기준</th><td>2027년 1월 1일부터 새 출제기준(2027.1.1~2029.12.31)이 적용돼요. 2월 시험이 첫 적용 회차이니, 교재가 이 기준을 반영했는지 확인하세요.</td></tr>
+     <tr><th>KEC</th><td>전기설비기술기준과 한국전기설비규정은 시험일 기준 최근 고시된 내용으로 출제돼요. 오래된 수험서의 수치를 그대로 외우지 마세요.</td></tr>
+    </table></div>
+   </div>
+   <div class="card">
+    <h2>2027년 시험 일정 확인</h2>
+    <p>2026년 11월 23일 고용노동부가 <b>2027년도 국가기술자격 검정시행계획</b>(공고 제2026-518호)을 올렸어요. 회차별 날짜는 첨부 파일에 있어 이 앱을 만들 때는 확인하지 못했어요.</p>
+    <p>참고로 2026년 제1회 기사 필기는 원서접수 1월 12~15일, CBT 필기시험 1월 30일~3월 3일이었어요. 2월 28일 응시가 가능한지, 그날 시험장이 열리는지 공고와 큐넷 접수 화면에서 꼭 확인하세요.</p>
+    <p class="warn">2027년 2월 28일은 <b>일요일</b>이에요. CBT 시험장마다 운영 요일이 다르니 접수할 때 날짜·시험장을 골라 보고, 원하는 날이 없으면 위 ‘학습 계획’에서 시험일만 바꾸면 계획이 새로 짜여요.</p>
+    <div class="acts">
+     <a class="btn" href="https://www.moel.go.kr/news/notice/noticeView.do?bbs_seq=20261100752" target="_blank" rel="noopener">2027 검정시행계획 공고</a>
+     <a class="btn" href="https://www.q-net.or.kr" target="_blank" rel="noopener">큐넷 원서접수</a>
+    </div>
+   </div>
+  </div>
+  <div class="card">
+   <h2>이 계획이 짜인 방식</h2>
+   <p><b>1단계 · 이론 1회독.</b> 회로이론 → 전기자기학 → 전기기기 → 전력공학 → 제어공학 → KEC 순서예요. 회로이론이 다른 계산 과목의 바탕이고, KEC는 휘발성이 커서 시험에 가까울수록 유리해요.</p>
+   <p><b>2단계 · 기출 회독.</b> 과목별 기출로 유형을 익힌 뒤, 전과목 100문항 세트를 150분 타이머로 풀어요. 4세트마다 오답 노트를 정리해요.</p>
+   <p><b>3단계 · 실전.</b> CBT처럼 모의고사를 보고 점수를 기록해요. 이틀 전엔 KEC 수치·공식 카드 총정리, 전날엔 가볍게 회독하고 준비물을 챙겨요.</p>
+   <p><b>복습일.</b> 매주 고른 요일엔 새 진도 없이 그 주 오답과 노트만 봐요. 밀린 과제는 ‘오늘’ 화면에 모이고, ‘남은 과제로 오늘부터 다시 짜기’로 언제든 재배치할 수 있어요.</p>
+   <p class="mut" style="font-size:14px">진도와 노트는 Claude에서 열면 내 계정에, 그 밖에서는 이 브라우저에 저장돼요.</p>
+  </div>
+ </div>
+</section>
+</main>
+
+<script>
+{
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad=n=>String(n).padStart(2,'0');
+const todayStr=()=>{const d=new Date();return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`};
+const toUTC=s=>{const [y,m,d]=s.split('-').map(Number);return Date.UTC(y,m-1,d)};
+const fromUTC=t=>{const d=new Date(t);return `${d.getUTCFullYear()}-${pad(d.getUTCMonth()+1)}-${pad(d.getUTCDate())}`};
+const addDays=(s,n)=>fromUTC(toUTC(s)+n*864e5);
+const diffDays=(a,b)=>Math.round((toUTC(b)-toUTC(a))/864e5);
+const dow=s=>new Date(toUTC(s)).getUTCDay();
+const WD='일월화수목금토';
+const md2=s=>{const [,m,d]=s.split('-').map(Number);return `${m}월 ${d}일`};
+const fmt=s=>`${md2(s)} (${WD[dow(s)]})`;
+const hm=m=>{const h=Math.floor(m/60),r=m%60;return h?`${h}시간${r?` ${r}분`:''}`:`${r}분`};
+const isDate=s=>/^\d{4}-\d{2}-\d{2}$/.test(s||'');
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+
+/* ---------- 과목·단원 ---------- */
+const SUBJ={em:{name:'전기자기학',short:'자기학',wire:'L1 갈색'},pw:{name:'전력공학',short:'전력',wire:'L2 흑색'},mc:{name:'전기기기',short:'기기',wire:'L3 회색'},cc:{name:'회로이론 및 제어공학',short:'회로·제어',wire:'N 청색'},kec:{name:'전기설비기술기준',short:'KEC',wire:'PE 녹황'}};
+const SORDER=['em','pw','mc','cc','kec'];
+const BLOCKS=[
+ {key:'ci',subj:'cc',label:'회로이론',topics:[['직류회로와 기본 법칙',1],['정현파 교류의 표현',1],['기본 교류회로와 공진',2],['교류 전력과 역률',1],['상호유도회로와 브리지',1],['선형회로망 정리 (중첩·테브난·노튼·밀만)',1],['3상 교류',2],['대칭좌표법',1],['비정현파 교류',1],['2단자망',1],['4단자망',1],['분포정수회로',1],['라플라스 변환',1],['과도현상',1]]},
+ {key:'em',subj:'em',label:'전기자기학',topics:[['벡터 해석',1],['진공 중의 정전계',2],['도체계와 정전용량',1],['유전체',2],['전기영상법',1],['전류',1],['진공 중의 정자계',1],['전류의 자기현상 (비오-사바르·앙페르)',2],['자성체와 자기회로',2],['전자유도',1],['인덕턴스',1],['전자계 (맥스웰 방정식·전자파)',2]]},
+ {key:'mc',subj:'mc',label:'전기기기',topics:[['직류기 원리와 구조',2],['직류기 특성과 운전',2],['동기발전기',2],['동기전동기',1],['변압기 원리와 등가회로',2],['변압기 결선·병렬운전·시험',2],['유도전동기 원리와 특성',2],['유도전동기 기동과 속도제어',1],['전력변환 (반도체 소자·정류회로)',2],['특수 전동기와 단상 유도전동기',1]]},
+ {key:'pw',subj:'pw',label:'전력공학',topics:[['전선로 (전선·애자·지지물·이도)',1],['선로정수와 코로나',1],['송전 특성과 전력원선도',2],['조상설비와 역률 개선',1],['고장 계산 (%임피던스·대칭좌표)',2],['안정도',1],['중성점 접지방식과 유도장해',1],['이상전압과 방호',1],['보호계전기와 차단기',1],['배전 방식과 배전선로 계산',2],['수력발전',1],['화력발전',1],['원자력발전',1]]},
+ {key:'ct',subj:'cc',label:'제어공학',topics:[['자동제어계 개요와 전달함수',1],['블록선도와 신호흐름선도',1],['시간응답과 정상편차',2],['주파수응답과 보드선도',1],['안정도 판별 (루스·나이퀴스트)',2],['근궤적',1],['상태방정식과 z변환',1],['시퀀스 제어와 논리회로',1]]},
+ {key:'kc',subj:'kec',label:'KEC',topics:[['공통사항 (용어·전압 구분·전선·절연)',2],['접지시스템과 피뢰시스템',2],['저압 전기설비 (계통접지·감전·과전류 보호)',2],['저압 배선·조명·특수장소',1],['고압·특고압 설비와 전선로',2],['전기철도설비',1],['분산형전원설비 (태양광·ESS 등)',1],['전기설비기술기준 본문',1]]}
+];
+const TOPICS=[];BLOCKS.forEach(b=>b.topics.forEach(([name,parts],i)=>TOPICS.push({id:b.key+(i+1),block:b.key,blabel:b.label,subj:b.subj,name,parts})));
+const TOP=Object.fromEntries(TOPICS.map(t=>[t.id,t]));
+const UNITS=[];TOPICS.forEach(t=>{for(let p=1;p<=t.parts;p++)UNITS.push({id:`t:${t.id}:${p}`,type:'t',subj:t.subj,topic:t.id,title:`${t.blabel} · ${t.name}${t.parts>1?` (${p}/${t.parts})`:''}`,min:70})});
+const QN={cc:3,em:3,mc:3,pw:2,kec:2},QORDER=['cc','em','mc','pw','kec'];
+const QTASKS=[];QORDER.forEach(s=>{for(let i=1;i<=QN[s];i++)QTASKS.push({id:`q:${s}:${i}`,type:'q',subj:s,title:`${SUBJ[s].name} 과목별 기출 (${i}/${QN[s]})`,min:90})});
+const DETAIL={t:'개념 강의 → 교재 단원 정리 → 예제 5~10문제',q:'해당 분량 풀이 → 채점 → 틀린 문제 표시',s:'100문항 · 150분 타이머 → 채점 → 아래 점수 기록',w:'틀린 문제의 개념을 요약 노트로 옮기기',m:'실전처럼 150분 → 과락(8문항)·평균(60문항) 확인 → 점수 기록',r:'이번 주 틀린 문제 다시 풀기 · 요약 노트 회독',x:'앞 단원 예제 다시 풀기 · 요약 노트 보강'};
+
+const PICKS=[
+ {subj:'cc',title:'60점을 넘기 위해 반드시 알아야 하는 회로이론 개념들 (1편)',by:'다산에듀 · 권동성',url:'https://www.youtube.com/watch?v=14DKuxyAVxM',note:'회로이론을 처음 잡을 때'},
+ {subj:'cc',title:'반복해서 듣기만 하세요. 회로이론 끝납니다',by:'전기는빠지직 (송건웅)',url:'https://www.youtube.com/watch?v=aw8fBq6DBcY',note:'최다 빈출 단답 — 이동 중 반복 청취'},
+ {subj:'cc',title:'[22-25] 회로이론 (최종인.ver)',by:'YouTube 재생목록',url:'https://www.youtube.com/playlist?list=PLEQomsX2Orc31yo-_b5a-nIa0B9waTK9j',note:'단원별 이론 강의 묶음'},
+ {subj:'em',title:'전기(산업)기사 필기 최다빈출 30선 [전기자기학]',by:'YouTube',url:'https://www.youtube.com/watch?v=H2cr9GM1_TQ',note:'자기학 1회독 뒤 빈출 유형 점검'},
+ {subj:'all',title:'전기기사 전기왕 정원장',by:'YouTube 채널 · 검색',url:'https://www.youtube.com/results?search_query='+encodeURIComponent('전기기사 전기왕 정원장'),note:'수험 정보와 필기 문제풀이 무료강의 안내'}
+];
+
+const CARDS={
+em:[['쿨롱의 법칙','F = Q₁Q₂ / (4πε₀r²) [N]','1/(4πε₀) ≈ 9×10⁹, ε₀ ≈ 8.855×10⁻¹² F/m'],['점전하의 전계·전위','E = Q/(4πε₀r²) [V/m],  V = Q/(4πε₀r) [V]','E = −grad V'],['가우스 법칙','∮E·dS = Q/ε₀,  div D = ρ','무한 선전하 E = λ/(2πε₀r), 무한 평면 E = σ/(2ε₀)'],['정전용량·에너지','평행판 C = εS/d,  고립 도체구 C = 4πεa,  W = ½CV² = Q²/(2C)','유전체를 채우면 C는 εᵣ배'],['전기영상법','접지 무한평면에서 d 떨어진 Q → F = Q²/(16πε₀d²) [N]','영상전하 −Q가 평면 반대편 d 위치'],['유전체 경계조건','tanθ₁ / tanθ₂ = ε₁ / ε₂','전계 접선성분·전속밀도 법선성분이 연속'],['자계의 세기','무한 직선 H = I/(2πr),  원형 코일 중심 H = NI/(2a),  무한장 솔레노이드 내부 H = nI','n: 단위 길이당 권수, 외부 H = 0'],['자기회로','F = NI = φR_m,  R_m = l/(μS)','전기회로 옴의 법칙과 같은 꼴'],['전자유도·인덕턴스','e = −N dφ/dt,  L = Nφ/I,  W = ½LI²,  M = k√(L₁L₂)','렌츠: 자속 변화를 방해하는 방향'],['맥스웰·전자파','rot H = J + ∂D/∂t,  rot E = −∂B/∂t,  η₀ = √(μ₀/ε₀) ≈ 377 Ω','속도 v = 1/√(με) = c/√(εᵣμᵣ)']],
+pw:[['전압강하','e = I(R cosθ + X sinθ)','단상 2선 ×2, 3상 ×√3'],['전력손실','P_l = 3I²R = P²R / (V² cos²θ)','전압 제곱에 반비례 → 승압의 효과'],['이도와 실제 길이','D = WS²/(8T),  L = S + 8D²/(3S)','W 전선 하중, S 경간, T 수평장력'],['%임피던스와 단락','%Z = PZ/(10V²) [P kVA, V kV],  I_s = (100/%Z)·I_n,  P_s = (100/%Z)·P_n','기준용량을 맞춘 뒤 합성'],['1선 지락전류','I_g = 3I₀ = 3E_a / (Z₀ + Z₁ + Z₂)','대칭좌표: 영상·정상·역상'],['송전전력','P = (V_sV_r / X) sinδ','δ = 90°에서 정태안정 극한전력'],['역률 개선 콘덴서','Q_c = P(tanθ₁ − tanθ₂)','θ₁ 개선 전, θ₂ 개선 후'],['페란티 현상','무부하 때 수전단 전압 > 송전단 전압','원인: 선로 정전용량(진상전류), 대책: 분로 리액터'],['중성점 접지 비교','직접접지: 지락전류 大·이상전압 低·계전기 동작 확실 / 소호리액터: 병렬공진으로 지락전류 최소','비접지: 1선 지락 시 건전상 전압 √3배'],['수력 출력','P = 9.8QHη [kW]','Q 유량 m³/s, H 유효낙차 m']],
+mc:[['직류기 유기기전력','E = pZφN / (60a) [V]','중권 a = p, 파권 a = 2'],['직류전동기 토크·속도','T = pZφI_a/(2πa) [N·m],  N = K(V − I_aR_a)/φ','T = P/ω = 60P/(2πN)'],['동기속도·슬립','N_s = 120f/p [rpm],  s = (N_s − N)/N_s','유도전동기 운전 시 0 < s < 1'],['유도전동기 전력 분배','P₂ : P_c2 : P_o = 1 : s : (1 − s)','2차 효율 η₂ = 1 − s'],['비례추이','r₂/s 가 같으면 토크도 같음','2차 저항↑ → 최대토크 그대로, 기동토크↑'],['변압기 권수비','a = N₁/N₂ = V₁/V₂ = I₂/I₁','2차→1차 환산 Z₁ = a²Z₂'],['전압변동률','ε ≈ p cosθ + q sinθ [%]','p %저항강하, q %리액턴스강하 (진상이면 −)'],['최대 효율','철손 = 동손 → m = √(P_i/P_c)','m: 최대 효율이 되는 부하율'],['단락비','K_s = 1 / %Z_s(p.u.)','단락비 大 = 철기계: 전압변동률↓, 안정도↑, 효율↓'],['정류 평균전압','단상반파 0.45E · 단상전파 0.9E · 3상반파 1.17E · 3상전파 1.35E','E는 교류 실효값'],['변압기 병렬운전','극성·권수비·%임피던스·저항/리액턴스 비가 같을 것','3상은 상회전 방향과 각변위도 같을 것']],
+cc:[['정현파 값','실효값 I = I_m/√2,  평균값 I_av = 2I_m/π','파고율 √2, 파형률 약 1.11'],['임피던스','Z = R + j(X_L − X_C),  X_L = ωL,  X_C = 1/(ωC)','ω = 2πf'],['공진','f₀ = 1 / (2π√(LC))','직렬공진 선택도 Q = (1/R)√(L/C)'],['교류 전력','P = VI cosθ,  Q = VI sinθ,  S = VI','S² = P² + Q²'],['3상 결선','Y: V_l = √3V_p, I_l = I_p · Δ: V_l = V_p, I_l = √3I_p','P = √3V_lI_l cosθ, Δ→Y 임피던스는 1/3'],['2전력계법','P = W₁ + W₂,  Q = √3(W₁ − W₂)','역률 = P / √(P² + Q²)'],['시정수','RL: τ = L/R,  RC: τ = RC','τ에서 최종값의 약 63.2%'],['라플라스 변환','u(t)→1/s,  t→1/s²,  e^(−at)→1/(s+a),  sin ωt→ω/(s²+ω²)','최종값 정리: f(∞) = lim(s→0) sF(s)'],['4단자·분포정수','AD − BC = 1,  Z₀ = √(Z/Y) (무손실 √(L/C))','대칭 회로면 A = D'],['폐루프 전달함수','G / (1 + GH)','신호흐름선도는 메이슨 공식'],['2차계·정상편차','ζ<1 부족제동, ζ=1 임계, ζ>1 과제동 · e_ss = 1/(1+K_p), 1/K_v, 1/K_a','0형·1형·2형 계에 따라 남는 편차가 다름'],['루스 판별','1열 부호 변화 횟수 = 우반면 극점 수','계수가 모두 같은 부호, 빠진 항이 없어야 안정 가능']],
+kec:[['전압의 구분','저압: AC 1 kV 이하·DC 1.5 kV 이하 / 고압: 그 초과 ~ 7 kV 이하 / 특고압: 7 kV 초과','KEC 111.1'],['전선 식별 색상','L1 갈색 · L2 흑색 · L3 회색 · N 청색 · 보호도체 녹색-노란색','이 앱의 과목 색이 바로 이것'],['계통접지 방식','TN(TN-S · TN-C · TN-C-S) · TT · IT','첫 글자 전원측, 둘째 글자 노출도전부의 접지 상태'],['접지시스템','구분: 계통접지 · 보호접지 · 피뢰시스템접지 / 시설: 단독 · 공통 · 통합접지','접지극은 지표면 아래 0.75 m 이상'],['저압 전로 절연저항','SELV·PELV 0.5 MΩ (DC 250 V) / FELV·500 V 이하 1.0 MΩ (DC 500 V) / 500 V 초과 1.0 MΩ (DC 1000 V)','전기설비기술기준 제52조'],['절연내력 시험','7 kV 이하 1.5배(최저 500 V) / 7 kV 초과 60 kV 이하 1.25배(최저 10.5 kV), 10분','중성점 다중접지 25 kV 이하 0.92배 등 나머지는 표로 정리'],['지중전선로 매설 깊이','차량 등 중량물의 압력을 받을 우려가 있는 곳 1.0 m 이상, 그 밖 0.6 m 이상','직접매설식·관로식'],['가공전선 안전율','경동선·내열 동합금선 2.2 이상, 그 밖 2.5 이상','지지물 기초 안전율 2 이상'],['특고압 가공전선 높이 (160 kV 초과)','6 m + 단수 × 0.12 m,  단수 = (사용전압[kV] − 160) ÷ 10, 소수점 올림','사람이 쉽게 들어갈 수 없는 산지는 5 m 기준']]
+};
+
+/* ---------- 상태·저장 ---------- */
+const LS='eeplan.v1';
+const defState=()=>({v:1,settings:{exam:'2027-02-28',start:todayStr(),hours:3,level:'non',review:[0],replanFrom:null,replanAt:0},done:{},videos:[],scores:[]});
+let aiChecked=false;const ART='https://claude.ai/artifact/VoEW8TPXNx5eHi7QJoGXPn';
+let S=defState(),NOTES=[],PLAN=null,mode='local',stRef=null,notesCol=null,SAMPLE=null,genCtrl=null,vFilter=null;
+const clone=o=>JSON.parse(JSON.stringify(o));
+const mergeState=o=>{const d=defState();o=o||{};return{...d,...o,settings:{...d.settings,...(o.settings||{})},done:{...(o.done||{})},videos:[...(o.videos||[])],scores:[...(o.scores||[])]}};
+function loadLocal(){try{const r=localStorage.getItem(LS);if(r){const o=JSON.parse(r);S=mergeState(o.S);NOTES=Array.isArray(o.N)?o.N:[];return true}}catch(e){}return false}
+function saveLocal(){try{localStorage.setItem(LS,JSON.stringify({S,N:NOTES}))}catch(e){}}
+function setSync(k){const el=$('#sync');const t={local:'이 브라우저에 저장 중',db:'내 계정에 저장됨',slow:'저장소 연결을 기다리는 중…',err:'계정 저장 실패 — 이 브라우저에 임시 저장 중'}[k];el.className='sync'+(k==='db'?' ok':k==='err'?' err':'');el.querySelector('span').textContent=t}
+let sTimer=null,saving=false,again=false;
+function save(){saveLocal();if(mode!=='db')return;clearTimeout(sTimer);sTimer=setTimeout(flush,700)}
+async function flush(){if(saving){again=true;return}saving=true;try{await stRef.set(clone(S));setSync('db')}catch(e){dbFail(e)}saving=false;if(again){again=false;flush()}}
+function dbFail(e){if(e&&e.code==='invalid_argument'){mode='local';setSync('local')}else setSync('err')}
+async function connect(){
+ const C=window.claude;if(!C||typeof C.use!=='function'){aiChecked=true;aiState();setSync('local');return}
+ C.use('sample').then(s=>{SAMPLE=s;aiChecked=true;aiState()}).catch(()=>{aiChecked=true;aiState()});
+ const slow=setTimeout(()=>setSync('slow'),10000);
+ try{
+  const [db,user]=await Promise.all([C.use('db'),C.use('user')]);
+  const id=user?await user.id():null;
+  if(!db||!id){clearTimeout(slow);setSync('local');return}
+  stRef=db.doc('data/users/'+id+'/state');notesCol=stRef.collection('notes');
+  const snap=await stRef.get();
+  const ns=await notesCol.orderBy('created','desc').limit(300).get();
+  clearTimeout(slow);mode='db';
+  if(snap.exists){S=mergeState(clone(snap.data()))}else if(Object.keys(S.done).length||S.videos.length||S.scores.length){await stRef.set(clone(S))}
+  const remote=ns.docs.map(d=>({...clone(d.data()),id:d.id}));
+  if(!remote.length&&NOTES.length){for(const n of NOTES)await notesCol.doc(n.id).set(n)}else NOTES=remote;
+  saveLocal();setSync('db');rebuild();fillSettings();renderNotes();
+ }catch(e){clearTimeout(slow);dbFail(e)}
+}
+async function putNote(n){NOTES.unshift(n);saveLocal();renderNotes();if(mode==='db'){try{await notesCol.doc(n.id).set(n)}catch(e){dbFail(e)}}}
+async function delNote(id){NOTES=NOTES.filter(n=>n.id!==id);saveLocal();renderNotes();if(mode==='db'){try{await notesCol.doc(id).delete()}catch(e){dbFail(e)}}}
+
+/* ---------- 계획 생성 ---------- */
+function buildPlan(){
+ const st=S.settings,start=st.replanFrom||st.start,exam=st.exam;
+ const P={start,exam,days:[],byDate:{},tasks:[],phases:[],excluded:0,error:''};
+ if(!isDate(start)||!isDate(exam)||diffDays(start,exam)<3){P.error='시험일은 시작일보다 3일 이상 뒤여야 해요.';return P}
+ if(diffDays(start,exam)>400){P.error='계획 기간은 400일까지만 만들 수 있어요.';return P}
+ for(let d=start;d<exam;d=addDays(d,1))P.days.push(d);
+ const rev=new Set(st.review||[]);
+ let study=P.days.filter(d=>!rev.has(dow(d)));
+ if(study.length<3)study=P.days.slice();
+ const D=study.length,cut=st.replanAt||0;
+ const gone=id=>!!(cut&&S.done[id]&&S.done[id]<cut);
+ const U=UNITS.filter(u=>!gone(u.id)),Q=QTASKS.filter(q=>!gone(q.id));
+ P.excluded=Object.keys(S.done).filter(gone).length;
+ const r=st.level==='major'?[.42,.40,.18]:[.55,.33,.12],h=Math.max(1,+st.hours||3);
+ let P3=Math.min(D,Math.max(Math.min(5,D),Math.round(D*r[2])));
+ let P1=U.length?Math.max(Math.round(D*r[0]*U.length/UNITS.length),Math.ceil(U.length*70/(h*60))):0;
+ P1=Math.min(P1,Math.max(U.length?1:0,D-P3-Math.min(4,Q.length)));
+ if(P1+P3>D)P3=Math.max(0,D-P1);
+ const P2=D-P1-P3;
+ const s1=study.slice(0,P1),s2=study.slice(P1,P1+P2),s3=study.slice(P1+P2);
+ const put=(d,t)=>{t.date=d;(P.byDate[d]??=[]).push(t);P.tasks.push(t)};
+ U.forEach((u,j)=>put(s1[Math.floor(j*s1.length/U.length)],{...u}));
+ let last='cc';s1.forEach(d=>{const l=P.byDate[d];if(l&&l.length)last=l[l.length-1].subj;else put(d,{id:'x:'+d,type:'x',subj:last,title:'복습 · 예제 다시 풀기',min:60})});
+ const qDays=s2.length&&Q.length?Math.min(s2.length,Math.max(Math.ceil(Q.length/2),Math.min(Q.length,Math.round(s2.length*.5)))):0;
+ if(qDays)Q.forEach((q,j)=>put(s2[Math.floor(j*qDays/Q.length)],{...q}));
+ else if(Q.length&&s3.length)Q.forEach((q,j)=>put(s3[Math.floor(j*s3.length/Q.length)],{...q}));
+ let k=1;const nextS=()=>{while(gone('s:'+k))k++;return k++};
+ s2.slice(qDays).forEach((d,i)=>{const n=nextS();put(d,{id:'s:'+n,type:'s',subj:'all',title:`과년도 기출 세트 #${n} (전과목 100문항)`,min:180});if(i%4===3)put(d,{id:'w:'+n,type:'w',subj:'all',title:'오답 노트 정리',min:40})});
+ let m=1;const nextM=()=>{while(gone('m:'+m))m++;return m++};
+ s3.forEach((d,i)=>{const left=s3.length-1-i;
+  if(left===0&&s3.length>=2){if(!gone('f:check'))put(d,{id:'f:check',type:'f',subj:'all',title:'시험 전날 — 가볍게 회독 · 준비물 확인',detail:'공식 카드·KEC 수치 훑기 → 수험표·신분증·허용 계산기 챙기기 → 일찍 자기',min:90})}
+  else if(left===1&&s3.length>=3){if(!gone('f:kec'))put(d,{id:'f:kec',type:'f',subj:'kec',title:'KEC 수치·예외 조항 총정리 + 공식 카드 전체 회독',detail:'개정된 수치는 최신 KEC로 확인',min:180})}
+  else{const n=nextM();put(d,{id:'m:'+n,type:'m',subj:'all',title:`CBT 실전 모의고사 #${n}`,min:180})}});
+ P.days.filter(d=>rev.has(dow(d))&&!P.byDate[d]).forEach(d=>put(d,{id:'r:'+d,type:'r',subj:'rev',title:'주간 복습',min:120}));
+ P.tasks.sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:0);
+ [['이론 1회독','이론',s1],['기출 회독','기출',s2],['실전 모의고사','실전',s3]].forEach(([name,short,arr])=>{if(arr.length)P.phases.push({name,short,from:arr[0],to:arr[arr.length-1],n:arr.length})});
+ return P;
+}
+const phaseOf=d=>{if(!PLAN||!PLAN.phases.length)return null;let p=PLAN.phases[0];for(const x of PLAN.phases)if(d>=x.from)p=x;return p};
+const isDone=id=>!!S.done[id];
+
+/* ---------- 화면 ---------- */
+const swatch=s=>s==='all'?`<span class="sw">${SORDER.map(x=>`<i style="background:var(--c-${x})"></i>`).join('')}</span>`:s==='rev'?'<span class="sw rev"></span>':`<span class="sw" style="background:var(--c-${s})"></span>`;
+function taskHTML(t,o={}){
+ const done=isDone(t.id),det=t.detail||DETAIL[t.type]||'';
+ let acts='';
+ if(t.topic)acts=`<button type="button" class="mini" data-act="vid" data-topic="${t.topic}">영상</button><button type="button" class="mini" data-act="note" data-topic="${t.topic}">${NOTES.some(n=>n.topicId===t.topic)?'노트 보기':'요약 노트'}</button>`;
+ else if(t.type==='q')acts=`<button type="button" class="mini" data-act="vidq" data-subj="${t.subj}">기출 풀이 영상</button>`;
+ return `<li class="task${done?' done':''}"><label><input type="checkbox" data-task="${esc(t.id)}"${done?' checked':''}>${swatch(t.subj)}<span class="tt"><b>${esc(t.title)}</b>${o.date?`<em>${fmt(t.date)} 과제</em>`:''}<small>${esc(det)} · 약 ${hm(t.min)}</small></span></label>${acts?`<div class="acts">${acts}</div><div class="vp" hidden></div>`:''}</li>`;
+}
+function renderHeader(){
+ const T=todayStr(),ex=S.settings.exam,n=isDate(ex)?diffDays(T,ex):0;
+ $('#dday').textContent=n>0?`D-${n}`:n===0?'D-DAY':`D+${-n}`;
+ $('#ddsub').textContent=isDate(ex)?`${ex.slice(0,4)}년 ${fmt(ex)} 필기시험`:'';
+ const tot=PLAN.tasks.length+PLAN.excluded,dn=PLAN.tasks.filter(t=>isDone(t.id)).length+PLAN.excluded;
+ $('#hline').textContent=PLAN.error||`하루 ${S.settings.hours}시간 기준 · ${PLAN.phases.map(p=>`${p.short} ${p.n}일`).join(' → ')} · 과제 ${dn}/${tot} 완료${S.settings.replanFrom?` · ${md2(S.settings.replanFrom)}에 다시 짠 계획`:''}`;
+ renderCable();
+}
+function renderCable(){
+ const el=$('#cable');if(PLAN.error||!PLAN.days.length){el.innerHTML='';$('#legend').innerHTML='';return}
+ const T=todayStr(),days=PLAN.days,n=days.length,pos=f=>`calc(5px + (100% - 10px) * ${f.toFixed(5)})`;
+ const narrow=innerWidth<520;
+ const ph=PLAN.phases.map(p=>{const a=days.indexOf(p.from),b=days.indexOf(p.to)+1;return `<span class="ph" style="left:${pos(a/n)};width:calc((100% - 10px) * ${((b-a)/n).toFixed(5)})" title="${p.name} ${p.n}일">${narrow?p.short:p.name}</span>`}).join('');
+ const ml=[];days.forEach((d,i)=>{if(i===0||d.endsWith('-01'))ml.push([i,+d.slice(5,7)])});if(ml.length>1&&(ml[1][0]-ml[0][0])/n<(narrow?.14:.05))ml.shift();const mo=ml.map(([i,m])=>`<span class="mo" style="left:${pos(i/n)}">${m}월</span>`).join('');
+ const cells=days.map(d=>{const l=PLAN.byDate[d]||[];let subs=[];l.forEach(t=>{if(t.subj==='all')subs=subs.concat(SORDER);else subs.push(t.subj)});subs=[...new Set(subs)];
+  const rev=subs.length===1&&subs[0]==='rev',all=l.length&&l.every(t=>isDone(t.id));
+  const cls=d===T?'now':d<T?(all?'ok':'miss'):'fut';
+  return `<span class="c ${cls}${rev?' rev':''}" data-d="${d}" tabindex="-1" title="${fmt(d)} · ${esc(l.map(t=>t.title).join(', '))}">${rev?'':subs.map(s=>`<i style="background:var(--c-${s})"></i>`).join('')}</span>`}).join('');
+ const ti=days.indexOf(T);
+ const pin=ti>=0?`<span class="pin" style="left:${pos((ti+.5)/n)};${ti/n<.04?'transform:none':ti/n>.96?'transform:translateX(-100%)':''}">오늘</span>`:'';
+ const ex=S.settings.exam;
+ el.innerHTML=`<div class="cbl"><div class="phrow">${ph}</div><div></div><div class="track" role="img" aria-label="${fmt(PLAN.start)}부터 시험일까지 ${n}일 학습 계획">${cells}${pin}</div><div class="term">시험<br>${+ex.slice(5,7)}/${+ex.slice(8)}</div><div class="mrow">${mo}</div><div></div></div>`;
+ $('#legend').innerHTML=SORDER.map(s=>`<span>${swatch(s)}${SUBJ[s].short} <small>(${SUBJ[s].wire})</small></span>`).join('')+`<span>${swatch('all')}전과목 기출·모의고사</span><span>${swatch('rev')}복습일</span>`;
+}
+function renderToday(){
+ const el=$('#v-today'),T=todayStr();
+ if(PLAN.error){el.innerHTML=`<p class="warn">${esc(PLAN.error)} <a href="#plan">학습 계획</a>에서 날짜를 고쳐 주세요.</p>`;return}
+ const ex=S.settings.exam;
+ if(T>ex){el.innerHTML=`<div class="card"><h2>시험이 끝났어요. 수고 많으셨어요.</h2><p>다음 회차를 준비한다면 <a href="#plan">학습 계획</a>에서 시험일을 바꾸고 ‘남은 과제로 오늘부터 다시 짜기’를 눌러 주세요.</p></div>`;return}
+ if(T===ex){el.innerHTML=`<div class="card"><h2>오늘이 시험일이에요.</h2><p>신분증·수험표·허용 계산기를 챙기고, 과목당 8문항만 넘기면 된다는 생각으로 침착하게 풀어요. 모르는 문제는 표시해 두고 다음으로 넘어가세요.</p></div>`;return}
+ const d=T<PLAN.start?PLAN.start:T,list=PLAN.byDate[d]||[],mins=list.reduce((a,t)=>a+t.min,0),ph=phaseOf(d);
+ const over=PLAN.tasks.filter(t=>t.date<T&&!isDone(t.id));
+ const theoryToday=[...new Set(list.filter(t=>t.topic).map(t=>t.topic))];
+ const next=[];for(let x=addDays(d,1);x<ex&&next.length<3;x=addDays(x,1))if(PLAN.byDate[x])next.push(x);
+ const meters=SORDER.map(s=>{const all=[...UNITS,...QTASKS].filter(t=>t.subj===s),dn=all.filter(t=>isDone(t.id)).length;return `<div class="meter"><span>${swatch(s)} ${SUBJ[s].short}</span><div class="bar"><i style="width:${(dn/all.length*100).toFixed(1)}%;background:var(--c-${s})"></i></div><span class="num">${dn}/${all.length}</span></div>`}).join('');
+ const sc=S.scores[0];
+ el.innerHTML=`<div class="cols"><div>
+ <div class="card"><h2>${d===T?'오늘':'첫날'} · ${fmt(d)}</h2><p class="big">${ph?esc(ph.name)+' 단계 · ':''}예상 ${hm(mins)}${mins>S.settings.hours*60*1.25?` — 하루 목표 ${S.settings.hours}시간보다 많아요. 못 끝낸 건 내일 ‘밀린 과제’로 모여요.`:''}</p>
+ <ul class="tasks">${list.map(t=>taskHTML(t)).join('')||'<li class="task">오늘은 쉬는 날이에요.</li>'}</ul>
+ ${theoryToday.length?`<div class="acts" style="border-top:1px solid var(--line);padding-top:14px"><button type="button" class="pri" data-act="autonotes" ${SAMPLE?'':'disabled'}>오늘 단원 요약 노트 자동 작성 (${theoryToday.length}개)</button><span class="mut" id="auto-msg" style="font-size:14px">${SAMPLE?'':aiChecked?`<a href="${ART}" target="_blank" rel="noopener">Claude 버전</a>에서 열면 자동으로 써 줘요`:''}</span></div>`:''}
+ </div>
+ ${over.length?`<div class="card"><h2>밀린 과제 ${over.length}개</h2><ul class="tasks">${over.slice(0,8).map(t=>taskHTML(t,{date:1})).join('')}</ul>${over.length>8?`<p class="mut">외 ${over.length-8}개는 학습 계획에서 볼 수 있어요.</p>`:''}<div class="acts"><button type="button" data-act="replan">남은 과제로 오늘부터 다시 짜기</button></div></div>`:''}
+ </div><div>
+ <div class="card"><h2>과목별 진도</h2>${meters}<p class="mut" style="font-size:13px;margin-top:10px">이론 단원과 과목별 기출 과제 기준</p>
+ ${sc?`<h3>최근 점수 · ${md2(sc.date)}</h3>${scoreVerdict(sc)}`:''}</div>
+ <div class="card"><h2>다음 3일</h2>${next.map(x=>`<p><b>${fmt(x)}</b><br><span class="mut" style="font-size:14px">${PLAN.byDate[x].map(t=>esc(t.title)).join(' · ')}</span></p>`).join('')||'<p class="mut">남은 일정이 없어요.</p>'}<a href="#plan">전체 계획 보기</a></div>
+ </div></div>`;
+}
+function fillSettings(){
+ const st=S.settings;$('#s-exam').value=st.exam;$('#s-start').value=st.start;$('#s-hours').value=String(st.hours);$('#s-level').value=st.level;
+ $('#s-rev').innerHTML=[1,2,3,4,5,6,0].map(i=>`<label><input type="checkbox" value="${i}"${(st.review||[]).includes(i)?' checked':''}>${WD[i]}</label>`).join('');
+}
+function renderPlan(){
+ const el=$('#planbody');if(PLAN.error){el.innerHTML=`<p class="warn">${esc(PLAN.error)}</p>`;return}
+ const T=todayStr();let wk='',h='';
+ const ph=`<div class="phases">${PLAN.phases.map((p,i)=>`<div style="border-color:${['var(--blue)','var(--ink)','var(--yel)'][i]}"><b>${i+1}단계 · ${p.name}</b><span>${fmt(p.from)} – ${fmt(p.to)} · ${p.n}일</span></div>`).join('')}</div>`;
+ PLAN.days.forEach(d=>{const ws=addDays(d,-((dow(d)+6)%7));if(ws!==wk){if(wk)h+='</div>';wk=ws;h+=`<div class="wk"><h3>${md2(ws<PLAN.start?PLAN.start:ws)} 주</h3>`}
+  const l=PLAN.byDate[d]||[];h+=`<div class="drow${d===T?' now':''}" id="d-${d}"><div class="dt"><b>${+d.slice(5,7)}.${+d.slice(8)}</b><span>${WD[dow(d)]}${d===T?' · 오늘':''}</span></div><ul class="tasks">${l.map(t=>taskHTML(t)).join('')}</ul></div>`});
+ if(wk)h+='</div>';
+ el.innerHTML=`<div class="card"><div class="acts" style="margin:0 0 14px;justify-content:space-between"><h2 style="margin:0">전체 일정 · ${PLAN.days.length}일</h2><button type="button" class="mini" data-act="gotoday">오늘로 이동</button></div>${ph}${PLAN.excluded?`<p class="mut">다시 짜기 전에 끝낸 과제 ${PLAN.excluded}개는 목록에서 뺐어요.</p>`:''}${h}</div>`;
+}
+function scoreVerdict(sc){
+ const v=SORDER.map(s=>+sc.s[s]||0),sum=v.reduce((a,b)=>a+b,0),fail=SORDER.filter((s,i)=>v[i]<8);
+ const ok=!fail.length&&sum>=60;
+ return `<div class="sbars">${SORDER.map((s,i)=>`<div>${SUBJ[s].short} ${v[i]}<div class="bar"><i style="width:${v[i]/20*100}%;background:${v[i]<8?'var(--bad)':`var(--c-${s})`}"></i></div></div>`).join('')}</div><p style="margin-top:8px"><span class="verdict ${ok?'ok':'no'}">${ok?'합격권':fail.length?'과락: '+fail.map(s=>SUBJ[s].short).join(', '):'평균 미달'}</span> · 평균 ${sum}점</p>`;
+}
+function renderScores(){
+ $('#sclist').innerHTML=S.scores.length?S.scores.map(sc=>`<div class="srow"><b>${md2(sc.date)}</b><div>${scoreVerdict(sc).replace('<p style="margin-top:8px">','<p style="margin:6px 0 0">')}</div><button type="button" class="mini ghost" data-act="delscore" data-id="${esc(sc.id)}">삭제</button></div>`).join(''):'<p class="mut" style="margin-top:12px">아직 기록이 없어요. 기출 세트나 모의고사를 풀고 남겨 보세요.</p>';
+}
+const ytq=(q,recent)=>'https://www.youtube.com/results?search_query='+encodeURIComponent(q)+(recent?'&sp=CAI%253D':'');
+const plainName=t=>t.name.replace(/\s*\(.*?\)\s*/g,' ').trim();
+function topicLinks(id){const t=TOP[id],b=`전기기사 필기 ${t.blabel} ${plainName(t)}`;return `<a href="${ytq(b+' 강의')}" target="_blank" rel="noopener">개념 강의</a><a href="${ytq(b+' 기출')}" target="_blank" rel="noopener">기출 풀이</a><a href="${ytq(b,1)}" target="_blank" rel="noopener">최신순</a>`}
+const safeUrl=u=>/^https?:\/\//i.test(u||'')?u:'#';
+function vpHTML(id){
+ const t=TOP[id],mine=S.videos.filter(v=>v.topic===id),picks=PICKS.filter(p=>p.subj===t.subj);
+ return `<div>YouTube에서 찾기: ${topicLinks(id)}</div>${mine.length?`<b>내 영상</b><ul>${mine.map(v=>`<li><a href="${esc(safeUrl(v.url))}" target="_blank" rel="noopener">${esc(v.title||v.url)}</a>${v.watched?' · 봤음':''}</li>`).join('')}</ul>`:''}${picks.length?`<b>추천 공개 강의</b><ul>${picks.map(p=>`<li><a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.title)}</a> · ${esc(p.by)}</li>`).join('')}</ul>`:''}`;
+}
+function renderVideos(){
+ const cur=vFilter||(PLAN.byDate[todayStr()]||[]).map(t=>t.subj).find(s=>SUBJ[s])||'cc';vFilter=cur;
+ $('#vfilter').innerHTML=SORDER.map(s=>`<button type="button" class="mini" data-act="vf" data-subj="${s}" aria-pressed="${s===cur}">${swatch(s)} ${SUBJ[s].short}</button>`).join('');
+ $('#vtopics').innerHTML=BLOCKS.filter(b=>b.subj===cur).map(b=>`<h3 class="blk">${swatch(b.subj)} ${b.label}</h3>`+b.topics.map((x,i)=>{const id=b.key+(i+1),n=S.videos.filter(v=>v.topic===id).length;return `<div class="trow"><div><b style="font-weight:500">${esc(x[0])}</b>${n?` <small class="mut">· 내 영상 ${n}</small>`:''}<div class="links">${topicLinks(id)}</div></div><button type="button" class="mini" data-act="note" data-topic="${id}">요약 노트</button></div>`}).join('')).join('')+`<h3 class="blk">${swatch('all')} 과목 전체</h3><div class="trow"><div><b style="font-weight:500">${SUBJ[cur].name} 기출 풀이 · 총정리</b><div class="links"><a href="${ytq(`전기기사 필기 ${SUBJ[cur].name} 기출문제 풀이`)}" target="_blank" rel="noopener">기출 풀이</a><a href="${ytq(`전기기사 필기 ${SUBJ[cur].name} 총정리`)}" target="_blank" rel="noopener">총정리</a><a href="${ytq(`전기기사 필기 ${SUBJ[cur].name}`,1)}" target="_blank" rel="noopener">최신순</a></div></div></div>`;
+ $('#vpicks').innerHTML=PICKS.map(p=>`<div class="pick">${swatch(p.subj)}<div><a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.title)}</a><small>${esc(p.by)} · ${esc(p.note)}</small></div></div>`).join('');
+ $('#mvlist').innerHTML=S.videos.length?`<h3>저장한 영상 ${S.videos.length}</h3>`+S.videos.map(v=>`<div class="pick">${swatch(TOP[v.topic]?TOP[v.topic].subj:'all')}<div><a href="${esc(safeUrl(v.url))}" target="_blank" rel="noopener">${esc(v.title||v.url)}</a><small>${TOP[v.topic]?esc(TOP[v.topic].blabel+' · '+TOP[v.topic].name):'단원 미지정'}</small><div class="acts" style="margin-top:4px"><label class="mini" style="display:inline-flex;gap:6px;align-items:center;font-size:14px"><input type="checkbox" data-watch="${esc(v.id)}"${v.watched?' checked':''} style="width:18px;height:18px;min-height:0">봤음</label><button type="button" class="mini ghost" data-act="delvid" data-id="${esc(v.id)}">삭제</button></div></div></div>`).join(''):'';
+}
+function topicOptions(subj,withAll){return (withAll?`<option value="">${subj?esc(SUBJ[subj].name)+' 전체 핵심 총정리':'단원 미지정'}</option>`:'')+BLOCKS.filter(b=>!subj||b.subj===subj).map(b=>`<optgroup label="${esc(b.label)}">${b.topics.map((x,i)=>`<option value="${b.key+(i+1)}">${esc(x[0])}</option>`).join('')}</optgroup>`).join('')}
+function renderNotes(){
+ const q=($('#n-q').value||'').trim().toLowerCase();
+ const list=NOTES.filter(n=>!q||(n.title+' '+n.body).toLowerCase().includes(q));
+ $('#nlist').innerHTML=list.length?list.map(n=>`<details data-nid="${esc(n.id)}"><summary><b style="font-weight:500">${esc(n.title)}</b><span>${new Date(n.created).toLocaleDateString('ko-KR')} · ${n.kind==='ai'?'AI 요약':'직접 작성'}</span></summary><div class="md">${md(n.body)}</div><div class="acts"><button type="button" class="mini" data-act="copynote" data-id="${esc(n.id)}">복사</button><button type="button" class="mini ghost" data-act="delnote" data-id="${esc(n.id)}">삭제</button></div></details>`).join(''):`<p class="mut" style="margin-top:12px">${NOTES.length?'검색 결과가 없어요.':'아직 노트가 없어요. 위에서 단원을 골라 만들어 보세요.'}</p>`;
+ if(PLAN)renderToday();
+}
+function renderCards(){$('#fcards').innerHTML=SORDER.map((s,i)=>`<details class="sub"${i===0?' open':''}><summary>${swatch(s)} ${SUBJ[s].name}</summary>${CARDS[s].map(c=>`<div class="fc"><b>${esc(c[0])}</b><div><code>${esc(c[1])}</code><small>${esc(c[2])}</small></div></div>`).join('')}</details>`).join('')}
+function aiState(){
+ const b=$('#g-go');b.disabled=!SAMPLE;b.hidden=!SAMPLE&&aiChecked;$('#g-alt').hidden=!!SAMPLE||!aiChecked;$('#g-msg').textContent=SAMPLE||aiChecked?'':'AI 기능 확인 중…'
+ if(PLAN)renderToday();
+}
+
+/* ---------- 마크다운 ---------- */
+function md(src){
+ const inl=s=>esc(s).replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>');
+ const L=String(src||'').replace(/\r/g,'').split('\n'),li=/^\s*([-*+•]|\d+[.)])\s+/;let h='',i=0;
+ while(i<L.length){const l=L[i];let m;
+  if(!l.trim()){i++;continue}
+  if((m=l.match(/^(#{1,6})\s+(.*)/))){const lv=m[1].length<=2?3:4;h+=`<h${lv}>${inl(m[2])}</h${lv}>`;i++;continue}
+  if(/^\s*(-{3,}|\*{3,})\s*$/.test(l)){h+='<hr>';i++;continue}
+  if(/^\s*\|/.test(l)){const rows=[];while(i<L.length&&/^\s*\|/.test(L[i]))rows.push(L[i++]);
+   const cells=r=>r.trim().replace(/^\|/,'').replace(/\|$/,'').split('|').map(c=>c.trim());
+   const body=rows.filter(r=>!(/^[\s|:\-]+$/.test(r)&&r.includes('-')));
+   h+=`<div class="scroll"><table><thead><tr>${cells(body[0]||'').map(c=>`<th>${inl(c)}</th>`).join('')}</tr></thead><tbody>${body.slice(1).map(r=>`<tr>${cells(r).map(c=>`<td>${inl(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;continue}
+  if(li.test(l)){const ol=/^\s*\d/.test(l),items=[];while(i<L.length&&li.test(L[i])){items.push(L[i].replace(li,''));i++;while(i<L.length&&/^\s{2,}\S/.test(L[i])&&!li.test(L[i]))items[items.length-1]+=' '+L[i++].trim()}
+   h+=`<${ol?'ol':'ul'}>${items.map(x=>`<li>${inl(x)}</li>`).join('')}</${ol?'ol':'ul'}>`;continue}
+  if(/^>\s?/.test(l)){const q=[];while(i<L.length&&/^>\s?/.test(L[i]))q.push(L[i++].replace(/^>\s?/,''));h+=`<blockquote>${q.map(inl).join('<br>')}</blockquote>`;continue}
+  const p=[l];i++;while(i<L.length&&L[i].trim()&&!/^(#{1,6}\s|\s*\||>)/.test(L[i])&&!li.test(L[i]))p.push(L[i++]);h+=`<p>${p.map(inl).join('<br>')}</p>`}
+ return h;
+}
+
+/* ---------- AI 요약 ---------- */
+function buildPrompt(subj,topic,src,style){
+ const form={brief:'핵심 요약: A4 반 장 이내로 짧게.',detail:'자세한 정리: A4 한 장 내외, 유도 과정은 한두 줄로만.',cards:'암기 카드: 섹션 대신 "## 암기 카드" 아래에 "- **Q.** 질문 → **A.** 답" 형식 12개, 마지막에 "## 헷갈리는 짝" 3개.'}[style];
+ return `당신은 한국 전기기사 필기시험(CBT, 2027년 출제기준) 전문 강사입니다. 수험생이 시험 직전까지 반복해서 볼 요약 노트를 한국어로 쓰세요.
+
+[과목] ${SUBJ[subj].name}
+[주제] ${topic}
+[형태] ${form}
+${src?`[수험생 자료 — 이 내용을 중심으로 정리]\n"""\n${src.slice(0,12000)}\n"""\n`:''}
+규칙
+- 마크다운으로 쓰고 제목은 ## 와 ### 만 씁니다. 인사말이나 서론 없이 바로 본문.
+- 수식은 LaTeX 대신 일반 텍스트와 유니코드로 씁니다 (예: F = Q₁Q₂ / (4πε₀r²) [N]). 단위는 [ ] 안에.
+- 형태가 암기 카드가 아니면 이 순서로: ## 한 줄 요약 / ## 핵심 개념 (목록) / ## 필수 공식 (표: 공식 | 의미·단위 | 외우는 요령) / ## 기출 포인트와 함정 / ## 셀프 체크 (3문항, 정답은 맨 끝 "정답:" 줄에 모아서).
+- 수험생 자료가 있으면 그 내용을 우선 정리하고, 자료에 없는 보충 내용 앞에는 (보충)을 붙입니다.
+- KEC·전기설비기술기준의 수치와 조항은 개정될 수 있으므로 해당 줄 끝에 "(최신 KEC 확인)"을 붙이고, 확실하지 않은 수치는 쓰지 않습니다.`;
+}
+async function generate(subj,topic,topicId,src,style,out){
+ genCtrl=new AbortController();
+ out.innerHTML='<p class="mut">노트를 쓰는 중…</p>';
+ const r=await SAMPLE(buildPrompt(subj,topic,src,style),{onText:({text})=>{out.innerHTML=md(text)},signal:genCtrl.signal,cache:false});
+ const text=(r&&r.text)||'';out.innerHTML=md(text)+(r&&r.truncated?'<p class="warn">길어서 끝부분이 잘렸어요. ‘핵심 요약’으로 다시 만들어 보세요.</p>':'');
+ if(text.trim())await putNote({id:'n'+uid(),subj,topicId:topicId||'',title:`${SUBJ[subj].short} · ${topic}`,body:text,kind:'ai',style,created:Date.now()});
+ return text;
+}
+const aiErr=e=>e&&e.name==='AbortError'||e&&e.code==='aborted'?'중지했어요.':e&&e.code==='rate_limited'?'요청이 많아요. 잠시 뒤에 다시 눌러 주세요.':e&&e.code==='not_granted'?'AI 사용이 허용되지 않았어요.':'노트를 만들지 못했어요. 잠시 뒤 다시 시도해 주세요.';
+async function onGenerate(){
+ if(!SAMPLE)return;
+ const subj=$('#g-subj').value,tid=$('#g-topic').value,custom=$('#g-custom').value.trim(),src=$('#g-src').value.trim(),style=(document.querySelector('input[name=gs]:checked')||{}).value||'brief';
+ const topic=custom||(tid&&TOP[tid]?TOP[tid].name:`${SUBJ[subj].name} 전체 핵심 총정리`);
+ $('#g-go').disabled=true;$('#g-stop').hidden=false;$('#g-msg').textContent='';
+ try{await generate(subj,topic,custom?'':tid,src,style,$('#g-out'));$('#g-msg').textContent='내 노트에 저장했어요.'}
+ catch(e){$('#g-msg').textContent=aiErr(e);if(e&&e.code==='not_granted'){SAMPLE=null;aiState()}}
+ $('#g-go').disabled=!SAMPLE;$('#g-stop').hidden=true;
+}
+async function autoNotes(btn){
+ const T=todayStr(),ids=[...new Set((PLAN.byDate[T]||[]).filter(t=>t.topic).map(t=>t.topic))].filter(id=>!NOTES.some(n=>n.topicId===id&&n.kind==='ai'));
+ const msg=$('#auto-msg');if(!ids.length){msg.textContent='오늘 단원 노트는 이미 있어요. ‘요약 노트’ 탭에서 보세요.';return}
+ btn.disabled=true;const box=document.createElement('article');box.className='md out';btn.closest('.card').appendChild(box);
+ let n=0;for(const id of ids){const t=TOP[id];msg.textContent=`${++n}/${ids.length} · ${t.name} 쓰는 중…`;
+  try{await generate(t.subj,t.name,id,'','brief',box)}catch(e){msg.textContent=aiErr(e);btn.disabled=false;return}}
+ msg.textContent=`${ids.length}개 노트를 만들었어요. ‘요약 노트’ 탭의 내 노트에 저장돼 있어요.`;
+}
+
+/* ---------- 이벤트 ---------- */
+const VIEWS=['today','plan','videos','notes','info'];
+function show(){const v=VIEWS.includes(location.hash.slice(1))?location.hash.slice(1):'today';VIEWS.forEach(x=>{$('#v-'+x).hidden=x!==v});document.querySelectorAll('.tabs a').forEach(a=>a.toggleAttribute('aria-current',a.getAttribute('href')==='#'+v)&&a.setAttribute('aria-current','page'));}
+function rebuild(){PLAN=buildPlan();renderHeader();renderToday();renderPlan();renderScores();renderVideos()}
+function openNote(topicId){const t=TOP[topicId];$('#g-subj').value=t.subj;$('#g-topic').innerHTML=topicOptions(t.subj,true);$('#g-topic').value=topicId;$('#g-custom').value='';
+ const ex=NOTES.find(n=>n.topicId===topicId);location.hash='notes';
+ setTimeout(()=>{if(ex){$('#n-q').value='';renderNotes();const d=document.querySelector(`details[data-nid="${CSS.escape(ex.id)}"]`);if(d){d.open=true;d.scrollIntoView({block:'start'})}}else{$('#g-src').focus();document.querySelector('.gen').scrollIntoView({block:'start'})}},30)}
+document.addEventListener('change',e=>{
+ const t=e.target;
+ if(t.dataset.task){const id=t.dataset.task;if(t.checked)S.done[id]=Date.now();else delete S.done[id];save();renderHeader();renderToday();renderPlan();return}
+ if(t.dataset.watch){const v=S.videos.find(x=>x.id===t.dataset.watch);if(v){v.watched=t.checked;save()}return}
+ if(t.id==='g-subj'){$('#g-topic').innerHTML=topicOptions(t.value,true)}
+});
+document.addEventListener('click',e=>{
+ const c=e.target.closest('.c[data-d]');if(c){location.hash='plan';setTimeout(()=>{const r=document.getElementById('d-'+c.dataset.d);if(r)r.scrollIntoView({block:'center'})},30);return}
+ const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act;
+ if(a==='vid'||a==='vidq'){const vp=b.closest('.task').querySelector('.vp');if(vp.hidden){vp.innerHTML=a==='vid'?vpHTML(b.dataset.topic):`YouTube에서 찾기: <a href="${ytq(`전기기사 필기 ${SUBJ[b.dataset.subj].name} 기출문제 풀이`)}" target="_blank" rel="noopener">기출 풀이</a><a href="${ytq(`전기기사 필기 ${SUBJ[b.dataset.subj].name} 기출`,1)}" target="_blank" rel="noopener">최신순</a>`}vp.hidden=!vp.hidden}
+ else if(a==='note')openNote(b.dataset.topic);
+ else if(a==='autonotes')autoNotes(b);
+ else if(a==='replan'){S.settings.replanFrom=todayStr();S.settings.replanAt=Date.now();save();rebuild();$('#s-msg').textContent='오늘부터 남은 과제로 다시 짰어요.';location.hash='today'}
+ else if(a==='reset'){if(!b.classList.contains('armed')){b.classList.add('armed');b.textContent='한 번 더 누르면 지워요';setTimeout(()=>{b.classList.remove('armed');b.textContent='진도·점수 기록 지우기'},4000);return}
+  S.done={};S.scores=[];S.settings.replanFrom=null;S.settings.replanAt=0;b.classList.remove('armed');b.textContent='진도·점수 기록 지우기';save();rebuild();$('#s-msg').textContent='진도와 점수를 지웠어요. 노트와 영상은 그대로예요.'}
+ else if(a==='gotoday'){const r=document.getElementById('d-'+todayStr())||document.querySelector('.drow');if(r)r.scrollIntoView({block:'center'})}
+ else if(a==='delscore'){S.scores=S.scores.filter(x=>x.id!==b.dataset.id);save();renderScores();renderToday()}
+ else if(a==='vf'){vFilter=b.dataset.subj;renderVideos()}
+ else if(a==='delvid'){S.videos=S.videos.filter(x=>x.id!==b.dataset.id);save();renderVideos()}
+ else if(a==='copynote'){const n=NOTES.find(x=>x.id===b.dataset.id);if(n&&navigator.clipboard){navigator.clipboard.writeText(n.body).then(()=>{b.textContent='복사됨'},()=>{b.textContent='복사 안 됨'})}}
+ else if(a==='delnote'){if(!b.classList.contains('armed')){b.classList.add('armed');b.textContent='한 번 더 누르면 삭제';return}delNote(b.dataset.id)}
+ else if(a==='copyprompt'){const subj=$('#g-subj').value,tid=$('#g-topic').value,custom=$('#g-custom').value.trim(),style=(document.querySelector('input[name=gs]:checked')||{}).value||'brief';const topic=custom||(tid&&TOP[tid]?TOP[tid].name:`${SUBJ[subj].name} 전체 핵심 총정리`);const txt=buildPrompt(subj,topic,$('#g-src').value.trim(),style);
+  const done=()=>{$('#cp-msg').textContent=' 복사했어요. Claude 채팅에 붙여넣으세요.';$('#m-title').value=`${SUBJ[subj].short} · ${topic}`;document.querySelector('details.sub').open=true};
+  if(navigator.clipboard)navigator.clipboard.writeText(txt).then(done,()=>{$('#cp-msg').textContent=' 복사가 막혔어요. 아래 칸에서 직접 복사하세요.';$('#m-body').value=txt;document.querySelector('details.sub').open=true});else{$('#m-body').value=txt;document.querySelector('details.sub').open=true}}
+ else if(a==='savemanual'){const ti=$('#m-title').value.trim(),bo=$('#m-body').value.trim();if(!bo){$('#m-msg').textContent='내용을 적어 주세요.';return}putNote({id:'n'+uid(),subj:'',topicId:'',title:ti||'내 노트',body:bo,kind:'manual',created:Date.now()});$('#m-title').value='';$('#m-body').value='';$('#m-msg').textContent='저장했어요.'}
+});
+$('#g-go').addEventListener('click',onGenerate);
+$('#g-stop').addEventListener('click',()=>{if(genCtrl)genCtrl.abort()});
+$('#n-q').addEventListener('input',renderNotes);
+$('#setf').addEventListener('submit',e=>{e.preventDefault();
+ const exam=$('#s-exam').value,start=$('#s-start').value;
+ if(!isDate(exam)||!isDate(start)||diffDays(start,exam)<3){$('#s-msg').textContent='시험일은 시작일보다 3일 이상 뒤로 골라 주세요.';return}
+ S.settings={...S.settings,exam,start,hours:+$('#s-hours').value,level:$('#s-level').value,review:[...document.querySelectorAll('#s-rev input:checked')].map(x=>+x.value),replanFrom:null,replanAt:0};
+ save();rebuild();$('#s-msg').textContent='새 설정으로 계획을 만들었어요. 끝낸 과제 체크는 그대로예요.'});
+$('#scf').addEventListener('submit',e=>{e.preventDefault();const s={};for(const k of SORDER){const v=+$('#sc-'+k).value;if(!(v>=0&&v<=20)){$('#sc-'+k).focus();return}s[k]=v}
+ S.scores.unshift({id:'s'+uid(),date:$('#sc-date').value||todayStr(),s});S.scores.sort((a,b)=>a.date<b.date?1:-1);save();renderScores();renderToday();SORDER.forEach(k=>$('#sc-'+k).value='')});
+$('#mvf').addEventListener('submit',e=>{e.preventDefault();const url=$('#mv-url').value.trim();if(!/^https?:\/\//i.test(url)){$('#mv-msg').textContent='http로 시작하는 주소를 넣어 주세요.';return}
+ S.videos.unshift({id:'v'+uid(),url,title:$('#mv-title').value.trim(),topic:$('#mv-topic').value,watched:false,added:Date.now()});save();$('#mv-url').value='';$('#mv-title').value='';$('#mv-msg').textContent='저장했어요.';renderVideos()});
+addEventListener('hashchange',show);
+let rw;addEventListener('resize',()=>{clearTimeout(rw);rw=setTimeout(renderCable,150)});
+
+/* ---------- 시작 ---------- */
+$('#s-hours').innerHTML=[1,2,3,4,5,6,7,8].map(h=>`<option value="${h}">${h}시간</option>`).join('');
+$('#scf').insertAdjacentHTML('beforeend',SORDER.map(s=>`<label class="f">${SUBJ[s].short}<input type="number" id="sc-${s}" min="0" max="20" inputmode="numeric" placeholder="0~20" required></label>`).join('')+'<button class="pri" type="submit">기록</button>');
+$('#sc-date').value=todayStr();
+$('#g-subj').innerHTML=SORDER.map(s=>`<option value="${s}">${SUBJ[s].name}</option>`).join('');
+$('#g-topic').innerHTML=topicOptions('em',true);
+$('#mv-topic').innerHTML=topicOptions('',true);
+loadLocal();fillSettings();rebuild();renderNotes();renderCards();aiState();show();
+setTimeout(connect,0);
+}
+</script>
+</body>
+</html>
