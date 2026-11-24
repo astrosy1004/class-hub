@@ -1,6 +1,6 @@
 # ☀️ 모닝 마켓 브리핑 (stock-morning/)
 
-평일 아침 7시(KST)에 **전일 장 분석 리포트 + 주식 공부 30일 전략**을 메일로 보냅니다.
+평일 아침 6시 30분(KST)쯤 **전일 장 분석 리포트 + 주식 공부 30일 전략**을 메일로 보냅니다.
 휴대폰 Gmail 앱 알림으로 받아 요약을 바로 읽고, 전체 리포트는 첨부 HTML 파일이나 웹 링크로 엽니다.
 
 🔗 https://astrosy1004.github.io/class-hub/stock-morning/
@@ -66,7 +66,7 @@ stock-morning/
   scripts/report.js           전체 리포트 HTML
   scripts/render.js           메일 본문 HTML (인라인 스타일, 600px)
   scripts/daily.js            전체 실행
-.github/workflows/stock-morning.yml   평일 07시 실행 → 메일(본문+첨부) 발송 → 리포트 커밋
+.github/workflows/stock-morning.yml   평일 06:27 실행(+예비 3회) → 메일(본문+첨부) 발송 → 리포트 커밋
 ```
 
 ## 수정 방법
@@ -75,7 +75,8 @@ stock-morning/
 - **뉴스 검색어·해외 지표**: `scripts/config.js` 의 `NEWS_TOPICS`, `GLOBALS`
 - **리포트 문체·구성**: `scripts/writer.js` 의 `SYSTEM` 프롬프트
 - **공부 내용**: `data/study.js` 의 `STUDY_PLAN`. 시작일은 `config.js` 의 `STUDY_START`
-- **발송 시각**: 워크플로의 `cron` (UTC 기준. 07시 KST = 전날 22시 UTC). GitHub 스케줄은 수 분~수십 분 늦게 실행될 수 있습니다.
+- **발송 시각**: 워크플로의 `cron` (UTC 기준. 06:27 KST = 전날 21:27 UTC). 미국장 마감(06:00 KST) 뒤여야 해외 시세가 최신이라 이보다 더 일찍 잡지 않습니다.
+  GitHub 예약은 늦거나 건너뛰는 일이 있어 30분 간격 예비 실행 3개(06:57·07:27·07:57)를 더 예약해 두었습니다. 먼저 성공한 실행이 보고서를 저장하면 뒤의 실행은 "이미 발송"으로 건너뛰므로 메일은 한 번만 나갑니다.
 
 ## 로컬 확인
 

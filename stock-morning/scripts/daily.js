@@ -90,7 +90,7 @@ async function main() {
   const mailFile = path.join(ROOT, 'reports', date + '.html');
   if (fs.existsSync(mailFile) && !FORCE && !DRY && !DATE) {
     // 한국장 휴장일: 마지막 거래일이 이미 보고된 날이면 메일을 보내지 않는다.
-    console.log(`${date} 보고서가 이미 있습니다 (휴장일로 판단). 건너뜁니다.`);
+    console.log(`${date} 보고서가 이미 있습니다 (이미 발송했거나 한국장 휴장일). 건너뜁니다.`);
     output('skip', 'true');
     return;
   }
