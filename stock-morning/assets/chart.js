@@ -115,6 +115,7 @@ function drawLines(fig) {
   var W = 520, H = 220 + volH, top = 12, bottom = 34 + volH;
   var vals = [];
   lines.forEach(function (l) { l.data.forEach(function (v) { if (v != null) vals.push(v); }); });
+  (fig.levels || []).forEach(function (lv) { vals.push(lv.v); });
   var lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals);
   var x = function (i) { return 8 + (i / (show - 1)) * (W - 16); };
   var y = function (v) { return top + (hi - v) / (hi - lo || 1) * (H - top - bottom); };
@@ -143,6 +144,11 @@ function drawLines(fig) {
       s.appendChild(svg('rect', { x: x(i) - bw / 2, y: vBot - hgt, width: bw, height: hgt, class: 'f-vol ' + (up ? 'f-up' : 'f-dn') }));
     });
   }
+  // 수평선 (지지·저항 등): levels:[{v:가격, text}]
+  (fig.levels || []).forEach(function (lv) {
+    s.appendChild(svg('line', { x1: 0, x2: W, y1: y(lv.v), y2: y(lv.v), class: 'f-level' }));
+    if (lv.text) s.appendChild(svg('text', { x: W - 8, y: y(lv.v) - 6, class: 'f-txt f-level-txt', 'text-anchor': 'end' }, lv.text));
+  });
   lines.forEach(function (l) {
     var p = l.data.map(function (v, i) { return v == null ? null : x(i).toFixed(1) + ',' + y(v).toFixed(1); }).filter(Boolean).join(' ');
     s.appendChild(svg('polyline', { points: p, class: l.cls }));
@@ -170,7 +176,89 @@ function drawLines(fig) {
   return s;
 }
 
+// 실제 일봉: { type:'real', bars:[['YYMMDD',시가,고가,저가,종가,거래량(천주)]...], show: 화면에 그릴 마지막 N개(앞쪽은 이평선 계산용),
+//             mas:[5,20], marks:[{ d:'YYMMDD', text }], title }
+function drawReal(fig) {
+  var bars = fig.bars;
+  var show = Math.min(fig.show || bars.length, bars.length), start = bars.length - show;
+  var vis = bars.slice(start);
+  var closes = bars.map(function (b) { return b[4]; });
+  var mas = (fig.mas || [5, 20]).map(function (n) { return { n: n, data: movingAvg(closes, n).slice(start) }; });
+  var W = 520, volH = 60, H = 250 + volH, top = 14, bottom = 40 + volH, left = 6, right = 58;
+  var lo = Infinity, hi = -Infinity;
+  vis.forEach(function (b) { lo = Math.min(lo, b[3]); hi = Math.max(hi, b[2]); });
+  mas.forEach(function (m) { m.data.forEach(function (v) { if (v != null) { lo = Math.min(lo, v); hi = Math.max(hi, v); } }); });
+  var pad = (hi - lo) * 0.1;
+  hi += pad; lo -= pad * 0.4;
+  var step = (W - left - right) / show;
+  var x = function (i) { return left + step * i + step / 2; };
+  var y = function (v) { return top + (hi - v) / (hi - lo) * (H - top - bottom); };
+  var fmt = function (v) { return Math.round(v).toLocaleString('ko-KR'); };
+  var s = svg('svg', { viewBox: '0 0 ' + W + ' ' + H, class: 'fig', role: 'img' });
+
+  // 가격 눈금 (오른쪽)
+  var nice = function (v) { var p = Math.pow(10, Math.floor(Math.log10(v)) - 1); return Math.round(v / p) * p; };
+  [hi - pad, (hi + lo) / 2, lo + pad * 0.4].map(nice).forEach(function (v) {
+    s.appendChild(svg('line', { x1: left, x2: W - right, y1: y(v), y2: y(v), class: 'f-guide f-sep' }));
+    s.appendChild(svg('text', { x: W - right + 4, y: y(v) + 4, class: 'f-lbl f-axis' }, fmt(v)));
+  });
+
+  // 거래량
+  var vTop = H - 40 - volH + 10, vBot = H - 40;
+  var vmax = Math.max.apply(null, vis.map(function (b) { return b[5]; }));
+  s.appendChild(svg('text', { x: left, y: vTop + 2, class: 'f-lbl' }, '거래량'));
+  vis.forEach(function (b, i) {
+    var hgt = Math.max(1, (b[5] / vmax) * (vBot - vTop - 8));
+    s.appendChild(svg('rect', { x: x(i) - step * 0.35, y: vBot - hgt, width: step * 0.7, height: hgt, class: 'f-vol ' + (b[4] >= b[1] ? 'f-up' : 'f-dn') }));
+  });
+
+  // 캔들
+  vis.forEach(function (b, i) {
+    var kind = b[4] > b[1] ? 'up' : b[4] < b[1] ? 'dn' : 'doji';
+    s.appendChild(svg('line', { x1: x(i), x2: x(i), y1: y(b[2]), y2: y(b[3]), class: 'f-wick f-thin f-' + kind }));
+    var y1 = y(Math.max(b[1], b[4])), y2 = y(Math.min(b[1], b[4]));
+    s.appendChild(svg('rect', { x: x(i) - step * 0.35, y: y1, width: step * 0.7, height: Math.max(1, y2 - y1), class: 'f-body f-' + kind }));
+  });
+
+  // 이동평균선
+  mas.forEach(function (m) {
+    var p = m.data.map(function (v, i) { return v == null ? null : x(i).toFixed(1) + ',' + y(v).toFixed(1); }).filter(Boolean).join(' ');
+    if (p) s.appendChild(svg('polyline', { points: p, class: 'f-ma f-ma' + m.n }));
+  });
+
+  // 날짜 (처음·가운데·끝)
+  var dlab = function (d) { return d.slice(2, 4) + '/' + d.slice(4, 6); };
+  [0, Math.floor(show / 2), show - 1].forEach(function (i, k) {
+    s.appendChild(svg('text', { x: x(i), y: vBot + 14, class: 'f-lbl', 'text-anchor': k === 0 ? 'start' : k === 2 ? 'end' : 'middle' }, '20' + vis[i][0].slice(0, 2) + '/' + dlab(vis[i][0])));
+  });
+
+  // 표시
+  (fig.marks || []).forEach(function (m) {
+    var i = -1;
+    vis.forEach(function (b, k) { if (b[0] === m.d) i = k; });
+    if (i < 0) return;
+    var yy = y(vis[i][2]) - 6;
+    s.appendChild(svg('path', { d: 'M' + (x(i) - 4) + ',' + (yy - 6) + ' L' + (x(i) + 4) + ',' + (yy - 6) + ' L' + x(i) + ',' + yy + ' Z', class: 'f-mark' }));
+    var r = x(i) > W * 0.68, l = x(i) < W * 0.3;
+    s.appendChild(svg('text', { x: r ? x(i) + 6 : l ? x(i) - 6 : x(i), y: Math.max(yy - 10, 12), class: 'f-txt', 'text-anchor': r ? 'end' : l ? 'start' : 'middle' }, m.text));
+  });
+
+  // 범례
+  var lx = left + 2;
+  s.appendChild(svg('rect', { x: lx, y: H - 17, width: 8, height: 10, class: 'f-body f-up' }));
+  s.appendChild(svg('text', { x: lx + 12, y: H - 8, class: 'f-lbl' }, '일봉'));
+  lx += 48;
+  mas.forEach(function (m) {
+    s.appendChild(svg('line', { x1: lx, x2: lx + 18, y1: H - 12, y2: H - 12, class: 'f-ma f-ma' + m.n }));
+    s.appendChild(svg('text', { x: lx + 22, y: H - 8, class: 'f-lbl' }, m.n + '일선'));
+    lx += 30 + (m.n + '일선').length * 12;
+  });
+  if (fig.title) s.appendChild(svg('text', { x: W - 4, y: H - 8, class: 'f-lbl', 'text-anchor': 'end' }, fig.title));
+  return s;
+}
+
 function figure(f) {
+  if (f.type === 'real') return drawReal(f);
   if (f.type === 'anatomy') return drawAnatomy();
   if (f.type === 'candles') return drawCandles(f);
   if (f.type === 'lines') return drawLines(f);
@@ -196,7 +284,11 @@ function renderList(root) {
   root.appendChild(intro);
 
   var ul = el('ul', 'sheet-list');
+  var part = null;
   CHART_SHEETS.forEach(function (s) {
+    // part 가 바뀌는 곳에 묶음 제목 (예: 사례로 배우기)
+    if (s.part && s.part !== part) ul.appendChild(el('li', 'sheet-part', s.part));
+    part = s.part || null;
     var li = el('li', s.ready ? '' : 'locked');
     var box = el(s.ready ? 'a' : 'div', 'sheet-item');
     if (s.ready) box.href = '#' + s.id;
