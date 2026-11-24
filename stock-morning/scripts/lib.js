@@ -84,8 +84,13 @@ async function yahooHistory(symbol, range = '6mo') {
   const q = r.indicators.quote[0];
   const off = r.meta.gmtoffset || 0;
   const today = kstDate(Date.now());
+  // 한국 지수(^KS11·^KQ11)는 장 마감 직후 일봉이 비어 오는 때가 있다. 그날의 현재가(meta)가 마감 값이므로 그것으로 채운다.
+  const isIndex = symbol.startsWith('^K');
+  const mp = r.meta.regularMarketPrice;
+  const metaDay = r.meta.regularMarketTime ? new Date((r.meta.regularMarketTime + off) * 1000).toISOString().slice(0, 10) : null;
   return r.timestamp
     .map((t, i) => ({ d: new Date((t + off) * 1000).toISOString().slice(0, 10), o: q.open[i], h: q.high[i], l: q.low[i], c: q.close[i], v: q.volume[i] }))
+    .map((b) => (isIndex && b.c == null && mp != null && b.d === metaDay ? { ...b, o: mp, h: mp, l: mp, c: mp, v: 0 } : b))
     .filter((b) => b.c != null && b.o != null)
     .filter((b) => !(symbol.endsWith('.KS') || symbol.endsWith('.KQ') || symbol.startsWith('^K')) || !(b.d >= today && kstHour() < 16));
 }
@@ -95,6 +100,17 @@ async function naverDaily(code) {
   const res = await fetchWithRetry(`https://m.stock.naver.com/api/stock/${code}/price?pageSize=3&page=1`);
   const j = await res.json();
   return j.map((d) => ({ d: d.localTradedAt, c: num(d.closePrice) }));
+}
+
+// 네이버 지수 일별 종가 (오래된 날 → 최신 순). 장 마감 전의 오늘 값은 제외한다.
+async function naverIndexDaily(code, pageSize = 10) {
+  const res = await fetchWithRetry(`https://m.stock.naver.com/api/index/${code}/price?pageSize=${pageSize}&page=1`);
+  const j = await res.json();
+  const today = kstDate(Date.now());
+  return j
+    .map((d) => ({ d: d.localTradedAt, c: num(d.closePrice) }))
+    .filter((b) => b.d && Number.isFinite(b.c) && !(b.d >= today && kstHour() < 16))
+    .sort((a, b) => (a.d < b.d ? -1 : 1));
 }
 
 // 네이버 지수: 투자자별 순매수(억원), 등락 종목 수
@@ -202,4 +218,4 @@ async function claudeJSON({ system, user, schema, maxTokens = 32000, effort = 'l
   }
 }
 
-module.exports = { sleep, pool, kstDate, kstHour, listing, yahooHistory, naverDaily, naverIndex, news, claudeJSON };
+module.exports = { sleep, pool, kstDate, kstHour, listing, yahooHistory, naverDaily, naverIndex, naverIndexDaily, news, claudeJSON };

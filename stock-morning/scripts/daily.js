@@ -11,7 +11,7 @@ const fs = require('fs');
 const path = require('path');
 const { SITE_URL, STUDY_START, GLOBALS, NEWS_TOPICS } = require('./config');
 const { STUDY_WEEKS, STUDY_PLAN } = require('../data/study');
-const { pool, kstDate, yahooHistory, naverIndex, news } = require('./lib');
+const { pool, kstDate, yahooHistory, naverIndex, naverIndexDaily, news } = require('./lib');
 const { scanMarket, afterMarket, screens, movers } = require('./scan');
 const { writeReport, buildInput, SYSTEM } = require('./writer');
 const { renderFull } = require('./report');
@@ -57,11 +57,27 @@ function output(key, value) {
 }
 const rel = (p) => path.relative(process.cwd(), p).split(path.sep).join('/');
 
-async function indexOf(symbol, date) {
-  const b = await yahooHistory(symbol, '1mo');
+// 일봉 배열(오래된 날 → 최신)에서 date(없으면 마지막 거래일)의 종가와 전일 대비 등락률을 뽑는다.
+function pickDay(b, date) {
   const i = date ? b.findIndex((q) => q.d === date) : b.length - 1;
-  if (i < 1) throw new Error(symbol + ' 시세 없음');
+  if (i < 1) return null;
   return { date: b[i].d, close: b[i].c, chg: +((b[i].c / b[i - 1].c - 1) * 100).toFixed(2) };
+}
+
+// 지수 시세는 네이버 증권을 우선 쓰고(국내 출처, 마감 직후에도 값이 있음), 실패하면 Yahoo 를 쓴다.
+// 두 출처가 다르면 경고를 남겨 어느 쪽이 이상한지 로그에서 바로 보이게 한다.
+const NAVER_INDEX = { '^KS11': 'KOSPI', '^KQ11': 'KOSDAQ' };
+async function indexOf(symbol, date) {
+  let nv = null, yh = null;
+  try { nv = pickDay(await naverIndexDaily(NAVER_INDEX[symbol]), date); } catch (e) { console.warn('네이버 지수 실패', symbol, e.message); }
+  try { yh = pickDay(await yahooHistory(symbol, '1mo'), date); } catch (e) { console.warn('Yahoo 지수 실패', symbol, e.message); }
+  if (nv && yh && (nv.date !== yh.date || Math.abs(nv.chg - yh.chg) > 0.2)) {
+    console.warn(`지수 출처 불일치 ${symbol}: 네이버 ${nv.date} ${nv.close} (${nv.chg}%) / Yahoo ${yh.date} ${yh.close} (${yh.chg}%) → 네이버 사용`);
+  }
+  const r = nv || yh;
+  if (!r) throw new Error(symbol + ' 시세 없음');
+  console.log(`${symbol} ${r.date} ${r.close} (${r.chg}%) · 출처 ${nv ? '네이버' : 'Yahoo'}`);
+  return r;
 }
 
 async function main() {
