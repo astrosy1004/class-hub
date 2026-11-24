@@ -42,7 +42,9 @@ function renderDigest() {
   if (!reports.length) return;
   var latest = reports[0];
   var box = el('section', 'digest');
-  box.appendChild(el('h2', null, '📌 꼭 알아야 할 핵심 — ' + latest.date + ' 장'));
+  var keyH = el('h2', null, ' 꼭 알아야 할 핵심 — ' + latest.date + ' 장');
+  keyH.insertBefore(iconNode('pin'), keyH.firstChild);
+  box.appendChild(keyH);
   var title = el('a', 'digest-title', latest.headline);
   title.href = './analysis/' + latest.date + '.html';
   box.appendChild(title);
@@ -61,7 +63,9 @@ function renderDigest() {
     .sort(function (a, b) { return count[b] - count[a]; }).slice(0, 10);
   if (tags.length) {
     var row = el('div', 'digest-tags');
-    row.appendChild(el('b', null, '🔁 최근 ' + recent.length + '개 리포트에서 반복된 재료 '));
+    var rb = el('b', null, ' 최근 ' + recent.length + '개 리포트에서 반복된 재료 ');
+    rb.insertBefore(iconNode('repeat'), rb.firstChild);
+    row.appendChild(rb);
     tags.forEach(function (t) {
       var s = el('span', null, '#' + t + ' ');
       s.appendChild(el('i', null, count[t] + '회'));
@@ -97,7 +101,9 @@ function renderStudy() {
       var ul = el('ul');
       d.learn.forEach(function (l) { ul.appendChild(el('li', null, l)); });
       body.appendChild(ul);
-      body.appendChild(el('div', 'practice', '✍️ 실습 — ' + d.practice));
+      var pr = el('div', 'practice', ' 실습 — ' + d.practice);
+      pr.insertBefore(iconNode('pen'), pr.firstChild);
+      body.appendChild(pr);
       det.appendChild(body);
       sec.appendChild(det);
     });
@@ -120,7 +126,7 @@ function setupTheme() {
   try { saved = localStorage.getItem(THEME_KEY); } catch (e) {}
   if (saved) document.documentElement.setAttribute('data-theme', saved);
   function sync() {
-    btn.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
+    btn.innerHTML = ICONS[document.documentElement.getAttribute('data-theme') === 'dark' ? 'sun' : 'moon'];
   }
   btn.addEventListener('click', function () {
     var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';

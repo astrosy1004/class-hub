@@ -3,6 +3,7 @@
 //       → 차트상 관심주 → 섹터별 뉴스 → 공부 노트
 // 숫자는 전부 수집 데이터에서 채운다. AI 원고(draft)가 없으면 데이터만으로 그린다.
 const { SCREEN } = require('./config');
+const ICONS = require('../assets/icons.js');
 
 const esc = (s) => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const sign = (v, d = 2) => (v > 0 ? '+' : '') + Number(v).toFixed(d);
@@ -30,7 +31,7 @@ function spark(r) {
 }
 
 // 차트상 관심주 위에 붙는 "보는 법" 안내 (매일 같은 내용)
-const CHART_GUIDE = (siteUrl) => `<div class="blk"><h3>📖 미니 차트 읽는 법</h3>
+const CHART_GUIDE = (siteUrl) => `<div class="blk"><h3>${ICONS.book} 미니 차트 읽는 법</h3>
   <p style="margin:0 0 6px;font-size:14.5px">이 코너는 사라고 고른 목록이 아니라, 크게 오른 종목이 그 뒤 며칠·몇 주 동안 어떻게 움직이는지 관찰하는 <b>공부 일지</b>입니다. 늘 두 가지를 함께 물어보세요 — <b>① 재료가 아직 살아 있나?</b> (오르게 한 뉴스가 계속 나오나) <b>② 가격이 어디서 버티나?</b> (어느 이동평균선에서 멈추나)</p>
   <ul class="hl">
     <li><b>파란 실선</b> 최근 40거래일 종가 · <b>주황 점선</b> 20일 이동평균선(최근 한 달 평균 가격) · <b>끝의 점</b> 리포트 날짜 종가</li>
@@ -40,7 +41,7 @@ const CHART_GUIDE = (siteUrl) => `<div class="blk"><h3>📖 미니 차트 읽는
     <li><b>그룹</b> — 0일차(큰 양봉 당일) → 1·2일차(다음 날 버텼나) → 5~8·15·33~45·120일선(조정 때 어느 평균선에서 멈추나) 순서로 같은 종목을 따라가 보세요</li>
   </ul>
   <p class="muted" style="margin:6px 0 0;font-size:13px">미니 차트에는 캔들·거래량이 없으니 궁금한 종목은 증권 앱 일봉 차트로 함께 확인하세요. 이평선 지지는 "그런 경향"일 뿐 규칙이 아니며, 시장 전체가 급락하는 날엔 대부분 무너집니다.</p>
-  <p style="margin:10px 0 0"><a class="sheet-link" href="${siteUrl}chart.html" target="_blank" rel="noopener">📈 차트 공부 시트로 차근차근 배우기 →</a></p>
+  <p style="margin:10px 0 0"><a class="sheet-link" href="${siteUrl}chart.html" target="_blank" rel="noopener">${ICONS.chart} 차트 공부 시트로 차근차근 배우기 →</a></p>
 </div>`;
 
 // 오늘 데이터로 만든 연습 문제 (예측이 아니라 관찰·기록 과제)
@@ -61,7 +62,7 @@ function practice(scr, idx) {
     if (worst !== best) items.push([worst.name, `1일차 · ${sign(worst.d1.r)}% → ${sign(worst.d0.r)}%`, '큰 양봉 다음 날 상승분을 가장 많이 내준 종목입니다. 재료가 약했던 건지, 시장 악재에 눌린 건지 "전일 시장 정리"에서 이유를 찾아 적어 보세요.']);
   }
   if (!items.length) return '';
-  return `<div class="blk"><h3>✍️ 이 리포트로 연습해 보기</h3>
+  return `<div class="blk"><h3>${ICONS.pen} 이 리포트로 연습해 보기</h3>
   <ul class="hl">${items.map(([n, tag, text]) => `<li><b>${esc(n)}</b> <span class="muted">(${esc(tag)})</span> — ${esc(text)}</li>`).join('')}</ul>
   <div class="guide" style="margin-bottom:0"><b>기록 양식</b> 날짜 / 종목 / 재료 한 줄 / 20일선 위·아래 / 내 예상(버틴다·밀린다) → 3~5거래일 뒤 같은 종목을 다시 보고 맞았는지, 이유는 무엇인지 한 줄 남기기</div>
 </div>`;
@@ -88,9 +89,9 @@ function keyBox(ctx) {
   const tags = recur && recur.tags.length ? `<div class="rk"><b>반복되는 재료</b> ${recur.tags.map((t) => `<span class="rt">#${esc(t.tag)} <i>${t.count}일</i></span>`).join('')}</div>` : '';
   const stocks = recur && recur.stocks.length ? `<div class="rk"><b>계속 등장하는 종목</b> ${recur.stocks.map((s) => `<span class="rs">${esc(s.name)} <i>${s.count}일</i>${s.since != null ? ` <small>${s.first.slice(5)} 이후 ${pct(s.since)}</small>` : ''}</span>`).join('')}</div>` : '';
   const recurBlock = trend || tags || stocks
-    ? `<div class="key-sub"><h3>🔁 ${recur.days >= 2 ? `최근 ${recur.days}개 리포트에서 ` : ''}이어지는 흐름</h3>${trend}${tags}${stocks}</div>`
+    ? `<div class="key-sub"><h3>${ICONS.repeat} ${recur.days >= 2 ? `최근 ${recur.days}개 리포트에서 ` : ''}이어지는 흐름</h3>${trend}${tags}${stocks}</div>`
     : '';
-  return `<section class="key"><h2>📌 오늘 꼭 알아야 할 3가지</h2><ol>${points.map((p) => `<li>${esc(p)}</li>`).join('')}</ol>${recurBlock}</section>`;
+  return `<section class="key"><h2>${ICONS.pin} 오늘 꼭 알아야 할 3가지</h2><ol>${points.map((p) => `<li>${esc(p)}</li>`).join('')}</ol>${recurBlock}</section>`;
 }
 
 function renderFull(ctx) {
@@ -186,7 +187,7 @@ function renderFull(ctx) {
 
   const studyNotes = hasAi && draft.study_notes.length ? `<dl class="study">${draft.study_notes.map((n, i) => `<dt>${'①②③④⑤'[i] || '·'} ${esc(n.title)}</dt><dd>${esc(n.body)}</dd>`).join('')}</dl>` : '';
   const s = study.lesson;
-  const studyPlan = `<div class="study"><b>📚 주식 공부 30일 전략 · ${study.round > 1 ? study.round + '회독 ' : ''}${s.day}일차 / 30 — ${esc(s.title)}</b><p class="muted">${study.week.week}주차 ${esc(study.week.theme)} · 목표: ${esc(s.goal)}</p><ul>${s.learn.map((l) => `<li>${esc(l)}</li>`).join('')}</ul><div class="guide">✍️ <b>오늘의 실습</b> ${esc(s.practice)}</div><a href="${esc(siteUrl)}#study">30일 전체 계획 보기 →</a></div>`;
+  const studyPlan = `<div class="study"><b>${ICONS.study} 주식 공부 30일 전략 · ${study.round > 1 ? study.round + '회독 ' : ''}${s.day}일차 / 30 — ${esc(s.title)}</b><p class="muted">${study.week.week}주차 ${esc(study.week.theme)} · 목표: ${esc(s.goal)}</p><ul>${s.learn.map((l) => `<li>${esc(l)}</li>`).join('')}</ul><div class="guide">${ICONS.pen} <b>오늘의 실습</b> ${esc(s.practice)}</div><a href="${esc(siteUrl)}#study">30일 전체 계획 보기 →</a></div>`;
 
   const title = `${dayLabel(date)} 장 분석 리포트`;
   return `<!doctype html>
@@ -310,13 +311,19 @@ th,td{padding:10px 12px}
 .num,.kpi b,.chip,.up,.dn,.flat,.cc-h span{font-variant-numeric:tabular-nums}
 .key ol li{font-size:17px;line-height:1.6}
 .wrap{padding:0 18px}
+.ic{width:1.1em;height:1.1em;vertical-align:-.2em;flex:none;stroke-width:2}
+h2 .ic,.key h2 .ic{color:var(--accent);width:1.05em;height:1.05em}
+h3 .ic,.guide .ic,.study b .ic{color:var(--accent)}
+.theme{display:inline-flex;align-items:center;justify-content:center;padding:0}
+.theme .ic{width:19px;height:19px;vertical-align:0}
+.sheet-link .ic{color:#fff}
 @media (max-width:480px){h1{font-size:23px}h2{font-size:19px}body{font-size:15.5px}}
 @media print{.theme,nav.toc{display:none}body{background:#fff}}
 </style>
 </head>
 <body>
 <header class="top"><div class="wrap">
-  <button class="theme" id="theme" type="button" aria-label="다크 모드 전환">🌙</button>
+  <button class="theme" id="theme" type="button" aria-label="다크 모드 전환">${ICONS.moon}</button>
   <div class="date">${esc(sendDate)} 아침 작성 · ${esc(date)} 장 기준</div>
   <h1>${esc(title)}</h1>
   <p class="lead">${hasAi ? esc(draft.headline + ' — ' + draft.lead) : '시세·뉴스 데이터 정리'}</p>
@@ -331,7 +338,7 @@ th,td{padding:10px 12px}
   ${hasAi ? `<p>${esc(draft.market_summary)}</p>` : ''}
 
   <h2 id="recap">전일 시장 정리<small>섹터별로 "무엇이 움직였고, 왜 움직였나". 괄호 안은 등락률과 거래대금(억원, 추정).</small></h2>
-  <div class="guide">💡 <b>읽는 법</b> — 주가를 움직인 재료는 하루로 끝나지 않고 반복됩니다. 해시태그를 기억해 두면 같은 뉴스가 다시 나올 때 어떤 종목이 움직일지 먼저 떠올릴 수 있습니다.</div>
+  <div class="guide">${ICONS.bulb} <b>읽는 법</b> — 주가를 움직인 재료는 하루로 끝나지 않고 반복됩니다. 해시태그를 기억해 두면 같은 뉴스가 다시 나올 때 어떤 종목이 움직일지 먼저 떠올릴 수 있습니다.</div>
   ${recap}
 
   <h2 id="issue">TODAY ISSUE<small>시간이 없다면 이 부분만이라도</small></h2>
@@ -355,7 +362,7 @@ th,td{padding:10px 12px}
   ${checks}
 
   <h2 id="chart">차트상 관심주<small>매매 추천이 아니라 공부용 관찰 목록입니다.</small></h2>
-  <div class="guide">📐 <b>선정 기준</b> — 상승봉: 양봉 +${SCREEN.bigCandle}% 이상, 거래대금 코스피 ${SCREEN.bigTvKospi}억·코스닥 ${SCREEN.bigTvKosdaq}억 이상 · 이평선 구간: 최근 큰 양봉(+10%) 뒤 종가가 이평선 ±${SCREEN.maBand * 100}% 안 · 급락: -15% 이하, 거래대금 100억 이상<br><span class="legend">차트 = 최근 40거래일<i style="background:var(--accent)"></i>종가<i style="background:var(--ma)"></i>20일선</span></div>
+  <div class="guide">${ICONS.ruler} <b>선정 기준</b> — 상승봉: 양봉 +${SCREEN.bigCandle}% 이상, 거래대금 코스피 ${SCREEN.bigTvKospi}억·코스닥 ${SCREEN.bigTvKosdaq}억 이상 · 이평선 구간: 최근 큰 양봉(+10%) 뒤 종가가 이평선 ±${SCREEN.maBand * 100}% 안 · 급락: -15% 이하, 거래대금 100억 이상<br><span class="legend">차트 = 최근 40거래일<i style="background:var(--accent)"></i>종가<i style="background:var(--ma)"></i>20일선</span></div>
   ${CHART_GUIDE(siteUrl)}
   ${practice(scr, idx)}
   ${charts}
@@ -374,7 +381,7 @@ th,td{padding:10px 12px}
 <script>
 (function(){var k='stockMorningTheme',b=document.getElementById('theme'),s=null;try{s=localStorage.getItem(k)}catch(e){}
 if(s)document.documentElement.setAttribute('data-theme',s);
-function f(){b.textContent=document.documentElement.getAttribute('data-theme')==='dark'?'☀️':'🌙'}
+var SUN=${JSON.stringify(ICONS.sun)},MOON=${JSON.stringify(ICONS.moon)};function f(){b.innerHTML=document.documentElement.getAttribute('data-theme')==='dark'?SUN:MOON}
 b.addEventListener('click',function(){var n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);try{localStorage.setItem(k,n)}catch(e){}f()});f()})();
 </script>
 </body>

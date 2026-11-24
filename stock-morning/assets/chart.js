@@ -244,7 +244,9 @@ function renderSheet(root, s) {
 
   if (s.quiz && s.quiz.length) {
     var qz = el('section', 'sheet-sec quiz');
-    qz.appendChild(el('h3', null, '✅ 확인 문제'));
+    var qh = el('h3', null, ' 확인 문제');
+    qh.insertBefore(iconNode('ok'), qh.firstChild);
+    qz.appendChild(qh);
     s.quiz.forEach(function (q, qi) {
       var item = el('div', 'q');
       item.appendChild(el('p', 'q-text', (qi + 1) + '. ' + q.q));
@@ -261,7 +263,8 @@ function renderSheet(root, s) {
             if (i === q.answer) all[i].classList.add('right');
           }
           if (oi !== q.answer) b.classList.add('wrong');
-          exp.textContent = (oi === q.answer ? '⭕ 정답! ' : '❌ 정답은 "' + q.options[q.answer] + '" — ') + q.explain;
+          exp.textContent = ' ' + (oi === q.answer ? '정답! ' : '정답은 "' + q.options[q.answer] + '" — ') + q.explain;
+          exp.insertBefore(iconNode(oi === q.answer ? 'ok' : 'no'), exp.firstChild);
           exp.hidden = false;
         });
         opts.appendChild(b);
@@ -274,7 +277,9 @@ function renderSheet(root, s) {
   }
 
   var pr = el('section', 'sheet-sec practice');
-  pr.appendChild(el('h3', null, '✍️ 리포트로 실습하기'));
+  var ph = el('h3', null, ' 리포트로 실습하기');
+  ph.insertBefore(iconNode('pen'), ph.firstChild);
+  pr.appendChild(ph);
   var p = el('p');
   p.innerHTML = s.practice;
   pr.appendChild(p);
@@ -284,7 +289,11 @@ function renderSheet(root, s) {
     a.href = './analysis/' + latest.date + '.html#chart';
     pr.appendChild(a);
   }
-  if (s.link30) pr.appendChild(el('p', 'muted small', '📚 ' + s.link30));
+  if (s.link30) {
+    var lp = el('p', 'muted small', ' ' + s.link30);
+    lp.insertBefore(iconNode('study'), lp.firstChild);
+    pr.appendChild(lp);
+  }
   root.appendChild(pr);
 
   // 완료 버튼 + 다음 시트
@@ -331,7 +340,7 @@ function setupTheme() {
   try { saved = localStorage.getItem(THEME_KEY); } catch (e) {}
   if (saved) document.documentElement.setAttribute('data-theme', saved);
   function sync() {
-    btn.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
+    btn.innerHTML = ICONS[document.documentElement.getAttribute('data-theme') === 'dark' ? 'sun' : 'moon'];
   }
   btn.addEventListener('click', function () {
     var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
