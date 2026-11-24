@@ -149,7 +149,7 @@ async function news(query, { after, before, limit = 15 } = {}) {
 // ---------------------------------------------------------------- Claude
 
 // 429·5xx·네트워크 오류만 재시도하고, 4xx는 API가 돌려준 오류 내용을 그대로 남긴다.
-async function claudeJSON({ system, user, schema, maxTokens = 32000, effort = 'high' }) {
+async function claudeJSON({ system, user, schema, maxTokens = 32000, effort = 'low' }) {
   const key = process.env.ANTHROPIC_API_KEY;
   if (!key) return { error: 'ANTHROPIC_API_KEY 없음' };
   const body = JSON.stringify({
@@ -184,9 +184,9 @@ async function claudeJSON({ system, user, schema, maxTokens = 32000, effort = 'h
       const msg = await res.json().catch(() => ({}));
       if (res.ok) {
         if (msg.stop_reason === 'refusal') return { error: '요청이 거절됨' };
+        if (msg.usage) console.log('Claude 사용량:', JSON.stringify(msg.usage), 'stop:', msg.stop_reason);
         if (msg.stop_reason === 'max_tokens') return { error: '응답이 잘림' };
         const text = (msg.content || []).filter((b) => b.type === 'text').map((b) => b.text).join('');
-        if (msg.usage) console.log('Claude 사용량:', JSON.stringify(msg.usage));
         return JSON.parse(text);
       }
       const detail = `HTTP ${res.status} ${(msg.error && msg.error.type) || ''}: ${(msg.error && msg.error.message) || ''}`;
