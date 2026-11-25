@@ -304,15 +304,15 @@ const APPLY = {
     const n = m.chars.length;
     const yin = n - m.yang;
     const tilt = m.yang >= n - 2 ? "양이 크게 많아 외향적이고 직선적인 경향이 강합니다. 쉼과 갈무리를 의식하면 좋습니다." : yin >= n - 2 ? "음이 크게 많아 신중하고 내면적인 경향이 강합니다. 표현하고 움직이는 연습이 도움이 됩니다." : "음양이 비교적 고르게 섞여 있습니다.";
-    return `<p class="stat">양 <b>${m.yang}</b> · 음 <b>${yin}</b></p><div class="chips">${m.chars.map((c) => `<span class="chip ${c.yang ? "yang" : "yin"}">${c.han} ${c.yang ? "양" : "음"}</span>`).join("")}</div><p>${tilt}</p>`;
+    return `${Charts.yinyang(m.yang, yin)}<div class="chips">${m.chars.map((c) => `<span class="chip ${c.yang ? "yang" : "yin"}">${c.han} ${c.yang ? "양" : "음"}</span>`).join("")}</div><p>${tilt}</p>`;
   },
-  elements: (m) => `${elementBars(m)}<p>가장 많은 오행은 ${maxEls(m).map((e) => elTag(e)).join(" ")}${missingEls(m).length ? `, 없는 오행은 ${missingEls(m).map((e) => elTag(e)).join(" ")}` : ", 다섯 오행이 모두 있습니다"}.</p><p class="muted">천간·지지 겉글자 기준으로 센 값입니다. 지장간은 Day 9에서 다룹니다.</p>`,
+  elements: (m) => `${Charts.wuxing({ counts: m.elCount, caption: "원 크기 = 글자 수" })}${Charts.stack(m.elCount)}<p>가장 많은 오행은 ${maxEls(m).map((e) => elTag(e)).join(" ")}${missingEls(m).length ? `, 없는 오행은 ${missingEls(m).map((e) => elTag(e)).join(" ")}` : ", 다섯 오행이 모두 있습니다"}.</p><p class="muted">천간·지지 겉글자 기준으로 센 값입니다. 지장간은 Day 9에서 다룹니다.</p>`,
   cycle: (m) => {
     const e = m.dmEl;
     const rows = [
       ["나를 생하는 오행(인성)", (e + 4) % 5], ["나와 같은 오행(비겁)", e], ["내가 생하는 오행(식상)", (e + 1) % 5], ["내가 극하는 오행(재성)", (e + 2) % 5], ["나를 극하는 오행(관성)", (e + 3) % 5],
     ];
-    return `<p>내 일간 ${elTag(e)}을(를) 기준으로 한 생극 관계입니다.</p><ul class="kv">${rows.map(([k, el]) => `<li><span>${k}</span>${elTag(el)} <span class="muted">${m.elCount[el]}개</span></li>`).join("")}</ul>`;
+    return `<p>내 일간 ${elTag(e)}을(를) 기준으로 한 생극 관계입니다. 시계 방향 실선이 상생, 별 모양 점선이 상극입니다.</p>${Charts.wuxing({ counts: m.elCount, dm: e, caption: "원 안 = 일간 기준 십신 묶음과 개수" })}<ul class="kv">${rows.map(([k, el]) => `<li><span>${k}</span>${elTag(el)} <span class="muted">${m.elCount[el]}개</span></li>`).join("")}</ul>`;
   },
   stems: (m) => `<ul class="kv">${m.chars.filter((c) => c.kind === "stem").map((c) => `<li><span>${POS_KO[c.pos]}</span>${charTag(c)} ${M.STEMS[c.idx].ko}${EL_KO[c.el]} · ${DAY_MASTER_TEXT[c.idx].img}</li>`).join("")}</ul>`,
   branches: (m) => {
@@ -333,29 +333,29 @@ const APPLY = {
     });
     return `<ul class="kv">${rows.join("")}</ul><p class="muted">각 줄의 마지막 글자가 정기입니다. '투간'은 그 글자가 천간에도 드러나 힘이 강하게 쓰인다는 뜻입니다.</p>`;
   },
-  tenGods: (m, focus) => {
+  tenGods: (m, focus, compact) => {
     const list = Object.entries(m.godCount).sort((a, b) => b[1] - a[1]);
     const focusGods = focus ? Object.keys(TEN_GOD_TEXT).filter((g) => TEN_GOD_TEXT[g].group === focus) : null;
     const body = focus
       ? `<p><b>${focus}</b>: ${GROUP_TEXT[focus]}</p><ul class="kv">${focusGods.map((g) => `<li><span>${g} ${m.godCount[g] || 0}개</span>${esc(TEN_GOD_TEXT[g].text)}</li>`).join("")}</ul><p>${focusComment(m, focus)}</p>`
       : `<ul class="kv">${list.map(([g, n]) => `<li><span>${g} ×${n}</span>${esc(TEN_GOD_TEXT[g].key)} — ${esc(TEN_GOD_TEXT[g].text)}</li>`).join("")}</ul>`;
-    return `${groupBars(m)}${body}`;
+    return `${compact ? "" : Charts.wuxing({ counts: m.elCount, dm: m.dmEl, highlight: focus ? [(m.dmEl + GROUP_ORDER.indexOf(focus)) % 5] : [], caption: focus ? `${focus} 강조` : "일간 기준 십신 묶음" })}${groupBars(m)}${body}`;
   },
   season: (m) => {
     const mb = m.chars.find((c) => c.pos === "month" && c.kind === "branch");
     return `<p>월지는 ${charTag(mb)} (${m.johu.season}, ${EL_KO[mb.el]})입니다. 일간 ${elTag(m.dmEl)} 기준 <b>${m.r.pillars.month.branchGod}</b>의 달입니다.</p><p class="stat">${m.strength.deukryeong ? "득령 ✓ — 계절의 도움을 받습니다." : "실령 — 계절의 직접적인 도움은 받지 못합니다."}</p><p>${m.strength.deukji ? "일지에서도 힘을 얻습니다(득지)." : "일지에서는 힘을 얻지 못합니다."}</p>`;
   },
-  strength: (m) => `<div class="meter"><span style="left:${Math.round(m.strength.ratio * 100)}%"></span></div><div class="meter-scale"><span>신약</span><span>중화</span><span>신강</span></div><p class="stat"><b>${m.strength.label}</b> · ${m.strength.detail} (돕는 힘 ${Math.round(m.strength.ratio * 100)}%)</p><ul class="kv"><li><span>득령(월지)</span>${m.strength.deukryeong ? "○" : "×"}</li><li><span>득지(일지)</span>${m.strength.deukji ? "○" : "×"}</li><li><span>비겁+인성</span>${m.groupCount.비겁 + m.groupCount.인성}개 / 나머지 ${m.chars.length - 1 - m.groupCount.비겁 - m.groupCount.인성}개</li></ul><p class="muted">월지 3 · 일지 2 · 나머지 1의 가중치로 센 학습용 간이 판단입니다.</p>`,
-  balance: (m) => {
+  strength: (m) => `${Charts.gauge(m.strength.ratio, m.strength.label)}<p class="stat center">${m.strength.detail}</p><ul class="kv"><li><span>득령(월지)</span>${m.strength.deukryeong ? "○" : "×"}</li><li><span>득지(일지)</span>${m.strength.deukji ? "○" : "×"}</li><li><span>비겁+인성</span>${m.groupCount.비겁 + m.groupCount.인성}개 / 나머지 ${m.chars.length - 1 - m.groupCount.비겁 - m.groupCount.인성}개</li></ul><p class="muted">월지 3 · 일지 2 · 나머지 1의 가중치로 센 학습용 간이 판단입니다.</p>`,
+  balance: (m, _f, compact) => {
     const lines = m.elCount.map((n, i) => (n >= 3 ? `<li>${elTag(i)} ${n}개 — ${ELEMENT_TEXT[i].many}</li>` : n === 0 ? `<li>${elTag(i)} 없음 — ${ELEMENT_TEXT[i].none} <span class="muted">보완: ${ELEMENT_TEXT[i].tip}</span></li>` : "")).join("");
-    return `${elementBars(m)}${lines ? `<ul class="plain">${lines}</ul>` : "<p>3개 이상 몰리거나 빠진 오행 없이 고른 편입니다.</p>"}`;
+    return `${compact ? Charts.stack(m.elCount) : Charts.wuxing({ counts: m.elCount, highlight: m.elCount.map((n, i) => (n === 0 || n >= 3 ? i : -1)).filter((i) => i >= 0), caption: "점선 고리 = 많거나 없는 오행" })}${lines ? `<ul class="plain">${lines}</ul>` : "<p>3개 이상 몰리거나 빠진 오행 없이 고른 편입니다.</p>"}`;
   },
   stages: (m) => `<ul class="kv">${["year", "month", "day", "hour"].filter((p) => m.r.pillars[p]).map((p) => `<li><span>${POS_KO[p]} ${m.r.pillars[p].text.slice(1)}</span><b>${m.r.pillars[p].stage}</b> — ${STAGE_TEXT[m.r.pillars[p].stage]}</li>`).join("")}</ul><p class="muted">일간 ${M.STEMS[m.ds].han}이(가) 각 지지에서 어떤 상태인지 본 것입니다.</p>`,
   combos: (m) => (m.combos.length ? `<ul class="kv">${m.combos.map((c) => `<li><span>${c.type}</span><b>${esc(c.text)}</b> — ${esc(c.note)}</li>`).join("")}</ul>` : "<p>원국에 뚜렷한 합이 없습니다. 운에서 들어오는 글자와의 합을 보게 됩니다.</p>"),
   clashes: (m) => (m.clashes.length ? `<ul class="kv">${m.clashes.map((c) => `<li><span>${c.type}</span><b>${esc(c.text)}</b></li>`).join("")}</ul><p>충·형이 있는 자리(궁)는 변화와 조정이 잦은 영역으로 읽습니다.</p>` : "<p>원국에 충·형이 없어 비교적 안정된 구조입니다. 운에서 오는 충을 살펴보세요.</p>"),
-  yongsin: (m) => `<p class="stat">${m.strength.label} → <b>${m.yongsin.dir}</b></p><p>${m.yongsin.why}</p><p>후보: ${m.yongsin.cands.map((e) => `${elTag(e)} <span class="muted">${m.elCount[e]}개</span>`).join(" · ")}</p><p>이 중 원국에 가장 적은 ${elTag(m.yongsin.pick)}을(를) 간이 용신 후보로 볼 수 있습니다. 생활 팁: ${ELEMENT_TEXT[m.yongsin.pick].tip}.</p><p class="muted">실제 용신은 조후·합충·격국까지 봐야 하며 학파마다 다릅니다.</p>`,
-  johu: (m) => `<p class="stat">${m.johu.season}생 · 월지 ${m.r.pillars.month.text.slice(1)}</p><p>${m.johu.text}</p>${m.johu.need != null ? `<p>조후 오행 ${elTag(m.johu.need)} — 원국에 <b>${m.johu.has}개</b> ${m.johu.has ? "있어 어느 정도 조절됩니다." : "없어 운에서 들어올 때 반갑습니다."}</p>` : ""}`,
-  daeun: (m) => `<p>대운수 <b>${m.r.daeun.number}</b> · ${m.r.daeun.forward ? "순행" : "역행"} · 현재 ${m.r.koreanAge}세(세는 나이)</p><div class="daeun">${m.r.daeun.list.slice(0, 10).map((d) => `<div class="du ${d.current ? "now" : ""}"><small>${d.startAge}세</small><b class="el-${EL_ID[M.STEMS[d.stem].element]}">${M.STEMS[d.stem].han}</b><b class="el-${EL_ID[M.BRANCHES[d.branch].element]}">${M.BRANCHES[d.branch].han}</b><small>${esc(d.stemGod)}</small><small>${esc(d.branchGod)}</small></div>`).join("")}</div>${currentDaeunText(m)}`,
+  yongsin: (m, _f, compact) => `${compact ? "" : Charts.wuxing({ counts: m.elCount, dm: m.dmEl, highlight: [m.yongsin.pick], caption: `점선 고리 = 간이 용신 후보 ${EL_KO[m.yongsin.pick]}` })}<p class="stat">${m.strength.label} → <b>${m.yongsin.dir}</b></p><p>${m.yongsin.why}</p><p>후보: ${m.yongsin.cands.map((e) => `${elTag(e)} <span class="muted">${m.elCount[e]}개</span>`).join(" · ")}</p><p>이 중 원국에 가장 적은 ${elTag(m.yongsin.pick)}을(를) 간이 용신 후보로 볼 수 있습니다. 생활 팁: ${ELEMENT_TEXT[m.yongsin.pick].tip}.</p><p class="muted">실제 용신은 조후·합충·격국까지 봐야 하며 학파마다 다릅니다.</p>`,
+  johu: (m) => `${seasonWheel(m.r.pillars.month.branch)}<p class="stat">${m.johu.season}생 · 월지 ${m.r.pillars.month.text.slice(1)}</p><p>${m.johu.text}</p>${m.johu.need != null ? `<p>조후 오행 ${elTag(m.johu.need)} — 원국에 <b>${m.johu.has}개</b> ${m.johu.has ? "있어 어느 정도 조절됩니다." : "없어 운에서 들어올 때 반갑습니다."}</p>` : ""}`,
+  daeun: (m) => `<p>대운수 <b>${m.r.daeun.number}</b> · ${m.r.daeun.forward ? "순행" : "역행"} · 현재 ${m.r.koreanAge}세(세는 나이)</p>${Charts.timeline(m.r.daeun.list.map((d) => ({ ...d, stemEl: M.STEMS[d.stem].element, branchEl: M.BRANCHES[d.branch].element, stemHan: M.STEMS[d.stem].han, branchHan: M.BRANCHES[d.branch].han })), m.r.koreanAge)}${currentDaeunText(m)}`,
   seun: (m) => `<p class="stat">${m.seun.year}년 <b>${m.seun.text}</b>(${m.seun.ko})</p><ul class="kv"><li><span>천간 ${M.STEMS[m.seun.stem].han}</span>${m.seun.stemGod} — ${esc(TEN_GOD_TEXT[m.seun.stemGod].key)}</li><li><span>지지 ${M.BRANCHES[m.seun.branch].han}</span>${m.seun.branchGod} — ${esc(TEN_GOD_TEXT[m.seun.branchGod].key)}</li></ul><p>올해의 주제는 <b>${groupOf(m.seun.stemGod)}</b>(${GROUP_TEXT[groupOf(m.seun.stemGod)]}) 쪽으로 읽을 수 있습니다.${m.seun.links.length ? ` 원국과는 ${m.seun.links.join(", ")}이 있어 해당 자리의 변화가 예상됩니다.` : ""}</p>`,
   sinsal: (m) => (m.sinsal.length ? `<ul class="kv">${m.sinsal.map((s) => `<li><span>${s.name}</span>${POS_KO[s.pos]} ${s.han} <span class="muted">(${s.base} 기준)</span></li>`).join("")}</ul><p class="muted">도화=매력·인기, 역마=이동·활동, 화개=학문·예술. 보조 지표로만 참고하세요.</p>` : "<p>연지·일지 기준으로 도화·역마·화개가 원국에 보이지 않습니다.</p>"),
   gyeok: (m) => `<p class="stat"><b>${m.gyeok.name}</b></p><p>월지 ${m.r.pillars.month.text.slice(1)}의 지장간 중 ${M.STEMS[m.gyeok.stem].han}${m.gyeok.tougan ? "이(가) 천간에 드러나(투간)" : "(정기)을 기준으로"} 일간에게 <b>${m.gyeok.god}</b>이 되므로 ${m.gyeok.name}으로 봅니다.</p><p>${esc(TEN_GOD_TEXT[m.gyeok.god].text)}의 틀로 사회 활동을 펼치는 구조입니다.</p><p class="muted">간이 판정입니다. 격의 성패와 상신까지는 판단하지 않습니다.</p>`,
@@ -366,6 +366,8 @@ const APPLY = {
   }).join("")}</ul>`,
   summary: (m) => summaryHtml(m),
 };
+
+const seasonWheel = (monthBranch) => Charts.seasons(monthBranch, M.BRANCHES.map((b) => b.han));
 
 function maxEls(m) {
   const max = Math.max(...m.elCount);
@@ -421,21 +423,57 @@ function renderToday() {
   const m = currentModel();
   app.innerHTML = `
     <section class="hero">
-      <p class="eyebrow">명리 30일 · ${esc(localStorage.getItem(START_KEY))} 시작</p>
-      <h1>하루 한 강, 내 사주로 배우는 명리학</h1>
-      <p class="lead">추천 영상으로 듣고, 핵심을 정리하고, 바로 내 사주에 적용해 봅니다.</p>
-      <div class="progress"><span style="width:${(done / 30) * 100}%"></span></div>
-      <p class="muted">${done} / 30강 완료 · 오늘은 공부 ${no}일째</p>
+      <h1>사주를 읽는 법,<br>하루 한 강씩</h1>
+      <p class="sub">추천 영상으로 듣고, 핵심을 정리하고, 바로 내 사주에 적용해 보는 30일 명리 공부.</p>
+      <div class="pill-cta">
+        <span class="pill-text">오늘 · Day ${today.day} ${esc(today.title.split(" — ")[0])}</span>
+        <a class="btn" href="#day-${today.day}">강의 시작</a>
+      </div>
+      <a class="btn ghost sm" href="#list">커리큘럼 보기 ↗</a>
+      <div class="preview">
+        <div class="preview-side">
+          <div class="pv-brand"><span class="seal" aria-hidden="true">命</span>명리 30일</div>
+          ${["오늘", "커리큘럼", "내 사주"].map((t, i) => `<span class="pv-nav ${i === 0 ? "on" : ""}">${t}</span>`).join("")}
+          <span class="pv-sep">이번 주</span>
+          ${DAYS.filter((d) => d.week === today.week).map((d) => `<span class="pv-nav ${isDone(d.day) ? "done" : ""}">Day ${d.day}</span>`).join("")}
+        </div>
+        <div class="preview-main">
+          <p class="pv-hello">공부 ${no}일째, 오늘도 한 강 해 볼까요?</p>
+          <div class="pv-grid">
+            <div class="pv-card pv-ring">
+              <p class="pv-label">30일 진도</p>
+              ${Charts.ring({ done: progress.done, today: no })}
+              <p class="pv-foot">${esc(localStorage.getItem(START_KEY))} 시작</p>
+            </div>
+            <a class="pv-card pv-today" href="#day-${today.day}">
+              <p class="pv-label">오늘의 강의 · Day ${today.day}</p>
+              <h3>${esc(today.title)}</h3>
+              <p>${esc(today.goal)}</p>
+              <ol>${today.points.slice(0, 3).map((p) => `<li>${esc(p.length > 46 ? p.slice(0, 46) + "…" : p)}</li>`).join("")}</ol>
+            </a>
+          </div>
+        </div>
+      </div>
     </section>
-    <section class="grid2">
+    <section class="intro">
+      <div>
+        <h2>다섯 기운이 서로 돕고<br>견제하는 방식을 읽습니다</h2>
+        <p>목·화·토·금·수는 시계 방향으로 서로를 낳고(상생), 별 모양으로 서로를 누릅니다(상극). 30일 동안 이 관계 위에 십신, 강약, 용신, 대운을 차례로 얹어 갑니다.</p>
+        <p class="muted small">${m && !m.error ? "오른쪽 그림은 입력한 내 사주의 오행 개수와 일간 기준 십신입니다." : "생년월일을 입력하면 이 그림이 내 사주의 오행 분포로 바뀝니다."}</p>
+        <div class="row"><a class="btn sm ghost" href="#day-4">Day 4 상생과 상극 ↗</a>${m && !m.error ? "" : '<a class="btn sm" href="#saju">생년월일 입력</a>'}</div>
+      </div>
+      ${m && !m.error ? Charts.wuxing({ counts: m.elCount, dm: m.dmEl }) : Charts.wuxing()}
+    </section>
+    <div class="band" aria-hidden="true"></div>
+    <section class="grid2 cards-home">
       <a class="card today-card" href="#day-${today.day}">
-        <span class="badge">오늘의 강의 · Day ${today.day}</span>
+        <span class="badge solid">오늘의 강의 · Day ${today.day}</span>
         <h2>${esc(today.title)}</h2>
         <p>${esc(today.goal)}</p>
         <span class="go">${isDone(today.day) ? "✓ 완료 — 다시 보기" : "공부 시작 →"}</span>
       </a>
       ${next && next.day !== today.day ? `<a class="card" href="#day-${next.day}"><span class="badge soft">이어서 공부하기 · Day ${next.day}</span><h2>${esc(next.title)}</h2><p>${esc(next.goal)}</p><span class="go">이어서 →</span></a>` : ""}
-      ${!next ? `<div class="card done-card"><span class="badge">🎉 30강 완주</span><h2>모든 강의를 마쳤습니다</h2><p>Day 29 종합 실습을 다시 보며 가족의 사주도 풀어 보세요.</p></div>` : ""}
+      ${!next ? `<div class="card done-card"><span class="badge solid">30강 완주</span><h2>모든 강의를 마쳤습니다</h2><p>Day 29 종합 실습을 다시 보며 가족의 사주도 풀어 보세요.</p></div>` : ""}
       <a class="card" href="#saju">
         <span class="badge soft">내 사주 해석</span>
         ${m && !m.error ? `<h2>${m.r.pillars.year.text} ${m.r.pillars.month.text} ${m.r.pillars.day.text} ${m.r.pillars.hour ? m.r.pillars.hour.text : ""}</h2><p>${M.STEMS[m.ds].ko}${EL_KO[m.dmEl]} 일간 · ${m.strength.label} · ${m.gyeok.name}</p><span class="go">해석 보기 →</span>` : `<h2>생년월일을 입력해 주세요</h2><p>입력하면 매일 강의에서 내 사주로 실습할 수 있습니다.</p><span class="go">입력하기 →</span>`}
@@ -448,7 +486,7 @@ function weekGrid() {
   const no = studyDayNo();
   return WEEKS.map((w) => `
     <section class="week">
-      <h3>${esc(w.name)}</h3><p class="muted">${esc(w.desc)}</p>
+      <div class="week-head"><h3>${esc(w.name)}</h3><p>${esc(w.desc)}</p></div>
       <div class="days">${DAYS.filter((d) => d.week === w.no).map((d) => `<a class="day ${isDone(d.day) ? "done" : ""} ${d.day === no ? "is-today" : ""}" href="#day-${d.day}"><b>${d.day}</b><span>${esc(d.title.split(" — ")[0])}</span></a>`).join("")}</div>
     </section>`).join("");
 }
@@ -457,9 +495,11 @@ function weekGrid() {
 
 function renderList() {
   app.innerHTML = `
-    <section class="hero small"><h1>30일 커리큘럼</h1><p class="lead">4주 동안 재료 → 관계 → 구조 → 흐름 순서로 쌓아 올립니다.</p>
-      <div class="row"><label>공부 시작일 <input type="date" id="startDate" value="${esc(localStorage.getItem(START_KEY))}"></label><button class="btn ghost" id="resetProgress" type="button">진도 초기화</button></div>
+    <section class="page-head split"><div><p class="eyebrow">Curriculum</p><h1>30일 커리큘럼</h1><p class="lead">4주 동안 재료 → 관계 → 구조 → 흐름 순서로 쌓아 올립니다.</p>
+      <div class="row"><label class="muted small">공부 시작일 <input type="date" id="startDate" value="${esc(localStorage.getItem(START_KEY))}"></label><button class="btn sm ghost" id="resetProgress" type="button">진도 초기화</button></div></div>
+      ${Charts.ring({ done: progress.done, today: studyDayNo(), size: 168 })}
     </section>
+    <div class="band" aria-hidden="true"></div>
     ${weekGrid()}`;
   $("#startDate").addEventListener("change", (e) => {
     if (e.target.value) localStorage.setItem(START_KEY, e.target.value);
@@ -494,32 +534,32 @@ function renderDay(n) {
     <nav class="crumbs"><a href="#list">커리큘럼</a> › ${esc(week.name)}</nav>
     <article class="lesson">
       <header>
-        <span class="badge">Day ${d.day} / 30</span>
+        <span class="badge">DAY ${d.day} / 30 · ${esc(week.name.split(" · ")[1])}</span>
         <h1>${esc(d.title)}</h1>
-        <p class="lead">🎯 ${esc(d.goal)}</p>
+        <p class="lead">${esc(d.goal)}</p>
       </header>
 
       <section class="card">
-        <h2>📺 추천 영상</h2>
+        <h2><span class="step">01</span>추천 영상</h2>
         ${vid
           ? `<div class="video"><iframe src="https://www.youtube-nocookie.com/embed/${vid}" title="${esc(d.title)}" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div><p class="video-meta">${d.videoTitle ? `<b>${esc(d.videoTitle)}</b>` : ""}${d.videoChannel ? ` <span class="muted">· ${esc(d.videoChannel)}</span>` : ""}</p><p class="muted small"><a href="https://www.youtube.com/watch?v=${vid}" target="_blank" rel="noopener">유튜브에서 열기 ↗</a> · <a href="${searchUrl}" target="_blank" rel="noopener">같은 주제 다른 영상 찾기</a> · 영상은 각 채널의 강의이며, 아래 핵심 정리는 이 사이트가 따로 정리한 내용입니다.</p>`
           : `<p>오늘 주제에 맞춘 검색어로 강의 영상을 찾아 10~20분 분량 하나를 골라 보세요.</p><a class="btn" href="${searchUrl}" target="_blank" rel="noopener">▶ 유튜브에서 “${esc(d.query)}” 찾기</a><p class="muted small">마음에 드는 영상을 찾으면 <code>assets/data.js</code>의 Day ${d.day} <code>video</code> 칸에 주소를 넣어 두세요. 다음부터 이 자리에 바로 재생됩니다.</p>`}
       </section>
 
       <section class="card">
-        <h2>📝 오늘의 핵심 정리</h2>
+        <h2><span class="step">02</span>오늘의 핵심 정리</h2>
         <ol class="points">${d.points.map((p) => `<li>${esc(p)}</li>`).join("")}</ol>
         <h3>용어</h3>
         <dl class="terms">${d.terms.map(([t, v]) => `<dt>${esc(t)}</dt><dd>${esc(v)}</dd>`).join("")}</dl>
       </section>
 
       <section class="card apply">
-        <h2>🔮 내 사주에 적용해 보기</h2>
+        <h2><span class="step">03</span>내 사주에 적용해 보기</h2>
         ${m && !m.error ? APPLY[applyKey](m, focus) : `<p>생년월일을 입력하면 오늘 배운 내용을 내 사주로 바로 확인할 수 있습니다.</p><a class="btn" href="#saju">생년월일 입력하기</a>`}
       </section>
 
       <section class="card quiz">
-        <h2>✅ 확인 문제</h2>
+        <h2><span class="step">04</span>확인 문제</h2>
         <p class="q">${esc(d.quiz.q)}</p>
         <div class="options">${d.quiz.options.map((o, i) => `<button type="button" class="opt ${chosen != null ? (i === d.quiz.answer ? "right" : i === chosen ? "wrong" : "") : ""}" data-opt="${i}" ${chosen != null ? "disabled" : ""}>${esc(o)}</button>`).join("")}</div>
         ${chosen != null ? `<p class="explain">${chosen === d.quiz.answer ? "정답입니다! " : "아쉬워요. "}${esc(d.quiz.explain)}</p><button type="button" class="link" id="retry">다시 풀기</button>` : ""}
@@ -557,7 +597,7 @@ function renderSaju() {
   const [y, mo, da] = p.date ? p.date.split("-").map(Number) : ["", "", ""];
   const m = currentModel();
   app.innerHTML = `
-    <section class="hero small"><h1>내 사주 해석</h1><p class="lead">생년월일시를 넣으면 만세력으로 네 기둥을 세우고, 30일 강의 순서대로 풀어 줍니다.</p></section>
+    <section class="page-head"><p class="eyebrow">My Saju</p><h1>내 사주 해석</h1><p class="lead">생년월일시를 넣으면 만세력으로 네 기둥을 세우고, 30일 강의 순서대로 풀어 줍니다.</p></section>
     <form class="card form" id="sajuForm" autocomplete="off">
       <div class="seg" role="radiogroup" aria-label="달력">
         <label><input type="radio" name="calendar" value="solar" ${p.calendar !== "lunar" ? "checked" : ""}> 양력</label>
@@ -650,16 +690,16 @@ function resultHtml(m) {
       ${pillarTable(m)}
       ${noticeList(m)}
     </section>
-    ${sec("한눈에 보는 해석", 29, summaryHtml(m))}
+    ${sec("한눈에 보는 해석", 29, `<div class="viz-row">${Charts.wuxing({ counts: m.elCount, dm: m.dmEl, highlight: [m.yongsin.pick], caption: `점선 고리 = 간이 용신 ${EL_KO[m.yongsin.pick]}` })}${seasonWheel(m.r.pillars.month.branch)}</div>${summaryHtml(m)}`)}
     <div class="grid2">
       ${sec("일간 — 나", 8, APPLY.dayMaster(m))}
-      ${sec("오행 분포", 18, APPLY.balance(m))}
+      ${sec("오행 분포", 18, APPLY.balance(m, null, true))}
       ${sec("신강·신약", 17, APPLY.strength(m))}
-      ${sec("십신 분포", 10, APPLY.tenGods(m))}
+      ${sec("십신 분포", 10, APPLY.tenGods(m, null, true))}
       ${sec("합", 20, APPLY.combos(m))}
       ${sec("충·형", 21, APPLY.clashes(m))}
-      ${sec("용신(억부)", 22, APPLY.yongsin(m))}
-      ${sec("조후", 23, APPLY.johu(m))}
+      ${sec("용신(억부)", 22, APPLY.yongsin(m, null, true))}
+      ${sec("조후", 23, APPLY.johu(m).replace(seasonWheel(m.r.pillars.month.branch), ""))}
       ${sec("격국", 27, APPLY.gyeok(m))}
       ${sec("신살", 26, APPLY.sinsal(m))}
     </div>

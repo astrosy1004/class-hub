@@ -16,6 +16,7 @@ myeongri30/
   index.html          # 화면 뼈대 (상단 메뉴: 오늘 / 커리큘럼 / 내 사주)
   assets/data.js      # 콘텐츠: WEEKS·DAYS(30강) + 일간·오행·십신·12운성·궁위 해석 문구
   assets/app.js       # 화면 그리기, 진도 저장, 사주 분석(강약·용신·조후·합충·신살·격국)
+  assets/charts.js    # 그림(SVG): 오행 상생·상극 다이어그램, 30일 진도 링, 강약 게이지, 음양 막대, 대운 타임라인, 12지지 계절 바퀴
   assets/manse.js     # 만세력 엔진 (saju/js 엔진을 일반 스크립트로 묶은 사본)
   assets/styles.css   # CSS 변수 + [data-theme="dark"] 다크 모드, 오행 색
   .nojekyll
