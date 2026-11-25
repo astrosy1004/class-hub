@@ -49,6 +49,30 @@ const toneOptions = [
 // pitch 는 발표 자료 주소(선택). 적어 두면 메뉴와 카드에 🎤 발표 자료 링크가 생깁니다.
 const programs = [
   {
+    id: "stockmorning",
+    type: "webapp",
+    status: "live",
+    title: "모닝 마켓 브리핑",
+    icon: "📈",
+    tone: "pink",
+    url: "../stock-morning/",
+    description: "평일 아침, 전일 한국 증시를 섹터별로 정리해 메일로 보내 주고 지난 리포트와 주식 공부 자료를 모아 보는 서비스",
+    features: ["전일 장 분석 리포트 · 지난 리포트 목록", "섹터별 재료와 근거 뉴스 링크 · 종목별 종가와 등락률", "주식 공부 30일 전략 · 차트 공부 시트"],
+    tags: ["주식", "브리핑", "학습"],
+  },
+  {
+    id: "myeongri30",
+    type: "webapp",
+    status: "live",
+    title: "명리 30일 공부",
+    icon: "🔮",
+    tone: "violet",
+    url: "../myeongri30/",
+    description: "30일 동안 하루 한 강씩 명리학 기초를 익히고, 만세력으로 계산한 내 사주에 바로 적용해 보는 학습 웹앱",
+    features: ["30강 커리큘럼 · 강의마다 추천 유튜브 영상과 핵심 정리 · 확인 문제", "매일 '내 사주에 적용해 보기' 실습", "사주 해석: 원국표 · 강약 · 용신 · 조후 · 격국 · 대운 · 세운", "오행 상생·상극 다이어그램 · 진도 링 · 대운 타임라인 시각화"],
+    tags: ["명리", "사주", "학습"],
+  },
+  {
     id: "eeplan",
     type: "webapp",
     status: "live",
