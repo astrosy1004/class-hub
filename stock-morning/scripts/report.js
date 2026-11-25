@@ -75,7 +75,7 @@ function dataPoints(ctx) {
   const g = mv.gainers[0];
   return [
     `코스피 ${sign(idx.kospi.chg)}%, 코스닥 ${sign(idx.kosdaq.chg)}%`,
-    t ? `거래대금 1위 ${t.name} ${sign(t.d0.r)}% (${won(t.d0.tv)}억)` : '',
+    t ? `거래대금 1위 ${t.name} ${sign(t.d0.r)}% (종가 ${won(t.c)}원)` : '',
     g ? `상승률 상위 ${g.name} ${sign(g.d0.r)}%` : '',
   ].filter(Boolean);
 }
@@ -105,7 +105,7 @@ function renderFull(ctx) {
   const chip = (name) => {
     const r = by[name];
     if (!r) return '';
-    return `<span class="chip"><b>${esc(name)}</b> <span class="cp">${won(r.c)}원</span> ${pct(r.d0.r)}<span class="tv">${won(r.d0.tv)}</span></span>`;
+    return `<span class="chip"><b>${esc(name)}</b> <span class="cp">${won(r.c)}원</span> ${pct(r.d0.r)}</span>`;
   };
   const card = (r, note) => `<a class="cc" href="https://finance.naver.com/item/fchart.naver?code=${esc(r.code)}" target="_blank" rel="noopener" title="네이버 차트 열기"><div class="cc-h"><b>${esc(r.name)}</b><span>${pct(r.d0.r)}</span></div><div class="cc-p">종가 <b>${won(r.c)}원</b></div>${spark(r)}<div class="cc-n">${note}</div></a>`;
   const CONF = { direct: ['직접 언급', 'b-direct'], inferred: ['추정', 'b-inf'], unknown: ['재료 불명', 'b-unk'] };
@@ -145,7 +145,7 @@ function renderFull(ctx) {
   const leaderList = hasAi && draft.leaders.length ? draft.leaders : mv.topTv.slice(0, 15).map((r) => ({ name: r.name, reason: '' }));
   const leaderRows = leaderList.map((l) => {
     const r = by[l.name];
-    return `<tr><td class="c-name"><b>${esc(l.name)}</b><div class="mkt">${r.mkt}</div></td><td class="num c-a" data-label="종가">${won(r.c)}</td><td class="num c-top">${pct(r.d0.r)}</td><td class="num c-b" data-label="거래대금(억)">${won(r.d0.tv)}</td><td class="c-why">${esc(l.reason)}${badge(l.confidence)}${refs(l.ids)}</td></tr>`;
+    return `<tr><td class="c-name"><b>${esc(l.name)}</b><div class="mkt">${r.mkt}</div></td><td class="num c-a" data-label="종가">${won(r.c)}</td><td class="num c-top">${pct(r.d0.r)}</td><td class="c-why">${esc(l.reason)}${badge(l.confidence)}${refs(l.ids)}</td></tr>`;
   }).join('');
 
   // ---- 애프터마켓
@@ -171,8 +171,8 @@ function renderFull(ctx) {
   // ---- 차트상 관심주
   const grp = (title, list, note) => (list.length ? `<h3 class="sub">${title}</h3><div class="cards">${list.map((r) => card(r, note(r))).join('')}</div>` : '');
   const charts = [
-    grp(`[0일차] ${date.slice(5)} 큰 양봉`, scr.d0, (r) => `거래대금 ${won(r.d0.tv)}억 · 20일선 대비 ${r.ma20 ? sign((r.c / r.ma20 - 1) * 100, 1) + '%' : '-'}`),
-    grp('[1일차] 전 거래일 큰 양봉 → 다음 날', scr.d1, (r) => `${r.d1.d.slice(5)} ${pct(r.d1.r)} · ${won(r.d1.tv)}억 → ${pct(r.d0.r)}`),
+    grp(`[0일차] ${date.slice(5)} 큰 양봉`, scr.d0, (r) => `20일선 대비 ${r.ma20 ? sign((r.c / r.ma20 - 1) * 100, 1) + '%' : '-'}`),
+    grp('[1일차] 전 거래일 큰 양봉 → 다음 날', scr.d1, (r) => `${r.d1.d.slice(5)} ${pct(r.d1.r)} → ${pct(r.d0.r)}`),
     grp('[2일차] 이틀 전 큰 양봉 → 이틀간 흐름', scr.d2, (r) => `${pct(r.d2.r)} → ${pct(r.d1.r)} → ${pct(r.d0.r)}`),
     grp('[5~8일선]', scr.ma58, () => '큰 양봉 뒤 5~8일선 부근'),
     grp('[15일선]', scr.ma15, () => '15일선 부근'),
@@ -243,11 +243,9 @@ h3.sub{font-size:15px;margin:14px 0 6px}
 .it p{margin:4px 0;font-size:14.5px}
 .chips{display:flex;flex-wrap:wrap;gap:5px}
 .chip{font-size:13.5px;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:2px 8px;white-space:nowrap}
-.chip .tv{color:var(--sub);font-size:12px;margin-left:4px}
 .chip .cp{font-weight:600;margin-right:3px;font-variant-numeric:tabular-nums}
 .cc-p{font-size:12px;color:var(--sub);margin-top:1px}
 .cc-p b{color:var(--text);font-variant-numeric:tabular-nums}
-.chip .tv::before{content:'('}.chip .tv::after{content:'억)'}
 .up{color:var(--up);font-weight:700}.dn{color:var(--dn);font-weight:700}.flat,.muted{color:var(--sub)}
 .issue{background:var(--card);border-left:4px solid var(--accent);border-radius:10px;padding:12px 14px;margin:10px 0}
 .issue h3{margin:0 0 4px;font-size:16px}
@@ -357,7 +355,7 @@ h3 .ic,.guide .ic,.study b .ic{color:var(--accent)}
   ${kpi}
   ${hasAi ? `<p>${esc(draft.market_summary)}</p>` : ''}
 
-  <h2 id="recap">전일 시장 정리<small>섹터별로 "무엇이 움직였고, 왜 움직였나". 괄호 안은 등락률과 거래대금(억원, 추정).</small></h2>
+  <h2 id="recap">전일 시장 정리<small>섹터별로 "무엇이 움직였고, 왜 움직였나". 종목 옆 숫자는 당일 종가와 등락률입니다.</small></h2>
   <div class="guide">${ICONS.bulb} <b>읽는 법</b> — 주가를 움직인 재료는 하루로 끝나지 않고 반복됩니다. 해시태그를 기억해 두면 같은 뉴스가 다시 나올 때 어떤 종목이 움직일지 먼저 떠올릴 수 있습니다.</div>
   ${recap}
 
@@ -367,7 +365,7 @@ h3 .ic,.guide .ic,.study b .ic{color:var(--accent)}
   ${followup}
 
   <h2 id="leaders">전일 시장 주도 종목<small>거래대금이 큰 종목이 그날 시장의 주인공입니다.</small></h2>
-  <div class="tablewrap stack"><table><thead><tr><th>종목</th><th class="num">종가(원)</th><th class="num">등락률</th><th class="num">거래대금(억)</th><th>이유</th></tr></thead><tbody>${leaderRows}</tbody></table></div>
+  <div class="tablewrap stack"><table><thead><tr><th>종목</th><th class="num">종가(원)</th><th class="num">등락률</th><th>이유</th></tr></thead><tbody>${leaderRows}</tbody></table></div>
 
   <h2 id="after">After market &amp; 해외 시장<small>장 마감 뒤 움직임 — 다음 거래일 시초가의 단서</small></h2>
   ${afterRows ? `<h3 class="sub">NXT 애프터마켓 (정규장 종가 대비 시간외 최종가, ±${SCREEN.afterMinMove}% 이상)</h3><div class="tablewrap stack"><table><thead><tr><th>종목</th><th class="num">종가(원)</th><th class="num">정규장</th><th class="num">애프터마켓</th><th>재료</th></tr></thead><tbody>${afterRows}</tbody></table></div>` : ''}
