@@ -105,9 +105,9 @@ function renderFull(ctx) {
   const chip = (name) => {
     const r = by[name];
     if (!r) return '';
-    return `<span class="chip"><b>${esc(name)}</b> ${pct(r.d0.r)}<span class="tv">${won(r.d0.tv)}</span></span>`;
+    return `<span class="chip"><b>${esc(name)}</b> <span class="cp">${won(r.c)}원</span> ${pct(r.d0.r)}<span class="tv">${won(r.d0.tv)}</span></span>`;
   };
-  const card = (r, note) => `<a class="cc" href="https://finance.naver.com/item/fchart.naver?code=${esc(r.code)}" target="_blank" rel="noopener" title="네이버 차트 열기"><div class="cc-h"><b>${esc(r.name)}</b><span>${pct(r.d0.r)}</span></div>${spark(r)}<div class="cc-n">${note}</div></a>`;
+  const card = (r, note) => `<a class="cc" href="https://finance.naver.com/item/fchart.naver?code=${esc(r.code)}" target="_blank" rel="noopener" title="네이버 차트 열기"><div class="cc-h"><b>${esc(r.name)}</b><span>${pct(r.d0.r)}</span></div><div class="cc-p">종가 <b>${won(r.c)}원</b></div>${spark(r)}<div class="cc-n">${note}</div></a>`;
   const CONF = { direct: ['직접 언급', 'b-direct'], inferred: ['추정', 'b-inf'], unknown: ['재료 불명', 'b-unk'] };
   const badge = (c) => (CONF[c] ? `<span class="cb ${CONF[c][1]}">${CONF[c][0]}</span>` : '');
   const refs = (ids) => (ids || []).map((i) => H[i]).filter(Boolean).slice(0, 3)
@@ -145,14 +145,14 @@ function renderFull(ctx) {
   const leaderList = hasAi && draft.leaders.length ? draft.leaders : mv.topTv.slice(0, 15).map((r) => ({ name: r.name, reason: '' }));
   const leaderRows = leaderList.map((l) => {
     const r = by[l.name];
-    return `<tr><td><b>${esc(l.name)}</b><div class="mkt">${r.mkt}</div></td><td class="num">${pct(r.d0.r)}</td><td class="num">${won(r.d0.tv)}</td><td>${esc(l.reason)}${badge(l.confidence)}${refs(l.ids)}</td></tr>`;
+    return `<tr><td class="c-name"><b>${esc(l.name)}</b><div class="mkt">${r.mkt}</div></td><td class="num c-a" data-label="종가">${won(r.c)}</td><td class="num c-top">${pct(r.d0.r)}</td><td class="num c-b" data-label="거래대금(억)">${won(r.d0.tv)}</td><td class="c-why">${esc(l.reason)}${badge(l.confidence)}${refs(l.ids)}</td></tr>`;
   }).join('');
 
   // ---- 애프터마켓
   const amWhy = {};
   const amConf = {}, amIds = {};
   if (hasAi) for (const a of draft.after_market) { amWhy[a.name] = a.reason; amConf[a.name] = a.confidence; amIds[a.name] = a.ids; }
-  const afterRows = after.slice(0, 10).map((r) => `<tr><td><b>${esc(r.name)}</b></td><td class="num">${pct(r.d0.r)}</td><td class="num">${pct(r.nxt)}</td><td>${esc(amWhy[r.name] || '')}${badge(amConf[r.name])}${refs(amIds[r.name])}</td></tr>`).join('');
+  const afterRows = after.slice(0, 10).map((r) => `<tr><td class="c-name"><b>${esc(r.name)}</b></td><td class="num c-top" data-label="종가">${won(r.c)}</td><td class="num c-a" data-label="정규장">${pct(r.d0.r)}</td><td class="num c-b" data-label="애프터마켓">${pct(r.nxt)}</td><td class="c-why">${esc(amWhy[r.name] || '')}${badge(amConf[r.name])}${refs(amIds[r.name])}</td></tr>`).join('');
 
   const gtbl = (group) => {
     const rowsG = globals.filter((g) => g.group === group);
@@ -244,6 +244,9 @@ h3.sub{font-size:15px;margin:14px 0 6px}
 .chips{display:flex;flex-wrap:wrap;gap:5px}
 .chip{font-size:13.5px;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:2px 8px;white-space:nowrap}
 .chip .tv{color:var(--sub);font-size:12px;margin-left:4px}
+.chip .cp{font-weight:600;margin-right:3px;font-variant-numeric:tabular-nums}
+.cc-p{font-size:12px;color:var(--sub);margin-top:1px}
+.cc-p b{color:var(--text);font-variant-numeric:tabular-nums}
 .chip .tv::before{content:'('}.chip .tv::after{content:'억)'}
 .up{color:var(--up);font-weight:700}.dn{color:var(--dn);font-weight:700}.flat,.muted{color:var(--sub)}
 .issue{background:var(--card);border-left:4px solid var(--accent);border-radius:10px;padding:12px 14px;margin:10px 0}
@@ -318,6 +321,23 @@ h3 .ic,.guide .ic,.study b .ic{color:var(--accent)}
 .theme .ic{width:19px;height:19px;vertical-align:0}
 .sheet-link .ic{color:#fff}
 @media (max-width:480px){h1{font-size:23px}h2{font-size:19px}body{font-size:15.5px}}
+/* 휴대폰: 표를 가로로 밀지 않도록 종목마다 카드 한 장으로 쌓는다. */
+@media (max-width:640px){
+.tablewrap.stack{overflow:visible;border:0;border-radius:0}
+.stack table,.stack tbody{display:block;width:100%;background:transparent}
+.stack thead{display:none}
+.stack tr{display:grid;grid-template-columns:1fr auto;grid-template-areas:"name top" "a b" "why why";column-gap:12px;row-gap:6px;align-items:baseline;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 15px;margin:0 0 10px}
+.stack td{display:block;border:0;padding:0;text-align:left}
+.stack .c-name{grid-area:name;font-size:17px}
+.stack .c-name .mkt{display:inline;margin-left:7px}
+.stack .c-top{grid-area:top;text-align:right;font-size:17px;font-weight:700}
+.stack .c-a{grid-area:a}
+.stack .c-b{grid-area:b;text-align:right}
+.stack .c-a,.stack .c-b{font-size:14px;white-space:nowrap}
+.stack td[data-label]::before{content:attr(data-label) ' ';color:var(--sub);font-size:12.5px;font-weight:400;margin-right:3px}
+.stack .c-why{grid-area:why;border-top:1px dashed var(--line);padding-top:9px;margin-top:2px;font-size:15.5px;line-height:1.75}
+.stack .c-why:empty{display:none}
+}
 @media print{.theme,nav.toc{display:none}body{background:#fff}}
 </style>
 </head>
@@ -347,10 +367,10 @@ h3 .ic,.guide .ic,.study b .ic{color:var(--accent)}
   ${followup}
 
   <h2 id="leaders">전일 시장 주도 종목<small>거래대금이 큰 종목이 그날 시장의 주인공입니다.</small></h2>
-  <div class="tablewrap"><table><thead><tr><th>종목</th><th class="num">등락률</th><th class="num">거래대금(억)</th><th>이유</th></tr></thead><tbody>${leaderRows}</tbody></table></div>
+  <div class="tablewrap stack"><table><thead><tr><th>종목</th><th class="num">종가(원)</th><th class="num">등락률</th><th class="num">거래대금(억)</th><th>이유</th></tr></thead><tbody>${leaderRows}</tbody></table></div>
 
   <h2 id="after">After market &amp; 해외 시장<small>장 마감 뒤 움직임 — 다음 거래일 시초가의 단서</small></h2>
-  ${afterRows ? `<h3 class="sub">NXT 애프터마켓 (정규장 종가 대비 시간외 최종가, ±${SCREEN.afterMinMove}% 이상)</h3><div class="tablewrap"><table><thead><tr><th>종목</th><th class="num">정규장</th><th class="num">애프터마켓</th><th>재료</th></tr></thead><tbody>${afterRows}</tbody></table></div>` : ''}
+  ${afterRows ? `<h3 class="sub">NXT 애프터마켓 (정규장 종가 대비 시간외 최종가, ±${SCREEN.afterMinMove}% 이상)</h3><div class="tablewrap stack"><table><thead><tr><th>종목</th><th class="num">종가(원)</th><th class="num">정규장</th><th class="num">애프터마켓</th><th>재료</th></tr></thead><tbody>${afterRows}</tbody></table></div>` : ''}
   <h3 class="sub">해외 시장</h3>
   <div class="grid3">${gtbl('us')}${gtbl('stock')}${gtbl('asia')}${gtbl('etc')}</div>
   ${overnight ? `<h3 class="sub">장 마감 이후 소식</h3>${overnight}` : ''}

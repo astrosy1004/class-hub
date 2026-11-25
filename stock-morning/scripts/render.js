@@ -70,7 +70,7 @@ function renderEmail({ date, sendDate, idx, globals, draft, study, siteUrl, full
   const followup = hasAi && draft.followup && draft.followup.length ? card(`${h2('🔎 어제 확인할 것 → 오늘 결과')}${draft.followup.map((f) => `
     <div style="margin:0 0 10px;font-size:14.5px;line-height:1.6;color:${C.text}"><b>${esc(f.item)}</b>${badge(f.status)}<br>${esc(f.result)}${refs(f.ids)}</div>`).join('')}`) : '';
 
-  const stockLine = (n) => (by[n] ? `<span style="white-space:nowrap;margin-right:10px;font-size:14px"><b>${esc(n)}</b> ${pct(by[n].d0.r)}</span> ` : '');
+  const stockLine = (n) => (by[n] ? `<span style="white-space:nowrap;margin-right:10px;font-size:14px"><b>${esc(n)}</b> ${by[n].c.toLocaleString('ko-KR')}원 ${pct(by[n].d0.r)}</span> ` : '');
   const sectors = hasAi ? draft.sectors.map((s) => card(`
     <div style="font-size:16px;font-weight:800;color:${C.text};margin:0 0 6px">${esc(s.title)}</div>
     <div style="margin:0 0 6px">${s.hashtags.map((t) => `<span style="display:inline-block;background:${C.soft};color:${C.accent};font-size:13px;font-weight:600;border-radius:999px;padding:2px 9px;margin:0 5px 5px 0">#${esc(String(t).replace(/^#/, ''))}</span>`).join('')}</div>
