@@ -65,7 +65,9 @@ jobs:
           username: ${{ secrets.MAIL_USERNAME }}
           password: ${{ secrets.MAIL_PASSWORD }}
           subject: ${{ steps.report.outputs.subject }}
-          to: ${{ secrets.MAIL_TO }}
+          # 수신자끼리 주소가 보이지 않게 모두 숨은 참조(BCC)로 보낸다. "받는 사람" 칸에는 보내는 계정만 들어간다.
+          to: ${{ secrets.MAIL_USERNAME }}
+          bcc: ${{ secrets.MAIL_TO }}
           from: 모닝 마켓 브리핑 <${{ secrets.MAIL_USERNAME }}>
           html_body: file://${{ steps.report.outputs.file }}
           attachments: ${{ steps.report.outputs.attach }}

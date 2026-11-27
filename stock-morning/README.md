@@ -44,7 +44,7 @@
 | `ANTHROPIC_API_KEY` | [Claude Console](https://console.anthropic.com/) → API Keys 에서 발급한 키 |
 | `MAIL_USERNAME` | 보내는 Gmail 주소 |
 | `MAIL_PASSWORD` | Gmail **앱 비밀번호** 16자리 (Google 계정 → 보안 → 2단계 인증 켠 뒤 → 앱 비밀번호) |
-| `MAIL_TO` | 받을 메일 주소 (여러 명이면 쉼표로 구분) |
+| `MAIL_TO` | 받을 메일 주소 (여러 명이면 쉼표로 구분). 모두 숨은 참조(BCC)로 보내 서로의 주소가 보이지 않습니다. 보내는 계정에도 한 통 옵니다 |
 
 설정 후 **Actions → 모닝 마켓 브리핑 메일 → Run workflow** 로 바로 한 번 보내 볼 수 있습니다.
 같은 거래일을 다시 보내려면 `force` 를 체크하세요. 실행에는 3~6분 걸립니다.
